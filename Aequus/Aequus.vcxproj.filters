@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Aequus Files">
+      <UniqueIdentifier>{c3917453-a862-4bf1-a4ee-be1c1afacd48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Aequus Files\Header Files">
+      <UniqueIdentifier>{dbbb3b75-3d03-4819-894e-5c9f3224c958}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Aequus Files\Source Files">
+      <UniqueIdentifier>{36987f7d-a56f-42c3-b70f-693fa5fa0207}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Pessum">
+      <UniqueIdentifier>{60ef53e2-df36-41b6-892c-0571d4959334}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pessum\Header Files">
+      <UniqueIdentifier>{9b95d697-5fe3-4fe2-be6d-868e3496f663}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pessum\Source Files">
+      <UniqueIdentifier>{df4b8e5f-8696-442f-b3d3-280d46edaf37}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Pessum\logging.h">
+      <Filter>Pessum\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pessum\lux_reader.h">
+      <Filter>Pessum\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pessum\pessum_core.h">
+      <Filter>Pessum\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pessum\rest.h">
+      <Filter>Pessum\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Core.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Pessum\logging.cpp">
+      <Filter>Pessum\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Pessum\lux_reader.cpp">
+      <Filter>Pessum\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Pessum\pessum_core.cpp">
+      <Filter>Pessum\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Pessum\rest.cpp">
+      <Filter>Pessum\Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ProgramSettings.lux">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Pessum\get_page.py">
+      <Filter>Pessum\Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="log_output.log">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
