@@ -12,7 +12,7 @@ namespace pessum {
 
 void pessum::luxreader::InitializeLuxReader()
 {
-	logloc = pessum::logging::AddLogLocation("Pessum/lux_reader/");
+	logloc = pessum::logging::AddLogLocation("pessum_files/lux_reader/");
 }
 
 pessum::luxreader::DataFile pessum::luxreader::LoadLuxDataFile(std::string filedirectory)

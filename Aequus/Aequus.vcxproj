@@ -118,24 +118,36 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Pessum\logging.h" />
-    <ClInclude Include="Pessum\lux_reader.h" />
-    <ClInclude Include="Pessum\pessum_core.h" />
-    <ClInclude Include="Pessum\rest.h" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="aequus_files\aequus_core.cpp" />
+    <ClCompile Include="aequus_files\framework.cpp" />
+    <ClCompile Include="aequus_files\video.cpp" />
+    <ClCompile Include="aequus_files\video\window.cpp" />
     <ClCompile Include="Core.cpp" />
-    <ClCompile Include="Pessum\logging.cpp" />
-    <ClCompile Include="Pessum\lux_reader.cpp" />
-    <ClCompile Include="Pessum\pessum_core.cpp" />
-    <ClCompile Include="Pessum\rest.cpp" />
+    <ClCompile Include="pessum_files\logging.cpp" />
+    <ClCompile Include="pessum_files\lux_reader.cpp" />
+    <ClCompile Include="pessum_files\pessum_core.cpp" />
+    <ClCompile Include="pessum_files\rest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Pessum\get_page.py" />
+    <None Include="pessum_files\get_page.py" />
     <None Include="ProgramSettings.lux" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="log_output.log" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="aequus_files\aequus_core.h" />
+    <ClInclude Include="aequus_files\audio.h" />
+    <ClInclude Include="aequus_files\file_io.h" />
+    <ClInclude Include="aequus_files\framework.h" />
+    <ClInclude Include="aequus_files\input.h" />
+    <ClInclude Include="aequus_files\sdl_headers.h" />
+    <ClInclude Include="aequus_files\video.h" />
+    <ClInclude Include="aequus_files\video\window.h" />
+    <ClInclude Include="pessum_files\logging.h" />
+    <ClInclude Include="pessum_files\lux_reader.h" />
+    <ClInclude Include="pessum_files\pessum_core.h" />
+    <ClInclude Include="pessum_files\rest.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

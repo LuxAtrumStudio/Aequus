@@ -22,58 +22,142 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Pessum">
+    <Filter Include="Pessum Files">
       <UniqueIdentifier>{60ef53e2-df36-41b6-892c-0571d4959334}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Pessum\Header Files">
+    <Filter Include="Pessum Files\Header Files">
       <UniqueIdentifier>{9b95d697-5fe3-4fe2-be6d-868e3496f663}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Pessum\Source Files">
+    <Filter Include="Pessum Files\Source Files">
       <UniqueIdentifier>{df4b8e5f-8696-442f-b3d3-280d46edaf37}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Pessum\logging.h">
-      <Filter>Pessum\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Pessum\lux_reader.h">
-      <Filter>Pessum\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Pessum\pessum_core.h">
-      <Filter>Pessum\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Pessum\rest.h">
-      <Filter>Pessum\Header Files</Filter>
-    </ClInclude>
+    <Filter Include="Aequus Files\Header Files\video">
+      <UniqueIdentifier>{3aa80d8c-d89f-476c-95f6-f86c46ce9fe2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Aequus Files\Source Files\video">
+      <UniqueIdentifier>{ca3c4904-59d6-484f-aeda-a7e5a35988a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Aequus Files\Header Files\framework">
+      <UniqueIdentifier>{83509f15-eb7b-424a-94ef-59f5e1318ce2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Aequus Files\Source Files\framework">
+      <UniqueIdentifier>{c9787b96-bfb7-4c6e-9a6b-a632224b6fc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Aequus Files\Header Files\input">
+      <UniqueIdentifier>{f5e6f8c2-45c0-45ee-8147-7b006e14ea1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Aequus Files\Source Files\input">
+      <UniqueIdentifier>{43a56527-eb4d-4fb6-88de-d40eeafeb5eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Aequus Files\Header Files\audio">
+      <UniqueIdentifier>{f647cb13-d056-444e-8a84-021fec7d72ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Aequus Files\Source Files\audio">
+      <UniqueIdentifier>{a538f62e-5f2c-46a9-b96b-59f316e153ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Aequus Files\Header Files\file_io">
+      <UniqueIdentifier>{3080b8c7-9424-4c2f-a994-140adc37d93a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Aequus Files\Source Files\file_io">
+      <UniqueIdentifier>{c18c803f-c8f5-4ea4-8232-b0b4730b7ef7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pessum Files\Header Files\logging">
+      <UniqueIdentifier>{06b4f37b-a255-4be3-b4ad-b894fe3b3d0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pessum Files\Header Files\lux_reader">
+      <UniqueIdentifier>{1805f8e3-deb4-4e31-b35d-990d7cadbef7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pessum Files\Header Files\rest">
+      <UniqueIdentifier>{c6045f01-14dd-41ee-9d47-982c4b6759b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pessum Files\Source Files\logging">
+      <UniqueIdentifier>{273c9d81-d2c0-49da-b584-f07cbc809ba0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pessum Files\Source Files\lux_reader">
+      <UniqueIdentifier>{5c539f63-c6f8-4c55-af72-dae7ccc4e7e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pessum Files\Source Files\rest">
+      <UniqueIdentifier>{aec90e38-ed44-490d-8267-45e706856c67}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Pessum\logging.cpp">
-      <Filter>Pessum\Source Files</Filter>
+    <ClCompile Include="pessum_files\pessum_core.cpp">
+      <Filter>Pessum Files\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Pessum\lux_reader.cpp">
-      <Filter>Pessum\Source Files</Filter>
+    <ClCompile Include="aequus_files\aequus_core.cpp">
+      <Filter>Aequus Files\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Pessum\pessum_core.cpp">
-      <Filter>Pessum\Source Files</Filter>
+    <ClCompile Include="aequus_files\video\window.cpp">
+      <Filter>Aequus Files\Source Files\video</Filter>
     </ClCompile>
-    <ClCompile Include="Pessum\rest.cpp">
-      <Filter>Pessum\Source Files</Filter>
+    <ClCompile Include="aequus_files\video.cpp">
+      <Filter>Aequus Files\Source Files\video</Filter>
+    </ClCompile>
+    <ClCompile Include="aequus_files\framework.cpp">
+      <Filter>Aequus Files\Source Files\framework</Filter>
+    </ClCompile>
+    <ClCompile Include="pessum_files\logging.cpp">
+      <Filter>Pessum Files\Source Files\logging</Filter>
+    </ClCompile>
+    <ClCompile Include="pessum_files\lux_reader.cpp">
+      <Filter>Pessum Files\Source Files\lux_reader</Filter>
+    </ClCompile>
+    <ClCompile Include="pessum_files\rest.cpp">
+      <Filter>Pessum Files\Source Files\rest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ProgramSettings.lux">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Pessum\get_page.py">
-      <Filter>Pessum\Source Files</Filter>
+    <None Include="pessum_files\get_page.py">
+      <Filter>Pessum Files\Source Files\rest</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="log_output.log">
       <Filter>Resource Files</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pessum_files\pessum_core.h">
+      <Filter>Pessum Files\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="aequus_files\aequus_core.h">
+      <Filter>Aequus Files\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="aequus_files\sdl_headers.h">
+      <Filter>Aequus Files\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="aequus_files\video.h">
+      <Filter>Aequus Files\Header Files\video</Filter>
+    </ClInclude>
+    <ClInclude Include="aequus_files\video\window.h">
+      <Filter>Aequus Files\Header Files\video</Filter>
+    </ClInclude>
+    <ClInclude Include="aequus_files\framework.h">
+      <Filter>Aequus Files\Header Files\framework</Filter>
+    </ClInclude>
+    <ClInclude Include="aequus_files\input.h">
+      <Filter>Aequus Files\Header Files\input</Filter>
+    </ClInclude>
+    <ClInclude Include="aequus_files\file_io.h">
+      <Filter>Aequus Files\Header Files\file_io</Filter>
+    </ClInclude>
+    <ClInclude Include="aequus_files\audio.h">
+      <Filter>Aequus Files\Header Files\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="pessum_files\logging.h">
+      <Filter>Pessum Files\Header Files\logging</Filter>
+    </ClInclude>
+    <ClInclude Include="pessum_files\lux_reader.h">
+      <Filter>Pessum Files\Header Files\lux_reader</Filter>
+    </ClInclude>
+    <ClInclude Include="pessum_files\rest.h">
+      <Filter>Pessum Files\Header Files\rest</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

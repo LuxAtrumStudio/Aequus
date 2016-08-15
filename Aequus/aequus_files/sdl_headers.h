@@ -1,0 +1,4 @@
+#define SDL_MAIN_HANDLED
+#include <SDL\SDL.h>
+#include <SDL\SDL_error.h>
+#include <SDL\SDL_version.h>

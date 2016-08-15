@@ -14,7 +14,7 @@ namespace pessum {
 
 void pessum::rest::Initialzierest()
 {
-	logloc = logging::AddLogLocation("Pessum/rest/");
+	logloc = logging::AddLogLocation("pessum_files/rest/");
 }
 
 void pessum::rest::Terminaterest()
