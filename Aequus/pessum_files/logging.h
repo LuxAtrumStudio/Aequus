@@ -4,9 +4,9 @@
 #include <fstream>
 #include <vector>
 #include "pessum_core.h"
-//logging namespace is used to provide debuging assistance to the
-//user. It saves data to a seperate file incase of a crash.
 namespace pessum {
+	//logging namespace is used to provide debuging assistance to the
+	//user. It saves data to a seperate file incase of a crash.
 	namespace logging {
 		//Used to define different posible log types
 		enum LogType
@@ -15,6 +15,7 @@ namespace pessum {
 			LOG_WARNING,
 			LOG_SUCCESS,
 			LOG_DATA,
+			LOG_INFORMATION,
 			LOG_DEVELOPMENT_CHECK
 		};
 		extern std::ofstream logfile;

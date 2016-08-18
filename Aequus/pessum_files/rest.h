@@ -3,9 +3,9 @@
 #include <string>
 #include <vector>
 #include "pessum_core.h"
-//rest namespace allows access to urls and internet
-//api through the use of return json files
 namespace pessum {
+	//rest namespace allows access to urls and internet
+	//api through the use of return json files
 	namespace rest {
 		//Struct for variables in json files
 		struct Variable

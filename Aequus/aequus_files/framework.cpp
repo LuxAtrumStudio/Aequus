@@ -1,7 +1,6 @@
 #include "framework.h"
 #include <string>
 #include "sdl_headers.h"
-#include "../pessum_files/pessum_core.h"
 #include "../pessum_files/logging.h"
 
 namespace aequus {
@@ -20,7 +19,8 @@ void aequus::framework::InitializeSdl(Uint32 flags)
 {
 	pessum::logging::AddLogLocation("aequus_files/framework/");
 	if (SDL_Init(flags) != 0) {
-		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to initialize SDL. SDL Error:" + SdlError(), logloc, "InitializeSdl");
+		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to initialize SDL", logloc, "InitializeSdl");
+		SdlError();
 	}
 	else {
 		pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Initialized SDL", logloc, "InitializeSdl");
@@ -46,6 +46,7 @@ std::string aequus::framework::SdlError()
 		errorstring = error;
 		SDL_ClearError();
 	}
+	pessum::logging::Log(pessum::logging::LOG_ERROR, "SDL Error: " + errorstring, "AEQUUS SDL ERROR");
 	return(errorstring);
 }
 

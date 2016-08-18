@@ -57,6 +57,9 @@ std::string pessum::logging::InterpretType(LogType type)
 	else if (type == LOG_DATA) {
 		logtypeline = "DATA>>";
 	}
+	else if (type == LOG_INFORMATION) {
+		logtypeline = "INFORMATION>>";
+	}
 	else if (type == LOG_DEVELOPMENT_CHECK) {
 		logtypeline = "DEVCHECK>>";
 	}

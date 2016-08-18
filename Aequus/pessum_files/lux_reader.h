@@ -3,9 +3,9 @@
 #include <string>
 #include <vector>
 #include "pessum_core.h"
-//luxreader namespace provides support for lux files, and reading the data files
-//from lux code to be used in a program.
 namespace pessum {
+	//luxreader namespace provides support for lux files, and reading the data files
+	//from lux code to be used in a program.
 	namespace luxreader {
 		//Struct for raw lux code loading
 		struct RawLuxCode
@@ -52,6 +52,7 @@ namespace pessum {
 			LUX_CODE,
 			LUX_LIST
 		};
+		//Sets log location for lux reader logging
 		extern int logloc;
 
 		//Sets the logging location code(must be called)
