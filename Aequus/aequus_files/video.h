@@ -10,6 +10,7 @@ namespace aequus {
 		enum WindowPositionFlags;
 		struct WindowData;
 		class Window;
+		class MessageBox;
 		//Core video components
 		//Sets log location for aequus framework logging
 		extern int logloc;

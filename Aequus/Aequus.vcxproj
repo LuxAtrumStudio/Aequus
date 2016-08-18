@@ -121,6 +121,7 @@
     <ClCompile Include="aequus_files\aequus_core.cpp" />
     <ClCompile Include="aequus_files\framework.cpp" />
     <ClCompile Include="aequus_files\video.cpp" />
+    <ClCompile Include="aequus_files\video\messagebox.cpp" />
     <ClCompile Include="aequus_files\video\window.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="pessum_files\logging.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="aequus_files\input.h" />
     <ClInclude Include="aequus_files\sdl_headers.h" />
     <ClInclude Include="aequus_files\video.h" />
+    <ClInclude Include="aequus_files\video\messagebox.h" />
     <ClInclude Include="aequus_files\video\window.h" />
     <ClInclude Include="pessum_files\logging.h" />
     <ClInclude Include="pessum_files\lux_reader.h" />
