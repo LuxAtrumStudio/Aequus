@@ -6,9 +6,6 @@ namespace aequus {
 	//textures, and everything elses that the end user will see
 	namespace video {
 		//Components declaired and commented in window sub file
-		enum WindowFlags;
-		enum WindowPositionFlags;
-		struct WindowData;
 		class Window;
 		class MessageBox;
 		//Core video components
