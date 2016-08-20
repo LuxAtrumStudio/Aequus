@@ -14,6 +14,7 @@ void aequus::video::Window::CreateWindow(std::string title, int x, int y, int wi
 	}
 	else {
 		pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Created new SDL window: " + title, data.logloc, "CreateWindow");
+		SDL_GetWindowSurface(data.sdlwindow);
 	}
 }
 
@@ -164,4 +165,12 @@ void aequus::video::Window::SetTitle(std::string title)
 	SDL_SetWindowTitle(data.sdlwindow, title.c_str());
 	pessum::logging::LogLoc(pessum::logging::LOG_INFORMATION, "Set window title: " + data.title + " to: " + title, data.logloc, "SetTitle");
 	data.title = title;
+}
+
+void aequus::video::Window::Update()
+{
+	if (SDL_UpdateWindowSurface(data.sdlwindow) < 0) {
+		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to update window surface", data.logloc, "Update");
+		framework::SdlError();
+	}
 }

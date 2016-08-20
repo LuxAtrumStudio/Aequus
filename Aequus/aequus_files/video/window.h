@@ -52,7 +52,7 @@ namespace aequus {
 				std::string title;
 			};
 			//Creates new SDL window based off of given arguments
-			void CreateWindow(std::string title = "NULL", int x = SDL_WINDOWPOS_UNDEFINED, int y = SDL_WINDOWPOS_UNDEFINED, int width = 600, int height = 600, Uint32 flags = SDL_INIT_EVERYTHING);
+			void CreateWindow(std::string title = "NULL", int x = SDL_WINDOWPOS_UNDEFINED, int y = SDL_WINDOWPOS_UNDEFINED, int width = 600, int height = 600, Uint32 flags = WINDOWED);
 			//Terminates an SDL window, and erases all data
 			void TerminateWindow();
 			//Toggles weather the window is hidden
@@ -65,20 +65,35 @@ namespace aequus {
 			void Raise();
 			//Restores window to original size and position
 			void Restore();
+			//Toggels window border mode
 			void SetBordered(bool border);
+			//Sets window brightness
 			void SetBrightness(float brightness);
+			//Toggles fullscreen mode
 			void SetFullscreen(Uint32 flags);
+			//Sets gamma color ramp of window
 			void SetGammaRamp(float red, float green, float blue);
+			//Toggles grabing of input to window
 			void SetGrab(bool grab);
+			//Sets window icon, given imagedirectory
+			//TODO (Arden): create SetIcon function
 			void SetIcon(std::string iconfiledirectory);
+			//Sets the maximum size for the window to be resized to
 			void SetMaximumSize(int width, int height);
+			//Sets the minimum size for the window to be resized to
 			void SetMinimumSize(int width, int height);
+			//Sets the windows position in pixels
 			void SetPosition(int x, int y);
+			//Sets the window size in pixels
 			void SetSize(int width, int height);
+			//Changes the windows title
 			void SetTitle(std::string title);
+			//Displays the updated window surface
+			void Update();
 		private:
 			//Class storage for windows internal data
 			WindowData data;
+			//Storage for any messagecoxes that are daughter windows to current window
 			std::vector<MessageBox> messageboxes;
 		};
 	}
