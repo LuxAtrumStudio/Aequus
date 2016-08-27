@@ -12,6 +12,7 @@ namespace aequus {
 		//related to the window, and to contain all relevent functions for window manipulation
 		class Window {
 		public:
+			class Texture;
 			//Used for setting different window initialization settings
 			enum WindowFlags
 			{

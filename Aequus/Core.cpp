@@ -10,11 +10,6 @@ using namespace std;
 int main(int argc, char* argv[]) {
 	pessum::InitializePessumComponents();
 	aequus::framework::SdlStartUp();
-	aequus::video::Window newwin;
-	newwin.CreateWindow();
-	for (unsigned a = 0; a < 10000; a++) {
-		newwin.Update();
-	}
 	aequus::framework::TerminateSdl();
 	pessum::TerminatePessumComponents();
 	return(1);

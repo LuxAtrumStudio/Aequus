@@ -111,6 +111,9 @@
     <ClCompile Include="aequus_files\video\messagebox.cpp">
       <Filter>Aequus Files\Source Files\video</Filter>
     </ClCompile>
+    <ClCompile Include="aequus_files\video\texture.cpp">
+      <Filter>Aequus Files\Source Files\video</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ProgramSettings.lux">
@@ -163,6 +166,9 @@
       <Filter>Pessum Files\Header Files\rest</Filter>
     </ClInclude>
     <ClInclude Include="aequus_files\video\messagebox.h">
+      <Filter>Aequus Files\Header Files\video</Filter>
+    </ClInclude>
+    <ClInclude Include="aequus_files\video\texture.h">
       <Filter>Aequus Files\Header Files\video</Filter>
     </ClInclude>
   </ItemGroup>
