@@ -1,5 +1,5 @@
-#ifndef _AEQUUS_FRAMEWORK_H_
-#define _AEQUUS_FRAMEWORK_H_
+#ifndef _AEQUUS_FILES_FRAMEWORK_H_
+#define _AEQUUS_FILES_FRAMEWORK_H_
 #include <string>
 #include "sdl_headers.h"
 namespace aequus {
@@ -38,4 +38,4 @@ namespace aequus {
 		void InitalizeImg();
 	}
 }
-#endif // !_AEQUUS_FRAMEWORK_H_
+#endif // !_AEQUUS_FILES_FRAMEWORK_H_

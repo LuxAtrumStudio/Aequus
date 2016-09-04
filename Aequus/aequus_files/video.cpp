@@ -1,5 +1,5 @@
 #include "video.h"
-#include "sdl_headers.h"
+#include "aequus_headers.h"
 #include "../pessum_files/logging.h"
 
 namespace aequus {

@@ -1,5 +1,5 @@
-#ifndef _AEQUUS_VIDEO_MESSAGEBOX_H_
-#define _AEQUUS_VIDEO_MESSAGEBOX_H_
+#ifndef _AEQUUS_FILES_VIDEO_MESSAGEBOX_H_
+#define _AEQUUS_FILES_VIDEO_MESSAGEBOX_H_
 #include <string>
 #include <vector>
 #include "../sdl_headers.h"
@@ -60,4 +60,4 @@ namespace aequus {
 		};
 	}
 }
-#endif // !_AEQUUS_VIDEO_WINDOW_MESSAGEBOX_H_
+#endif // !_AEQUUS_FILES_VIDEO_WINDOW_MESSAGEBOX_H_

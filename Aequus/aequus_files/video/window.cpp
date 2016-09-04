@@ -1,17 +1,16 @@
 #include "window.h"
-#include "../sdl_headers.h"
-#include "../framework.h"
+#include "../aequus_headers.h"
 #include "../../pessum_files/logging.h"
 
 namespace aequus {
 	namespace video {
-		namespace Window {
+		namespace window {
 			WindowData data;
 			std::vector<MessageBox> messageboxes;
 		}
 	}
 }
-void aequus::video::Window::CreateWindow(std::string title, int x, int y, int width, int height, Uint32 flags)
+void aequus::video::window::CreateWindow(std::string title, int x, int y, int width, int height, Uint32 flags)
 {
 	data.logloc = pessum::logging::AddLogLocation("aequus_files/video/window[" + title + "]/");
 	data.title = title;
@@ -26,7 +25,7 @@ void aequus::video::Window::CreateWindow(std::string title, int x, int y, int wi
 	}
 }
 
-void aequus::video::Window::TerminateWindow()
+void aequus::video::window::TerminateWindow()
 {
 	SDL_DestroyWindow(data.sdlwindow);
 	WindowData cleandata;
@@ -34,7 +33,7 @@ void aequus::video::Window::TerminateWindow()
 	data = cleandata;
 }
 
-void aequus::video::Window::SetHidden(bool hide)
+void aequus::video::window::SetHidden(bool hide)
 {
 	if (hide == true && data.hidden == false) {
 		SDL_HideWindow(data.sdlwindow);
@@ -47,7 +46,7 @@ void aequus::video::Window::SetHidden(bool hide)
 	data.hidden = hide;
 }
 
-void aequus::video::Window::Maximize()
+void aequus::video::window::Maximize()
 {
 	if (data.maximized != true) {
 		SDL_MaximizeWindow(data.sdlwindow);
@@ -56,7 +55,7 @@ void aequus::video::Window::Maximize()
 	data.maximized = true;
 }
 
-void aequus::video::Window::Minimize()
+void aequus::video::window::Minimize()
 {
 	if (data.minimized != true) {
 		SDL_MinimizeWindow(data.sdlwindow);
@@ -65,13 +64,13 @@ void aequus::video::Window::Minimize()
 	data.minimized = true;
 }
 
-void aequus::video::Window::Raise()
+void aequus::video::window::Raise()
 {
 	SDL_RaiseWindow(data.sdlwindow);
 	pessum::logging::LogLoc(pessum::logging::LOG_INFORMATION, "Raised window", data.logloc, "Raise");
 }
 
-void aequus::video::Window::Restore()
+void aequus::video::window::Restore()
 {
 	if (data.minimized == true || data.minimized == true) {
 		SDL_RestoreWindow(data.sdlwindow);
@@ -79,7 +78,7 @@ void aequus::video::Window::Restore()
 	}
 }
 
-void aequus::video::Window::SetBordered(bool border)
+void aequus::video::window::SetBordered(bool border)
 {
 	if (border == false && data.bordered == true) {
 		SDL_SetWindowBordered(data.sdlwindow, SDL_FALSE);
@@ -91,7 +90,7 @@ void aequus::video::Window::SetBordered(bool border)
 	}
 }
 
-void aequus::video::Window::SetBrightness(float brightness)
+void aequus::video::window::SetBrightness(float brightness)
 {
 	if (SDL_SetWindowBrightness(data.sdlwindow, brightness) < 0) {
 		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to set window brightness", data.logloc, "SetBrightness");
@@ -102,7 +101,7 @@ void aequus::video::Window::SetBrightness(float brightness)
 	}
 }
 
-void aequus::video::Window::SetFullscreen(Uint32 flags)
+void aequus::video::window::SetFullscreen(Uint32 flags)
 {
 	if (SDL_SetWindowFullscreen(data.sdlwindow, flags) < 0) {
 		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to set window fullscreen", data.logloc, "SetFullscreen");
@@ -113,7 +112,7 @@ void aequus::video::Window::SetFullscreen(Uint32 flags)
 	}
 }
 
-void aequus::video::Window::SetGammaRamp(float red, float green, float blue)
+void aequus::video::window::SetGammaRamp(float red, float green, float blue)
 {
 	Uint16 r, g, b;
 	r = (red * 255);
@@ -128,7 +127,7 @@ void aequus::video::Window::SetGammaRamp(float red, float green, float blue)
 	}
 }
 
-void aequus::video::Window::SetGrab(bool grab)
+void aequus::video::window::SetGrab(bool grab)
 {
 	if (grab == true && data.grabbed == false) {
 		SDL_SetWindowGrab(data.sdlwindow, SDL_TRUE);
@@ -140,42 +139,42 @@ void aequus::video::Window::SetGrab(bool grab)
 	}
 }
 
-void aequus::video::Window::SetIcon(std::string iconfiledirectory)
+void aequus::video::window::SetIcon(std::string iconfiledirectory)
 {
 }
 
-void aequus::video::Window::SetMaximumSize(int width, int height)
+void aequus::video::window::SetMaximumSize(int width, int height)
 {
 	SDL_SetWindowMaximumSize(data.sdlwindow, width, height);
 	pessum::logging::LogLoc(pessum::logging::LOG_INFORMATION, "Set window maximum size: " + std::to_string(width) + "x" + std::to_string(height), data.logloc, "SetMaximumSize");
 }
 
-void aequus::video::Window::SetMinimumSize(int width, int height)
+void aequus::video::window::SetMinimumSize(int width, int height)
 {
 	SDL_SetWindowMinimumSize(data.sdlwindow, width, height);
 	pessum::logging::LogLoc(pessum::logging::LOG_INFORMATION, "Set window minimum size: " + std::to_string(width) + "x" + std::to_string(height), data.logloc, "SetMinimumSize");
 }
 
-void aequus::video::Window::SetPosition(int x, int y)
+void aequus::video::window::SetPosition(int x, int y)
 {
 	SDL_SetWindowPosition(data.sdlwindow, x, y);
 	pessum::logging::LogLoc(pessum::logging::LOG_INFORMATION, "Set window position: (" + std::to_string(x) + "," + std::to_string(y) + ")", data.logloc, "SetPosition");
 }
 
-void aequus::video::Window::SetSize(int width, int height)
+void aequus::video::window::SetSize(int width, int height)
 {
 	SDL_SetWindowSize(data.sdlwindow, width, height);
 	pessum::logging::LogLoc(pessum::logging::LOG_INFORMATION, "Set window size: " + std::to_string(width) + "x" + std::to_string(height), data.logloc, "SetSize");
 }
 
-void aequus::video::Window::SetTitle(std::string title)
+void aequus::video::window::SetTitle(std::string title)
 {
 	SDL_SetWindowTitle(data.sdlwindow, title.c_str());
 	pessum::logging::LogLoc(pessum::logging::LOG_INFORMATION, "Set window title: " + data.title + " to: " + title, data.logloc, "SetTitle");
 	data.title = title;
 }
 
-void aequus::video::Window::Update()
+void aequus::video::window::Update()
 {
 	if (SDL_UpdateWindowSurface(data.sdlwindow) < 0) {
 		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to update window surface", data.logloc, "Update");

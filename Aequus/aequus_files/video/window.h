@@ -1,20 +1,19 @@
-#ifndef _AEQUUS_VIDEO_WINDOW_H_
-#define _AEQUUS_VIDEO_WINDOW_H_
+#ifndef _AEQUUS_FILES_VIDEO_WINDOW_H_
+#define _AEQUUS_FILES_VIDEO_WINDOW_H_
 #include <string>
 #include <vector>
 #include "messagebox.h"
 #include "../sdl_headers.h"
-#include "../aequus_core.h"
-#include "../video.h"
 namespace aequus {
 	namespace video {
 		//Window class to contain SDL window objects, and manage all internal
 		//data related to the window, and to contain all relevent functions for
 		//window manipulation
-		namespace Window {
+		namespace window {
 			//Class that is used to contain all information and functions for
 			//managing textures
 			class Texture;
+			class Renderer;
 			//Used for setting different window initialization settings
 			enum WindowFlags
 			{

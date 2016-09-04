@@ -114,7 +114,7 @@
     <ClCompile Include="aequus_files\video\texture.cpp">
       <Filter>Aequus Files\Source Files\video</Filter>
     </ClCompile>
-    <ClCompile Include="aequus_files\video\surface.cpp">
+    <ClCompile Include="aequus_files\video\renderer.cpp">
       <Filter>Aequus Files\Source Files\video</Filter>
     </ClCompile>
   </ItemGroup>
@@ -174,7 +174,10 @@
     <ClInclude Include="aequus_files\video\texture.h">
       <Filter>Aequus Files\Header Files\video</Filter>
     </ClInclude>
-    <ClInclude Include="aequus_files\video\surface.h">
+    <ClInclude Include="aequus_files\aequus_headers.h">
+      <Filter>Aequus Files\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="aequus_files\video\renderer.h">
       <Filter>Aequus Files\Header Files\video</Filter>
     </ClInclude>
   </ItemGroup>
