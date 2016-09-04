@@ -122,6 +122,7 @@
     <ClCompile Include="aequus_files\framework.cpp" />
     <ClCompile Include="aequus_files\video.cpp" />
     <ClCompile Include="aequus_files\video\messagebox.cpp" />
+    <ClCompile Include="aequus_files\video\surface.cpp" />
     <ClCompile Include="aequus_files\video\texture.cpp" />
     <ClCompile Include="aequus_files\video\window.cpp" />
     <ClCompile Include="Core.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="aequus_files\sdl_headers.h" />
     <ClInclude Include="aequus_files\video.h" />
     <ClInclude Include="aequus_files\video\messagebox.h" />
+    <ClInclude Include="aequus_files\video\surface.h" />
     <ClInclude Include="aequus_files\video\texture.h" />
     <ClInclude Include="aequus_files\video\window.h" />
     <ClInclude Include="pessum_files\logging.h" />

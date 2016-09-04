@@ -30,8 +30,12 @@ namespace aequus {
 		void SetMain();
 		//Returns SDL error for further logging
 		std::string SdlError();
+		//Returns other lib errors
+		std::string GetError(int errortype = 0);
 		//Checks and compairs compiled version of SDL and run version of SDL
 		void CheckSdlVersions();
+		//Initializes SDL IMG
+		void InitalizeImg();
 	}
 }
 #endif // !_AEQUUS_FRAMEWORK_H_

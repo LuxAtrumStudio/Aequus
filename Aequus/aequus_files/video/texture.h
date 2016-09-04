@@ -1,12 +1,22 @@
-#ifndef _AEQUUS_VIDEO_TEXTURE_H_
-#define _AEQUUS_VIDEO_TEXTURE_H_
+#ifndef _AEQUUS_VIDEO_WINDOW_TEXTURE_H_
+#define _AEQUUS_VIDEO_WINDOW_TEXTURE_H_
+#include <string>
+#include <vector>
+#include "../sdl_headers.h"
+#include "../aequus_core.h"
+#include "../video.h"
 namespace aequus {
 	namespace video {
-		class Window {
+		namespace Window {
 			class Texture {
-				void CreateTexture();
+			public:
+				//Class used for managing all data and funcitons relevent to
+				//surfaces
+				class Surface;
+				void Temp();
+			private:
 			};
 		};
 	}
 }
-#endif // !_AEQUUS_VIDEO_TEXTURE_H_
+#endif // !_AEQUUS_VIDEO_WINDOW_TEXTURE_H_

@@ -12,6 +12,7 @@ namespace aequus {
 void aequus::framework::SdlStartUp()
 {
 	InitializeSdl(EVERYTHING);
+	InitalizeImg();
 	CheckSdlVersions();
 }
 
@@ -50,6 +51,26 @@ std::string aequus::framework::SdlError()
 	return(errorstring);
 }
 
+std::string aequus::framework::GetError(int errortype)
+{
+	std::string errorstring = "";
+	if (errortype == 1) {
+		const char* error = SDL_GetError();
+		if (*error) {
+			errorstring = error;
+			SDL_ClearError();
+		}
+	}
+	else if (errortype == 2) {
+		const char* error = IMG_GetError();
+		if (*error) {
+			errorstring = error;
+		}
+	}
+	pessum::logging::Log(pessum::logging::LOG_ERROR, "SDL Error: " + errorstring, "AEQUUS SDL ERROR");
+	return(errorstring);
+}
+
 void aequus::framework::CheckSdlVersions()
 {
 	SDL_version compiled, linked;
@@ -68,5 +89,17 @@ void aequus::framework::CheckSdlVersions()
 		pessum::logging::LogLoc(pessum::logging::LOG_DATA,
 			"Linked version: " + std::to_string(linked.major) + "." + std::to_string(linked.minor) + "." + std::to_string(linked.patch),
 			logloc, "CheckSdlVersions");
+	}
+}
+
+void aequus::framework::InitalizeImg()
+{
+	int imgFlags = IMG_INIT_PNG;
+	if (IMG_Init(imgFlags) & imgFlags != 0) {
+		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to initialize SDL IMG", logloc, "InitalizeImg");
+		GetError(2);
+	}
+	else {
+		pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Initialized SDL IMG", logloc, "InitalizeImg");
 	}
 }

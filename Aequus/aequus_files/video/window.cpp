@@ -3,6 +3,14 @@
 #include "../framework.h"
 #include "../../pessum_files/logging.h"
 
+namespace aequus {
+	namespace video {
+		namespace Window {
+			WindowData data;
+			std::vector<MessageBox> messageboxes;
+		}
+	}
+}
 void aequus::video::Window::CreateWindow(std::string title, int x, int y, int width, int height, Uint32 flags)
 {
 	data.logloc = pessum::logging::AddLogLocation("aequus_files/video/window[" + title + "]/");

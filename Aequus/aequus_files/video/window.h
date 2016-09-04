@@ -8,10 +8,12 @@
 #include "../video.h"
 namespace aequus {
 	namespace video {
-		//Window class to contain SDL window objects, and manage all internal data
-		//related to the window, and to contain all relevent functions for window manipulation
-		class Window {
-		public:
+		//Window class to contain SDL window objects, and manage all internal
+		//data related to the window, and to contain all relevent functions for
+		//window manipulation
+		namespace Window {
+			//Class that is used to contain all information and functions for
+			//managing textures
 			class Texture;
 			//Used for setting different window initialization settings
 			enum WindowFlags
@@ -52,6 +54,11 @@ namespace aequus {
 				bool grabbed = false;
 				std::string title;
 			};
+			//Class storage for windows internal data
+			extern WindowData data;
+			//Storage for any messagecoxes that are daughter windows to current
+			//window
+			extern std::vector<MessageBox> messageboxes;
 			//Creates new SDL window based off of given arguments
 			void CreateWindow(std::string title = "NULL", int x = SDL_WINDOWPOS_UNDEFINED, int y = SDL_WINDOWPOS_UNDEFINED, int width = 600, int height = 600, Uint32 flags = WINDOWED);
 			//Terminates an SDL window, and erases all data
@@ -91,11 +98,6 @@ namespace aequus {
 			void SetTitle(std::string title);
 			//Displays the updated window surface
 			void Update();
-		private:
-			//Class storage for windows internal data
-			WindowData data;
-			//Storage for any messagecoxes that are daughter windows to current window
-			std::vector<MessageBox> messageboxes;
 		};
 	}
 }
