@@ -2,28 +2,14 @@
 #define _AEQUUS_FILES_VIDEO_TEXTURE_H_
 #include <string>
 #include <vector>
+#include "video_objects.h"
 #include "../sdl_headers.h"
 namespace aequus {
 	namespace video {
 		namespace window {
 			class Texture {
 			public:
-				struct SubSurface {
-					SDL_Surface surface;
-					SDL_Rect sourcerect, destinationrect;
-				};
-				enum BlendMode {
-					NONE,
-					BLEND,
-					ADD,
-					MOD
-				};
-				enum SurfaceType {
-					SIMPLE,
-					CLIP,
-					SPRITESHEET,
-					COMBINATION
-				};
+
 				SDL_Surface sdlsurface;
 				SDL_Texture* sdltexture;
 				std::vector<SubSurface> subsurfaces;

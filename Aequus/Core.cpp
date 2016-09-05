@@ -6,6 +6,8 @@ using namespace std;
 int main(int argc, char* argv[]) {
 	pessum::InitializePessumComponents();
 	aequus::framework::SdlStartUp();
+	aequus::video::window::CreateWindow("Core");
+	aequus::video::window::TerminateWindow();
 	aequus::framework::TerminateSdl();
 	pessum::TerminatePessumComponents();
 	return(1);

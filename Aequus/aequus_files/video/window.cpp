@@ -7,6 +7,7 @@ namespace aequus {
 		namespace window {
 			WindowData data;
 			std::vector<MessageBox> messageboxes;
+			Renderer render;
 		}
 	}
 }
@@ -22,6 +23,7 @@ void aequus::video::window::CreateWindow(std::string title, int x, int y, int wi
 	else {
 		pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Created new SDL window: " + title, data.logloc, "CreateWindow");
 		SDL_GetWindowSurface(data.sdlwindow);
+		render.CreateRenderer(data, ACCELERATED);
 	}
 }
 
@@ -176,6 +178,7 @@ void aequus::video::window::SetTitle(std::string title)
 
 void aequus::video::window::Update()
 {
+	//render.Update();
 	if (SDL_UpdateWindowSurface(data.sdlwindow) < 0) {
 		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to update window surface", data.logloc, "Update");
 		framework::SdlError();

@@ -54,12 +54,12 @@ void aequus::video::window::Texture::SetBlendMode(BlendMode mode)
 void aequus::video::window::Texture::CompileSurface()
 {
 	if (surfacetype == SIMPLE) {
-		compleatesurface = subsurfaces[0].surface;
+		sdlsurface = subsurfaces[0].surface;
 	}
 	else if (surfacetype == CLIP || surfacetype == SPRITESHEET) {
 		int width = subsurfaces[0].surface.w, height = subsurfaces[0].surface.h;
-		compleatesurface = *SDL_CreateRGBSurface(0, width, height, 16, 0, 0, 0, 0);
-		SDL_BlitSurface(&subsurfaces[0].surface, &subsurfaces[0].sourcerect, &compleatesurface, &subsurfaces[0].destinationrect);
+		sdlsurface = *SDL_CreateRGBSurface(0, width, height, 16, 0, 0, 0, 0);
+		SDL_BlitSurface(&subsurfaces[0].surface, &subsurfaces[0].sourcerect, &sdlsurface, &subsurfaces[0].destinationrect);
 	}
 	else if (surfacetype == COMBINATION) {
 	}
