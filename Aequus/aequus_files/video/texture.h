@@ -7,6 +7,8 @@
 namespace aequus {
 	namespace video {
 		namespace window {
+			//Class that is used to contain all information and functions for
+			//managing textures
 			class Texture {
 			public:
 				struct SubSurface {

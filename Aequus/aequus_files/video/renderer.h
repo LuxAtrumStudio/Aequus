@@ -3,7 +3,6 @@
 #include <vector>
 #include "video_objects.h"
 #include "../sdl_headers.h"
-#include "window.h"
 #include "texture.h"
 namespace aequus {
 	namespace video {
