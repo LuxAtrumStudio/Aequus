@@ -2,10 +2,7 @@
 #define _AEQUUS_FILES_VIDEO_MESSAGEBOX_H_
 #include <string>
 #include <vector>
-#include "video_objects.h"
 #include "../sdl_headers.h"
-#include "../aequus_core.h"
-#include "../video.h"
 namespace aequus {
 	namespace video {
 		//Message box class is used to contain data and functions that pertain

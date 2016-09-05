@@ -2,12 +2,12 @@
 #define _AEQUUS_FILES_VIDEO_WINDOW_H_
 #include <string>
 #include <vector>
-#include "video_objects.h"
-#include "messagebox.h"
 #include "renderer.h"
+#include "texture.h"
 #include "../sdl_headers.h"
 namespace aequus {
 	namespace video {
+		class MessageBox;
 		//Window namespace to contain SDL window objects, and manage all internal
 		//data related to the window, and to contain all relevent functions for
 		//window manipulation

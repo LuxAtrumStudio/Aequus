@@ -2,7 +2,6 @@
 #define _AEQUUS_FILES_VIDEO_TEXTURE_H_
 #include <string>
 #include <vector>
-#include "video_objects.h"
 #include "../sdl_headers.h"
 namespace aequus {
 	namespace video {
