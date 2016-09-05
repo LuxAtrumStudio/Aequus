@@ -23,7 +23,7 @@ void aequus::video::window::CreateWindow(std::string title, int x, int y, int wi
 	else {
 		pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Created new SDL window: " + title, data.logloc, "CreateWindow");
 		SDL_GetWindowSurface(data.sdlwindow);
-		render.CreateRenderer(data, ACCELERATED);
+		render.CreateRenderer(data.sdlwindow, data.title, Renderer::ACCELERATED);
 	}
 }
 

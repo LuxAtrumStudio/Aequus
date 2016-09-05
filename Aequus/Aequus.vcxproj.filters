@@ -180,8 +180,5 @@
     <ClInclude Include="aequus_files\video\renderer.h">
       <Filter>Aequus Files\Header Files\video</Filter>
     </ClInclude>
-    <ClInclude Include="aequus_files\video\video_objects.h">
-      <Filter>Aequus Files\Header Files\video</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

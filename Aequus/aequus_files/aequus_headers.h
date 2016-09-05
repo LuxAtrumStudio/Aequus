@@ -2,7 +2,7 @@
 #include "sdl_headers.h"
 #include "framework.h"
 #include "video.h"
+#include "video\renderer.h"
 #include "video\window.h"
 #include "video\texture.h"
-#include "video\renderer.h"
 #include "video\messagebox.h"

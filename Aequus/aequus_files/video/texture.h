@@ -9,7 +9,23 @@ namespace aequus {
 		namespace window {
 			class Texture {
 			public:
-
+				struct SubSurface {
+					SDL_Surface surface;
+					SDL_Rect sourcerect, destinationrect;
+				};
+				enum SurfaceType {
+					SIMPLE,
+					CLIP,
+					SPRITESHEET,
+					COMBINATION
+				};
+				enum BlendMode
+				{
+					NONE = SDL_BLENDMODE_NONE,
+					BLEND = SDL_BLENDMODE_BLEND,
+					ADD = SDL_BLENDMODE_ADD,
+					MOD = SDL_BLENDMODE_MOD
+				};
 				SDL_Surface sdlsurface;
 				SDL_Texture* sdltexture;
 				std::vector<SubSurface> subsurfaces;

@@ -3,7 +3,7 @@
 #include "sdl_headers.h"
 namespace aequus {
 	//namespace video controlls all video componenents of SDL, with windows
-	//textures, and everything elses that the end user will see
+	//textures, and everything elses that the end user will see.
 	namespace video {
 		namespace window {}
 		class MessageBox;

@@ -1,11 +1,13 @@
 #include "renderer.h"
+#include <vector>
+#include <string>
 #include "../aequus_headers.h"
 #include "../../pessum_files/logging.h"
 
-void aequus::video::window::Renderer::CreateRenderer(WindowData window, RendererFlags flags)
+void aequus::video::window::Renderer::CreateRenderer(SDL_Window* sdlwindow, std::string title, RendererFlags flags)
 {
-	logloc = pessum::logging::AddLogLocation("aequus_files/video/window[" + window.title + "]/renderer");
-	sdlrenderer = SDL_CreateRenderer(window.sdlwindow, -1, flags);
+	logloc = pessum::logging::AddLogLocation("aequus_files/video/window[" + title + "]/renderer");
+	sdlrenderer = SDL_CreateRenderer(sdlwindow, -1, flags);
 	rendererflag = flags;
 	if (sdlrenderer == NULL) {
 		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to create renderer", logloc, "CreateRenderer");
@@ -126,7 +128,7 @@ void aequus::video::window::Renderer::DrawRectangle(Rectangle rect)
 void aequus::video::window::Renderer::DrawRectangles(std::vector<Rectangle> rects)
 {
 	std::vector<SDL_Rect> sdlrects;
-	for (unsigned a = 0; a < rects.size; a++) {
+	for (unsigned a = 0; a < rects.size(); a++) {
 		SDL_Rect sdlrect;
 		sdlrect.x = rects[a].x;
 		sdlrect.y = rects[a].y;
@@ -157,7 +159,7 @@ void aequus::video::window::Renderer::FillRectangle(Rectangle rect)
 void aequus::video::window::Renderer::FillRectangles(std::vector<Rectangle> rects)
 {
 	std::vector<SDL_Rect> sdlrects;
-	for (unsigned a = 0; a < rects.size; a++) {
+	for (unsigned a = 0; a < rects.size(); a++) {
 		SDL_Rect sdlrect;
 		sdlrect.x = rects[a].x;
 		sdlrect.y = rects[a].y;
@@ -183,7 +185,7 @@ void aequus::video::window::Renderer::DrawPoint(Point point)
 void aequus::video::window::Renderer::DrawPoints(std::vector<Point> points)
 {
 	std::vector<SDL_Point> sdlpoints;
-	for (unsigned a = 0; a < points.size; a++) {
+	for (unsigned a = 0; a < points.size(); a++) {
 		SDL_Point sdlpoint;
 		sdlpoint.x = points[a].x;
 		sdlpoint.y = points[a].y;
@@ -207,7 +209,7 @@ void aequus::video::window::Renderer::DrawLine(Point pointa, Point pointb)
 void aequus::video::window::Renderer::DrawLines(std::vector<Point> points)
 {
 	std::vector<SDL_Point> sdlpoints;
-	for (unsigned a = 0; a < points.size; a++) {
+	for (unsigned a = 0; a < points.size(); a++) {
 		SDL_Point sdlpoint;
 		sdlpoint.x = points[a].x;
 		sdlpoint.y = points[a].y;
