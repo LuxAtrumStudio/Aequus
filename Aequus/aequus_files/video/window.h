@@ -44,6 +44,7 @@ namespace aequus {
 			struct WindowData {
 				SDL_Window* sdlwindow = NULL;
 				Renderer windowrenderer;
+				std::vector<Texture>textures;
 				int logloc = 0;
 				bool hidden = false;
 				bool minimized = false;
@@ -60,7 +61,7 @@ namespace aequus {
 			//window
 			extern std::vector<MessageBox> messageboxes;
 			//Creates new SDL window based off of given arguments
-			void CreateWindow(std::string title = "NULL", int x = SDL_WINDOWPOS_UNDEFINED, int y = SDL_WINDOWPOS_UNDEFINED, int width = 600, int height = 600, Uint32 flags = WINDOWED);
+			void CreateWindow(std::string title = "NULL", int width = 600, int height = 600, int x = SDL_WINDOWPOS_UNDEFINED, int y = SDL_WINDOWPOS_UNDEFINED, Uint32 flags = WINDOWED);
 			//Terminates an SDL window, and erases all data
 			void TerminateWindow(int pointer = boundwindow);
 			//Toggles weather the window is hidden
@@ -100,6 +101,8 @@ namespace aequus {
 			void Update(int pointer = boundwindow);
 			//Sets the currently active window
 			void BindWindow(int pointer = 0);
+
+			void NewTexture(std::string filepath, int pointer = boundwindow);
 		};
 	}
 }

@@ -11,7 +11,7 @@ namespace aequus {
 		}
 	}
 }
-void aequus::video::window::CreateWindow(std::string title, int x, int y, int width, int height, Uint32 flags)
+void aequus::video::window::CreateWindow(std::string title, int width, int height, int x, int y, Uint32 flags)
 {
 	WindowData newwindow;
 	newwindow.logloc = pessum::logging::AddLogLocation("aequus_files/video/window[" + title + "]/");
@@ -181,10 +181,14 @@ void aequus::video::window::SetTitle(std::string title, int pointer)
 
 void aequus::video::window::Update(int pointer)
 {
-	if (SDL_UpdateWindowSurface(windows[pointer].sdlwindow) < 0) {
-		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to update window surface", windows[pointer].logloc, "Update");
-		framework::SdlError();
+	for (unsigned a = 0; a < windows[pointer].textures.size(); a++) {
+		windows[pointer].textures[a].Render();
 	}
+	windows[pointer].windowrenderer.Update();
+	//if (SDL_UpdateWindowSurface(windows[pointer].sdlwindow) < 0) {
+	//	pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to update window surface", windows[pointer].logloc, "Update");
+	//	framework::SdlError();
+	//}
 }
 
 void aequus::video::window::BindWindow(int pointer)
@@ -192,4 +196,11 @@ void aequus::video::window::BindWindow(int pointer)
 	if (pointer < windows.size()) {
 		boundwindow = pointer;
 	}
+}
+
+void aequus::video::window::NewTexture(std::string filepath, int pointer)
+{
+	Texture newtexture;
+	newtexture.CreateTexture(filepath, windows[pointer].title, windows[pointer].windowrenderer.sdlrenderer);
+	windows[pointer].textures.push_back(newtexture);
 }
