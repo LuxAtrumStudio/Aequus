@@ -13,6 +13,7 @@ void aequus::framework::SdlStartUp()
 {
 	InitializeSdl(EVERYTHING);
 	InitalizeImg();
+	InitializeTtf();
 	CheckSdlVersions();
 }
 
@@ -31,6 +32,8 @@ void aequus::framework::InitializeSdl(Uint32 flags)
 void aequus::framework::TerminateSdl()
 {
 	SDL_Quit();
+	IMG_Quit();
+	TTF_Quit();
 	pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Terminated all SDL systems", logloc, "TermianteSdl");
 }
 
@@ -63,6 +66,12 @@ std::string aequus::framework::GetError(int errortype)
 	}
 	else if (errortype == 2) {
 		const char* error = IMG_GetError();
+		if (*error) {
+			errorstring = error;
+		}
+	}
+	else if (errortype == 3) {
+		const char* error = TTF_GetError();
 		if (*error) {
 			errorstring = error;
 		}
@@ -101,5 +110,16 @@ void aequus::framework::InitalizeImg()
 	}
 	else {
 		pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Initialized SDL IMG", logloc, "InitalizeImg");
+	}
+}
+
+void aequus::framework::InitializeTtf()
+{
+	if (TTF_Init() == -1) {
+		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to initialize SDL TTG", logloc, "InitializeTtf");
+		GetError(3);
+	}
+	else {
+		pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Initialized SDL TTG", logloc, "InitializeTtf");
 	}
 }

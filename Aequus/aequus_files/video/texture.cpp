@@ -82,11 +82,18 @@ void aequus::video::window::Texture::CompileTexture()
 	}
 	else if (surfacetype == COMBINATION) {
 	}
+	if (sdltexture != NULL) {
+		DestroyTexture();
+	}
 	sdltexture = SDL_CreateTextureFromSurface(sldrenderer, &sdlsurface);
 	if (sdltexture == NULL) {
 		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to create texture from surface", logloc, "CompileTexture");
 		framework::GetError();
 	}
+	for (unsigned a = 0; a < subsurfaces.size(); a++) {
+		FreeSurface(a);
+	}
+	//SDL_FreeSurface(&sdlsurface);
 }
 
 void aequus::video::window::Texture::CreateTexture(std::string filepath, std::string windowtitle, SDL_Renderer* renderer, bool simple)
@@ -113,8 +120,8 @@ void aequus::video::window::Texture::Render()
 	else if (renderflip == VERITCAL) {
 		sdlflip = SDL_FLIP_VERTICAL;
 	}
-	SDL_Rect* sdlsource;
-	SDL_Rect* sdldestination;
+	SDL_Rect* sdlsource = NULL;
+	SDL_Rect* sdldestination = NULL;
 	if (source.h == 0 && source.w == 0) {
 		sdlsource = NULL;
 	}
@@ -122,7 +129,16 @@ void aequus::video::window::Texture::Render()
 		sdlsource = &source;
 	}
 	if (destination.h == 0 && destination.w == 0) {
-		sdldestination = sdlsource;
+		if (sdlsource != NULL) {
+			sdldestination = sdlsource;
+		}
+		else {
+			destination.x = 0;
+			destination.y = 0;
+			destination.w = sdlsurface.w;
+			destination.h = sdlsurface.h;
+			sdldestination = &destination;
+		}
 	}
 	else {
 		sdldestination = &destination;
@@ -199,4 +215,183 @@ void aequus::video::window::Texture::SetDestinationRect(int x, int y, int width,
 	destination.y = y;
 	destination.w = width;
 	destination.h = height;
+}
+
+void aequus::video::window::Texture::LoadFont(int pt, std::string fontdirectory, FontWeight weight, bool italic, float red, float green, float blue, float alpha)
+{
+	font.fontdirectory = fontdirectory;
+	font.weight = weight;
+	font.italic = italic;
+	font.pt = pt;
+	font.red = red;
+	font.green = green;
+	font.blue = blue;
+	font.alpha = alpha;
+	GenorateFontFileDirectory();
+	if (logloc == 0) {
+		logloc = pessum::logging::AddLogLocation("aequus_files/video/window[UNKNOWN]/texutre[" + font.fontname + "]/");
+	}
+	std::string totaldirectory = font.fontdirectory + font.fontfile;
+	font.ttffont = TTF_OpenFont(totaldirectory.c_str(), font.pt);
+	if (font.ttffont == NULL) {
+		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to load font file: " + totaldirectory, logloc, "LoadFont");
+	}
+}
+
+void aequus::video::window::Texture::UpdateFont()
+{
+	CloseFont();
+	GenorateFontFileDirectory();
+	std::string totaldirectory = font.fontdirectory + font.fontfile;
+	font.ttffont = TTF_OpenFont(totaldirectory.c_str(), font.pt);
+	if (font.ttffont == NULL) {
+		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to load font file: " + totaldirectory, logloc, "UpdateFont");
+	}
+	if (sdltexture != NULL) {
+		RenderText(textstr, textrendermode);
+	}
+}
+
+void aequus::video::window::Texture::CloseFont()
+{
+	TTF_CloseFont(font.ttffont);
+}
+
+void aequus::video::window::Texture::TerminateFont()
+{
+	CloseFont();
+	font.fontdirectory = "NULL";
+	font.fontfile = "NULL";
+	font.fontname = "NULL";
+	font.weight = REGULAR;
+	font.pt = 12;
+	font.red = 0;
+	font.green = 0;
+	font.blue = 0;
+	font.alpha = 1;
+}
+
+void aequus::video::window::Texture::SetFontPt(int pt)
+{
+	font.pt = pt;
+	UpdateFont();
+}
+
+void aequus::video::window::Texture::SetFontWeight(FontWeight weight)
+{
+	font.weight = weight;
+	UpdateFont();
+}
+
+void aequus::video::window::Texture::SetFontItalic(bool setting)
+{
+	font.italic = setting;
+	UpdateFont();
+}
+
+void aequus::video::window::Texture::SetFontColor(float red, float green, float blue, float alpha)
+{
+	font.red = red;
+	font.green = green;
+	font.blue = blue;
+	font.alpha = alpha;
+	UpdateFont();
+}
+
+void aequus::video::window::Texture::SetFontBgColor(float red, float green, float blue, float alpha)
+{
+	font.redbg = red;
+	font.greenbg = green;
+	font.bluebg = blue;
+	font.alphabg = alpha;
+}
+
+void aequus::video::window::Texture::SetFontOutline(int outline)
+{
+	TTF_SetFontOutline(font.ttffont, outline);
+}
+
+void aequus::video::window::Texture::SetFontHinting(FontHinting hinting)
+{
+	TTF_SetFontHinting(font.ttffont, hinting);
+}
+
+void aequus::video::window::Texture::SetFontKerning(int kerning)
+{
+	TTF_SetFontKerning(font.ttffont, kerning);
+}
+
+void aequus::video::window::Texture::RenderText(std::string text, FontRenderMode mode)
+{
+	textrendermode = mode;
+	textstr = text;
+	SDL_Color sdlcolor;
+	sdlcolor.r = font.red * 255;
+	sdlcolor.g = font.green * 255;
+	sdlcolor.b = font.blue * 255;
+	sdlcolor.a = font.alpha * 255;
+	surfacetype = TEXT;
+	if (mode == SOLIDTEXT) {
+		sdlsurface = *TTF_RenderText_Solid(font.ttffont, text.c_str(), sdlcolor);
+	}
+	if (mode == SHADEDTEXT) {
+		SDL_Color sdlcolorbg;
+		sdlcolorbg.r = font.redbg * 255;
+		sdlcolorbg.g = font.greenbg * 255;
+		sdlcolorbg.b = font.bluebg * 255;
+		sdlcolorbg.a = font.alphabg * 255;
+		sdlsurface = *TTF_RenderText_Shaded(font.ttffont, text.c_str(), sdlcolor, sdlcolorbg);
+	}
+	if (mode == BLENDTEXT) {
+		sdlsurface = *TTF_RenderText_Blended(font.ttffont, text.c_str(), sdlcolor);
+	}
+	CompileTexture();
+}
+
+void aequus::video::window::Texture::GenorateFontFileDirectory()
+{
+	std::string fontfile = "";
+	for (unsigned a = font.fontdirectory.size() - 2; a > 0 && font.fontdirectory[a] != '/'; a--) {
+		fontfile = font.fontdirectory[a] + fontfile;
+	}
+	font.fontname = fontfile;
+	fontfile = fontfile + "-";
+	if (font.weight == THIN) {
+		fontfile = fontfile + "Thin";
+	}
+	else if (font.weight == EXTRALIGHT) {
+		fontfile = fontfile + "ExtraLight";
+	}
+	else if (font.weight == LIGHT) {
+		fontfile = fontfile + "Light";
+	}
+	else if (font.weight == REGULAR && font.italic == false) {
+		fontfile = fontfile + "Regular";
+	}
+	else if (font.weight == MEDIUM) {
+		fontfile = fontfile + "Medium";
+	}
+	else if (font.weight == SEMIBOLD) {
+		fontfile = fontfile + "SemiBold";
+	}
+	else if (font.weight == BOLD) {
+		fontfile = fontfile + "Bold";
+	}
+	else if (font.weight == EXTRABOLD) {
+		fontfile = fontfile + "ExtraBold";
+	}
+	else if (font.weight == BLACK) {
+		fontfile = fontfile + "Black";
+	}
+	if (font.italic == true) {
+		fontfile = fontfile + "Italic";
+	}
+	fontfile = fontfile + ".ttf";
+	font.fontfile = fontfile;
+}
+
+void aequus::video::window::Texture::CreateText(std::string text, int pt)
+{
+	LoadFont(pt);
+	RenderText(text);
 }

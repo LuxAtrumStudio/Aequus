@@ -103,6 +103,7 @@ namespace aequus {
 			void BindWindow(int pointer = 0);
 
 			void NewTexture(std::string filepath, int pointer = boundwindow);
+			void NewText(std::string text, int pt, int pointer = boundwindow);
 		};
 	}
 }

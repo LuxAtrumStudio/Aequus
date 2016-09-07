@@ -10,15 +10,12 @@ namespace aequus {
 			//managing textures
 			class Texture {
 			public:
-				struct SubSurface {
-					SDL_Surface surface;
-					SDL_Rect sourcerect, destinationrect;
-				};
 				enum SurfaceType {
 					SIMPLE,
 					CLIP,
 					SPRITESHEET,
-					COMBINATION
+					COMBINATION,
+					TEXT
 				};
 				enum BlendMode
 				{
@@ -31,6 +28,41 @@ namespace aequus {
 					NOFLIP,
 					HORIZONTAL,
 					VERITCAL
+				};
+				enum FontWeight {
+					THIN,
+					EXTRALIGHT,
+					LIGHT,
+					REGULAR,
+					MEDIUM,
+					SEMIBOLD,
+					BOLD,
+					EXTRABOLD,
+					BLACK
+				};
+				enum FontHinting {
+					NORMALHINTING = 0,
+					LIGHTHINTING = 1,
+					MONOHINTING = 2,
+					NOHINTING = 3
+				};
+				enum FontRenderMode {
+					SOLIDTEXT,
+					SHADEDTEXT,
+					BLENDTEXT
+				};
+				struct SubSurface {
+					SDL_Surface surface;
+					SDL_Rect sourcerect, destinationrect;
+				};
+				struct FontData {
+					std::string fontdirectory = "NULL", fontfile = "NULL", fontname = "NULL";
+					FontWeight weight = REGULAR;
+					bool italic = false;
+					TTF_Font* ttffont = NULL;
+					int pt = 12;
+					float red = 0, green = 0, blue = 0, alpha = 1;
+					float redbg = 1, greenbg = 1, bluebg = 1, alphabg = 1;
 				};
 				SDL_Texture* sdltexture = NULL;
 				std::vector<SubSurface> subsurfaces;
@@ -54,7 +86,25 @@ namespace aequus {
 				void SetRotatePoint(int x, int y);
 				void SetSourceRect(int x, int y, int width, int height);
 				void SetDestinationRect(int x, int y, int width, int height);
+				//Advanced Textures
+				//Text
+				void LoadFont(int pt = 12, std::string fontdirectory = "resources/fonts/Raleway/", FontWeight weight = REGULAR, bool italic = false, float red = 0, float green = 0, float blue = 0, float alpha = 1);
+				void UpdateFont();
+				void CloseFont();
+				void TerminateFont();
+				void SetFontPt(int pt = 12);
+				void SetFontWeight(FontWeight weight = REGULAR);
+				void SetFontItalic(bool setting = false);
+				void SetFontColor(float red = 0, float green = 0, float blue = 0, float alpha = 1);
+				void SetFontBgColor(float red = 0, float green = 0, float blue = 0, float alpha = 1);
+				void SetFontOutline(int outline = 0);
+				void SetFontHinting(FontHinting hinting = NORMALHINTING);
+				void SetFontKerning(int kerning = 1);
+				void RenderText(std::string text, FontRenderMode mode = BLENDTEXT);
+				void GenorateFontFileDirectory();
+				void CreateText(std::string text, int pt);
 			private:
+				FontData font;
 				SDL_Surface sdlsurface;
 				SDL_Renderer* sldrenderer = NULL;
 				SurfaceType surfacetype = SIMPLE;
@@ -65,6 +115,9 @@ namespace aequus {
 				RenderFlip renderflip = RenderFlip::NOFLIP;
 				int rotatex = -1, rotatey = -1;
 				SDL_Rect source, destination;
+				int texturewidth, textureheight;
+				std::string textstr;
+				FontRenderMode textrendermode;
 			};
 		};
 	}

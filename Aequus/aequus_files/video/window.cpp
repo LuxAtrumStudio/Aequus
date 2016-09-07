@@ -203,4 +203,14 @@ void aequus::video::window::NewTexture(std::string filepath, int pointer)
 	Texture newtexture;
 	newtexture.CreateTexture(filepath, windows[pointer].title, windows[pointer].windowrenderer.sdlrenderer);
 	windows[pointer].textures.push_back(newtexture);
+	pessum::logging::LogLoc();
+}
+
+void aequus::video::window::NewText(std::string text, int pt, int pointer)
+{
+	Texture newtexture;
+	newtexture.SetRenderer(windows[pointer].windowrenderer.sdlrenderer);
+	newtexture.CreateText(text, pt);
+	windows[pointer].textures.push_back(newtexture);
+	pessum::logging::LogLoc();
 }
