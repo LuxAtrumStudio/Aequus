@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include "renderer.h"
-#include "texture.h"
 #include "../sdl_headers.h"
 namespace aequus {
 	namespace video {
@@ -12,6 +11,7 @@ namespace aequus {
 		//data related to the window, and to contain all relevent functions for
 		//window manipulation
 		namespace window {
+			namespace draw {}
 			//Used for setting different window initialization settings
 			enum WindowFlags
 			{

@@ -243,3 +243,6 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/Aequus/aequus_files/sdl_objects.h
+/Aequus/aequus_files/video/texture.cpp
+/Aequus/aequus_files/video/object/textureold.h

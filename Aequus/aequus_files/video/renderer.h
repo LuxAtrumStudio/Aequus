@@ -1,12 +1,10 @@
 #ifndef _AEQUUS_FILES_VIDEO_RENDERER_H_
 #define _AEQUUS_FILES_VIDEO_RENDERER_H_
 #include <vector>
-#include "video_objects.h"
 #include "../sdl_headers.h"
 namespace aequus {
 	namespace video {
 		namespace window {
-			class Texture;
 			//Renderer class, used to store all data for an SDL renderer, aswell as
 			//running all basic renderer funcitons, such as changing settings
 			//and basic draw functions.

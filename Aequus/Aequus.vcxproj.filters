@@ -79,6 +79,12 @@
     <Filter Include="Pessum Files\Source Files\rest">
       <UniqueIdentifier>{aec90e38-ed44-490d-8267-45e706856c67}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Aequus Files\Header Files\video\object">
+      <UniqueIdentifier>{13da70e2-3a19-4c21-b53f-71bf060183fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Aequus Files\Source Files\video\object">
+      <UniqueIdentifier>{c1839b3d-2bcc-4709-8c45-e46baf45b41d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp">
@@ -116,6 +122,9 @@
     </ClCompile>
     <ClCompile Include="aequus_files\video\renderer.cpp">
       <Filter>Aequus Files\Source Files\video</Filter>
+    </ClCompile>
+    <ClCompile Include="aequus_files\video\object\surface.cpp">
+      <Filter>Aequus Files\Source Files\video\object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -171,14 +180,29 @@
     <ClInclude Include="aequus_files\video\messagebox.h">
       <Filter>Aequus Files\Header Files\video</Filter>
     </ClInclude>
-    <ClInclude Include="aequus_files\video\texture.h">
-      <Filter>Aequus Files\Header Files\video</Filter>
-    </ClInclude>
     <ClInclude Include="aequus_files\aequus_headers.h">
       <Filter>Aequus Files\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="aequus_files\video\renderer.h">
       <Filter>Aequus Files\Header Files\video</Filter>
+    </ClInclude>
+    <ClInclude Include="aequus_files\video\object\object.h">
+      <Filter>Aequus Files\Header Files\video\object</Filter>
+    </ClInclude>
+    <ClInclude Include="aequus_files\video\object\surface.h">
+      <Filter>Aequus Files\Header Files\video\object</Filter>
+    </ClInclude>
+    <ClInclude Include="aequus_files\video\object\text.h">
+      <Filter>Aequus Files\Header Files\video\object</Filter>
+    </ClInclude>
+    <ClInclude Include="aequus_files\video\object\textureold.h">
+      <Filter>Aequus Files\Header Files\video\object</Filter>
+    </ClInclude>
+    <ClInclude Include="aequus_files\video\object\texture.h">
+      <Filter>Aequus Files\Header Files\video\object</Filter>
+    </ClInclude>
+    <ClInclude Include="aequus_files\sdl_objects.h">
+      <Filter>Aequus Files\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
