@@ -123,8 +123,10 @@
     <ClCompile Include="aequus_files\video.cpp" />
     <ClCompile Include="aequus_files\video\messagebox.cpp" />
     <ClCompile Include="aequus_files\video\object\surface.cpp" />
+    <ClCompile Include="aequus_files\video\object\text.cpp" />
+    <ClCompile Include="aequus_files\video\object\texture.cpp" />
     <ClCompile Include="aequus_files\video\renderer.cpp" />
-    <ClCompile Include="aequus_files\video\texture.cpp" />
+    <ClCompile Include="aequus_files\video\textureold.cpp" />
     <ClCompile Include="aequus_files\video\window.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="pessum_files\logging.cpp" />

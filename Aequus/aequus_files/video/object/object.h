@@ -9,8 +9,6 @@ namespace aequus {
 			class Object {
 			public:
 				Texture objtexture;
-				Surface objsurface;
-				Text objText;
 			private:
 			};
 		}

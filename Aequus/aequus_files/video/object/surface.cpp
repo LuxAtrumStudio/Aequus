@@ -17,8 +17,8 @@ void aequus::video::window::Surface::LoadSurface(std::string filepath)
 	else {
 		width = sdlsurface->w;
 		height = sdlsurface->h;
-		source = { 0, 0, 0, 0 };
-		destination = { 0, 0, 0, 0 };
+		source = { width, height, 0, 0 };
+		destination = { width, height, 0, 0 };
 		colormod = { 1, 1, 1, 1 };
 		ConvertRectangles();
 		SetSurfaceColor();

@@ -117,13 +117,19 @@
     <ClCompile Include="aequus_files\video\messagebox.cpp">
       <Filter>Aequus Files\Source Files\video</Filter>
     </ClCompile>
-    <ClCompile Include="aequus_files\video\texture.cpp">
-      <Filter>Aequus Files\Source Files\video</Filter>
-    </ClCompile>
     <ClCompile Include="aequus_files\video\renderer.cpp">
       <Filter>Aequus Files\Source Files\video</Filter>
     </ClCompile>
     <ClCompile Include="aequus_files\video\object\surface.cpp">
+      <Filter>Aequus Files\Source Files\video\object</Filter>
+    </ClCompile>
+    <ClCompile Include="aequus_files\video\object\text.cpp">
+      <Filter>Aequus Files\Source Files\video\object</Filter>
+    </ClCompile>
+    <ClCompile Include="aequus_files\video\textureold.cpp">
+      <Filter>Aequus Files\Source Files\video</Filter>
+    </ClCompile>
+    <ClCompile Include="aequus_files\video\object\texture.cpp">
       <Filter>Aequus Files\Source Files\video\object</Filter>
     </ClCompile>
   </ItemGroup>
