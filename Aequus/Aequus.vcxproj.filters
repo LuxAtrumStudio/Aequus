@@ -207,8 +207,5 @@
     <ClInclude Include="aequus_files\video\object\texture.h">
       <Filter>Aequus Files\Header Files\video\object</Filter>
     </ClInclude>
-    <ClInclude Include="aequus_files\sdl_objects.h">
-      <Filter>Aequus Files\Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "../../sdl_headers.h"
+#include "text.h"
 namespace aequus {
 	namespace video {
 		namespace window {
@@ -21,10 +22,11 @@ namespace aequus {
 					VERITCAL
 				};
 				SDL_Texture* sdltexture;
+				SDL_Renderer* sdlrenderer;
 				Text texturetext;
 				Surface texturesurface;
-				void CreateTextureImage(std::string filepath = "NULL");
-				void CreateTextureText(std::string text = "NULL", int point = 12, Text::FontWeight weight = Text::REGULAR, std::string fontdirectory = "resources/fonts/Raleway/");
+				void CreateTextureImage(std::string filepath = "NULL", SDL_Renderer* renderer = NULL);
+				void CreateTextureText(std::string text = "NULL", SDL_Renderer* renderer = NULL, int point = 12, aequus::video::window::Text::FontWeight weight = Text::REGULAR, bool italic = false, std::string fontdirectory = "resources/fonts/Raleway/");
 				void TerminateTexture();
 				void SetRenderer(SDL_Renderer* renderer = NULL);
 				void Render();
@@ -36,8 +38,16 @@ namespace aequus {
 				void SetSourceRect(int x, int y, int width, int height);
 				void SetDestinationRect(int x, int y, int width, int height);
 			private:
+				int logloc = 0;
+				int texturewidth, textureheight;
 				bool textorigin = false;
-				void LoadTexture(SDL_Surface* surface = NULL, SDL_Renderer* renderer = NULL);
+				double rotateangle = 0;
+				BlendMode blendmode = NONE;
+				RenderFlip renderflip = NOFILP;
+				int rotatex = -1, rotatey = -1;
+				SDL_Rect sourcerect, destinationrect;
+				double color[4];
+				void LoadTexture();
 				void UpdateTexture();
 				void CloseTexture();
 			};

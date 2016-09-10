@@ -149,7 +149,6 @@
     <ClInclude Include="aequus_files\framework.h" />
     <ClInclude Include="aequus_files\input.h" />
     <ClInclude Include="aequus_files\sdl_headers.h" />
-    <ClInclude Include="aequus_files\sdl_objects.h" />
     <ClInclude Include="aequus_files\video.h" />
     <ClInclude Include="aequus_files\video\messagebox.h" />
     <ClInclude Include="aequus_files\video\object\object.h" />

@@ -1,5 +1,4 @@
 #include "aequus_core.h"
-#include "sdl_objects.h"
 #include "sdl_headers.h"
 #include "framework.h"
 #include "video.h"

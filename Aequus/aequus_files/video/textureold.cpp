@@ -1,7 +1,3 @@
-#include "object\texture.h"
-#include "../aequus_headers.h"
-#include "../../pessum_files/logging.h"
-/*
 void aequus::video::window::Texture::LoadSurface(std::string filepath, SurfaceType type)
 {
 	SDL_Surface* loadedsurface = IMG_Load(filepath.c_str());
@@ -395,4 +391,3 @@ void aequus::video::window::Texture::CreateText(std::string text, int pt)
 	LoadFont(pt);
 	RenderText(text);
 }
-*/
