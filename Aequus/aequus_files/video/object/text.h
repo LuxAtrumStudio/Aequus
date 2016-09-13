@@ -36,10 +36,10 @@ namespace aequus {
 				void SetPoint(int point = 12);
 				void SetWeight(FontWeight weight = REGULAR);
 				void SetItalic(bool italic = false);
-				void SetColor(double colors[4] = { 0 });
-				void SetBackgroundColor(double colors[4] = { 0 });
+				void SetColor(double colors[4] = 0);
+				void SetBackgroundColor(double colors[4] = 0);
 				void RenderText(std::string str = "NULL", FontRenderMode mode = BLENDTEXT);
-				void CreateText(std::string str = "NULL", int point = 12, FontWeight weight = REGULAR, bool italic = false, std::string direcory = "resources/fonts/Raleway/", double colors[4] = { 0 });
+				void CreateText(std::string str = "NULL", int point = 12, FontWeight weight = REGULAR, bool italic = false, std::string direcory = "resources/fonts/Raleway/", double colors[4] = 0);
 			private:
 				int logloc;
 				std::string folderpath, fontname, filepath;

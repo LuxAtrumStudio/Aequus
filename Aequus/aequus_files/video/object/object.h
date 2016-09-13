@@ -8,7 +8,6 @@ namespace aequus {
 		namespace window {
 			class Object {
 			public:
-				Texture objtexture;
 			private:
 			};
 		}

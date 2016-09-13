@@ -16,21 +16,6 @@ namespace aequus {
 					ADD = SDL_BLENDMODE_ADD,
 					MOD = SDL_BLENDMODE_MOD
 				};
-				//Used to declare rectangles, for sdl
-				struct Rectangle
-				{
-					double x, y, width, height;
-				};
-				//Used as a set pair of numbers
-				struct Pair
-				{
-					double valuea, valueb;
-				};
-				//Used a a set of four numbers declairing red, green, blue, alpha
-				struct Color
-				{
-					double red, green, blue, alpha;
-				};
 				//SDL surface pointer
 				SDL_Surface* sdlsurface;
 				//SDL surface rectangle pointers
@@ -40,23 +25,26 @@ namespace aequus {
 				//Returns the surfaces image file path
 				std::string GetSurfaceFilePath();
 				//Sets the source rect.
-				void SetSourceRectangle(Rectangle srcrect);
+				//x, y, width, height
+				void SetSourceRectangle(int rectangle[4]);
 				//Returns the source rect.
-				Rectangle GetSourceRectangle();
+				int* GetSourceRectangle();
 				//Sets the destination rect.
-				void SetDestinationRectangle(Rectangle destrect);
+				//x, y, width, height
+				void SetDestinationRectangle(int rectangle[4]);
 				//Returns the destination rect.
-				Rectangle GetDestinationRectangle();
+				int* GetDestinationRectangle();
 				//Sets the color mod of the surface
-				void SetColorMod(Color mod);
+				//red, green, blue, alpha
+				void SetColorMod(double color[4] = 0);
 				//Returns the currently set color mod of the surface
-				Color GetColorMode();
+				double* GetColorMode();
 				//Sets the blend mode of the surface
 				void SetBlendMode(BlendMode mode = NONE);
 				//Returns the currently set blend mode of the surface
 				BlendMode GetBlendMode();
 				//Returns the width and height of the surface
-				Pair GetSize();
+				int* GetSize();
 				//Terminates the surface, and frees the SDL pointer from memory
 				void Terminate();
 			private:
@@ -67,9 +55,10 @@ namespace aequus {
 				//The file path of the surfaces image
 				std::string surfacefilepath;
 				//The bounding source and destination rectangles
-				Rectangle source, destination;
+				int source[4];
+				int destination[4];
 				//The current color mod applied to the surface
-				Color colormod;
+				double colormod[4];
 				//The current blend mode applied to the surface
 				BlendMode blendmode;
 				//Converts from internal Rectangle struct to SDL_Rect struct
