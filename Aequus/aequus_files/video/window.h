@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "renderer.h"
+#include "object\object.h"
 #include "../sdl_headers.h"
 namespace aequus {
 	namespace video {
@@ -44,7 +45,7 @@ namespace aequus {
 			struct WindowData {
 				SDL_Window* sdlwindow = NULL;
 				Renderer windowrenderer;
-				std::vector<Texture>textures;
+				std::vector<Object>objects;
 				int logloc = 0;
 				bool hidden = false;
 				bool minimized = false;
@@ -102,8 +103,8 @@ namespace aequus {
 			//Sets the currently active window
 			void BindWindow(int pointer = 0);
 
-			void NewTexture(std::string filepath, int pointer = boundwindow);
-			void NewText(std::string text, int pt, int pointer = boundwindow);
+
+			void NewObject(int pointer = boundwindow);
 		};
 	}
 }

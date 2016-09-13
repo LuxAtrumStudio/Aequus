@@ -17,16 +17,14 @@ namespace aequus {
 					MOD = SDL_BLENDMODE_MOD
 				};
 				enum RenderFlip {
-					NOFLIP,
-					HORIZONTAL,
-					VERITCAL
+					NOFLIP = 0,
+					HORIZONTAL = 1,
+					VERITCAL = 2
 				};
 				SDL_Texture* sdltexture;
 				SDL_Renderer* sdlrenderer;
-				Text texturetext;
-				Surface texturesurface;
-				void CreateTextureImage(std::string filepath = "NULL", SDL_Renderer* renderer = NULL);
-				void CreateTextureText(std::string text = "NULL", SDL_Renderer* renderer = NULL, int point = 12, aequus::video::window::Text::FontWeight weight = Text::REGULAR, bool italic = false, std::string fontdirectory = "resources/fonts/Raleway/");
+				SDL_Surface* sdlsurface;
+				void CreateTexture(SDL_Surface* surface);
 				void TerminateTexture();
 				void SetRenderer(SDL_Renderer* renderer = NULL);
 				void Render();
@@ -43,7 +41,7 @@ namespace aequus {
 				bool textorigin = false;
 				double rotateangle = 0;
 				BlendMode blendmode = NONE;
-				RenderFlip renderflip = NOFILP;
+				RenderFlip renderflip = RenderFlip::NOFLIP;
 				int rotatex = -1, rotatey = -1;
 				SDL_Rect sourcerect, destinationrect;
 				double color[4];

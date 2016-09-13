@@ -181,8 +181,8 @@ void aequus::video::window::SetTitle(std::string title, int pointer)
 
 void aequus::video::window::Update(int pointer)
 {
-	for (unsigned a = 0; a < windows[pointer].textures.size(); a++) {
-		windows[pointer].textures[a].Render();
+	for (unsigned a = 0; a < windows[pointer].objects.size(); a++) {
+		windows[pointer].objects[a].DisplayObj();
 	}
 	windows[pointer].windowrenderer.Update();
 	//if (SDL_UpdateWindowSurface(windows[pointer].sdlwindow) < 0) {
@@ -198,19 +198,7 @@ void aequus::video::window::BindWindow(int pointer)
 	}
 }
 
-void aequus::video::window::NewTexture(std::string filepath, int pointer)
-{
-	Texture newtexture;
-	newtexture.CreateTexture(filepath, windows[pointer].title, windows[pointer].windowrenderer.sdlrenderer);
-	windows[pointer].textures.push_back(newtexture);
-	pessum::logging::LogLoc();
-}
-
-void aequus::video::window::NewText(std::string text, int pt, int pointer)
-{
-	Texture newtexture;
-	newtexture.SetRenderer(windows[pointer].windowrenderer.sdlrenderer);
-	newtexture.CreateText(text, pt);
-	windows[pointer].textures.push_back(newtexture);
-	pessum::logging::LogLoc();
+void aequus::video::window::NewObject(int pointer) {
+	Object newobject;
+	newobject.InitalizeObj(windows[pointer].windowrenderer.sdlrenderer, windows[pointer].objects.size());
 }

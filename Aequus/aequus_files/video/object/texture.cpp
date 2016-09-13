@@ -5,32 +5,16 @@
 #include "../../aequus_headers.h"
 #include "../../../pessum_files/logging.h"
 
-void aequus::video::window::Texture::CreateTextureImage(std::string filepath, SDL_Renderer* renderer)
+void aequus::video::window::Texture::CreateTexture(SDL_Surface * surface)
 {
-	textorigin = false;
-	texturesurface.LoadSurface(filepath);
-	SetRenderer(renderer);
-	LoadTexture();
-}
-
-void aequus::video::window::Texture::CreateTextureText(std::string text, SDL_Renderer* renderer, int point, aequus::video::window::Text::FontWeight weight, bool italic, std::string fontdirectory)
-{
-	textorigin = true;
-	texturetext.CreateText(text, point, weight, italic, fontdirectory);
-	SetRenderer(renderer);
-	LoadTexture();
+	logloc = pessum::logging::AddLogLocation("aequus_files/video/object/texture.cpp/");
+	sdlsurface = surface;
 }
 
 void aequus::video::window::Texture::TerminateTexture()
 {
 	CloseTexture();
 	sdlrenderer = NULL;
-	if (textorigin == true) {
-		texturetext.TerminateFont();
-	}
-	else if (textorigin == false) {
-		texturesurface.Terminate();
-	}
 }
 
 void aequus::video::window::Texture::SetRenderer(SDL_Renderer * renderer)
@@ -146,13 +130,6 @@ void aequus::video::window::Texture::SetDestinationRect(int x, int y, int width,
 
 void aequus::video::window::Texture::LoadTexture()
 {
-	SDL_Surface* sdlsurface;
-	if (textorigin == true) {
-		sdlsurface = texturetext.textsurface;
-	}
-	else if (textorigin == false) {
-		sdlsurface = texturesurface.sdlsurface;
-	}
 	if (sdlsurface == NULL) {
 		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "No surface declaired", logloc, "LoadTexture");
 	}

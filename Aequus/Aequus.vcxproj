@@ -122,6 +122,7 @@
     <ClCompile Include="aequus_files\framework.cpp" />
     <ClCompile Include="aequus_files\video.cpp" />
     <ClCompile Include="aequus_files\video\messagebox.cpp" />
+    <ClCompile Include="aequus_files\video\object\object.cpp" />
     <ClCompile Include="aequus_files\video\object\surface.cpp" />
     <ClCompile Include="aequus_files\video\object\text.cpp" />
     <ClCompile Include="aequus_files\video\object\texture.cpp" />

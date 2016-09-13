@@ -8,7 +8,7 @@
 void aequus::video::window::Surface::LoadSurface(std::string filepath)
 {
 	filepath = surfacefilepath;
-	logloc = pessum::logging::AddLogLocation("aequus_files/video/object/surface[" + filepath + "]/");
+	logloc = pessum::logging::AddLogLocation("aequus_files/video/object/surface.cpp[" + filepath + "]/");
 	sdlsurface = IMG_Load(filepath.c_str());
 	if (sdlsurface == NULL) {
 		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Filed to load image file", logloc, "LoadSurface");
