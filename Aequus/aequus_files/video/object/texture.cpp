@@ -9,6 +9,7 @@ void aequus::video::window::Texture::CreateTexture(SDL_Surface * surface)
 {
 	logloc = pessum::logging::AddLogLocation("aequus_files/video/object/texture.cpp/");
 	sdlsurface = surface;
+	LoadTexture();
 }
 
 void aequus::video::window::Texture::TerminateTexture()

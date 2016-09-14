@@ -58,6 +58,11 @@ namespace aequus {
 			extern std::vector<WindowData>windows;
 			//Int pointer to the currently active window from windows
 			extern int boundwindow;
+			//Int pointer to the currently active object from a windows object vector
+			extern int boundobj;
+			//String directory for the file location of all resources:
+			//Files, fonts, textures, ect.
+			extern std::string globalresourcedir;
 			//Storage for any messagecoxes that are daughter windows to current
 			//window
 			extern std::vector<MessageBox> messageboxes;

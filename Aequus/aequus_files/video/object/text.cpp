@@ -38,19 +38,25 @@ void aequus::video::window::Text::TerminateFont()
 void aequus::video::window::Text::SetPoint(int point)
 {
 	fontpoint = point;
-	UpdateFont();
+	if (ttffont != NULL) {
+		UpdateFont();
+	}
 }
 
 void aequus::video::window::Text::SetWeight(FontWeight weight)
 {
 	fontweight = weight;
-	UpdateFont();
+	if (ttffont != NULL) {
+		UpdateFont();
+	}
 }
 
 void aequus::video::window::Text::SetItalic(bool italic)
 {
 	fontitalic = italic;
-	UpdateFont();
+	if (ttffont != NULL) {
+		UpdateFont();
+	}
 }
 
 void aequus::video::window::Text::SetColor(double colors[4])
@@ -89,6 +95,11 @@ void aequus::video::window::Text::RenderText(std::string str, FontRenderMode mod
 	if (mode == BLENDTEXT) {
 		textsurface = TTF_RenderText_Blended(ttffont, text.c_str(), sdlcolor);
 	}
+	if (sourcerect == NULL) {
+		SDL_Rect null;
+		null = { 0 , 0, 0, 0 };
+		sourcerect = &null;
+	}
 	sourcerect->h = textsurface->h;
 	sourcerect->w = textsurface->w;
 	sourcerect->x = 0;
@@ -98,8 +109,14 @@ void aequus::video::window::Text::RenderText(std::string str, FontRenderMode mod
 
 void aequus::video::window::Text::CreateText(std::string str, int point, FontWeight weight, bool italic, std::string direcory, double colors[4])
 {
+	SetColor(colors);
+	SetPoint(point);
+	SetWeight(weight);
+	SetItalic(italic);
 	CreateFont(direcory, point, weight, italic);
-	RenderText(str);
+	if (ttffont != NULL) {
+		RenderText(str);
+	}
 }
 
 void aequus::video::window::Text::LoadFont()
@@ -108,7 +125,8 @@ void aequus::video::window::Text::LoadFont()
 		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "File path not declaired", logloc, "LoadFont");
 	}
 	else {
-		ttffont = TTF_OpenFont(filepath.c_str(), fontpoint);
+		std::string dir = folderpath + filepath;
+		ttffont = TTF_OpenFont(dir.c_str(), fontpoint);
 		if (ttffont == NULL) {
 			pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to load font file: " + filepath, logloc, "LoadFont");
 		}
@@ -119,7 +137,8 @@ void aequus::video::window::Text::UpdateFont()
 {
 	CloseFont();
 	GenFilePath();
-	ttffont = TTF_OpenFont(filepath.c_str(), fontpoint);
+	std::string dir = folderpath + filepath;
+	ttffont = TTF_OpenFont(dir.c_str(), fontpoint);
 	if (ttffont == NULL) {
 		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to load font file: " + filepath, logloc, "UpdateFont");
 	}

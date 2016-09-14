@@ -7,7 +7,7 @@
 
 void aequus::video::window::Surface::LoadSurface(std::string filepath)
 {
-	filepath = surfacefilepath;
+	surfacefilepath = filepath;
 	logloc = pessum::logging::AddLogLocation("aequus_files/video/object/surface.cpp[" + filepath + "]/");
 	sdlsurface = IMG_Load(filepath.c_str());
 	if (sdlsurface == NULL) {
@@ -172,6 +172,11 @@ void aequus::video::window::Surface::ConvertRectangles()
 		sourcerect = NULL;
 	}
 	else {
+		if (sourcerect == NULL) {
+			SDL_Rect null;
+			null = { 0 , 0, 0, 0 };
+			sourcerect = &null;
+		}
 		sourcerect->x = source[0];
 		sourcerect->y = source[1];
 		sourcerect->w = source[2];
@@ -181,6 +186,11 @@ void aequus::video::window::Surface::ConvertRectangles()
 		destinationrect = NULL;
 	}
 	else {
+		if (destinationrect == NULL) {
+			SDL_Rect null;
+			null = { 0 , 0, 0, 0 };
+			destinationrect = &null;
+		}
 		destinationrect->x = destination[0];
 		destinationrect->y = destination[1];
 		destinationrect->w = destination[2];

@@ -7,6 +7,8 @@ namespace aequus {
 		namespace window {
 			std::vector<WindowData>windows;
 			int boundwindow = 0;
+			int boundobj = 0;
+			std::string globalresourcedir = "resources/";
 			std::vector<MessageBox> messageboxes;
 		}
 	}
@@ -200,5 +202,7 @@ void aequus::video::window::BindWindow(int pointer)
 
 void aequus::video::window::NewObject(int pointer) {
 	Object newobject;
-	newobject.InitalizeObj(windows[pointer].windowrenderer.sdlrenderer, windows[pointer].objects.size());
+	newobject.InitalizeObj(windows[pointer].windowrenderer.sdlrenderer, windows[pointer].objects.size(), globalresourcedir);
+	windows[boundwindow].objects.push_back(newobject);
+	boundobj = windows[boundwindow].objects.size() - 1;
 }

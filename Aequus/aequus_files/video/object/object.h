@@ -14,14 +14,14 @@ namespace aequus {
 				Surface objsurface;
 				Text objtext;
 				Texture objtexture;
-				void InitalizeObj(SDL_Renderer* renderer = NULL, int counter = 0);
+				void InitalizeObj(SDL_Renderer* renderer = NULL, int counter = 0, std::string resource = "resources/");
 				void CreateImgObj(std::string filepath = "NULL.png", SDL_Renderer* renderer = NULL);
-				void CreateTextObj(std::string text = "NULL", SDL_Renderer* renderer = NULL, int point = 12, aequus::video::window::Text::FontWeight weight = Text::REGULAR, bool italic = false, std::string fontdirectory = "/Raleway/", double color[4] = 0);
+				void CreateTextObj(std::string text = "NULL", int point = 12, Text::FontWeight weight = Text::REGULAR, bool italic = false, std::string fontdirectory = "Raleway/", double color[4] = 0, SDL_Renderer* renderer = NULL);
 				void DisplayObj();
 			private:
 				int logloc = 0;
 				SDL_Renderer* objrenderer = NULL;
-				std::string resourcedir = "resources";
+				std::string resourcedir = "resources/";
 			};
 		}
 	}
