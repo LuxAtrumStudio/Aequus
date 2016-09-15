@@ -45,6 +45,7 @@ namespace aequus {
 			struct WindowData {
 				SDL_Window* sdlwindow = NULL;
 				Renderer windowrenderer;
+				Object* obj = NULL;
 				std::vector<Object>objects;
 				int logloc = 0;
 				bool hidden = false;
@@ -52,6 +53,7 @@ namespace aequus {
 				bool maximized = false;
 				bool bordered = true;
 				bool grabbed = false;
+				int sizex = 0, sizey = 0;
 				std::string title;
 			};
 			//Storage for all windows that are created
@@ -66,6 +68,8 @@ namespace aequus {
 			//Storage for any messagecoxes that are daughter windows to current
 			//window
 			extern std::vector<MessageBox> messageboxes;
+			//Pointer directly to bound window data
+			extern WindowData* data;
 			//Creates new SDL window based off of given arguments
 			void CreateWindow(std::string title = "NULL", int width = 600, int height = 600, int x = SDL_WINDOWPOS_UNDEFINED, int y = SDL_WINDOWPOS_UNDEFINED, Uint32 flags = WINDOWED);
 			//Terminates an SDL window, and erases all data
@@ -105,6 +109,8 @@ namespace aequus {
 			void SetTitle(std::string title, int pointer = boundwindow);
 			//Displays the updated window surface
 			void Update(int pointer = boundwindow);
+			//Displays all updated windows
+			void UpdateAll();
 			//Sets the currently active window
 			void BindWindow(int pointer = 0);
 

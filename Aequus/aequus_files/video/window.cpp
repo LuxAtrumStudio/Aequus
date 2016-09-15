@@ -10,6 +10,7 @@ namespace aequus {
 			int boundobj = 0;
 			std::string globalresourcedir = "resources/";
 			std::vector<MessageBox> messageboxes;
+			WindowData* data = NULL;
 		}
 	}
 }
@@ -27,6 +28,8 @@ void aequus::video::window::CreateWindow(std::string title, int width, int heigh
 		pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Created new SDL window: " + title, newwindow.logloc, "CreateWindow");
 		SDL_GetWindowSurface(newwindow.sdlwindow);
 		newwindow.windowrenderer.CreateRenderer(newwindow.sdlwindow, newwindow.title, Renderer::ACCELERATED);
+		newwindow.sizex = width;
+		newwindow.sizey = height;
 		windows.push_back(newwindow);
 		BindWindow(windows.size() - 1);
 	}
@@ -183,19 +186,24 @@ void aequus::video::window::SetTitle(std::string title, int pointer)
 
 void aequus::video::window::Update(int pointer)
 {
+	windows[pointer].windowrenderer.Clear();
 	for (unsigned a = 0; a < windows[pointer].objects.size(); a++) {
 		windows[pointer].objects[a].DisplayObj();
 	}
 	windows[pointer].windowrenderer.Update();
-	//if (SDL_UpdateWindowSurface(windows[pointer].sdlwindow) < 0) {
-	//	pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to update window surface", windows[pointer].logloc, "Update");
-	//	framework::SdlError();
-	//}
+}
+
+void aequus::video::window::UpdateAll()
+{
+	for (unsigned a = 0; a < windows.size(); a++) {
+		Update(a);
+	}
 }
 
 void aequus::video::window::BindWindow(int pointer)
 {
 	if (pointer < windows.size()) {
+		data = &windows[pointer];
 		boundwindow = pointer;
 	}
 }
@@ -205,4 +213,5 @@ void aequus::video::window::NewObject(int pointer) {
 	newobject.InitalizeObj(windows[pointer].windowrenderer.sdlrenderer, windows[pointer].objects.size(), globalresourcedir);
 	windows[boundwindow].objects.push_back(newobject);
 	boundobj = windows[boundwindow].objects.size() - 1;
+	windows[boundwindow].obj = &windows[boundwindow].objects[boundobj];
 }

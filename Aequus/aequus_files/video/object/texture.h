@@ -28,13 +28,13 @@ namespace aequus {
 				void TerminateTexture();
 				void SetRenderer(SDL_Renderer* renderer = NULL);
 				void Render();
-				void SetColorMod(float red, float green, float blue, float alpha);
+				void SetColorMod(double colormod[4] = 0);
 				void SetBlendMode(BlendMode mode);
 				void Rotate(double angle, bool degree = false);
 				void Flip(RenderFlip flip);
 				void SetRotatePoint(int x, int y);
-				void SetSourceRect(int x, int y, int width, int height);
-				void SetDestinationRect(int x, int y, int width, int height);
+				void SetSourceRect(int rect[4] = 0);
+				void SetDestinationRect(int rect[4] = 0);
 			private:
 				int logloc = 0;
 				int texturewidth, textureheight;

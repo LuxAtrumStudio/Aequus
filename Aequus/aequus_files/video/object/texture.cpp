@@ -62,17 +62,16 @@ void aequus::video::window::Texture::Render()
 	}
 }
 
-void aequus::video::window::Texture::SetColorMod(float red, float green, float blue, float alpha)
+void aequus::video::window::Texture::SetColorMod(double colormod[4])
 {
-	color[0] = red;
-	color[1] = green;
-	color[2] = blue;
-	color[3] = alpha;
-	if (SDL_SetTextureColorMod(sdltexture, red * 255, green * 255, blue * 255) != 0) {
+	for (int a = 0; a < 4; a++) {
+		color[a] = colormod[a];
+	}
+	if (SDL_SetTextureColorMod(sdltexture, color[0] * 255, color[1] * 255, color[2] * 255) != 0) {
 		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Filed to set texture color mod", logloc, "SetColorMod");
 		framework::GetError();
 	}
-	if (SDL_SetTextureAlphaMod(sdltexture, alpha * 255) != 0) {
+	if (SDL_SetTextureAlphaMod(sdltexture, color[3] * 255) != 0) {
 		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Filed to set texture alpha mod", logloc, "SetColorMod");
 		framework::GetError();
 	}
@@ -92,6 +91,9 @@ void aequus::video::window::Texture::SetBlendMode(BlendMode mode)
 		sdlblendmode = SDL_BLENDMODE_MOD;
 	}
 	SDL_SetTextureBlendMode(sdltexture, sdlblendmode);
+	if (sdltexture != NULL) {
+		UpdateTexture();
+	}
 }
 
 void aequus::video::window::Texture::Rotate(double angle, bool degree)
@@ -113,20 +115,20 @@ void aequus::video::window::Texture::SetRotatePoint(int x, int y)
 	rotatey = y;
 }
 
-void aequus::video::window::Texture::SetSourceRect(int x, int y, int width, int height)
+void aequus::video::window::Texture::SetSourceRect(int rect[4])
 {
-	sourcerect.x = x;
-	sourcerect.y = y;
-	sourcerect.w = width;
-	sourcerect.h = height;
+	sourcerect.x = rect[0];
+	sourcerect.y = rect[1];
+	sourcerect.w = rect[2];
+	sourcerect.h = rect[3];
 }
 
-void aequus::video::window::Texture::SetDestinationRect(int x, int y, int width, int height)
+void aequus::video::window::Texture::SetDestinationRect(int rect[4])
 {
-	destinationrect.x = x;
-	destinationrect.y = y;
-	destinationrect.w = width;
-	destinationrect.h = height;
+	destinationrect.x = rect[0];
+	destinationrect.y = rect[1];
+	destinationrect.w = rect[2];
+	destinationrect.h = rect[3];
 }
 
 void aequus::video::window::Texture::LoadTexture()

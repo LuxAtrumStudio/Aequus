@@ -61,8 +61,12 @@ void aequus::video::window::Text::SetItalic(bool italic)
 
 void aequus::video::window::Text::SetColor(double colors[4])
 {
-	for (int a = 0; a < 4; a++) {
-		textcolor[a] = colors[a];
+	if (colors != NULL) {
+		if (colors[0] != 0 || colors[1] != 0 || colors[2] != 0 || colors[3] != 0) {
+			for (int a = 0; a < 4; a++) {
+				textcolor[a] = colors[a];
+			}
+		}
 	}
 }
 
