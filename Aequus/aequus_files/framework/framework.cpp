@@ -1,7 +1,7 @@
 #include "framework.h"
 #include <string>
-#include "sdl_headers.h"
-#include "../pessum_files/logging.h"
+#include "../sdl_headers.h"
+#include "../../pessum_files/logging.h"
 
 namespace aequus {
 	namespace framework {

@@ -1,9 +1,9 @@
 #ifndef _AEQUUS_FILES_VIDEO_H_
 #define _AEQUUS_FILES_VIDEO_H_
-#include "sdl_headers.h"
-#include "video\renderer.h"
-#include "video\object\object.h"
-#include "video\messagebox.h"
+#include "../aequus_headers.h"
+#include "renderer.h"
+#include "object\object.h"
+#include "messagebox.h"
 namespace aequus {
 	//namespace video controlls all video componenents of SDL, with windows
 	//objects, and everything elses that the end user will see.

@@ -119,8 +119,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="aequus_files\aequus_core.cpp" />
-    <ClCompile Include="aequus_files\framework.cpp" />
-    <ClCompile Include="aequus_files\video.cpp" />
+    <ClCompile Include="aequus_files\framework\framework.cpp" />
     <ClCompile Include="aequus_files\video\draw.cpp" />
     <ClCompile Include="aequus_files\video\messagebox.cpp" />
     <ClCompile Include="aequus_files\video\object\object.cpp" />
@@ -128,6 +127,7 @@
     <ClCompile Include="aequus_files\video\object\text.cpp" />
     <ClCompile Include="aequus_files\video\object\texture.cpp" />
     <ClCompile Include="aequus_files\video\renderer.cpp" />
+    <ClCompile Include="aequus_files\video\video.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="pessum_files\logging.cpp" />
     <ClCompile Include="pessum_files\lux_reader.cpp" />
@@ -144,11 +144,10 @@
   <ItemGroup>
     <ClInclude Include="aequus_files\aequus_core.h" />
     <ClInclude Include="aequus_files\aequus_headers.h" />
-    <ClInclude Include="aequus_files\audio.h" />
-    <ClInclude Include="aequus_files\framework.h" />
-    <ClInclude Include="aequus_files\input.h" />
+    <ClInclude Include="aequus_files\audio\audio.h" />
+    <ClInclude Include="aequus_files\framework\framework.h" />
+    <ClInclude Include="aequus_files\input\input.h" />
     <ClInclude Include="aequus_files\sdl_headers.h" />
-    <ClInclude Include="aequus_files\video.h" />
     <ClInclude Include="aequus_files\video\draw.h" />
     <ClInclude Include="aequus_files\video\messagebox.h" />
     <ClInclude Include="aequus_files\video\object\object.h" />
@@ -156,6 +155,7 @@
     <ClInclude Include="aequus_files\video\object\text.h" />
     <ClInclude Include="aequus_files\video\object\texture.h" />
     <ClInclude Include="aequus_files\video\renderer.h" />
+    <ClInclude Include="aequus_files\video\video.h" />
     <ClInclude Include="pessum_files\logging.h" />
     <ClInclude Include="pessum_files\lux_reader.h" />
     <ClInclude Include="pessum_files\pessum_core.h" />

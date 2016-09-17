@@ -90,12 +90,6 @@
     <ClCompile Include="aequus_files\aequus_core.cpp">
       <Filter>Aequus Files\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="aequus_files\video.cpp">
-      <Filter>Aequus Files\Source Files\video</Filter>
-    </ClCompile>
-    <ClCompile Include="aequus_files\framework.cpp">
-      <Filter>Aequus Files\Source Files\framework</Filter>
-    </ClCompile>
     <ClCompile Include="pessum_files\logging.cpp">
       <Filter>Pessum Files\Source Files\logging</Filter>
     </ClCompile>
@@ -126,6 +120,12 @@
     <ClCompile Include="aequus_files\video\draw.cpp">
       <Filter>Aequus Files\Source Files\video</Filter>
     </ClCompile>
+    <ClCompile Include="aequus_files\video\video.cpp">
+      <Filter>Aequus Files\Source Files\video</Filter>
+    </ClCompile>
+    <ClCompile Include="aequus_files\framework\framework.cpp">
+      <Filter>Aequus Files\Source Files\framework</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ProgramSettings.lux">
@@ -149,18 +149,6 @@
     </ClInclude>
     <ClInclude Include="aequus_files\sdl_headers.h">
       <Filter>Aequus Files\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="aequus_files\video.h">
-      <Filter>Aequus Files\Header Files\video</Filter>
-    </ClInclude>
-    <ClInclude Include="aequus_files\framework.h">
-      <Filter>Aequus Files\Header Files\framework</Filter>
-    </ClInclude>
-    <ClInclude Include="aequus_files\input.h">
-      <Filter>Aequus Files\Header Files\input</Filter>
-    </ClInclude>
-    <ClInclude Include="aequus_files\audio.h">
-      <Filter>Aequus Files\Header Files\audio</Filter>
     </ClInclude>
     <ClInclude Include="pessum_files\logging.h">
       <Filter>Pessum Files\Header Files\logging</Filter>
@@ -194,6 +182,18 @@
     </ClInclude>
     <ClInclude Include="aequus_files\video\draw.h">
       <Filter>Aequus Files\Header Files\video</Filter>
+    </ClInclude>
+    <ClInclude Include="aequus_files\video\video.h">
+      <Filter>Aequus Files\Header Files\video</Filter>
+    </ClInclude>
+    <ClInclude Include="aequus_files\input\input.h">
+      <Filter>Aequus Files\Header Files\input</Filter>
+    </ClInclude>
+    <ClInclude Include="aequus_files\framework\framework.h">
+      <Filter>Aequus Files\Header Files\framework</Filter>
+    </ClInclude>
+    <ClInclude Include="aequus_files\audio\audio.h">
+      <Filter>Aequus Files\Header Files\audio</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

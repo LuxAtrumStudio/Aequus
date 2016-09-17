@@ -1,7 +1,7 @@
 #ifndef _AEQUUS_FILES_FRAMEWORK_H_
 #define _AEQUUS_FILES_FRAMEWORK_H_
 #include <string>
-#include "sdl_headers.h"
+#include "../sdl_headers.h"
 namespace aequus {
 	//namespace framework overall framework for SDL api that does not fit in any catagory
 	namespace framework {
