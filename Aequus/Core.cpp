@@ -8,12 +8,11 @@ using namespace std;
 int main(int argc, char* argv[]) {
 	pessum::InitializePessumComponents();
 	aequus::framework::SdlStartUp();
-	aequus::video::window::CreateWindow("Core", 600, 600);
-	aequus::video::window::draw::SetColor(1, 1, 1, 1);
-	for (int a = 0; a < 1000000; a++) {
-		aequus::video::window::UpdateAll();
+	aequus::video::CreateWindow("Core", 600, 600);
+	while (aequus::video::AllClose() == false) {
+		aequus::video::UpdateAll();
 	}
-	aequus::video::window::TerminateWindow();
+	aequus::video::TerminateWindow();
 	aequus::framework::TerminateSdl();
 	pessum::TerminatePessumComponents();
 	return(1);

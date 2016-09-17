@@ -5,7 +5,7 @@
 #include "../../aequus_headers.h"
 #include "../../../pessum_files/logging.h"
 
-void aequus::video::window::Surface::LoadSurface(std::string filepath)
+void aequus::video::Surface::LoadSurface(std::string filepath)
 {
 	surfacefilepath = filepath;
 	logloc = pessum::logging::AddLogLocation("aequus_files/video/object/surface.cpp[" + filepath + "]/");
@@ -35,7 +35,7 @@ void aequus::video::window::Surface::LoadSurface(std::string filepath)
 	}
 }
 
-std::string aequus::video::window::Surface::GetSurfaceFilePath()
+std::string aequus::video::Surface::GetSurfaceFilePath()
 {
 	if (sdlsurface != NULL) {
 		return surfacefilepath;
@@ -47,7 +47,7 @@ std::string aequus::video::window::Surface::GetSurfaceFilePath()
 	}
 }
 
-void aequus::video::window::Surface::SetSourceRectangle(int rectangle[4])
+void aequus::video::Surface::SetSourceRectangle(int rectangle[4])
 {
 	for (int a = 0; a < 4; a++) {
 		source[a] = rectangle[a];
@@ -55,7 +55,7 @@ void aequus::video::window::Surface::SetSourceRectangle(int rectangle[4])
 	ConvertRectangles();
 }
 
-int* aequus::video::window::Surface::GetSourceRectangle()
+int* aequus::video::Surface::GetSourceRectangle()
 {
 	if (sdlsurface != NULL) {
 		return source;
@@ -68,7 +68,7 @@ int* aequus::video::window::Surface::GetSourceRectangle()
 	}
 }
 
-void aequus::video::window::Surface::SetDestinationRectangle(int rectangle[4])
+void aequus::video::Surface::SetDestinationRectangle(int rectangle[4])
 {
 	for (int a = 0; a < 4; a++) {
 		destination[a] = rectangle[a];
@@ -76,7 +76,7 @@ void aequus::video::window::Surface::SetDestinationRectangle(int rectangle[4])
 	ConvertRectangles();
 }
 
-int* aequus::video::window::Surface::GetDestinationRectangle()
+int* aequus::video::Surface::GetDestinationRectangle()
 {
 	if (sdlsurface != NULL) {
 		return destination;
@@ -89,7 +89,7 @@ int* aequus::video::window::Surface::GetDestinationRectangle()
 	}
 }
 
-void aequus::video::window::Surface::SetColorMod(double color[4])
+void aequus::video::Surface::SetColorMod(double color[4])
 {
 	if (sdlsurface != NULL) {
 		for (int a = 0; a < 4; a++) {
@@ -103,7 +103,7 @@ void aequus::video::window::Surface::SetColorMod(double color[4])
 	}
 }
 
-double* aequus::video::window::Surface::GetColorMode()
+double* aequus::video::Surface::GetColorMode()
 {
 	if (sdlsurface != NULL) {
 		return colormod;
@@ -116,7 +116,7 @@ double* aequus::video::window::Surface::GetColorMode()
 	}
 }
 
-void aequus::video::window::Surface::SetBlendMode(BlendMode mode)
+void aequus::video::Surface::SetBlendMode(BlendMode mode)
 {
 	if (sdlsurface != NULL) {
 		blendmode = mode;
@@ -128,7 +128,7 @@ void aequus::video::window::Surface::SetBlendMode(BlendMode mode)
 	}
 }
 
-aequus::video::window::Surface::BlendMode aequus::video::window::Surface::GetBlendMode()
+aequus::video::Surface::BlendMode aequus::video::Surface::GetBlendMode()
 {
 	if (sdlsurface != NULL) {
 		return blendmode;
@@ -141,7 +141,7 @@ aequus::video::window::Surface::BlendMode aequus::video::window::Surface::GetBle
 	}
 }
 
-int* aequus::video::window::Surface::GetSize()
+int* aequus::video::Surface::GetSize()
 {
 	if (sdlsurface != NULL) {
 		int size[2] = { width, height };
@@ -155,7 +155,7 @@ int* aequus::video::window::Surface::GetSize()
 	}
 }
 
-void aequus::video::window::Surface::Terminate()
+void aequus::video::Surface::Terminate()
 {
 	if (sdlsurface != NULL) {
 		SDL_FreeSurface(sdlsurface);
@@ -166,7 +166,7 @@ void aequus::video::window::Surface::Terminate()
 	}
 }
 
-void aequus::video::window::Surface::ConvertRectangles()
+void aequus::video::Surface::ConvertRectangles()
 {
 	if (source[0] == 0 || source[0] == 0) {
 		sourcerect = NULL;
@@ -198,7 +198,7 @@ void aequus::video::window::Surface::ConvertRectangles()
 	}
 }
 
-void aequus::video::window::Surface::SetSurfaceColor()
+void aequus::video::Surface::SetSurfaceColor()
 {
 	if (SDL_SetSurfaceColorMod(sdlsurface, colormod[0] * 255, colormod[1] * 255, colormod[2] * 255) != 0) {
 		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to set surface color mod", logloc, "SetSurfaceColor");
@@ -210,7 +210,7 @@ void aequus::video::window::Surface::SetSurfaceColor()
 	}
 }
 
-void aequus::video::window::Surface::SetSurfaceBlend()
+void aequus::video::Surface::SetSurfaceBlend()
 {
 	SDL_BlendMode sdlblendmode = SDL_BLENDMODE_NONE;
 	if (blendmode == BLEND) {

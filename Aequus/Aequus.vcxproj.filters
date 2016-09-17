@@ -55,12 +55,6 @@
     <Filter Include="Aequus Files\Source Files\audio">
       <UniqueIdentifier>{a538f62e-5f2c-46a9-b96b-59f316e153ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Aequus Files\Header Files\file_io">
-      <UniqueIdentifier>{3080b8c7-9424-4c2f-a994-140adc37d93a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Aequus Files\Source Files\file_io">
-      <UniqueIdentifier>{c18c803f-c8f5-4ea4-8232-b0b4730b7ef7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Pessum Files\Header Files\logging">
       <UniqueIdentifier>{06b4f37b-a255-4be3-b4ad-b894fe3b3d0f}</UniqueIdentifier>
     </Filter>
@@ -96,9 +90,6 @@
     <ClCompile Include="aequus_files\aequus_core.cpp">
       <Filter>Aequus Files\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="aequus_files\video\window.cpp">
-      <Filter>Aequus Files\Source Files\video</Filter>
-    </ClCompile>
     <ClCompile Include="aequus_files\video.cpp">
       <Filter>Aequus Files\Source Files\video</Filter>
     </ClCompile>
@@ -125,9 +116,6 @@
     </ClCompile>
     <ClCompile Include="aequus_files\video\object\text.cpp">
       <Filter>Aequus Files\Source Files\video\object</Filter>
-    </ClCompile>
-    <ClCompile Include="aequus_files\video\textureold.cpp">
-      <Filter>Aequus Files\Source Files\video</Filter>
     </ClCompile>
     <ClCompile Include="aequus_files\video\object\texture.cpp">
       <Filter>Aequus Files\Source Files\video\object</Filter>
@@ -165,17 +153,11 @@
     <ClInclude Include="aequus_files\video.h">
       <Filter>Aequus Files\Header Files\video</Filter>
     </ClInclude>
-    <ClInclude Include="aequus_files\video\window.h">
-      <Filter>Aequus Files\Header Files\video</Filter>
-    </ClInclude>
     <ClInclude Include="aequus_files\framework.h">
       <Filter>Aequus Files\Header Files\framework</Filter>
     </ClInclude>
     <ClInclude Include="aequus_files\input.h">
       <Filter>Aequus Files\Header Files\input</Filter>
-    </ClInclude>
-    <ClInclude Include="aequus_files\file_io.h">
-      <Filter>Aequus Files\Header Files\file_io</Filter>
     </ClInclude>
     <ClInclude Include="aequus_files\audio.h">
       <Filter>Aequus Files\Header Files\audio</Filter>
@@ -205,9 +187,6 @@
       <Filter>Aequus Files\Header Files\video\object</Filter>
     </ClInclude>
     <ClInclude Include="aequus_files\video\object\text.h">
-      <Filter>Aequus Files\Header Files\video\object</Filter>
-    </ClInclude>
-    <ClInclude Include="aequus_files\video\object\textureold.h">
       <Filter>Aequus Files\Header Files\video\object</Filter>
     </ClInclude>
     <ClInclude Include="aequus_files\video\object\texture.h">

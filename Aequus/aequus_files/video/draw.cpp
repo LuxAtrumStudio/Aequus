@@ -5,27 +5,26 @@
 
 namespace aequus {
 	namespace video {
-		namespace window {
 			namespace draw {
 				SDL_Renderer* sdlrenderer = NULL;
 				int logloc = 0;
+				double drawcolor[4] = { 0 };
 			}
-		}
 	}
 }
 
-void aequus::video::window::draw::InitializeDraw(SDL_Renderer * renderer)
+void aequus::video::draw::InitializeDraw(SDL_Renderer * renderer)
 {
 	sdlrenderer = renderer;
 	logloc = pessum::logging::AddLogLocation("aequus_files/video/draw.h/");
 }
 
-void aequus::video::window::draw::SetRenderer(SDL_Renderer * renderer)
+void aequus::video::draw::SetRenderer(SDL_Renderer * renderer)
 {
 	sdlrenderer = renderer;
 }
 
-void aequus::video::window::draw::Line(int a[2], int b[2])
+void aequus::video::draw::Line(int a[2], int b[2])
 {
 	if (sdlrenderer != NULL) {
 		if (SDL_RenderDrawLine(sdlrenderer, a[0], a[1], b[0], b[1]) != 0) {
@@ -34,7 +33,7 @@ void aequus::video::window::draw::Line(int a[2], int b[2])
 	}
 }
 
-void aequus::video::window::draw::Lines(std::vector<int *> points)
+void aequus::video::draw::Lines(std::vector<int *> points)
 {
 	if (sdlrenderer != NULL) {
 		std::vector<SDL_Point> sdlvec;
@@ -51,7 +50,7 @@ void aequus::video::window::draw::Lines(std::vector<int *> points)
 	}
 }
 
-void aequus::video::window::draw::Point(int p[2])
+void aequus::video::draw::Point(int p[2])
 {
 	if (sdlrenderer != NULL) {
 		if (SDL_RenderDrawPoint(sdlrenderer, p[0], p[1]) != 0) {
@@ -60,7 +59,7 @@ void aequus::video::window::draw::Point(int p[2])
 	}
 }
 
-void aequus::video::window::draw::Points(std::vector<int*> points)
+void aequus::video::draw::Points(std::vector<int*> points)
 {
 	if (sdlrenderer != NULL) {
 		std::vector<SDL_Point> sdlvec;
@@ -77,7 +76,7 @@ void aequus::video::window::draw::Points(std::vector<int*> points)
 	}
 }
 
-void aequus::video::window::draw::Rect(int rect[4])
+void aequus::video::draw::Rect(int rect[4])
 {
 	if (sdlrenderer != NULL) {
 		SDL_Rect sdlrect = { rect[0] , rect[1], rect[2], rect[3] };
@@ -87,7 +86,7 @@ void aequus::video::window::draw::Rect(int rect[4])
 	}
 }
 
-void aequus::video::window::draw::Rects(std::vector<int*> rects)
+void aequus::video::draw::Rects(std::vector<int*> rects)
 {
 	if (sdlrenderer != NULL) {
 		std::vector<SDL_Rect> sdlvec;
@@ -102,7 +101,7 @@ void aequus::video::window::draw::Rects(std::vector<int*> rects)
 	}
 }
 
-void aequus::video::window::draw::FillRect(int rect[4])
+void aequus::video::draw::FillRect(int rect[4])
 {
 	if (sdlrenderer != NULL) {
 		SDL_Rect sdlrect = { rect[0] , rect[1], rect[2], rect[3] };
@@ -112,7 +111,7 @@ void aequus::video::window::draw::FillRect(int rect[4])
 	}
 }
 
-void aequus::video::window::draw::FillRects(std::vector<int*> rects)
+void aequus::video::draw::FillRects(std::vector<int*> rects)
 {
 	if (sdlrenderer != NULL) {
 		std::vector<SDL_Rect> sdlvec;
@@ -127,7 +126,11 @@ void aequus::video::window::draw::FillRects(std::vector<int*> rects)
 	}
 }
 
-void aequus::video::window::draw::SetColor(double red, double green, double blue, double alpha)
+void aequus::video::draw::SetColor(double red, double green, double blue, double alpha)
 {
+	drawcolor[0] = red;
+	drawcolor[1] = green;
+	drawcolor[2] = blue;
+	drawcolor[3] = alpha;
 	SDL_SetRenderDrawColor(sdlrenderer, red * 255, green * 255, blue * 255, alpha * 255);
 }

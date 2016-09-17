@@ -14,7 +14,7 @@ namespace aequus {
 		}
 	}
 }
-void aequus::video::window::CreateWindow(std::string title, int width, int height, int x, int y, Uint32 flags)
+void aequus::video::CreateWindow(std::string title, int width, int height, int x, int y, Uint32 flags)
 {
 	WindowData newwindow;
 	newwindow.logloc = pessum::logging::AddLogLocation("aequus_files/video/window[" + title + "]/");
@@ -36,7 +36,7 @@ void aequus::video::window::CreateWindow(std::string title, int width, int heigh
 	}
 }
 
-void aequus::video::window::TerminateWindow(int pointer)
+void aequus::video::TerminateWindow(int pointer)
 {
 	SDL_DestroyWindow(windows[pointer].sdlwindow);
 	WindowData cleandata;
@@ -44,7 +44,7 @@ void aequus::video::window::TerminateWindow(int pointer)
 	windows[pointer] = cleandata;
 }
 
-void aequus::video::window::SetHidden(bool hide, int pointer)
+void aequus::video::SetHidden(bool hide, int pointer)
 {
 	if (hide == true && windows[pointer].hidden == false) {
 		SDL_HideWindow(windows[pointer].sdlwindow);
@@ -57,7 +57,7 @@ void aequus::video::window::SetHidden(bool hide, int pointer)
 	windows[pointer].hidden = hide;
 }
 
-void aequus::video::window::Maximize(int pointer)
+void aequus::video::Maximize(int pointer)
 {
 	if (windows[pointer].maximized != true) {
 		SDL_MaximizeWindow(windows[pointer].sdlwindow);
@@ -66,7 +66,7 @@ void aequus::video::window::Maximize(int pointer)
 	windows[pointer].maximized = true;
 }
 
-void aequus::video::window::Minimize(int pointer)
+void aequus::video::Minimize(int pointer)
 {
 	if (windows[pointer].minimized != true) {
 		SDL_MinimizeWindow(windows[pointer].sdlwindow);
@@ -75,13 +75,13 @@ void aequus::video::window::Minimize(int pointer)
 	windows[pointer].minimized = true;
 }
 
-void aequus::video::window::Raise(int pointer)
+void aequus::video::Raise(int pointer)
 {
 	SDL_RaiseWindow(windows[pointer].sdlwindow);
 	pessum::logging::LogLoc(pessum::logging::LOG_INFORMATION, "Raised window", windows[pointer].logloc, "Raise");
 }
 
-void aequus::video::window::Restore(int pointer)
+void aequus::video::Restore(int pointer)
 {
 	if (windows[pointer].minimized == true || windows[pointer].minimized == true) {
 		SDL_RestoreWindow(windows[pointer].sdlwindow);
@@ -89,7 +89,7 @@ void aequus::video::window::Restore(int pointer)
 	}
 }
 
-void aequus::video::window::SetBordered(bool border, int pointer)
+void aequus::video::SetBordered(bool border, int pointer)
 {
 	if (border == false && windows[pointer].bordered == true) {
 		SDL_SetWindowBordered(windows[pointer].sdlwindow, SDL_FALSE);
@@ -101,7 +101,7 @@ void aequus::video::window::SetBordered(bool border, int pointer)
 	}
 }
 
-void aequus::video::window::SetBrightness(float brightness, int pointer)
+void aequus::video::SetBrightness(float brightness, int pointer)
 {
 	if (SDL_SetWindowBrightness(windows[pointer].sdlwindow, brightness) < 0) {
 		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to set window brightness", windows[pointer].logloc, "SetBrightness");
@@ -112,7 +112,7 @@ void aequus::video::window::SetBrightness(float brightness, int pointer)
 	}
 }
 
-void aequus::video::window::SetFullscreen(Uint32 flags, int pointer)
+void aequus::video::SetFullscreen(Uint32 flags, int pointer)
 {
 	if (SDL_SetWindowFullscreen(windows[pointer].sdlwindow, flags) < 0) {
 		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to set window fullscreen", windows[pointer].logloc, "SetFullscreen");
@@ -123,7 +123,7 @@ void aequus::video::window::SetFullscreen(Uint32 flags, int pointer)
 	}
 }
 
-void aequus::video::window::SetGammaRamp(float red, float green, float blue, int pointer)
+void aequus::video::SetGammaRamp(float red, float green, float blue, int pointer)
 {
 	Uint16 r, g, b;
 	r = (red * 255);
@@ -138,7 +138,7 @@ void aequus::video::window::SetGammaRamp(float red, float green, float blue, int
 	}
 }
 
-void aequus::video::window::SetGrab(bool grab, int pointer)
+void aequus::video::SetGrab(bool grab, int pointer)
 {
 	if (grab == true && windows[pointer].grabbed == false) {
 		SDL_SetWindowGrab(windows[pointer].sdlwindow, SDL_TRUE);
@@ -150,58 +150,60 @@ void aequus::video::window::SetGrab(bool grab, int pointer)
 	}
 }
 
-void aequus::video::window::SetIcon(std::string iconfiledirectory, int pointer)
+void aequus::video::SetIcon(std::string iconfiledirectory, int pointer)
 {
 }
 
-void aequus::video::window::SetMaximumSize(int width, int height, int pointer)
+void aequus::video::SetMaximumSize(int width, int height, int pointer)
 {
 	SDL_SetWindowMaximumSize(windows[pointer].sdlwindow, width, height);
 	pessum::logging::LogLoc(pessum::logging::LOG_INFORMATION, "Set window maximum size: " + std::to_string(width) + "x" + std::to_string(height), windows[pointer].logloc, "SetMaximumSize");
 }
 
-void aequus::video::window::SetMinimumSize(int width, int height, int pointer)
+void aequus::video::SetMinimumSize(int width, int height, int pointer)
 {
 	SDL_SetWindowMinimumSize(windows[pointer].sdlwindow, width, height);
 	pessum::logging::LogLoc(pessum::logging::LOG_INFORMATION, "Set window minimum size: " + std::to_string(width) + "x" + std::to_string(height), windows[pointer].logloc, "SetMinimumSize");
 }
 
-void aequus::video::window::SetPosition(int x, int y, int pointer)
+void aequus::video::SetPosition(int x, int y, int pointer)
 {
 	SDL_SetWindowPosition(windows[pointer].sdlwindow, x, y);
 	pessum::logging::LogLoc(pessum::logging::LOG_INFORMATION, "Set window position: (" + std::to_string(x) + "," + std::to_string(y) + ")", windows[pointer].logloc, "SetPosition");
 }
 
-void aequus::video::window::SetSize(int width, int height, int pointer)
+void aequus::video::SetSize(int width, int height, int pointer)
 {
 	SDL_SetWindowSize(windows[pointer].sdlwindow, width, height);
 	pessum::logging::LogLoc(pessum::logging::LOG_INFORMATION, "Set window size: " + std::to_string(width) + "x" + std::to_string(height), windows[pointer].logloc, "SetSize");
 }
 
-void aequus::video::window::SetTitle(std::string title, int pointer)
+void aequus::video::SetTitle(std::string title, int pointer)
 {
 	SDL_SetWindowTitle(windows[pointer].sdlwindow, title.c_str());
 	pessum::logging::LogLoc(pessum::logging::LOG_INFORMATION, "Set window title: " + windows[pointer].title + " to: " + title, windows[pointer].logloc, "SetTitle");
 	windows[pointer].title = title;
 }
 
-void aequus::video::window::Update(int pointer)
+void aequus::video::Update(bool persistent, int pointer)
 {
-	//windows[pointer].windowrenderer.Clear();
+	if (persistent == false) {
+		windows[pointer].windowrenderer.Clear();
+	}
 	for (unsigned a = 0; a < windows[pointer].objects.size(); a++) {
 		windows[pointer].objects[a].DisplayObj();
 	}
 	windows[pointer].windowrenderer.Update();
 }
 
-void aequus::video::window::UpdateAll()
+void aequus::video::UpdateAll(bool persistent)
 {
 	for (unsigned a = 0; a < windows.size(); a++) {
-		Update(a);
+		Update(persistent, a);
 	}
 }
 
-void aequus::video::window::BindWindow(int pointer)
+void aequus::video::BindWindow(int pointer)
 {
 	if (pointer < windows.size()) {
 		data = &windows[pointer];
@@ -209,7 +211,17 @@ void aequus::video::window::BindWindow(int pointer)
 	}
 }
 
-void aequus::video::window::NewObject(int pointer) {
+bool aequus::video::AllClose()
+{
+	if (windows.size() == 0) {
+		return(true);
+	}
+	else {
+		return(false);
+	}
+}
+
+void aequus::video::NewObject(int pointer) {
 	Object newobject;
 	newobject.InitalizeObj(windows[pointer].windowrenderer.sdlrenderer, windows[pointer].objects.size(), globalresourcedir);
 	windows[boundwindow].objects.push_back(newobject);
@@ -217,7 +229,7 @@ void aequus::video::window::NewObject(int pointer) {
 	windows[boundwindow].obj = &windows[boundwindow].objects[boundobj];
 }
 
-void aequus::video::window::BindObject(int pointer)
+void aequus::video::BindObject(int pointer)
 {
 	if (pointer < windows[boundwindow].objects.size()) {
 		boundobj = pointer;
@@ -225,7 +237,7 @@ void aequus::video::window::BindObject(int pointer)
 	}
 }
 
-void aequus::video::window::Bind(int windowpointer, int objectpointer)
+void aequus::video::Bind(int windowpointer, int objectpointer)
 {
 	BindWindow(windowpointer);
 	BindObject(objectpointer);

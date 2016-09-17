@@ -5,7 +5,7 @@
 #include "../../aequus_headers.h"
 #include "../../../pessum_files/logging.h"
 
-void aequus::video::window::Text::CreateFont(std::string directory, int point, FontWeight weight, bool italic)
+void aequus::video::Text::CreateFont(std::string directory, int point, FontWeight weight, bool italic)
 {
 	folderpath = directory;
 	SetPoint(point);
@@ -15,7 +15,7 @@ void aequus::video::window::Text::CreateFont(std::string directory, int point, F
 	LoadFont();
 }
 
-void aequus::video::window::Text::TerminateFont()
+void aequus::video::Text::TerminateFont()
 {
 	CloseFont();
 	folderpath = "NULL";
@@ -35,7 +35,7 @@ void aequus::video::window::Text::TerminateFont()
 	text = "NULL";
 }
 
-void aequus::video::window::Text::SetPoint(int point)
+void aequus::video::Text::SetPoint(int point)
 {
 	fontpoint = point;
 	if (ttffont != NULL) {
@@ -43,7 +43,7 @@ void aequus::video::window::Text::SetPoint(int point)
 	}
 }
 
-void aequus::video::window::Text::SetWeight(FontWeight weight)
+void aequus::video::Text::SetWeight(FontWeight weight)
 {
 	fontweight = weight;
 	if (ttffont != NULL) {
@@ -51,7 +51,7 @@ void aequus::video::window::Text::SetWeight(FontWeight weight)
 	}
 }
 
-void aequus::video::window::Text::SetItalic(bool italic)
+void aequus::video::Text::SetItalic(bool italic)
 {
 	fontitalic = italic;
 	if (ttffont != NULL) {
@@ -59,7 +59,7 @@ void aequus::video::window::Text::SetItalic(bool italic)
 	}
 }
 
-void aequus::video::window::Text::SetColor(double colors[4])
+void aequus::video::Text::SetColor(double colors[4])
 {
 	if (colors != NULL) {
 		if (colors[0] != 0 || colors[1] != 0 || colors[2] != 0 || colors[3] != 0) {
@@ -70,14 +70,14 @@ void aequus::video::window::Text::SetColor(double colors[4])
 	}
 }
 
-void aequus::video::window::Text::SetBackgroundColor(double colors[4])
+void aequus::video::Text::SetBackgroundColor(double colors[4])
 {
 	for (int a = 0; a < 4; a++) {
 		backgroundcolor[a] = colors[a];
 	}
 }
 
-void aequus::video::window::Text::RenderText(std::string str, FontRenderMode mode)
+void aequus::video::Text::RenderText(std::string str, FontRenderMode mode)
 {
 	text = str;
 	SDL_Color sdlcolor;
@@ -111,7 +111,7 @@ void aequus::video::window::Text::RenderText(std::string str, FontRenderMode mod
 	destinationrect = sourcerect;
 }
 
-void aequus::video::window::Text::CreateText(std::string str, int point, FontWeight weight, bool italic, std::string direcory, double colors[4])
+void aequus::video::Text::CreateText(std::string str, int point, FontWeight weight, bool italic, std::string direcory, double colors[4])
 {
 	SetColor(colors);
 	SetPoint(point);
@@ -123,7 +123,7 @@ void aequus::video::window::Text::CreateText(std::string str, int point, FontWei
 	}
 }
 
-void aequus::video::window::Text::LoadFont()
+void aequus::video::Text::LoadFont()
 {
 	if (filepath == "NULL") {
 		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "File path not declaired", logloc, "LoadFont");
@@ -137,7 +137,7 @@ void aequus::video::window::Text::LoadFont()
 	}
 }
 
-void aequus::video::window::Text::UpdateFont()
+void aequus::video::Text::UpdateFont()
 {
 	CloseFont();
 	GenFilePath();
@@ -148,12 +148,12 @@ void aequus::video::window::Text::UpdateFont()
 	}
 }
 
-void aequus::video::window::Text::CloseFont()
+void aequus::video::Text::CloseFont()
 {
 	TTF_CloseFont(ttffont);
 }
 
-void aequus::video::window::Text::GenFilePath()
+void aequus::video::Text::GenFilePath()
 {
 	std::string fontfile = "";
 	for (unsigned a = folderpath.size() - 2; a > 0 && folderpath[a] != '/'; a--) {

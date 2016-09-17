@@ -5,14 +5,14 @@
 #include "../../aequus_headers.h"
 #include "../../../pessum_files/logging.h"
 
-void aequus::video::window::Object::InitalizeObj(SDL_Renderer * renderer, int counter, std::string resource)
+void aequus::video::Object::InitalizeObj(SDL_Renderer * renderer, int counter, std::string resource)
 {
 	logloc = pessum::logging::AddLogLocation("aequus_files/video/object/object.cpp[" + std::to_string(counter) + "]/");
 	resourcedir = resource;
 	objrenderer = renderer;
 }
 
-void aequus::video::window::Object::CreateImgObj(std::string filepath, SDL_Renderer * renderer)
+void aequus::video::Object::CreateImgObj(std::string filepath, SDL_Renderer * renderer)
 {
 	filepath = resourcedir + "images/" + filepath;
 	objsurface.LoadSurface(filepath);
@@ -31,7 +31,7 @@ void aequus::video::window::Object::CreateImgObj(std::string filepath, SDL_Rende
 	rotateangle = 0;
 }
 
-void aequus::video::window::Object::CreateTextObj(std::string text, int point, double red, double green, double blue, double alpha, aequus::video::window::Text::FontWeight weight, bool italic, std::string fontdirectory, SDL_Renderer * renderer)
+void aequus::video::Object::CreateTextObj(std::string text, int point, double red, double green, double blue, double alpha, aequus::video::Text::FontWeight weight, bool italic, std::string fontdirectory, SDL_Renderer * renderer)
 {
 	colormod[0] = red;
 	colormod[1] = green;
@@ -46,7 +46,7 @@ void aequus::video::window::Object::CreateTextObj(std::string text, int point, d
 	objtexture.CreateTexture(objtext.textsurface);
 }
 
-void aequus::video::window::Object::Scale(int x, int y)
+void aequus::video::Object::Scale(int x, int y)
 {
 	sizex = x;
 	sizey = y;
@@ -54,17 +54,17 @@ void aequus::video::window::Object::Scale(int x, int y)
 	objtexture.SetDestinationRect(rect);
 }
 
-void aequus::video::window::Object::ScalePercent(double x, double y)
+void aequus::video::Object::ScalePercent(double x, double y)
 {
-	int maxx = aequus::video::window::windows[boundwindow].sizex;
-	int maxy = aequus::video::window::windows[boundwindow].sizey;
+	int maxx = aequus::video::windows[boundwindow].sizex;
+	int maxy = aequus::video::windows[boundwindow].sizey;
 	sizex = x * maxx;
 	sizey = y * maxy;
 	int rect[4] = { posx, posy, sizex, sizey };
 	objtexture.SetDestinationRect(rect);
 }
 
-void aequus::video::window::Object::Translate(int x, int y)
+void aequus::video::Object::Translate(int x, int y)
 {
 	posx = posy + x;
 	posy = posy + y;
@@ -72,7 +72,7 @@ void aequus::video::window::Object::Translate(int x, int y)
 	objtexture.SetDestinationRect(rect);
 }
 
-void aequus::video::window::Object::SetPos(int x, int y)
+void aequus::video::Object::SetPos(int x, int y)
 {
 	posx = x;
 	posy = y;
@@ -80,7 +80,7 @@ void aequus::video::window::Object::SetPos(int x, int y)
 	objtexture.SetDestinationRect(rect);
 }
 
-void aequus::video::window::Object::SetColor(double red, double green, double blue, double alpha)
+void aequus::video::Object::SetColor(double red, double green, double blue, double alpha)
 {
 	colormod[0] = red;
 	colormod[1] = green;
@@ -89,7 +89,7 @@ void aequus::video::window::Object::SetColor(double red, double green, double bl
 	objtexture.SetColorMod(colormod);
 }
 
-void aequus::video::window::Object::SetClipSpace(int startx, int starty, int width, int height)
+void aequus::video::Object::SetClipSpace(int startx, int starty, int width, int height)
 {
 	clipx = startx;
 	clipy = starty;
@@ -99,7 +99,7 @@ void aequus::video::window::Object::SetClipSpace(int startx, int starty, int wid
 	objtexture.SetSourceRect(rect);
 }
 
-void aequus::video::window::Object::Rotate(double angle, bool degree, int axisx, int axisy)
+void aequus::video::Object::Rotate(double angle, bool degree, int axisx, int axisy)
 {
 	rotateangle = angle;
 	if (axisx != -1 && axisy != -1) {
@@ -110,7 +110,7 @@ void aequus::video::window::Object::Rotate(double angle, bool degree, int axisx,
 	objtexture.Rotate(rotateangle, degree);
 }
 
-void aequus::video::window::Object::DisplayObj()
+void aequus::video::Object::DisplayObj()
 {
 	objtexture.Render();
 }

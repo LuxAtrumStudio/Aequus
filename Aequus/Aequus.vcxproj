@@ -128,8 +128,6 @@
     <ClCompile Include="aequus_files\video\object\text.cpp" />
     <ClCompile Include="aequus_files\video\object\texture.cpp" />
     <ClCompile Include="aequus_files\video\renderer.cpp" />
-    <ClCompile Include="aequus_files\video\textureold.cpp" />
-    <ClCompile Include="aequus_files\video\window.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="pessum_files\logging.cpp" />
     <ClCompile Include="pessum_files\lux_reader.cpp" />
@@ -147,7 +145,6 @@
     <ClInclude Include="aequus_files\aequus_core.h" />
     <ClInclude Include="aequus_files\aequus_headers.h" />
     <ClInclude Include="aequus_files\audio.h" />
-    <ClInclude Include="aequus_files\file_io.h" />
     <ClInclude Include="aequus_files\framework.h" />
     <ClInclude Include="aequus_files\input.h" />
     <ClInclude Include="aequus_files\sdl_headers.h" />
@@ -158,9 +155,7 @@
     <ClInclude Include="aequus_files\video\object\surface.h" />
     <ClInclude Include="aequus_files\video\object\text.h" />
     <ClInclude Include="aequus_files\video\object\texture.h" />
-    <ClInclude Include="aequus_files\video\object\textureold.h" />
     <ClInclude Include="aequus_files\video\renderer.h" />
-    <ClInclude Include="aequus_files\video\window.h" />
     <ClInclude Include="pessum_files\logging.h" />
     <ClInclude Include="pessum_files\lux_reader.h" />
     <ClInclude Include="pessum_files\pessum_core.h" />

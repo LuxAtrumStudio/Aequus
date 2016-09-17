@@ -5,25 +5,25 @@
 #include "../../aequus_headers.h"
 #include "../../../pessum_files/logging.h"
 
-void aequus::video::window::Texture::CreateTexture(SDL_Surface * surface)
+void aequus::video::Texture::CreateTexture(SDL_Surface * surface)
 {
 	logloc = pessum::logging::AddLogLocation("aequus_files/video/object/texture.cpp/");
 	sdlsurface = surface;
 	LoadTexture();
 }
 
-void aequus::video::window::Texture::TerminateTexture()
+void aequus::video::Texture::TerminateTexture()
 {
 	CloseTexture();
 	sdlrenderer = NULL;
 }
 
-void aequus::video::window::Texture::SetRenderer(SDL_Renderer * renderer)
+void aequus::video::Texture::SetRenderer(SDL_Renderer * renderer)
 {
 	sdlrenderer = renderer;
 }
 
-void aequus::video::window::Texture::Render()
+void aequus::video::Texture::Render()
 {
 	SDL_Point rotatepoint = { rotatex, rotatey };
 	SDL_RendererFlip sdlflip = SDL_FLIP_NONE;
@@ -62,7 +62,7 @@ void aequus::video::window::Texture::Render()
 	}
 }
 
-void aequus::video::window::Texture::SetColorMod(double colormod[4])
+void aequus::video::Texture::SetColorMod(double colormod[4])
 {
 	for (int a = 0; a < 4; a++) {
 		color[a] = colormod[a];
@@ -77,7 +77,7 @@ void aequus::video::window::Texture::SetColorMod(double colormod[4])
 	}
 }
 
-void aequus::video::window::Texture::SetBlendMode(BlendMode mode)
+void aequus::video::Texture::SetBlendMode(BlendMode mode)
 {
 	blendmode = mode;
 	SDL_BlendMode sdlblendmode = SDL_BLENDMODE_NONE;
@@ -96,7 +96,7 @@ void aequus::video::window::Texture::SetBlendMode(BlendMode mode)
 	}
 }
 
-void aequus::video::window::Texture::Rotate(double angle, bool degree)
+void aequus::video::Texture::Rotate(double angle, bool degree)
 {
 	if (degree == false) {
 		angle = angle * (double)180 / (double) 3.1415926535;
@@ -104,18 +104,18 @@ void aequus::video::window::Texture::Rotate(double angle, bool degree)
 	rotateangle = angle;
 }
 
-void aequus::video::window::Texture::Flip(RenderFlip flip)
+void aequus::video::Texture::Flip(RenderFlip flip)
 {
 	renderflip = flip;
 }
 
-void aequus::video::window::Texture::SetRotatePoint(int x, int y)
+void aequus::video::Texture::SetRotatePoint(int x, int y)
 {
 	rotatex = x;
 	rotatey = y;
 }
 
-void aequus::video::window::Texture::SetSourceRect(int rect[4])
+void aequus::video::Texture::SetSourceRect(int rect[4])
 {
 	sourcerect.x = rect[0];
 	sourcerect.y = rect[1];
@@ -123,7 +123,7 @@ void aequus::video::window::Texture::SetSourceRect(int rect[4])
 	sourcerect.h = rect[3];
 }
 
-void aequus::video::window::Texture::SetDestinationRect(int rect[4])
+void aequus::video::Texture::SetDestinationRect(int rect[4])
 {
 	destinationrect.x = rect[0];
 	destinationrect.y = rect[1];
@@ -131,7 +131,7 @@ void aequus::video::window::Texture::SetDestinationRect(int rect[4])
 	destinationrect.h = rect[3];
 }
 
-void aequus::video::window::Texture::LoadTexture()
+void aequus::video::Texture::LoadTexture()
 {
 	if (sdlsurface == NULL) {
 		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "No surface declaired", logloc, "LoadTexture");
@@ -151,13 +151,13 @@ void aequus::video::window::Texture::LoadTexture()
 	}
 }
 
-void aequus::video::window::Texture::UpdateTexture()
+void aequus::video::Texture::UpdateTexture()
 {
 	CloseTexture();
 	LoadTexture();
 }
 
-void aequus::video::window::Texture::CloseTexture()
+void aequus::video::Texture::CloseTexture()
 {
 	SDL_DestroyTexture(sdltexture);
 }

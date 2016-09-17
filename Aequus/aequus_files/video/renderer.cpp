@@ -4,7 +4,7 @@
 #include "../aequus_headers.h"
 #include "../../pessum_files/logging.h"
 
-void aequus::video::window::Renderer::CreateRenderer(SDL_Window* sdlwindow, std::string title, RendererFlags flags)
+void aequus::video::Renderer::CreateRenderer(SDL_Window* sdlwindow, std::string title, RendererFlags flags)
 {
 	logloc = pessum::logging::AddLogLocation("aequus_files/video/window[" + title + "]/renderer");
 	sdlrenderer = SDL_CreateRenderer(sdlwindow, -1, flags);
@@ -18,13 +18,13 @@ void aequus::video::window::Renderer::CreateRenderer(SDL_Window* sdlwindow, std:
 	}
 }
 
-void aequus::video::window::Renderer::DestroyRenderer()
+void aequus::video::Renderer::DestroyRenderer()
 {
 	SDL_DestroyRenderer(sdlrenderer);
 	pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Destroyed renderer", logloc, "DestroyRenderer");
 }
 
-void aequus::video::window::Renderer::SetTargetTexture(Object target)
+void aequus::video::Renderer::SetTargetTexture(Object target)
 {
 	if (rendererflag == TARGETTEXTURE) {
 		if (SDL_SetRenderTarget(sdlrenderer, target.objtexture.sdltexture) != 0) {
@@ -37,7 +37,7 @@ void aequus::video::window::Renderer::SetTargetTexture(Object target)
 	}
 }
 
-void aequus::video::window::Renderer::SetViewport(int rect[4])
+void aequus::video::Renderer::SetViewport(int rect[4])
 {
 	SDL_Rect sdlrect;
 	sdlrect.x = rect[0];
@@ -50,7 +50,7 @@ void aequus::video::window::Renderer::SetViewport(int rect[4])
 	}
 }
 
-void aequus::video::window::Renderer::SetScale(float scalex, float scaley)
+void aequus::video::Renderer::SetScale(float scalex, float scaley)
 {
 	if (SDL_RenderSetScale(sdlrenderer, scalex, scaley) != 0) {
 		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to set render scale", logloc, "SetScale");
@@ -58,7 +58,7 @@ void aequus::video::window::Renderer::SetScale(float scalex, float scaley)
 	}
 }
 
-void aequus::video::window::Renderer::SetResolution(int width, int height)
+void aequus::video::Renderer::SetResolution(int width, int height)
 {
 	if (SDL_RenderSetLogicalSize(sdlrenderer, width, height) != 0) {
 		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to set render resolution", logloc, "SetResolution");
@@ -66,7 +66,7 @@ void aequus::video::window::Renderer::SetResolution(int width, int height)
 	}
 }
 
-void aequus::video::window::Renderer::SetTargetClip(int rect[4])
+void aequus::video::Renderer::SetTargetClip(int rect[4])
 {
 	SDL_Rect sdlrect;
 	sdlrect.x = rect[0];
@@ -79,15 +79,21 @@ void aequus::video::window::Renderer::SetTargetClip(int rect[4])
 	}
 }
 
-void aequus::video::window::Renderer::Update()
+void aequus::video::Renderer::Update()
 {
 	SDL_RenderPresent(sdlrenderer);
 }
 
-void aequus::video::window::Renderer::Clear()
+void aequus::video::Renderer::Clear()
 {
+	SDL_SetRenderDrawColor(sdlrenderer, 0, 0, 0, 1);
 	if (SDL_RenderClear(sdlrenderer) != 0) {
 		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to clear renderer", logloc, "Clear");
 		framework::GetError();
 	}
+	double color[4];
+	for (unsigned a = 0; a < 4; a++) {
+		color[a] = aequus::video::draw::drawcolor[a];
+	}
+	SDL_SetRenderDrawColor(sdlrenderer, color[0] * 255, color[1] * 255, color[2] * 255, color[3] * 255);
 }
