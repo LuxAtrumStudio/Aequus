@@ -28,6 +28,7 @@ void aequus::video::window::CreateWindow(std::string title, int width, int heigh
 		pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Created new SDL window: " + title, newwindow.logloc, "CreateWindow");
 		SDL_GetWindowSurface(newwindow.sdlwindow);
 		newwindow.windowrenderer.CreateRenderer(newwindow.sdlwindow, newwindow.title, Renderer::ACCELERATED);
+		draw::InitializeDraw(newwindow.windowrenderer.sdlrenderer);
 		newwindow.sizex = width;
 		newwindow.sizey = height;
 		windows.push_back(newwindow);
@@ -186,7 +187,7 @@ void aequus::video::window::SetTitle(std::string title, int pointer)
 
 void aequus::video::window::Update(int pointer)
 {
-	windows[pointer].windowrenderer.Clear();
+	//windows[pointer].windowrenderer.Clear();
 	for (unsigned a = 0; a < windows[pointer].objects.size(); a++) {
 		windows[pointer].objects[a].DisplayObj();
 	}
@@ -214,4 +215,18 @@ void aequus::video::window::NewObject(int pointer) {
 	windows[boundwindow].objects.push_back(newobject);
 	boundobj = windows[boundwindow].objects.size() - 1;
 	windows[boundwindow].obj = &windows[boundwindow].objects[boundobj];
+}
+
+void aequus::video::window::BindObject(int pointer)
+{
+	if (pointer < windows[boundwindow].objects.size()) {
+		boundobj = pointer;
+		windows[boundwindow].obj = &windows[boundwindow].objects[boundobj];
+	}
+}
+
+void aequus::video::window::Bind(int windowpointer, int objectpointer)
+{
+	BindWindow(windowpointer);
+	BindObject(objectpointer);
 }

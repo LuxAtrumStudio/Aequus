@@ -121,6 +121,7 @@
     <ClCompile Include="aequus_files\aequus_core.cpp" />
     <ClCompile Include="aequus_files\framework.cpp" />
     <ClCompile Include="aequus_files\video.cpp" />
+    <ClCompile Include="aequus_files\video\draw.cpp" />
     <ClCompile Include="aequus_files\video\messagebox.cpp" />
     <ClCompile Include="aequus_files\video\object\object.cpp" />
     <ClCompile Include="aequus_files\video\object\surface.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="aequus_files\input.h" />
     <ClInclude Include="aequus_files\sdl_headers.h" />
     <ClInclude Include="aequus_files\video.h" />
+    <ClInclude Include="aequus_files\video\draw.h" />
     <ClInclude Include="aequus_files\video\messagebox.h" />
     <ClInclude Include="aequus_files\video\object\object.h" />
     <ClInclude Include="aequus_files\video\object\surface.h" />

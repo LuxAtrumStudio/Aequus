@@ -4,6 +4,7 @@
 #include "video.h"
 #include "video\window.h"
 #include "video\renderer.h"
+#include "video\draw.h"
 #include "video\object\object.h"
 #include "video\object\texture.h"
 #include "video\object\surface.h"

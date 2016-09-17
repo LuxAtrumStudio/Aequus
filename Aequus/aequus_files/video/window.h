@@ -12,7 +12,6 @@ namespace aequus {
 		//data related to the window, and to contain all relevent functions for
 		//window manipulation
 		namespace window {
-			namespace draw {}
 			//Used for setting different window initialization settings
 			enum WindowFlags
 			{
@@ -69,7 +68,7 @@ namespace aequus {
 			//window
 			extern std::vector<MessageBox> messageboxes;
 			//Pointer directly to bound window data
-			extern WindowData* data;
+			extern WindowData* win;
 			//Creates new SDL window based off of given arguments
 			void CreateWindow(std::string title = "NULL", int width = 600, int height = 600, int x = SDL_WINDOWPOS_UNDEFINED, int y = SDL_WINDOWPOS_UNDEFINED, Uint32 flags = WINDOWED);
 			//Terminates an SDL window, and erases all data
@@ -114,8 +113,9 @@ namespace aequus {
 			//Sets the currently active window
 			void BindWindow(int pointer = 0);
 
-
 			void NewObject(int pointer = boundwindow);
+			void BindObject(int pointer);
+			void Bind(int windowpointer = 0, int objectpointer = 0);
 		};
 	}
 }
