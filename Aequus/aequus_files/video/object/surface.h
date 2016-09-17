@@ -5,6 +5,8 @@
 #include "../../sdl_headers.h"
 namespace aequus {
 	namespace video {
+		//Surface class is used to define everything that is part o the
+		//sdl surface library, and used to create and terminate surfaces
 		class Surface {
 		public:
 			//Used to set the different blend modes for the surface

@@ -6,12 +6,11 @@
 #include "video\messagebox.h"
 namespace aequus {
 	//namespace video controlls all video componenents of SDL, with windows
-	//textures, and everything elses that the end user will see.
+	//objects, and everything elses that the end user will see.
 	namespace video {
 		class MessageBox;
 		//Sets log location for aequus framework logging
 		extern int logloc;
-
 		//Used for setting different window initialization settings
 		enum WindowFlags
 		{
@@ -112,13 +111,16 @@ namespace aequus {
 		void UpdateAll(bool persistent = false);
 		//Sets the currently active window
 		void BindWindow(int pointer = 0);
-
+		//Checks is there are any currently open windows
+		//(true) if all windows are closed
+		//(false) if there are any open windows
 		bool AllClose();
-
+		//Initalizes a new object and sets it as the currently bound object
 		void NewObject(int pointer = boundwindow);
+		//Binds the current object
 		void BindObject(int pointer);
+		//Binds the current window, and the current object
 		void Bind(int windowpointer = 0, int objectpointer = 0);
-
 		//Either enables or disables the screensaver
 		void SetScreenSaver(bool screensaver);
 	}

@@ -34,6 +34,7 @@ namespace aequus {
 		//SDL errors type = 1
 		//SDL IMG errors type = 2
 		//SDL TTF errors type = 3
+		//SDL MIX errors type = 4
 		std::string GetError(int errortype = 1);
 		//Checks and compairs compiled version of SDL and run version of SDL
 		void CheckSdlVersions();
