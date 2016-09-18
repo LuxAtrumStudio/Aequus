@@ -1,11 +1,16 @@
 #include "aequus_core.h"
 #include "sdl_headers.h"
+//Framework Headers
 #include "framework\framework.h"
+//Video Headers
 #include "video\video.h"
 #include "video\renderer.h"
 #include "video\draw.h"
 #include "video\messagebox.h"
+//Video/Object Headers
 #include "video\object\object.h"
 #include "video\object\texture.h"
 #include "video\object\surface.h"
 #include "video\object\text.h"
+//Input Headers
+#include "input\input.h"

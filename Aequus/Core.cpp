@@ -10,9 +10,9 @@ int main(int argc, char* argv[]) {
 	aequus::framework::SdlStartUp();
 	aequus::video::CreateWindow("Core", 600, 600);
 	while (aequus::video::AllClose() == false) {
+		aequus::input::PollEvents();
 		aequus::video::UpdateAll();
 	}
-	aequus::video::TerminateWindow();
 	aequus::framework::TerminateSdl();
 	pessum::TerminatePessumComponents();
 	return(1);

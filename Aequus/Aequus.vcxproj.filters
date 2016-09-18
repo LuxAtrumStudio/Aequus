@@ -126,6 +126,9 @@
     <ClCompile Include="aequus_files\framework\framework.cpp">
       <Filter>Aequus Files\Source Files\framework</Filter>
     </ClCompile>
+    <ClCompile Include="aequus_files\input\input.cpp">
+      <Filter>Aequus Files\Source Files\input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ProgramSettings.lux">

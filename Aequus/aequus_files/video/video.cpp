@@ -41,6 +41,7 @@ void aequus::video::TerminateWindow(int pointer)
 	WindowData cleandata;
 	pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Terminated window: " + windows[pointer].title, windows[pointer].logloc, "TerminateWindow");
 	windows[pointer] = cleandata;
+	windows.erase(windows.begin() + pointer);
 }
 
 void aequus::video::SetHidden(bool hide, int pointer)
@@ -200,6 +201,9 @@ void aequus::video::UpdateAll(bool persistent)
 	for (unsigned a = 0; a < windows.size(); a++) {
 		Update(persistent, a);
 	}
+	for (unsigned a = 0; a < windows.size(); a++) {
+		HandleEvents(a);
+	}
 }
 
 void aequus::video::BindWindow(int pointer)
@@ -251,5 +255,15 @@ void aequus::video::SetScreenSaver(bool screensaver)
 	else if (screensaver == false) {
 		pessum::logging::LogLoc(pessum::logging::LOG_INFORMATION, "Disabled screen saver", logloc, "SetScreenSaver");
 		SDL_DisableScreenSaver();
+	}
+}
+
+void aequus::video::HandleEvents(int pointer)
+{
+	for (unsigned a = 0; a < input::events.size(); a++) {
+		input::Event windowevent = input::events[a];
+		if (windowevent.type == input::QUIT){
+			TerminateWindow();
+		}
 	}
 }

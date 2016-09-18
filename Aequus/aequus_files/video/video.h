@@ -1,5 +1,5 @@
-#ifndef _AEQUUS_FILES_VIDEO_H_
-#define _AEQUUS_FILES_VIDEO_H_
+#ifndef _AEQUUS_FILES_VIDEO_VIDEO_H_
+#define _AEQUUS_FILES_VIDEO_VIDEO_H_
 #include "../aequus_headers.h"
 #include "renderer.h"
 #include "object\object.h"
@@ -123,6 +123,8 @@ namespace aequus {
 		void Bind(int windowpointer = 0, int objectpointer = 0);
 		//Either enables or disables the screensaver
 		void SetScreenSaver(bool screensaver);
+		//Checks the event handling for the current window
+		void HandleEvents(int pointer = boundwindow);
 	}
 }
-#endif // !_AEQUUS_VIDEO_H_
+#endif // !_AEQUUS_FILES_VIDEO_VIDEO_H_
