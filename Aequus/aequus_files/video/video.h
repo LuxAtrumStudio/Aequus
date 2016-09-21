@@ -39,6 +39,10 @@ namespace aequus {
 			UNDEFINED = SDL_WINDOWPOS_UNDEFINED,
 			UNDEFINED_MASK = SDL_WINDOWPOS_UNDEFINED_MASK
 		};
+		//Used for setting the return data type
+		enum ReturnType {
+			BUTTON
+		};
 		//Structure for storing window data
 		struct WindowData {
 			SDL_Window* sdlwindow = NULL;
@@ -54,6 +58,13 @@ namespace aequus {
 			int sizex = 0, sizey = 0;
 			std::string title;
 		};
+		//Structure for storing object return data, based off of user input
+		struct ReturnData {
+			ReturnType type;
+			int windowID = 0;
+			int objectID = 0;
+			int value = 0;
+		};
 		//Storage for all windows that are created
 		extern std::vector<WindowData>windows;
 		//Int pointer to the currently active window from windows
@@ -68,6 +79,8 @@ namespace aequus {
 		extern std::vector<MessageBox> messageboxes;
 		//Pointer directly to bound window data
 		extern WindowData* win;
+		//External access to return data from objects
+		extern std::vector<ReturnData> output;
 		//Creates new SDL window based off of given arguments
 		void CreateWindow(std::string title = "NULL", int width = 600, int height = 600, int x = SDL_WINDOWPOS_UNDEFINED, int y = SDL_WINDOWPOS_UNDEFINED, Uint32 flags = WINDOWED);
 		//Terminates an SDL window, and erases all data
@@ -125,6 +138,8 @@ namespace aequus {
 		void SetScreenSaver(bool screensaver);
 		//Checks the event handling for the current window
 		void HandleEvents(int pointer = boundwindow);
+		//Checks the event handling for all windows
+		void HandleEventsAll();
 	}
 }
 #endif // !_AEQUUS_FILES_VIDEO_VIDEO_H_

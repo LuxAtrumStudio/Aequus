@@ -29,6 +29,7 @@ void aequus::video::Object::CreateImgObj(std::string filepath, SDL_Renderer * re
 	rotateaxisy = sizey / 2;
 	objtexture.SetRotatePoint(rotateaxisx, rotateaxisy);
 	rotateangle = 0;
+	objtype = IMAGE;
 }
 
 void aequus::video::Object::CreateTextObj(std::string text, int point, double red, double green, double blue, double alpha, aequus::video::Text::FontWeight weight, bool italic, std::string fontdirectory, SDL_Renderer * renderer)
@@ -44,6 +45,7 @@ void aequus::video::Object::CreateTextObj(std::string text, int point, double re
 	}
 	objtexture.SetRenderer(objrenderer);
 	objtexture.CreateTexture(objtext.textsurface);
+	objtype = TEXT;
 }
 
 void aequus::video::Object::Scale(int x, int y)
@@ -113,4 +115,99 @@ void aequus::video::Object::Rotate(double angle, bool degree, int axisx, int axi
 void aequus::video::Object::DisplayObj()
 {
 	objtexture.Render();
+}
+
+void aequus::video::Object::CreateButton(std::string text, std::string imagepath, bool whitetext, bool clipbutton, SDL_Renderer * renderer)
+{
+	imagepath = resourcedir + "images/" + imagepath;
+	int surfaceheight = 0, textheight = 0;
+	int surfacewidth = 0, textwidth = 0;
+	int pt = 12;
+	bool sizing = true, shrink = false, grow = false;
+	objsurface.LoadSurface(imagepath);
+	surfacewidth = objsurface.sdlsurface->w;
+	surfaceheight = objsurface.sdlsurface->h;
+	if (text.size() != 0) {
+		objtext.CreateFont();
+		if (whitetext == true) {
+			double color[4] = { 1, 1, 1, 1 };
+			objtext.SetColor(color);
+		}
+		while (sizing == true) {
+			objtext.SetPoint(pt);
+			objtext.FindSize(&textwidth, &textheight, text);
+			if (textwidth > surfacewidth || textheight > surfaceheight) {
+				pt--;
+				shrink = true;
+				if (grow == true) {
+					sizing = false;
+				}
+			}
+			else if (textwidth < (float)surfacewidth / 0.9 && textheight < (float)surfaceheight / 0.9) {
+				pt++;
+				grow = true;
+				if (shrink == true) {
+					sizing = false;
+				}
+			}
+			else {
+				sizing = false;
+			}
+			if (pt > 100) {
+				sizing = false;
+			}
+		}
+		objtext.RenderText(text);
+		SDL_Rect scalerect;
+		scalerect.h = surfaceheight;
+		scalerect.w = surfacewidth;
+		scalerect.x = 0;
+		scalerect.y = 0;
+		SDL_BlitScaled(objtext.textsurface, &scalerect, objsurface.sdlsurface, &scalerect);
+	}
+	objtexture.SetRenderer(objrenderer);
+	objtexture.CreateTexture(objsurface.sdlsurface);
+	posx = 0;
+	posy = 0;
+	sizex = objsurface.sdlsurface->w;
+	sizey = objsurface.sdlsurface->h;
+	rotateaxisx = sizex / 2;
+	rotateaxisy = sizey / 2;
+	objtexture.SetRotatePoint(rotateaxisx, rotateaxisy);
+	rotateangle = 0;
+	objtype = BUTTON;
+	for (int a = 0; a < 4; a++) {
+		savedcolormod[a] = 1;
+	}
+}
+
+bool aequus::video::Object::UpdateButton(int mousex, int mousey, int mousestate)
+{
+	bool clicked = false;
+	if (mousex < sizex && mousex > posx) {
+		if (mousey < sizey && mousey > posy) {
+			//pessum::logging::Log(pessum::logging::LOG_DEVELOPMENT_CHECK, std::to_string(mousestate));
+			if (mousestate == 0) {
+				if (colormod[0] != savedcolormod[0] - 0.2) {
+					SetColor(savedcolormod[0] - 0.2, savedcolormod[1] - 0.2, savedcolormod[2] - 0.2, savedcolormod[3]);
+				}
+			}
+			if (mousestate == 1) {
+				if (colormod[0] != savedcolormod[0] - 1) {
+					SetColor(savedcolormod[0] - 1, savedcolormod[1] - 0.5, savedcolormod[2] - 0.15, savedcolormod[3]);
+				}
+			}
+			if (mousestate == 2) {
+				SetColor(savedcolormod[0] - 0.2, savedcolormod[1] - 0.2, savedcolormod[2] - 0.2, savedcolormod[3]);
+				clicked = true;
+			}
+		}
+		else {
+			SetColor(savedcolormod[0], savedcolormod[1], savedcolormod[2], savedcolormod[3]);
+		}
+	}
+	else {
+		SetColor(savedcolormod[0], savedcolormod[1], savedcolormod[2], savedcolormod[3]);
+	}
+	return(clicked);
 }

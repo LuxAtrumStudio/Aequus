@@ -11,6 +11,7 @@ namespace aequus {
 		std::string globalresourcedir = "resources/";
 		std::vector<MessageBox> messageboxes;
 		WindowData* win = NULL;
+		std::vector<ReturnData> output;
 	}
 }
 void aequus::video::CreateWindow(std::string title, int width, int height, int x, int y, Uint32 flags)
@@ -152,6 +153,11 @@ void aequus::video::SetGrab(bool grab, int pointer)
 
 void aequus::video::SetIcon(std::string iconfiledirectory, int pointer)
 {
+	Surface iconsurface;
+	iconfiledirectory = "resources/icon/" + iconfiledirectory;
+	iconsurface.LoadSurface(iconfiledirectory);
+	SDL_SetWindowIcon(windows[pointer].sdlwindow, iconsurface.sdlsurface);
+	pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Changed window icon to:" + iconfiledirectory, logloc, "SetIcon");
 }
 
 void aequus::video::SetMaximumSize(int width, int height, int pointer)
@@ -262,8 +268,47 @@ void aequus::video::HandleEvents(int pointer)
 {
 	for (unsigned a = 0; a < input::events.size(); a++) {
 		input::Event windowevent = input::events[a];
-		if (windowevent.type == input::QUIT){
+		if (windowevent.windowid == SDL_GetWindowID(windows[pointer].sdlwindow)) {
+			if (windowevent.type == input::MOUSEMOTION || windowevent.type == input::MOUSEBUTTON) {
+				for (unsigned b = 0; b < windows[pointer].objects.size(); b++) {
+					if (windows[pointer].objects[b].objtype == windows[pointer].objects[b].BUTTON) {
+						int x, y, state = 0;
+						x = windowevent.posx;
+						y = windowevent.posy;
+						if (windowevent.type == input::MOUSEBUTTON) {
+							if (windowevent.buttonstate == input::PRESSED || windowevent.mousepress == true) {
+								state = 1;
+							}
+							if (windowevent.buttonstate == input::RELEASED) {
+								state = 2;
+							}
+						}
+						if (windowevent.mousepress == true) {
+							state = 1;
+						}
+						if (windows[pointer].objects[b].UpdateButton(x, y, state) == true) {
+							ReturnData newreturn;
+							newreturn.type = BUTTON;
+							newreturn.windowID = pointer;
+							newreturn.objectID = b;
+							newreturn.value = 1;
+							pessum::logging::LogLoc(pessum::logging::LOG_DATA, "Button press: Button:" + std::to_string(b), windows[pointer].logloc, "HandleEvents");
+							output.push_back(newreturn);
+						};
+					}
+				}
+			}
+		}
+		if (windowevent.type == input::QUIT) {
 			TerminateWindow();
 		}
+	}
+}
+
+void aequus::video::HandleEventsAll()
+{
+	output.clear();
+	for (unsigned a = 0; a < windows.size(); a++) {
+		HandleEvents(a);
 	}
 }

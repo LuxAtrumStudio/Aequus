@@ -7,6 +7,7 @@ namespace aequus {
 		EventType eventtype;
 		SDL_Event sdlevent;
 		Event newevent;
+		extern bool press = false;
 		std::vector<Event> events;
 	}
 }
@@ -55,6 +56,7 @@ void aequus::input::InterpretEvent()
 		}
 		newevent.keydata = sdlevent.key.keysym;
 		newevent.key = sdlevent.key.keysym.sym;
+		pessum::logging::Log(pessum::logging::LOG_DATA, "KeyPress:" + sdlevent.key.keysym.sym);
 	}
 	if (sdlevent.type == SDL_MOUSEMOTION) {
 		newevent.type = MOUSEMOTION;
@@ -62,6 +64,8 @@ void aequus::input::InterpretEvent()
 		newevent.windowid = sdlevent.motion.windowID;
 		newevent.posx = sdlevent.motion.x;
 		newevent.posy = sdlevent.motion.y;
+		newevent.mousepress = press;
+		newevent.buttonstate = NONE;
 	}
 	if (sdlevent.type == SDL_MOUSEBUTTONDOWN || sdlevent.type == SDL_MOUSEBUTTONUP) {
 		newevent.type = MOUSEBUTTON;
@@ -80,11 +84,17 @@ void aequus::input::InterpretEvent()
 		}
 		if (sdlevent.button.state == SDL_PRESSED) {
 			newevent.buttonstate = PRESSED;
+			press = true;
+		}
+		else if(sdlevent.button.state == SDL_RELEASED){
+			newevent.buttonstate = RELEASED;
+			press = false;
 		}
 		else {
-			newevent.buttonstate = RELEASED;
+			newevent.buttonstate = NONE;
 		}
 		newevent.clicks = sdlevent.button.clicks;
+		newevent.mousepress = press;
 	}
 	if (sdlevent.type == SDL_MOUSEWHEEL) {
 		newevent.type = MOUSEWHEEL;
@@ -92,6 +102,8 @@ void aequus::input::InterpretEvent()
 		newevent.windowid = sdlevent.wheel.windowID;
 		newevent.scrollx = sdlevent.wheel.x;
 		newevent.scrolly = sdlevent.wheel.y;
+		newevent.mousepress = press;
+		newevent.buttonstate = NONE;
 	}
 	if (sdlevent.type == SDL_QUIT) {
 		newevent.type = QUIT;

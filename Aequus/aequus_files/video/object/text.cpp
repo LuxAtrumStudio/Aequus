@@ -123,6 +123,14 @@ void aequus::video::Text::CreateText(std::string str, int point, FontWeight weig
 	}
 }
 
+void aequus::video::Text::FindSize(int *x, int *y, std::string str)
+{
+	if (ttffont == NULL) {
+		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Cannot estimate size, font is undeclaired", logloc, "FindSize");
+	}
+	TTF_SizeText(ttffont, str.c_str(), x, y);
+}
+
 void aequus::video::Text::LoadFont()
 {
 	if (filepath == "NULL") {

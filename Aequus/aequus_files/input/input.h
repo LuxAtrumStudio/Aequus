@@ -35,7 +35,8 @@ namespace aequus {
 		};
 		enum State {
 			PRESSED,
-			RELEASED
+			RELEASED,
+			NONE
 		};
 		enum Button {
 			LEFT,
@@ -48,40 +49,42 @@ namespace aequus {
 			//All event types
 			time_t timestamp;
 			//Window/Keyboard/TextEdit/TextInput/MouseMotion/MouseButton/MouseWheel
-			int windowid;
+			int windowid = 0;
 			//Window
 			WindowEvent winevent;
 			//Window
-			int data1, data2;
+			int data1 = 0, data2 = 0;
 			//Keyboard/MouseButton
-			State buttonstate;
+			State buttonstate = NONE;
 			//Keyboard
-			bool repeate;
+			bool repeate = false;
 			//Keyboard
 			SDL_Keysym keydata;
 			//Keyboard
-			int key;
+			int key = 0;
 			//TextEdit/TextInput
-			std::string text;
+			std::string text = "NULL";
 			//TextEdit
-			int start, length;
+			int start = 0, length = 0;
 			//MouseMotion/MouseButton
-			int posx, posy;
+			int posx = 0, posy = 0;
 			//MouseButton
-			int clicks;
+			int clicks = 0;
 			//MouseButton
-			Button mousebutton;
+			Button mousebutton = LEFT;
+			bool mousepress = false;
 			//MouseWheel
-			int scrollx, scrolly;
+			int scrollx = 0, scrolly = 0;
 			//Audio
-			bool capture;
+			bool capture = false;
 			//DragDrop
-			std::string file;
+			std::string file = "NULL";
 
 		};
 		extern EventType eventtype;
 		extern SDL_Event sdlevent;
 		extern Event newevent;
+		extern bool press;
 		extern std::vector<Event> events;
 		void PollEvents();
 		void InterpretEvent();

@@ -52,6 +52,8 @@ namespace aequus {
 			//Loads a new font with given paramaters
 			//Renders text from the given text, and the currently loaded font
 			void CreateText(std::string str = "NULL", int point = 12, FontWeight weight = REGULAR, bool italic = false, std::string direcory = "resources/fonts/Raleway/", double colors[4] = 0);
+			//Find text size
+			void FindSize(int *x, int *y, std::string str = "NULL");
 		private:
 			//Stores the log location index
 			int logloc;

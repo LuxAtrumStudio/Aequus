@@ -12,12 +12,18 @@ namespace aequus {
 		//Used to create an manipulates image texture or text textures
 		class Object {
 		public:
+			enum ObjectType {
+				IMAGE,
+				TEXT,
+				BUTTON
+			};
 			//Storage to Surface class assosiated with the object
 			Surface objsurface;
 			//Storage to Text class assosiated with the object
 			Text objtext;
 			//Storage to Texture class assosiated with the object
 			Texture objtexture;
+			ObjectType objtype = IMAGE;
 			//Sets the base initialization requiered for a new object
 			void InitalizeObj(SDL_Renderer* renderer = NULL, int counter = 0, std::string resource = "resources/");
 			//Creates a new image object, based off of the given file path
@@ -44,6 +50,9 @@ namespace aequus {
 			void Rotate(double angle = 0, bool degree = false, int axisx = -1, int axisy = -1);
 			//Renders a copy of the object to the currently set renderer
 			void DisplayObj();
+			//Creates a button that returns the button id
+			void CreateButton(std::string text = "NULL", std::string imagepath = "NULL.png", bool whitetext = false, bool clipbutton = false, SDL_Renderer* renderer = NULL);
+			bool UpdateButton(int mousex = 0, int mousey = 0, int mousestate = 0);
 		private:
 			//Pointer to logging locaiton
 			int logloc = 0;
@@ -58,6 +67,7 @@ namespace aequus {
 			//The color modification data for the object
 			//[0] red, [1] green, [2] blue, [3] alpha
 			double colormod[4];
+			double savedcolormod[4] = { 0, 0, 0, 0 };
 			//Standard directory for all resources
 			//Image files are stored in "images/"
 			//Font files are stored in "fonts/"
