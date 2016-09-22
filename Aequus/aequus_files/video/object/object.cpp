@@ -58,11 +58,11 @@ void aequus::video::Object::Scale(int x, int y)
 
 void aequus::video::Object::ScalePercent(double x, double y)
 {
-	int maxx = aequus::video::windows[boundwindow].sizex;
-	int maxy = aequus::video::windows[boundwindow].sizey;
-	sizex = x * maxx;
-	sizey = y * maxy;
-	int rect[4] = { posx, posy, sizex, sizey };
+	destsizex = x * sizex;
+	destsizey = y * sizey;
+	scalex = x;
+	scaley = y;
+	int rect[4] = { posx, posy, destsizex, destsizey };
 	objtexture.SetDestinationRect(rect);
 }
 
@@ -93,12 +93,18 @@ void aequus::video::Object::SetColor(double red, double green, double blue, doub
 
 void aequus::video::Object::SetClipSpace(int startx, int starty, int width, int height)
 {
-	clipx = startx;
-	clipy = starty;
-	clipsizex = width;
-	clipsizey = height;
-	int rect[4] = { clipx, clipy, clipsizex, clipsizey };
-	objtexture.SetSourceRect(rect);
+	if (clipx != startx || clipy != starty || clipsizex != width || clipsizey != height) {
+		clipx = startx;
+		clipy = starty;
+		clipsizex = width;
+		clipsizey = height;
+		destsizex = clipsizex * scalex;
+		destsizey = clipsizey * scaley;
+		int rect[4] = { clipx, clipy, clipsizex, clipsizey };
+		int rectdest[4] = { posx, posy, destsizex, destsizey };
+		objtexture.SetSourceRect(rect);
+		objtexture.SetDestinationRect(rectdest);
+	}
 }
 
 void aequus::video::Object::Rotate(double angle, bool degree, int axisx, int axisy)
@@ -158,12 +164,17 @@ void aequus::video::Object::CreateButton(std::string text, std::string imagepath
 			}
 		}
 		objtext.RenderText(text);
-		SDL_Rect scalerect;
-		scalerect.h = surfaceheight;
-		scalerect.w = surfacewidth;
-		scalerect.x = 0;
-		scalerect.y = 0;
-		SDL_BlitScaled(objtext.textsurface, &scalerect, objsurface.sdlsurface, &scalerect);
+		SDL_Rect recttext;
+		recttext.h = surfaceheight;
+		recttext.w = surfacewidth;
+		recttext.x = 0;
+		recttext.y = 0;
+		SDL_Rect rectsurface;
+		rectsurface.h = surfaceheight;
+		rectsurface.w = surfacewidth;
+		rectsurface.x = (surfacewidth - objtext.textsurface->w) / 2;
+		rectsurface.y = (surfaceheight - objtext.textsurface->h) / 2;
+		SDL_BlitScaled(objtext.textsurface, &recttext, objsurface.sdlsurface, &rectsurface);
 	}
 	objtexture.SetRenderer(objrenderer);
 	objtexture.CreateTexture(objsurface.sdlsurface);
@@ -176,6 +187,12 @@ void aequus::video::Object::CreateButton(std::string text, std::string imagepath
 	objtexture.SetRotatePoint(rotateaxisx, rotateaxisy);
 	rotateangle = 0;
 	objtype = BUTTON;
+	buttonclip = clipbutton;
+	if (buttonclip == true) {
+		SetClipSpace(0, 0, sizex, sizey / 4);
+	}
+	destsizex = surfacewidth * scalex;
+	destsizey = surfaceheight * scaley;
 	for (int a = 0; a < 4; a++) {
 		savedcolormod[a] = 1;
 	}
@@ -183,31 +200,73 @@ void aequus::video::Object::CreateButton(std::string text, std::string imagepath
 
 bool aequus::video::Object::UpdateButton(int mousex, int mousey, int mousestate)
 {
-	bool clicked = false;
-	if (mousex < sizex && mousex > posx) {
-		if (mousey < sizey && mousey > posy) {
-			//pessum::logging::Log(pessum::logging::LOG_DEVELOPMENT_CHECK, std::to_string(mousestate));
-			if (mousestate == 0) {
-				if (colormod[0] != savedcolormod[0] - 0.2) {
-					SetColor(savedcolormod[0] - 0.2, savedcolormod[1] - 0.2, savedcolormod[2] - 0.2, savedcolormod[3]);
+	bool clicked = false, update = false;
+	if (buttonclip == false) {
+		if (mousex < destsizex + posx && mousex > posx) {
+			if (mousey < destsizey + posy && mousey > posy) {
+				if (mousestate == 0) {
+					for (int a = 0; a < 4; a++) {
+						if (colormod[a] != savedcolormod[a] + mouseovercolormod[a]) {
+							update = true;
+						}
+					}
+					if (update == true) {
+						for (int a = 0; a < 4; a++) {
+							colormod[a] = savedcolormod[a] + mouseovercolormod[a];
+						}
+						objtexture.SetColorMod(colormod);
+					}
+				}
+				if (mousestate == 1) {
+					for (int a = 0; a < 4; a++) {
+						if (colormod[a] != savedcolormod[a] + mousepresscolormod[a]) {
+							update = true;
+						}
+					}
+					if (update == true) {
+						for (int a = 0; a < 4; a++) {
+							colormod[a] = savedcolormod[a] + mousepresscolormod[a];
+						}
+						objtexture.SetColorMod(colormod);
+					}
+				}
+				if (mousestate == 2) {
+					for (int a = 0; a < 4; a++) {
+						colormod[a] = savedcolormod[a] + mouseovercolormod[a];
+					}
+					objtexture.SetColorMod(colormod);
+					clicked = true;
 				}
 			}
-			if (mousestate == 1) {
-				if (colormod[0] != savedcolormod[0] - 1) {
-					SetColor(savedcolormod[0] - 1, savedcolormod[1] - 0.5, savedcolormod[2] - 0.15, savedcolormod[3]);
-				}
-			}
-			if (mousestate == 2) {
-				SetColor(savedcolormod[0] - 0.2, savedcolormod[1] - 0.2, savedcolormod[2] - 0.2, savedcolormod[3]);
-				clicked = true;
+			else {
+				SetColor(savedcolormod[0], savedcolormod[1], savedcolormod[2], savedcolormod[3]);
 			}
 		}
 		else {
 			SetColor(savedcolormod[0], savedcolormod[1], savedcolormod[2], savedcolormod[3]);
 		}
 	}
-	else {
-		SetColor(savedcolormod[0], savedcolormod[1], savedcolormod[2], savedcolormod[3]);
+	if (buttonclip == true) {
+		if (mousex < destsizex + posx && mousex > posx) {
+			if (mousey < destsizey + posy && mousey > posy) {
+				if (mousestate == 0) {
+					SetClipSpace(0, sizey / 4, sizex, sizey / 4);
+				}
+				if (mousestate == 1) {
+					SetClipSpace(0, sizey / 2, sizex, sizey / 4);
+				}
+				if (mousestate == 2) {
+					SetClipSpace(0, 3 * (sizey / 4), sizex, sizey / 4);
+					clicked = true;
+				}
+			}
+			else {
+				SetClipSpace(0, 0, sizex, sizey / 4);
+			}
+		}
+		else {
+			SetClipSpace(0, 0, sizex, sizey / 4);
+		}
 	}
 	return(clicked);
 }

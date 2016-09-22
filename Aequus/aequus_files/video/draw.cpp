@@ -2,14 +2,13 @@
 #include "../aequus_headers.h"
 #include "../../pessum_files/logging.h"
 
-
 namespace aequus {
 	namespace video {
-			namespace draw {
-				SDL_Renderer* sdlrenderer = NULL;
-				int logloc = 0;
-				double drawcolor[4] = { 0 };
-			}
+		namespace draw {
+			SDL_Renderer* sdlrenderer = NULL;
+			int logloc = 0;
+			double drawcolor[4] = { 0 };
+		}
 	}
 }
 

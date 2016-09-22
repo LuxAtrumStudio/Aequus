@@ -79,7 +79,6 @@ namespace aequus {
 			bool capture = false;
 			//DragDrop
 			std::string file = "NULL";
-
 		};
 		extern EventType eventtype;
 		extern SDL_Event sdlevent;

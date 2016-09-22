@@ -86,7 +86,7 @@ void aequus::input::InterpretEvent()
 			newevent.buttonstate = PRESSED;
 			press = true;
 		}
-		else if(sdlevent.button.state == SDL_RELEASED){
+		else if (sdlevent.button.state == SDL_RELEASED) {
 			newevent.buttonstate = RELEASED;
 			press = false;
 		}

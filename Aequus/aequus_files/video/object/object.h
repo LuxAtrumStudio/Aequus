@@ -60,14 +60,23 @@ namespace aequus {
 			SDL_Renderer* objrenderer = NULL;
 			//Position, size, and point of rotation data for the object
 			int posx, posy, sizex, sizey, rotateaxisx, rotateaxisy;
+			double scalex, scaley;
 			//Clipping locaiton and size data fo the object
 			int clipx, clipy, clipsizex, clipsizey;
+			int destsizex, destsizey;
 			//The angle of rotation applied to the object
 			double rotateangle;
 			//The color modification data for the object
 			//[0] red, [1] green, [2] blue, [3] alpha
 			double colormod[4];
+			//Baseline colormod data
 			double savedcolormod[4] = { 0, 0, 0, 0 };
+			//Mouseover colormod data
+			double mouseovercolormod[4] = { -0.3, -0.3, -0.3, 0 };
+			//MousePress colormod data
+			double mousepresscolormod[4] = { -1, -0.5, -0.15, 0 };
+			//Sets weather to update button based on color mod or clipspace
+			bool buttonclip = false;
 			//Standard directory for all resources
 			//Image files are stored in "images/"
 			//Font files are stored in "fonts/"
