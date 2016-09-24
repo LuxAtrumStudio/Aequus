@@ -1,5 +1,6 @@
 #include "framework.h"
 #include <string>
+#include "../aequus_headers.h"
 #include "../sdl_headers.h"
 #include "../../pessum_files/logging.h"
 
@@ -11,9 +12,11 @@ namespace aequus {
 
 void aequus::framework::SdlStartUp()
 {
+	srand(time(NULL));
 	InitializeSdl(EVERYTHING);
 	InitalizeImg();
 	InitializeTtf();
+	InitializeMixer();
 	CheckSdlVersions();
 }
 
@@ -34,6 +37,8 @@ void aequus::framework::TerminateSdl()
 	SDL_Quit();
 	IMG_Quit();
 	TTF_Quit();
+	Mix_Quit();
+	audio::music::TerminateMusic();
 	pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Terminated all SDL systems", logloc, "TermianteSdl");
 }
 
@@ -72,6 +77,12 @@ std::string aequus::framework::GetError(int errortype)
 	}
 	else if (errortype == 3) {
 		const char* error = TTF_GetError();
+		if (*error) {
+			errorstring = error;
+		}
+	}
+	else if (errortype == 4) {
+		const char* error = Mix_GetError();
 		if (*error) {
 			errorstring = error;
 		}
@@ -121,5 +132,17 @@ void aequus::framework::InitializeTtf()
 	}
 	else {
 		pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Initialized SDL TTG", logloc, "InitializeTtf");
+	}
+}
+
+void aequus::framework::InitializeMixer()
+{
+	if (Mix_Init(MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_MP3 | MIX_INIT_OGG) == 0) {
+		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to initialize SDL Mixer", logloc, "InitializeMixer");
+		GetError(4);
+	}
+	else {
+		pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Initialized SDL Mixer", logloc, "InitializeMixer");
+		aequus::audio::music::InitalizeMusic();
 	}
 }

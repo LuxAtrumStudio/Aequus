@@ -14,3 +14,6 @@
 #include "video\object\text.h"
 //Input Headers
 #include "input\input.h"
+//Audio Headers
+#include "audio\audio.h"
+#include "audio\music.h"

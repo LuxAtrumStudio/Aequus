@@ -40,8 +40,10 @@ namespace aequus {
 		void CheckSdlVersions();
 		//Initializes SDL IMG
 		void InitalizeImg();
-		//Initialized SDL TTF
+		//Initializes SDL TTF
 		void InitializeTtf();
+		//Initializes SDL Mixer
+		void InitializeMixer();
 	}
 }
 #endif // !_AEQUUS_FILES_FRAMEWORK_H_

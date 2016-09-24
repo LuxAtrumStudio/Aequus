@@ -129,6 +129,9 @@
     <ClCompile Include="aequus_files\input\input.cpp">
       <Filter>Aequus Files\Source Files\input</Filter>
     </ClCompile>
+    <ClCompile Include="aequus_files\audio\music.cpp">
+      <Filter>Aequus Files\Source Files\audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ProgramSettings.lux">
@@ -196,6 +199,9 @@
       <Filter>Aequus Files\Header Files\framework</Filter>
     </ClInclude>
     <ClInclude Include="aequus_files\audio\audio.h">
+      <Filter>Aequus Files\Header Files\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="aequus_files\audio\music.h">
       <Filter>Aequus Files\Header Files\audio</Filter>
     </ClInclude>
   </ItemGroup>

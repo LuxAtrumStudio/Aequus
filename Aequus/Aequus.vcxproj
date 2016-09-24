@@ -87,7 +87,7 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -119,6 +119,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="aequus_files\aequus_core.cpp" />
+    <ClCompile Include="aequus_files\audio\music.cpp" />
     <ClCompile Include="aequus_files\framework\framework.cpp" />
     <ClCompile Include="aequus_files\input\input.cpp" />
     <ClCompile Include="aequus_files\video\draw.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="aequus_files\aequus_core.h" />
     <ClInclude Include="aequus_files\aequus_headers.h" />
     <ClInclude Include="aequus_files\audio\audio.h" />
+    <ClInclude Include="aequus_files\audio\music.h" />
     <ClInclude Include="aequus_files\framework\framework.h" />
     <ClInclude Include="aequus_files\input\input.h" />
     <ClInclude Include="aequus_files\sdl_headers.h" />

@@ -73,6 +73,9 @@ void aequus::video::draw::Points(std::vector<int*> points)
 			pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to draw points", logloc, "Points");
 		}
 	}
+	else {
+		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Renderer Undeclaired", logloc, "Points");
+	}
 }
 
 void aequus::video::draw::Rect(int rect[4])
