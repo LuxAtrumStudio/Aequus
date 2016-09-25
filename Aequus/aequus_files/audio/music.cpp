@@ -6,7 +6,7 @@
 namespace aequus {
 	namespace audio {
 		namespace music {
-			std::vector<Mix_Music*> songs;
+			std::vector<Song> songs;
 			int currentsong = 0;
 			int logloc = 0;
 			bool autoplay = false, shuffle = false, playing = false;
@@ -19,17 +19,22 @@ namespace aequus {
 void aequus::audio::music::InitalizeMusic()
 {
 	logloc = pessum::logging::AddLogLocation("aequus_files/audio/music.cpp");
-	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 4096);
 }
 
 void aequus::audio::music::LoadSong(std::string file)
 {
-	Mix_Music* newsong = NULL;
-	newsong = Mix_LoadMUS(file.c_str());
-	if (!newsong) {
+	Song newsong;
+	newsong.mixsong = NULL;
+	newsong.mixsong = Mix_LoadMUS(file.c_str());
+	if (!newsong.mixsong) {
 		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to load song file: " + file, logloc, "Loadsong");
 		framework::GetError(4);
 	}
+	std::string songfile = "";
+	for (unsigned a = file.size() - 1; a > 0 && a != '/'; a--) {
+		songfile = file[a] + songfile;
+	}
+	newsong.songname = songfile;
 	songs.push_back(newsong);
 }
 
@@ -44,10 +49,17 @@ void aequus::audio::music::PlaySong(int startfadein, int startloops, double star
 	if (startposition != -1) {
 		position = startposition;
 	}
-	if (songs.size() >= currentsong && songs[currentsong] != NULL) {
-		if (Mix_FadeInMusicPos(songs[currentsong], loops, fadein, position) == -1) {
+	else {
+		position = 0;
+	}
+	if (songs.size() >= currentsong && songs[currentsong].mixsong != NULL) {
+		if (Mix_FadeInMusicPos(songs[currentsong].mixsong, loops, fadein, position) == -1) {
 			pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to play song", logloc, "PlaySong");
 			framework::GetError(4);
+		}
+		else {
+
+			songs.erase(songs.begin() + currentsong);
 		}
 	}
 	else {

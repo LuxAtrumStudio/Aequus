@@ -8,7 +8,6 @@ namespace aequus {
 	//namespace video controlls all video componenents of SDL, with windows
 	//objects, and everything elses that the end user will see.
 	namespace video {
-		class MessageBox;
 		//Sets log location for aequus framework logging
 		extern int logloc;
 		//Used for setting different window initialization settings

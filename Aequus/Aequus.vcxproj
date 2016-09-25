@@ -119,6 +119,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="aequus_files\aequus_core.cpp" />
+    <ClCompile Include="aequus_files\audio\audio.cpp" />
+    <ClCompile Include="aequus_files\audio\chunk.cpp" />
     <ClCompile Include="aequus_files\audio\music.cpp" />
     <ClCompile Include="aequus_files\framework\framework.cpp" />
     <ClCompile Include="aequus_files\input\input.cpp" />
@@ -147,6 +149,7 @@
     <ClInclude Include="aequus_files\aequus_core.h" />
     <ClInclude Include="aequus_files\aequus_headers.h" />
     <ClInclude Include="aequus_files\audio\audio.h" />
+    <ClInclude Include="aequus_files\audio\chunk.h" />
     <ClInclude Include="aequus_files\audio\music.h" />
     <ClInclude Include="aequus_files\framework\framework.h" />
     <ClInclude Include="aequus_files\input\input.h" />

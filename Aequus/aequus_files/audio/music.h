@@ -4,7 +4,11 @@
 namespace aequus {
 	namespace audio {
 		namespace music {
-			extern std::vector<Mix_Music*> songs;
+			struct Song {
+				Mix_Music* mixsong;
+				std::string songname;
+			};
+			extern std::vector<Song> songs;
 			extern int currentsong;
 			extern int logloc;
 			extern bool autoplay, shuffle, playing;

@@ -34,11 +34,11 @@ void aequus::framework::InitializeSdl(Uint32 flags)
 
 void aequus::framework::TerminateSdl()
 {
+	audio::music::TerminateMusic();
 	SDL_Quit();
 	IMG_Quit();
 	TTF_Quit();
 	Mix_Quit();
-	audio::music::TerminateMusic();
 	pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Terminated all SDL systems", logloc, "TermianteSdl");
 }
 
@@ -143,6 +143,6 @@ void aequus::framework::InitializeMixer()
 	}
 	else {
 		pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Initialized SDL Mixer", logloc, "InitializeMixer");
-		aequus::audio::music::InitalizeMusic();
+		aequus::audio::InitializeAudio();
 	}
 }

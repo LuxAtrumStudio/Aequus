@@ -132,6 +132,12 @@
     <ClCompile Include="aequus_files\audio\music.cpp">
       <Filter>Aequus Files\Source Files\audio</Filter>
     </ClCompile>
+    <ClCompile Include="aequus_files\audio\audio.cpp">
+      <Filter>Aequus Files\Source Files\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="aequus_files\audio\chunk.cpp">
+      <Filter>Aequus Files\Source Files\audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ProgramSettings.lux">
@@ -202,6 +208,9 @@
       <Filter>Aequus Files\Header Files\audio</Filter>
     </ClInclude>
     <ClInclude Include="aequus_files\audio\music.h">
+      <Filter>Aequus Files\Header Files\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="aequus_files\audio\chunk.h">
       <Filter>Aequus Files\Header Files\audio</Filter>
     </ClInclude>
   </ItemGroup>
