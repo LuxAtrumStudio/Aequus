@@ -1,6 +1,6 @@
 #include "video.h"
 #include "../aequus_headers.h"
-#include "../../pessum_files/logging.h"
+#include "../../pessum_files/pessum_headers.h"
 
 namespace aequus {
 	namespace video {

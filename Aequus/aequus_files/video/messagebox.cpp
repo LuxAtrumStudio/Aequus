@@ -1,6 +1,6 @@
 #include "messagebox.h"
 #include "../aequus_headers.h"
-#include "../../pessum_files/logging.h"
+#include "../../pessum_files/pessum_headers.h"
 
 void aequus::video::MessageBox::SetColorScheme(float r1, float g1, float b1, float r2, float g2, float b2, float r3, float g3, float b3, float r4, float g4, float b4, float r5, float g5, float b5)
 {

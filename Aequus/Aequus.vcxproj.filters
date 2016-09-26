@@ -210,5 +210,8 @@
     <ClInclude Include="aequus_files\audio\chunk.h">
       <Filter>Aequus Files\Header Files\audio</Filter>
     </ClInclude>
+    <ClInclude Include="pessum_files\pessum_headers.h">
+      <Filter>Pessum Files\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

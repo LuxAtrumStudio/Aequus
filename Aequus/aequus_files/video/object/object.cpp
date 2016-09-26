@@ -3,7 +3,7 @@
 #include <vector>
 #include "../../sdl_headers.h"
 #include "../../aequus_headers.h"
-#include "../../../pessum_files/logging.h"
+#include "../../../pessum_files/pessum_headers.h"
 
 void aequus::video::Object::InitalizeObj(SDL_Renderer * renderer, int counter, std::string resource)
 {

@@ -164,6 +164,7 @@
     <ClInclude Include="pessum_files\logging.h" />
     <ClInclude Include="pessum_files\lux_reader.h" />
     <ClInclude Include="pessum_files\pessum_core.h" />
+    <ClInclude Include="pessum_files\pessum_headers.h" />
     <ClInclude Include="pessum_files\rest.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
