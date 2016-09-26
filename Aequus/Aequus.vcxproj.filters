@@ -140,9 +140,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ProgramSettings.lux">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="pessum_files\get_page.py">
       <Filter>Pessum Files\Source Files\rest</Filter>
     </None>

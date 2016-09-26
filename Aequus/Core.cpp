@@ -8,10 +8,7 @@ int main(int argc, char* argv[]) {
 	aequus::framework::SdlStartUp();
 	aequus::video::CreateWindow("Core", 600, 600);
 	while (aequus::video::AllClose() == false) {
-		aequus::audio::music::Update();
-		aequus::input::PollEvents();
-		aequus::video::HandleEventsAll();
-		aequus::video::UpdateAll();
+		aequus::Frame();
 	}
 	aequus::framework::TerminateSdl();
 	pessum::TerminatePessumComponents();

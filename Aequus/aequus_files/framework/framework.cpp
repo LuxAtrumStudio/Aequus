@@ -22,7 +22,7 @@ void aequus::framework::SdlStartUp()
 
 void aequus::framework::InitializeSdl(Uint32 flags)
 {
-	pessum::logging::AddLogLocation("aequus_files/framework/");
+	logloc = pessum::logging::AddLogLocation("aequus_files/framework/");
 	if (SDL_Init(flags) != 0) {
 		pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to initialize SDL", logloc, "InitializeSdl");
 		SdlError();
