@@ -154,10 +154,10 @@ void aequus::video::SetGrab(bool grab, int pointer)
 void aequus::video::SetIcon(std::string iconfiledirectory, int pointer)
 {
 	Surface iconsurface;
-	iconfiledirectory = "resources/icon/" + iconfiledirectory;
+	iconfiledirectory = iconfiledirectory;
 	iconsurface.LoadSurface(iconfiledirectory);
 	SDL_SetWindowIcon(windows[pointer].sdlwindow, iconsurface.sdlsurface);
-	pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Changed window icon to:" + iconfiledirectory, logloc, "SetIcon");
+	pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Changed window icon to: " + iconfiledirectory, logloc, "SetIcon");
 }
 
 void aequus::video::SetMaximumSize(int width, int height, int pointer)

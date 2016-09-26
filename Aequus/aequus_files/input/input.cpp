@@ -14,8 +14,8 @@ namespace aequus {
 
 void aequus::input::PollEvents()
 {
+	events.clear();
 	while (SDL_PollEvent(&sdlevent) == 1) {
-		events.clear();
 		InterpretEvent();
 		events.push_back(newevent);
 	}
@@ -56,7 +56,6 @@ void aequus::input::InterpretEvent()
 		}
 		newevent.keydata = sdlevent.key.keysym;
 		newevent.key = sdlevent.key.keysym.sym;
-		pessum::logging::Log(pessum::logging::LOG_DATA, "KeyPress:" + sdlevent.key.keysym.sym);
 	}
 	if (sdlevent.type == SDL_MOUSEMOTION) {
 		newevent.type = MOUSEMOTION;

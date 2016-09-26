@@ -81,7 +81,7 @@ namespace aequus {
 		//External access to return data from objects
 		extern std::vector<ReturnData> output;
 		//Creates new SDL window based off of given arguments
-		void CreateWindow(std::string title = "NULL", int width = 600, int height = 600, int x = SDL_WINDOWPOS_UNDEFINED, int y = SDL_WINDOWPOS_UNDEFINED, Uint32 flags = WINDOWED);
+		void CreateWindow(std::string title = "NULL", int width = 600, int height = 600, int x = SDL_WINDOWPOS_UNDEFINED, int y = SDL_WINDOWPOS_UNDEFINED, Uint32 flags = WINDOWED | RESIZABLE);
 		//Terminates an SDL window, and erases all data
 		void TerminateWindow(int pointer = boundwindow);
 		//Toggles weather the window is hidden

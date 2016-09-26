@@ -12,7 +12,7 @@ void aequus::Frame()
 	aequus::audio::music::Update();
 	aequus::input::PollEvents();
 	aequus::video::HandleEventsAll();
-	aequus::video::UpdateAll();
+	aequus::video::UpdateAll(false);
 	time_t current;
 	std::string currenttime = "00:00:00";
 	time(&current);
