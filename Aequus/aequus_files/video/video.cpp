@@ -308,6 +308,11 @@ void aequus::video::HandleEvents(int pointer)
 void aequus::video::HandleEventsAll()
 {
 	output.clear();
+	if (input::quitevent == true) {
+		for (unsigned a = 0; a < windows.size(); a++) {
+			TerminateWindow(a);
+		}
+	}
 	for (unsigned a = 0; a < windows.size(); a++) {
 		HandleEvents(a);
 	}

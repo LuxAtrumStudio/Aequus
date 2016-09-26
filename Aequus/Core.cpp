@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
 	bool drect = false, dpoint = false, dline = false, dfill = false;
 	bool otext = false, otexture = false, obutton = false;
 	double r, g, b, angle = 0;
-	int textobj = 0, textureobj = 0;
+	int textobj = 0, textureobj = 0, buttonobj = 0;
 	while (aequus::video::AllClose() == false) {
 		r = rand() % 255 / (double)255;
 		g = rand() % 255 / (double)255;
@@ -33,9 +33,8 @@ int main(int argc, char* argv[]) {
 				}
 				if (aequus::input::events[a].key == int('w') && messagebox == false) {
 					messagebox = true;
-					//TODO[Arden]:Find and Fix bug
 					aequus::video::MessageBox newbox;
-					newbox.NewMessageBox(aequus::video::MessageBox::MessageBoxFlags::INFORMATION, aequus::video::win->sdlwindow, "Message Box", "This is a Message Box");
+					newbox.NewMessageBox(aequus::video::MessageBox::MessageBoxFlags::ERROR, aequus::video::win->sdlwindow, "Message Box", "This is a Message Box to check if message boxes work.");
 					newbox.RunMessageBox();
 					pessum::logging::Log(pessum::logging::LOG_DEVELOPMENT_CHECK, "Checked message box", "Core");
 				}
@@ -56,10 +55,9 @@ int main(int argc, char* argv[]) {
 					pessum::logging::Log(pessum::logging::LOG_DEVELOPMENT_CHECK, "Checked draw fill rectangle", "Core");
 				}
 				if (aequus::input::events[a].key == int('u') && sound == false) {
-					//TODO[Arden]:Find and Fix bug
 					sound = true;
 					aequus::audio::ChannelVolume(1);
-					aequus::audio::PlaySound("resouces/audio/sample1.wav");
+					aequus::audio::PlaySound("resources/audio/sample1.wav");
 					pessum::logging::Log(pessum::logging::LOG_DEVELOPMENT_CHECK, "Checked sound", "Core");
 				}
 				if (aequus::input::events[a].key == int('i') && otext == false) {
@@ -77,10 +75,11 @@ int main(int argc, char* argv[]) {
 					pessum::logging::Log(pessum::logging::LOG_DEVELOPMENT_CHECK, "Checked image", "Core");
 				}
 				if (aequus::input::events[a].key == int('p') && obutton == false) {
-					//TODO[Arden]:Find and Fix bug
 					obutton = true;
 					aequus::video::NewObject();
-					aequus::video::win->obj->CreateButton("Test Button!!!", "button4.png", false, true);
+					aequus::video::win->obj->CreateButton("", "button4.png", true, true);
+					aequus::video::win->obj->ScalePercent(3, 3);
+					buttonobj = aequus::video::win->objects.size() - 1;
 					pessum::logging::Log(pessum::logging::LOG_DEVELOPMENT_CHECK, "Checked button", "Core");
 				}
 			}
@@ -111,6 +110,13 @@ int main(int argc, char* argv[]) {
 			angle+=0.01;
 			if (angle == 360) {
 				angle = 0;
+			}
+		}
+		if (obutton == true) {
+			if (aequus::video::output.size() > 0) {
+				if (aequus::video::output[0].objectID == buttonobj) {
+					aequus::input::quitevent = true;
+				}
 			}
 		}
 

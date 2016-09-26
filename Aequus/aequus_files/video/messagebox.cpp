@@ -43,20 +43,26 @@ void aequus::video::MessageBox::NewMessageBox(MessageBoxFlags flags, SDL_Window 
 {
 	internalmessageboxdata.flags = flags;
 	internalmessageboxdata.window = parentwindow;
-	internalmessageboxdata.title = title.c_str();
-	internalmessageboxdata.message = message.c_str();
+	internalmessageboxdata.title = title;
+	if (flags == ERROR) {
+		internalmessageboxdata.title = "[ERROR]>>" + title + "<<[ERROR]";
+	}
+	if (flags == WARNING) {
+		internalmessageboxdata.title = "[WARNING]>>" + title + "<<[WARNING]";
+	}
+	internalmessageboxdata.message = message;
 }
 
 int aequus::video::MessageBox::RunMessageBox()
 {
 	if (internalmessageboxdata.buttons.size() <= 0) {
-		SDL_ShowSimpleMessageBox(internalmessageboxdata.flags, internalmessageboxdata.title, internalmessageboxdata.message, internalmessageboxdata.window);
+		SDL_ShowSimpleMessageBox(internalmessageboxdata.flags, internalmessageboxdata.title.c_str(), internalmessageboxdata.message.c_str(), internalmessageboxdata.window);
 	}
 	else {
 		messageboxdata.flags = internalmessageboxdata.flags;
 		messageboxdata.window = internalmessageboxdata.window;
-		messageboxdata.title = internalmessageboxdata.title;
-		messageboxdata.message = internalmessageboxdata.message;
+		messageboxdata.title = internalmessageboxdata.title.c_str();
+		messageboxdata.message = internalmessageboxdata.message.c_str();
 		messageboxdata.numbuttons = internalmessageboxdata.buttons.size();
 		messageboxdata.buttons = &internalmessageboxdata.buttons[0];
 		messageboxdata.colorScheme = internalmessageboxdata.colorscheme;

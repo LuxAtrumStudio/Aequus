@@ -54,6 +54,10 @@ void aequus::video::Object::Scale(int x, int y)
 	sizey = y;
 	int rect[4] = { posx, posy, sizex, sizey };
 	objtexture.SetDestinationRect(rect);
+	if (objtype == BUTTON) {
+		UpdateButton(posx + 1, posy + 1, 0);
+		UpdateButton(posx, posy, 0);
+	}
 }
 
 void aequus::video::Object::ScalePercent(double x, double y)
@@ -64,6 +68,10 @@ void aequus::video::Object::ScalePercent(double x, double y)
 	scaley = y;
 	int rect[4] = { posx, posy, destsizex, destsizey };
 	objtexture.SetDestinationRect(rect);
+	if (objtype == BUTTON) {
+		UpdateButton(posx + 1, posy + 1, 0);
+		UpdateButton(posx, posy, 0);
+	}
 }
 
 void aequus::video::Object::Translate(int x, int y)
@@ -128,11 +136,16 @@ void aequus::video::Object::CreateButton(std::string text, std::string imagepath
 	imagepath = resourcedir + "images/" + imagepath;
 	int surfaceheight = 0, textheight = 0;
 	int surfacewidth = 0, textwidth = 0;
+	scalex = 1;
+	scaley = 1;
 	int pt = 12;
 	bool sizing = true, shrink = false, grow = false;
 	objsurface.LoadSurface(imagepath);
 	surfacewidth = objsurface.sdlsurface->w;
 	surfaceheight = objsurface.sdlsurface->h;
+	if (clipbutton == true) {
+		surfaceheight = surfaceheight / 4;
+	}
 	if (text.size() != 0) {
 		objtext.CreateFont();
 		if (whitetext == true) {
@@ -175,6 +188,17 @@ void aequus::video::Object::CreateButton(std::string text, std::string imagepath
 		rectsurface.x = (surfacewidth - objtext.textsurface->w) / 2;
 		rectsurface.y = (surfaceheight - objtext.textsurface->h) / 2;
 		SDL_BlitScaled(objtext.textsurface, &recttext, objsurface.sdlsurface, &rectsurface);
+		if (clipbutton == true) {
+			rectsurface.w = surfacewidth;
+			rectsurface.y = ((surfaceheight - objtext.textsurface->h) / 2) + surfaceheight;
+			SDL_BlitScaled(objtext.textsurface, &recttext, objsurface.sdlsurface, &rectsurface);
+			rectsurface.w = surfacewidth;
+			rectsurface.y = ((surfaceheight - objtext.textsurface->h) / 2) + (2 * surfaceheight);
+			SDL_BlitScaled(objtext.textsurface, &recttext, objsurface.sdlsurface, &rectsurface);
+			rectsurface.w = surfacewidth;
+			rectsurface.y = ((surfaceheight - objtext.textsurface->h) / 2) + (3 * surfaceheight);
+			SDL_BlitScaled(objtext.textsurface, &recttext, objsurface.sdlsurface, &rectsurface);
+		}
 	}
 	objtexture.SetRenderer(objrenderer);
 	objtexture.CreateTexture(objsurface.sdlsurface);
@@ -191,8 +215,8 @@ void aequus::video::Object::CreateButton(std::string text, std::string imagepath
 	if (buttonclip == true) {
 		SetClipSpace(0, 0, sizex, sizey / 4);
 	}
-	destsizex = surfacewidth * scalex;
-	destsizey = surfaceheight * scaley;
+	destsizex = sizex * scalex;
+	destsizey = sizey * scaley;
 	for (int a = 0; a < 4; a++) {
 		savedcolormod[a] = 1;
 	}

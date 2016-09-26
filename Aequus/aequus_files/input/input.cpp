@@ -7,7 +7,8 @@ namespace aequus {
 		EventType eventtype;
 		SDL_Event sdlevent;
 		Event newevent;
-		extern bool press = false;
+		bool press = false;
+		bool quitevent = false;
 		std::vector<Event> events;
 	}
 }
