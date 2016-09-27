@@ -1,6 +1,6 @@
 #include "video.h"
 #include "../aequus_headers.h"
-#include "../../pessum_files/pessum_headers.h"
+#include "../../pessum_files/logging.h"
 
 namespace aequus {
 	namespace video {
@@ -154,10 +154,10 @@ void aequus::video::SetGrab(bool grab, int pointer)
 void aequus::video::SetIcon(std::string iconfiledirectory, int pointer)
 {
 	Surface iconsurface;
-	iconfiledirectory = "resources/icon/" + iconfiledirectory;
+	iconfiledirectory = iconfiledirectory;
 	iconsurface.LoadSurface(iconfiledirectory);
 	SDL_SetWindowIcon(windows[pointer].sdlwindow, iconsurface.sdlsurface);
-	pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Changed window icon to:" + iconfiledirectory, logloc, "SetIcon");
+	pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Changed window icon to: " + iconfiledirectory, logloc, "SetIcon");
 }
 
 void aequus::video::SetMaximumSize(int width, int height, int pointer)
@@ -308,6 +308,11 @@ void aequus::video::HandleEvents(int pointer)
 void aequus::video::HandleEventsAll()
 {
 	output.clear();
+	if (input::quitevent == true) {
+		for (unsigned a = 0; a < windows.size(); a++) {
+			TerminateWindow(a);
+		}
+	}
 	for (unsigned a = 0; a < windows.size(); a++) {
 		HandleEvents(a);
 	}

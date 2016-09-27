@@ -1,21 +1,22 @@
 #include "input.h"
 #include "../aequus_headers.h"
-#include "../../pessum_files/pessum_headers.h"
+#include "../../pessum_files/logging.h"
 
 namespace aequus {
 	namespace input {
 		EventType eventtype;
 		SDL_Event sdlevent;
 		Event newevent;
-		extern bool press = false;
+		bool press = false;
+		bool quitevent = false;
 		std::vector<Event> events;
 	}
 }
 
 void aequus::input::PollEvents()
 {
+	events.clear();
 	while (SDL_PollEvent(&sdlevent) == 1) {
-		events.clear();
 		InterpretEvent();
 		events.push_back(newevent);
 	}
@@ -56,7 +57,6 @@ void aequus::input::InterpretEvent()
 		}
 		newevent.keydata = sdlevent.key.keysym;
 		newevent.key = sdlevent.key.keysym.sym;
-		pessum::logging::Log(pessum::logging::LOG_DATA, "KeyPress:" + sdlevent.key.keysym.sym);
 	}
 	if (sdlevent.type == SDL_MOUSEMOTION) {
 		newevent.type = MOUSEMOTION;

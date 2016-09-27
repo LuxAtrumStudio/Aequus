@@ -84,6 +84,7 @@ namespace aequus {
 		extern SDL_Event sdlevent;
 		extern Event newevent;
 		extern bool press;
+		extern bool quitevent;
 		extern std::vector<Event> events;
 		void PollEvents();
 		void InterpretEvent();

@@ -50,12 +50,12 @@ namespace aequus {
 		private:
 			//Data struct to contain and manage all internal data about the message box
 			struct MessageBoxData {
-				Uint32 flags;
-				SDL_Window* window;
-				const char* title;
-				const char* message;
+				Uint32 flags = NULL;
+				SDL_Window* window = NULL;
+				std::string title = "";
+				std::string message = "";
 				std::vector<SDL_MessageBoxButtonData> buttons;
-				SDL_MessageBoxColorScheme* colorscheme;
+				SDL_MessageBoxColorScheme* colorscheme = NULL;
 			};
 			//Variable to conatin and use the internal message box data
 			MessageBoxData internalmessageboxdata;
