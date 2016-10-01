@@ -2,7 +2,7 @@
 #include <string>
 #include "../aequus_headers.h"
 #include "../sdl_headers.h"
-#include "../../pessum_files/pessum_headers.h"
+#include "../../pessum_files/logging.h"
 
 namespace aequus {
 	namespace framework {
