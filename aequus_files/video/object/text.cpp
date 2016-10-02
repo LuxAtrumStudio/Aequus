@@ -99,24 +99,17 @@ void aequus::video::Text::RenderText(std::string str, FontRenderMode mode)
 	if (mode == BLENDTEXT) {
 		textsurface = TTF_RenderText_Blended(ttffont, text.c_str(), sdlcolor);
 	}
-	if (sourcerect == NULL) {
-		SDL_Rect null;
-		null = { 0 , 0, 0, 0 };
-		sourcerect = &null;
-	}
-	sourcerect->h = textsurface->h;
-	sourcerect->w = textsurface->w;
-	sourcerect->x = 0;
-	sourcerect->y = 0;
+	sourcerect = { 0 , 0, 0, 0 };
+	sourcerect.h = textsurface->h;
+	sourcerect.w = textsurface->w;
+	sourcerect.x = 0;
+	sourcerect.y = 0;
 	destinationrect = sourcerect;
 }
 
 void aequus::video::Text::CreateText(std::string str, int point, FontWeight weight, bool italic, std::string direcory, double colors[4])
 {
 	SetColor(colors);
-	SetPoint(point);
-	SetWeight(weight);
-	SetItalic(italic);
 	CreateFont(direcory, point, weight, italic);
 	if (ttffont != NULL) {
 		RenderText(str);
@@ -141,6 +134,9 @@ void aequus::video::Text::LoadFont()
 		ttffont = TTF_OpenFont(dir.c_str(), fontpoint);
 		if (ttffont == NULL) {
 			pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to load font file: " + filepath, logloc, "LoadFont");
+		}
+		else{
+			pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Loaded font file: " + filepath, logloc, "LoadFont");
 		}
 	}
 }

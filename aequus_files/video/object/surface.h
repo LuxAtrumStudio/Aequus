@@ -20,7 +20,8 @@ namespace aequus {
 			//SDL surface pointer
 			SDL_Surface* sdlsurface;
 			//SDL surface rectangle pointers
-			SDL_Rect* sourcerect, *destinationrect;
+			SDL_Rect* sourcerect = new SDL_Rect();
+			SDL_Rect* destinationrect = new SDL_Rect();
 			//Loads the given filepath to the surface
 			void LoadSurface(std::string filepath = "NULL");
 			//Returns the surfaces image file path

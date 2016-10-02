@@ -11,7 +11,9 @@ all: subsystem top_obj $(PROGRAM_NAME)
 	@echo Compleated compiling $(PROGRAM_NAME)
 
 $(PROGRAM_NAME): $(OBJ_FILES) $(wildcard */*.o) $(wildcard */*/*.o) $(wildcard */*/*/*.o)
+	setterm -foreground red
 	$(CC) $(TOTAL_OBJ_FILES) -o $(PROGRAM_NAME) $(LINKER_FLAGS)
+	setterm -default
 
 %.o: %.cpp
 	g++ $(COMPILER_FLAGS) -o $(notdir $*).o $*.cpp
@@ -21,8 +23,11 @@ top_obj:$(OBJ_FILES)
 
 .PHONY : subsystem
 subsystem:
+	setterm -background white -foreground black
 	cd pessum_files && $(MAKE)
+	setterm -background black -foreground blue
 	cd aequus_files && $(MAKE)
+	setterm -default
 
 .PHONY : clean
 clean:
@@ -36,3 +41,8 @@ clean:
 	rm -f */*/*/*.d
 	clear
 	@echo Cleared all '.o' and '.d' files
+
+.PHONY : run
+run:
+	./aequus
+	gedit log_output.log

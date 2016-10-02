@@ -28,9 +28,9 @@ namespace aequus {
 				BLENDTEXT
 			};
 			//Pointer to sdl surface for the text object
-			SDL_Surface* textsurface;
+			SDL_Surface* textsurface = NULL;
 			//Sdl rectange structures for the source and destinaation rectangles
-			SDL_Rect* sourcerect, *destinationrect;
+			SDL_Rect sourcerect, destinationrect;
 			//Loads a new font based off of directory, size, weight, and italics
 			void CreateFont(std::string directory = "resources/fonts/Raleway/", int point = 12, FontWeight weight = REGULAR, bool italic = false);
 			//Terminates the ttf font pointer
@@ -72,7 +72,7 @@ namespace aequus {
 			//Stores the background color
 			double backgroundcolor[4];
 			//Pointer to ttf font structure
-			TTF_Font* ttffont;
+			TTF_Font* ttffont = NULL;
 			//Loads the ttf font from all loaded data
 			void LoadFont();
 			//Termiantes the ttf font pointer, and creates a new one based uppon the current data

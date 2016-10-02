@@ -1,5 +1,5 @@
 SUCCESS>>Opened log: log_output.log>>pessum_files/logging.cpp/InitializeLogging
-INFORMATION>>Mon Sep 26 20:52:37 2016>>TimeStamp
+INFORMATION>>Sun Oct  2 10:00:22 2016>>TimeStamp
 SUCCESS>>Initialized SDL>>aequus_files/framework/InitializeSdl
 SUCCESS>>Initialized SDL IMG>>aequus_files/framework/InitalizeImg
 SUCCESS>>Initialized SDL TTG>>aequus_files/framework/InitializeTtf
@@ -7,7 +7,21 @@ SUCCESS>>Initialized SDL Mixer>>aequus_files/framework/InitializeMixer
 DATA>>SDL versions match: 2.0.4>>aequus_files/framework/CheckSdlVersions
 SUCCESS>>Created new SDL window: Core>>aequus_files/video/window[Core]/CreateWindow
 SUCCESS>>Create renderer>>aequus_files/video/window[Core]/rendererCreateRenderer
-SUCCESS>>Terminated window: Core>>aequus_files/video/window[Core]/TerminateWindow
+INFORMATION>>Set window title: Core to: Aequus Framework Stress Test>>aequus_files/video/window[Core]/SetTitle
+DEVCHECK>>Checked music>>Core
+DEVCHECK>>Checked message box>>Core
+DEVCHECK>>Checked draw rectangle>>Core
+DEVCHECK>>Checked draw point>>Core
+DEVCHECK>>Checked draw line>>Core
+DEVCHECK>>Checked draw fill rectangle>>Core
+DEVCHECK>>Checked sound>>Core
+SUCCESS>>Loaded font file: Raleway-Regular.ttf>>LoadFont
+DEVCHECK>>Checked text>>Core
+DEVCHECK>>Checked image>>Core
+DEVCHECK>>Checked button>>Core
+DATA>>Button press: Button:2>>aequus_files/video/window[Core]/HandleEvents
+DATA>>Button press: Button:2>>aequus_files/video/window[Core]/HandleEvents
+SUCCESS>>Terminated window: Aequus Framework Stress Test>>aequus_files/video/window[Core]/TerminateWindow
 SUCCESS>>Terminated all SDL systems>>aequus_files/framework/TermianteSdl
 SUCCESS>>Terminated log file>>Pessum/logging.cpp/TerminateLogging
-INFORMATION>>Mon Sep 26 20:52:48 2016>>TimeStamp
+INFORMATION>>Sun Oct  2 10:00:34 2016>>TimeStamp
