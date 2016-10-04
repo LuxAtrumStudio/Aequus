@@ -131,7 +131,7 @@ void aequus::video::Object::DisplayObj()
 	objtexture.Render();
 }
 
-void aequus::video::Object::CreateButton(std::string text, std::string imagepath, bool whitetext, bool clipbutton, SDL_Renderer * renderer)
+void aequus::video::Object::CreateButton(std::string text, std::string imagepath, bool whitetext, bool clipbutton, int width, int height, SDL_Renderer * renderer)
 {
 	imagepath = resourcedir + "images/" + imagepath;
 	int surfaceheight = 0, textheight = 0;
@@ -141,6 +141,15 @@ void aequus::video::Object::CreateButton(std::string text, std::string imagepath
 	int pt = 12;
 	bool sizing = true, shrink = false, grow = false;
 	objsurface.LoadSurface(imagepath);
+	if (width != -1 || height != -1) {
+		if (width == -1) {
+			width = objsurface.sdlsurface->w;
+		}
+		if (height == -1) {
+			height = objsurface.sdlsurface->h / 4;
+		}
+		objsurface.ScaleSurface(width, height * 4);
+	}
 	surfacewidth = objsurface.sdlsurface->w;
 	surfaceheight = objsurface.sdlsurface->h;
 	if (clipbutton == true) {
@@ -155,7 +164,7 @@ void aequus::video::Object::CreateButton(std::string text, std::string imagepath
 		while (sizing == true) {
 			objtext.SetPoint(pt);
 			objtext.FindSize(&textwidth, &textheight, text);
-			if (textwidth > surfacewidth || textheight > surfaceheight) {
+			if (textwidth > surfacewidth - 10 || textheight > surfaceheight - 10) {
 				pt--;
 				shrink = true;
 				if (grow == true) {
@@ -189,12 +198,18 @@ void aequus::video::Object::CreateButton(std::string text, std::string imagepath
 		rectsurface.y = (surfaceheight - objtext.textsurface->h) / 2;
 		SDL_BlitScaled(objtext.textsurface, &recttext, objsurface.sdlsurface, &rectsurface);
 		if (clipbutton == true) {
+			rectsurface.h = surfaceheight;
+			rectsurface.w = surfacewidth;
 			rectsurface.w = surfacewidth;
 			rectsurface.y = ((surfaceheight - objtext.textsurface->h) / 2) + surfaceheight;
 			SDL_BlitScaled(objtext.textsurface, &recttext, objsurface.sdlsurface, &rectsurface);
+			rectsurface.h = surfaceheight;
+			rectsurface.w = surfacewidth;
 			rectsurface.w = surfacewidth;
 			rectsurface.y = ((surfaceheight - objtext.textsurface->h) / 2) + (2 * surfaceheight);
 			SDL_BlitScaled(objtext.textsurface, &recttext, objsurface.sdlsurface, &rectsurface);
+			rectsurface.h = surfaceheight;
+			rectsurface.w = surfacewidth;
 			rectsurface.w = surfacewidth;
 			rectsurface.y = ((surfaceheight - objtext.textsurface->h) / 2) + (3 * surfaceheight);
 			SDL_BlitScaled(objtext.textsurface, &recttext, objsurface.sdlsurface, &rectsurface);

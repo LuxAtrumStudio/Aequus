@@ -166,6 +166,15 @@ void aequus::video::Surface::Terminate()
 	}
 }
 
+void aequus::video::Surface::ScaleSurface(int width, int height)
+{
+	SDL_Surface* newsurface;
+	newsurface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
+	SDL_BlitScaled(sdlsurface, NULL, newsurface, NULL);
+	sdlsurface = newsurface;
+	SDL_FreeSurface(newsurface);
+}
+
 void aequus::video::Surface::ConvertRectangles()
 {
 	if (source[0] == 0 || source[0] == 0) {

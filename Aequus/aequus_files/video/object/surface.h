@@ -48,6 +48,8 @@ namespace aequus {
 			int* GetSize();
 			//Terminates the surface, and frees the SDL pointer from memory
 			void Terminate();
+			//Scales the surface to given values for width, and height
+			void ScaleSurface(int width, int height);
 		private:
 			//Stores the log location index
 			int logloc = 0;
