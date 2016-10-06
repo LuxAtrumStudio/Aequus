@@ -9,6 +9,9 @@ void aequus::video::Texture::CreateTexture(SDL_Surface * surface)
 {
 	logloc = pessum::logging::AddLogLocation("aequus_files/video/object/texture.cpp/");
 	sdlsurface = surface;
+	int nullrect[4] = {0, 0, 0, 0};
+	SetSourceRect(nullrect);
+	SetDestinationRect(nullrect);
 	LoadTexture();
 }
 
@@ -147,6 +150,7 @@ void aequus::video::Texture::LoadTexture()
 		}
 		texturewidth = sdlsurface->w;
 		textureheight = sdlsurface->h;
+		pessum::logging::Log(pessum::logging::LOG_DEVELOPMENT_CHECK, std::to_string(texturewidth) + "x" + std::to_string(textureheight));
 		SDL_FreeSurface(sdlsurface);
 	}
 }

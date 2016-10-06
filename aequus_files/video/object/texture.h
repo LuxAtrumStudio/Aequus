@@ -75,7 +75,7 @@ namespace aequus {
 			//Stores the current roation axis for the texture
 			int rotatex = -1, rotatey = -1;
 			//Sdl rectangles for the source and destinaiton clips
-			SDL_Rect sourcerect, destinationrect;
+			SDL_Rect sourcerect = {0, 0, 0, 0}, destinationrect = {0, 0, 0, 0};
 			//Stores the color modification data for the texture
 			//red, green, blue, alpha
 			double color[4];

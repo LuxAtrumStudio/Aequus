@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
 				if (aequus::input::events[a].key == int('p') && obutton == false) {
 					obutton = true;
 					aequus::video::NewObject();
-					aequus::video::win->obj->CreateButton("", "button4.png", true, true);
+					aequus::video::win->obj->CreateButton("Hello World!!", "button4.png", true, true);
 					aequus::video::win->obj->ScalePercent(3, 3);
 					buttonobj = aequus::video::win->objects.size() - 1;
 					pessum::logging::Log(pessum::logging::LOG_DEVELOPMENT_CHECK, "Checked button", "Core");

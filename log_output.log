@@ -1,5 +1,5 @@
 SUCCESS>>Opened log: log_output.log>>pessum_files/logging.cpp/InitializeLogging
-INFORMATION>>Sun Oct  2 10:00:22 2016>>TimeStamp
+INFORMATION>>Thu Oct  6 12:06:12 2016>>TimeStamp
 SUCCESS>>Initialized SDL>>aequus_files/framework/InitializeSdl
 SUCCESS>>Initialized SDL IMG>>aequus_files/framework/InitalizeImg
 SUCCESS>>Initialized SDL TTG>>aequus_files/framework/InitializeTtf
@@ -8,20 +8,54 @@ DATA>>SDL versions match: 2.0.4>>aequus_files/framework/CheckSdlVersions
 SUCCESS>>Created new SDL window: Core>>aequus_files/video/window[Core]/CreateWindow
 SUCCESS>>Create renderer>>aequus_files/video/window[Core]/rendererCreateRenderer
 INFORMATION>>Set window title: Core to: Aequus Framework Stress Test>>aequus_files/video/window[Core]/SetTitle
+ERROR>>Failed to load song file: resources/music/song1.mp3>>aequus_files/audio/music.cppLoadsong
+ERROR>>SDL Error: Couldn't open 'resources/music/song1.mp3'>>AEQUUS SDL ERROR
+ERROR>>Failed to load song file: resources/music/song2.mp3>>aequus_files/audio/music.cppLoadsong
+ERROR>>SDL Error: Couldn't open 'resources/music/song2.mp3'>>AEQUUS SDL ERROR
+ERROR>>Failed to load song file: resources/music/song3.mp3>>aequus_files/audio/music.cppLoadsong
+ERROR>>SDL Error: Couldn't open 'resources/music/song3.mp3'>>AEQUUS SDL ERROR
+ERROR>>Failed to load song file: resources/music/song4.mp3>>aequus_files/audio/music.cppLoadsong
+ERROR>>SDL Error: Couldn't open 'resources/music/song4.mp3'>>AEQUUS SDL ERROR
+ERROR>>Failed to load song file: resources/music/song5.mp3>>aequus_files/audio/music.cppLoadsong
+ERROR>>SDL Error: Couldn't open 'resources/music/song5.mp3'>>AEQUUS SDL ERROR
+ERROR>>Failed to load song file: resources/music/song6.mp3>>aequus_files/audio/music.cppLoadsong
+ERROR>>SDL Error: Couldn't open 'resources/music/song6.mp3'>>AEQUUS SDL ERROR
+ERROR>>Failed to load song file: resources/music/song7.mp3>>aequus_files/audio/music.cppLoadsong
+ERROR>>SDL Error: Couldn't open 'resources/music/song7.mp3'>>AEQUUS SDL ERROR
+ERROR>>Failed to load song file: resources/music/song8.mp3>>aequus_files/audio/music.cppLoadsong
+ERROR>>SDL Error: Couldn't open 'resources/music/song8.mp3'>>AEQUUS SDL ERROR
+ERROR>>Failed to load song file: resources/music/song9.mp3>>aequus_files/audio/music.cppLoadsong
+ERROR>>SDL Error: Couldn't open 'resources/music/song9.mp3'>>AEQUUS SDL ERROR
+ERROR>>Failed to load song file: resources/music/song10.mp3>>aequus_files/audio/music.cppLoadsong
+ERROR>>SDL Error: Couldn't open 'resources/music/song10.mp3'>>AEQUUS SDL ERROR
+ERROR>>Failed to load song file: resources/music/song11.mp3>>aequus_files/audio/music.cppLoadsong
+ERROR>>SDL Error: Couldn't open 'resources/music/song11.mp3'>>AEQUUS SDL ERROR
+ERROR>>Failed to load song file: resources/music/song12.mp3>>aequus_files/audio/music.cppLoadsong
+ERROR>>SDL Error: Couldn't open 'resources/music/song12.mp3'>>AEQUUS SDL ERROR
+ERROR>>Failed to load song file: resources/music/song13.mp3>>aequus_files/audio/music.cppLoadsong
+ERROR>>SDL Error: Couldn't open 'resources/music/song13.mp3'>>AEQUUS SDL ERROR
+ERROR>>Failed to load song file: resources/music/song14.mp3>>aequus_files/audio/music.cppLoadsong
+ERROR>>SDL Error: Couldn't open 'resources/music/song14.mp3'>>AEQUUS SDL ERROR
+ERROR>>Failed to play song>>aequus_files/audio/music.cppPlaySong
 DEVCHECK>>Checked music>>Core
 DEVCHECK>>Checked message box>>Core
 DEVCHECK>>Checked draw rectangle>>Core
 DEVCHECK>>Checked draw point>>Core
 DEVCHECK>>Checked draw line>>Core
 DEVCHECK>>Checked draw fill rectangle>>Core
+DEVCHECK>>resources/audio/sample1.wav>>NULL
 DEVCHECK>>Checked sound>>Core
-SUCCESS>>Loaded font file: Raleway-Regular.ttf>>LoadFont
+SUCCESS>>Loaded font file: Raleway-Regular.ttf>>aequus_files/framework/LoadFont
+DEVCHECK>>255x48>>NULL
 DEVCHECK>>Checked text>>Core
+DEVCHECK>>512x512>>NULL
 DEVCHECK>>Checked image>>Core
+SUCCESS>>Loaded font file: Raleway-Regular.ttf>>aequus_files/framework/LoadFont
+DEVCHECK>>141x134>>NULL
 DEVCHECK>>Checked button>>Core
 DATA>>Button press: Button:2>>aequus_files/video/window[Core]/HandleEvents
 DATA>>Button press: Button:2>>aequus_files/video/window[Core]/HandleEvents
 SUCCESS>>Terminated window: Aequus Framework Stress Test>>aequus_files/video/window[Core]/TerminateWindow
 SUCCESS>>Terminated all SDL systems>>aequus_files/framework/TermianteSdl
 SUCCESS>>Terminated log file>>Pessum/logging.cpp/TerminateLogging
-INFORMATION>>Sun Oct  2 10:00:34 2016>>TimeStamp
+INFORMATION>>Thu Oct  6 12:06:23 2016>>TimeStamp

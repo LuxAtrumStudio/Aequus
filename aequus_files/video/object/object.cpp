@@ -28,6 +28,8 @@ void aequus::video::Object::CreateImgObj(std::string filepath, SDL_Renderer * re
 	rotateaxisx = sizex / 2;
 	rotateaxisy = sizey / 2;
 	objtexture.SetRotatePoint(rotateaxisx, rotateaxisy);
+	destsizex = sizex;
+	destsizey = sizey;
 	rotateangle = 0;
 	objtype = IMAGE;
 }
@@ -217,6 +219,8 @@ void aequus::video::Object::CreateButton(std::string text, std::string imagepath
 	}
 	destsizex = sizex * scalex;
 	destsizey = sizey * scaley;
+	int destrect[4] = {posx, posy, destsizex, destsizey};
+	objtexture.SetDestinationRect(destrect);
 	for (int a = 0; a < 4; a++) {
 		savedcolormod[a] = 1;
 	}
