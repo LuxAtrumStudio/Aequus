@@ -98,15 +98,19 @@ void aequus::audio::music::FadeOut(int endfadeout)
 void aequus::audio::music::LoadPlaylist(std::string folder)
 {
 	std::vector<std::string> filepaths;
-	std::string line;
+	std::string line, song;
 	std::string playlistfile = folder + "/songs.lux";
 	std::ifstream playlist(playlistfile.c_str());
 	if (playlist.is_open()) {
 		while (getline(playlist, line)) {
-			line = folder + "/" + line;
-			filepaths.push_back(line);
+			song = folder + "/";
+			for(unsigned a = 0; a < line.size() - 1; a++){
+				song = song + line[a];
+			}
+			filepaths.push_back(song);
 		}
 		playlist.close();
+		filepaths[filepaths.size() - 1] = filepaths[filepaths.size() - 1] + line[line.size() -1];
 	}
 	for (unsigned a = 0; a < filepaths.size(); a++) {
 		LoadSong(filepaths[a]);
