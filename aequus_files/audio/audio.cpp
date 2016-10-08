@@ -59,7 +59,6 @@ void aequus::audio::StopChannel(int channel)
 
 void aequus::audio::PlaySound(std::string file, int channel)
 {
-	pessum::logging::Log(pessum::logging::LOG_DEVELOPMENT_CHECK, file);
 	LoadSound(file);
 	PlayChunk();
 }

@@ -150,7 +150,6 @@ void aequus::video::Texture::LoadTexture()
 		}
 		texturewidth = sdlsurface->w;
 		textureheight = sdlsurface->h;
-		pessum::logging::Log(pessum::logging::LOG_DEVELOPMENT_CHECK, std::to_string(texturewidth) + "x" + std::to_string(textureheight));
 		SDL_FreeSurface(sdlsurface);
 	}
 }
