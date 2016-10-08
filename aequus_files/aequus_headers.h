@@ -1,20 +1,20 @@
 #include "aequus_core.h"
 #include "sdl_headers.h"
-//Framework Headers
+// Framework Headers
 #include "framework/framework.h"
-//Video Headers
-#include "video/video.h"
-#include "video/renderer.h"
+// Video Headers
 #include "video/draw.h"
 #include "video/messagebox.h"
-//Video/Object Headers
+#include "video/renderer.h"
+#include "video/video.h"
+// Video/Object Headers
 #include "video/object/object.h"
-#include "video/object/texture.h"
 #include "video/object/surface.h"
 #include "video/object/text.h"
-//Input Headers
+#include "video/object/texture.h"
+// Input Headers
 #include "input/input.h"
-//Audio Headers
+// Audio Headers
 #include "audio/audio.h"
-#include "audio/music.h"
 #include "audio/chunk.h"
+#include "audio/music.h"
