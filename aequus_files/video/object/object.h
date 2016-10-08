@@ -51,7 +51,7 @@ namespace aequus {
 			//Renders a copy of the object to the currently set renderer
 			void DisplayObj();
 			//Creates a button that returns the button id
-			void CreateButton(std::string text = "NULL", std::string imagepath = "NULL.png", bool whitetext = false, bool clipbutton = false, SDL_Renderer* renderer = NULL);
+			void CreateButton(std::string text = "NULL", std::string imagepath = "NULL.png", bool whitetext = false, bool clipbutton = false, int width = -1, int height = -1, SDL_Renderer* renderer = NULL);
 			bool UpdateButton(int mousex = 0, int mousey = 0, int mousestate = 0);
 		private:
 			//Pointer to logging locaiton

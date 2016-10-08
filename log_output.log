@@ -1,5 +1,5 @@
 SUCCESS>>Opened log: log_output.log>>pessum_files/logging.cpp/InitializeLogging
-INFORMATION>>Thu Oct  6 12:13:25 2016>>TimeStamp
+INFORMATION>>Fri Oct  7 17:13:32 2016>>TimeStamp
 SUCCESS>>Initialized SDL>>aequus_files/framework/InitializeSdl
 SUCCESS>>Initialized SDL IMG>>aequus_files/framework/InitalizeImg
 SUCCESS>>Initialized SDL TTG>>aequus_files/framework/InitializeTtf
@@ -8,25 +8,12 @@ DATA>>SDL versions match: 2.0.4>>aequus_files/framework/CheckSdlVersions
 SUCCESS>>Created new SDL window: Core>>aequus_files/video/window[Core]/CreateWindow
 SUCCESS>>Create renderer>>aequus_files/video/window[Core]/rendererCreateRenderer
 INFORMATION>>Set window title: Core to: Aequus Framework Stress Test>>aequus_files/video/window[Core]/SetTitle
-DEVCHECK>>Checked music>>Core
-DEVCHECK>>Checked message box>>Core
-DEVCHECK>>Checked draw rectangle>>Core
-DEVCHECK>>Checked draw point>>Core
-DEVCHECK>>Checked draw line>>Core
-DEVCHECK>>Checked draw fill rectangle>>Core
-DEVCHECK>>resources/audio/sample1.wav>>NULL
-DEVCHECK>>Checked sound>>Core
 SUCCESS>>Loaded font file: Raleway-Regular.ttf>>aequus_files/framework/LoadFont
-DEVCHECK>>255x48>>NULL
-DEVCHECK>>Checked text>>Core
-DEVCHECK>>512x512>>NULL
-DEVCHECK>>Checked image>>Core
-SUCCESS>>Loaded font file: Raleway-Regular.ttf>>aequus_files/framework/LoadFont
-DEVCHECK>>141x134>>NULL
+DEVCHECK>>600x200>>NULL
 DEVCHECK>>Checked button>>Core
-DATA>>Button press: Button:2>>aequus_files/video/window[Core]/HandleEvents
-DATA>>Button press: Button:2>>aequus_files/video/window[Core]/HandleEvents
+DATA>>Button press: Button:0>>aequus_files/video/window[Core]/HandleEvents
+DATA>>Button press: Button:0>>aequus_files/video/window[Core]/HandleEvents
 SUCCESS>>Terminated window: Aequus Framework Stress Test>>aequus_files/video/window[Core]/TerminateWindow
 SUCCESS>>Terminated all SDL systems>>aequus_files/framework/TermianteSdl
 SUCCESS>>Terminated log file>>Pessum/logging.cpp/TerminateLogging
-INFORMATION>>Thu Oct  6 12:13:34 2016>>TimeStamp
+INFORMATION>>Fri Oct  7 17:13:34 2016>>TimeStamp
