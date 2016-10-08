@@ -233,9 +233,13 @@ void aequus::video::Object::CreateButton(std::string text, std::string imagepath
 	buttonclip = clipbutton;
 	if (buttonclip == true) {
 		SetClipSpace(0, 0, sizex, sizey / 4);
+		destsizex = clipsizex * scalex;
+		destsizey = clipsizey * scaley;
 	}
-	destsizex = sizex * scalex;
-	destsizey = sizey * scaley;
+	else if(buttonclip == false){
+		destsizex = sizex * scalex;
+		destsizey = sizey * scaley;
+	}
 	int destrect[4] = {posx, posy, destsizex, destsizey};
 	objtexture.SetDestinationRect(destrect);
 	for (int a = 0; a < 4; a++) {
