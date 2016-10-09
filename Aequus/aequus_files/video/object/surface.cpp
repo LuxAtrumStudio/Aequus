@@ -12,7 +12,7 @@ void aequus::video::Surface::LoadSurface(std::string filepath) {
   sdlsurface = IMG_Load(filepath.c_str());
   if (sdlsurface == NULL) {
     pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
-                            "Filed to load image file", logloc, "LoadSurface");
+                            "Failed to load image file", logloc, "LoadSurface");
     framework::GetError(2);
   } else {
     width = sdlsurface->w;

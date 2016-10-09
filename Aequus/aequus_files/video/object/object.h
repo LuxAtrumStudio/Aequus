@@ -66,7 +66,7 @@ private:
   // Pointer to logging locaiton
   int logloc = 0;
   // Pointer to currently set sdl renderer
-  SDL_Renderer *objrenderer = NULL;
+  SDL_Renderer* objrenderer;
   // Position, size, and point of rotation data for the object
   int posx, posy, sizex, sizey, rotateaxisx, rotateaxisy;
   double scalex, scaley;

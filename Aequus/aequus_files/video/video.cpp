@@ -178,9 +178,8 @@ void aequus::video::SetIcon(std::string iconfiledirectory, int pointer) {
   iconfiledirectory = iconfiledirectory;
   iconsurface.LoadSurface(iconfiledirectory);
   SDL_SetWindowIcon(windows[pointer].sdlwindow, iconsurface.sdlsurface);
-  pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS,
-                          "Changed window icon to: " + iconfiledirectory,
-                          logloc, "SetIcon");
+  pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+                          "Set to set window icon to: " + iconfiledirectory, logloc, "SetIcon");
 }
 
 void aequus::video::SetMaximumSize(int width, int height, int pointer) {

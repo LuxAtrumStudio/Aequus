@@ -1,11 +1,11 @@
-#include "object.h"
+#include <string>
+#include <vector>
 #include "../../../pessum_files/logging.h"
 #include "../../aequus_headers.h"
 #include "../../sdl_headers.h"
-#include <string>
-#include <vector>
+#include "object.h"
 
-void aequus::video::Object::InitalizeObj(SDL_Renderer *renderer, int counter,
+void aequus::video::Object::InitalizeObj(SDL_Renderer* renderer, int counter,
                                          std::string resource) {
   logloc = pessum::logging::AddLogLocation(
       "aequus_files/video/object/object.cpp[" + std::to_string(counter) + "]/");
@@ -29,6 +29,8 @@ void aequus::video::Object::CreateImgObj(std::string filepath,
   rotateaxisx = sizex / 2;
   rotateaxisy = sizey / 2;
   objtexture.SetRotatePoint(rotateaxisx, rotateaxisy);
+  destsizex = sizex;
+  destsizey = sizey;
   rotateangle = 0;
   objtype = IMAGE;
 }
@@ -145,9 +147,13 @@ void aequus::video::Object::CreateButton(std::string text,
       width = objsurface.sdlsurface->w;
     }
     if (height == -1) {
-      height = objsurface.sdlsurface->h / 4;
+      height = objsurface.sdlsurface->h;
     }
-    objsurface.ScaleSurface(width, height * 4);
+    if (clipbutton == true) {
+      objsurface.ScaleSurface(width, height * 4);
+    } else if (clipbutton == false) {
+      objsurface.ScaleSurface(width, height);
+    }
   }
   surfacewidth = objsurface.sdlsurface->w;
   surfaceheight = objsurface.sdlsurface->h;
@@ -199,20 +205,17 @@ void aequus::video::Object::CreateButton(std::string text,
     if (clipbutton == true) {
       rectsurface.h = surfaceheight;
       rectsurface.w = surfacewidth;
-      rectsurface.w = surfacewidth;
       rectsurface.y =
           ((surfaceheight - objtext.textsurface->h) / 2) + surfaceheight;
       SDL_BlitScaled(objtext.textsurface, &recttext, objsurface.sdlsurface,
                      &rectsurface);
       rectsurface.h = surfaceheight;
       rectsurface.w = surfacewidth;
-      rectsurface.w = surfacewidth;
       rectsurface.y =
           ((surfaceheight - objtext.textsurface->h) / 2) + (2 * surfaceheight);
       SDL_BlitScaled(objtext.textsurface, &recttext, objsurface.sdlsurface,
                      &rectsurface);
       rectsurface.h = surfaceheight;
-      rectsurface.w = surfacewidth;
       rectsurface.w = surfacewidth;
       rectsurface.y =
           ((surfaceheight - objtext.textsurface->h) / 2) + (3 * surfaceheight);
@@ -233,10 +236,8 @@ void aequus::video::Object::CreateButton(std::string text,
   objtype = BUTTON;
   buttonclip = clipbutton;
   if (buttonclip == true) {
-    SetClipSpace(0, 0, sizex, sizey / 4);
+    SetClipSpace(0, 0, surfacewidth, surfaceheight / 4);
   }
-  destsizex = sizex * scalex;
-  destsizey = sizey * scaley;
   for (int a = 0; a < 4; a++) {
     savedcolormod[a] = 1;
   }

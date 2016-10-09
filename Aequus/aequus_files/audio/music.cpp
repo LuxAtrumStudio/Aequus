@@ -1,5 +1,5 @@
 #include "music.h"
-#include "../../pessum_files/logging.h"
+#include "../../pessum_files/pessum_headers.h"
 #include "../aequus_headers.h"
 #include <fstream>
 
@@ -58,7 +58,6 @@ void aequus::audio::music::PlaySong(int startfadein, int startloops,
                               logloc, "PlaySong");
       framework::GetError(4);
     } else {
-
       songs.erase(songs.begin() + currentsong);
     }
   } else {
@@ -88,17 +87,10 @@ void aequus::audio::music::FadeOut(int endfadeout) {
 
 void aequus::audio::music::LoadPlaylist(std::string folder) {
   std::vector<std::string> filepaths;
-  std::string line;
   std::string playlistfile = folder + "/songs.lux";
-  std::ifstream playlist(playlistfile.c_str());
-  if (playlist.is_open()) {
-    while (getline(playlist, line)) {
-      line = folder + "/" + line;
-      filepaths.push_back(line);
-    }
-    playlist.close();
-  }
+  filepaths = pessum::luxreader::LoadLuxListFile(playlistfile);
   for (unsigned a = 0; a < filepaths.size(); a++) {
+    filepaths[a] = folder + "/" + filepaths[a];
     LoadSong(filepaths[a]);
   }
 }

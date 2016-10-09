@@ -1,15 +1,15 @@
 #ifndef _AEQUUS_FILES_VIDEO_OBJECT_TEXTURE_H_
 #define _AEQUUS_FILES_VIDEO_OBJECT_TEXTURE_H_
-#include "../../sdl_headers.h"
-#include "text.h"
 #include <string>
 #include <vector>
+#include "../../sdl_headers.h"
+#include "text.h"
 namespace aequus {
 namespace video {
 // Texture class is used for all uses of sdl textures, and manages all
 // funcitons in relation to textures and manipulation of the texture
 class Texture {
-public:
+ public:
   // Used to define the current mode of blending for the texture
   enum BlendMode {
     NONE = SDL_BLENDMODE_NONE,
@@ -20,17 +20,17 @@ public:
   // Used to set any texture mirroring is applied
   enum RenderFlip { NOFLIP = 0, HORIZONTAL = 1, VERITCAL = 2 };
   // Pointer to sdl texture
-  SDL_Texture *sdltexture;
+  SDL_Texture* sdltexture;
   // Pointer to sdl renderer for texture rendering
-  SDL_Renderer *sdlrenderer;
+  SDL_Renderer* sdlrenderer;
   // Pointer to sdl surface for texture creation
-  SDL_Surface *sdlsurface;
+  SDL_Surface* sdlsurface;
   // Creates a new sdl texture from provided sdl surface
-  void CreateTexture(SDL_Surface *surface);
+  void CreateTexture(SDL_Surface* surface);
   // Termiantes the texture, and clears all data
   void TerminateTexture();
   // Sets the sdl renderer for texture rendering to the provided sdl renderer
-  void SetRenderer(SDL_Renderer *renderer = NULL);
+  void SetRenderer(SDL_Renderer* renderer = NULL);
   // Renders the texture to the currently set renderer
   void Render();
   // Sets the color modication to the texture
@@ -54,7 +54,7 @@ public:
   // x, y, widht, height
   void SetDestinationRect(int rect[4] = 0);
 
-private:
+ private:
   // Stores the log location index
   int logloc = 0;
   // Stores the textures width and height, for future use
@@ -71,7 +71,7 @@ private:
   // Stores the current roation axis for the texture
   int rotatex = -1, rotatey = -1;
   // Sdl rectangles for the source and destinaiton clips
-  SDL_Rect sourcerect, destinationrect;
+  SDL_Rect sourcerect = {0, 0, 0, 0}, destinationrect = {0, 0, 0, 0};
   // Stores the color modification data for the texture
   // red, green, blue, alpha
   double color[4];
@@ -84,4 +84,4 @@ private:
 };
 }
 }
-#endif // !_AEQUUS_FILES_VIDEO_OBJECT_TEXTURE_H_
+#endif  // !_AEQUUS_FILES_VIDEO_OBJECT_TEXTURE_H_

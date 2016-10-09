@@ -1,14 +1,17 @@
-#include "texture.h"
-#include "../../../pessum_files/logging.h"
-#include "../../aequus_headers.h"
-#include "../../sdl_headers.h"
 #include <string>
 #include <vector>
+#include "../../../pessum_files/pessum_headers.h"
+#include "../../aequus_headers.h"
+#include "../../sdl_headers.h"
+#include "texture.h"
 
-void aequus::video::Texture::CreateTexture(SDL_Surface *surface) {
+void aequus::video::Texture::CreateTexture(SDL_Surface* surface) {
   logloc =
       pessum::logging::AddLogLocation("aequus_files/video/object/texture.cpp/");
   sdlsurface = surface;
+  int nullrect[4] = {0, 0, 0, 0};
+  SetSourceRect(nullrect);
+  SetDestinationRect(nullrect);
   LoadTexture();
 }
 
@@ -17,7 +20,7 @@ void aequus::video::Texture::TerminateTexture() {
   sdlrenderer = NULL;
 }
 
-void aequus::video::Texture::SetRenderer(SDL_Renderer *renderer) {
+void aequus::video::Texture::SetRenderer(SDL_Renderer* renderer) {
   sdlrenderer = renderer;
 }
 
@@ -29,8 +32,8 @@ void aequus::video::Texture::Render() {
   } else if (renderflip == VERITCAL) {
     sdlflip = SDL_FLIP_VERTICAL;
   }
-  SDL_Rect *sdlsource = NULL;
-  SDL_Rect *sdldestination = NULL;
+  SDL_Rect* sdlsource = NULL;
+  SDL_Rect* sdldestination = NULL;
   if (sourcerect.h == 0 && sourcerect.w == 0) {
     sdlsource = NULL;
   } else {
