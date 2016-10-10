@@ -1,6 +1,6 @@
+#include <iostream>
 #include "aequus_files/aequus_headers.h"
 #include "pessum_files/pessum_headers.h"
-#include <iostream>
 using namespace std;
 
 int main(int argc, char *argv[]) {
@@ -89,15 +89,15 @@ int main(int argc, char *argv[]) {
         if (aequus::input::events[a].key == int('p') && obutton == false) {
           obutton = true;
           aequus::video::NewObject();
-          aequus::video::win->obj->CreateButton("Hello", "button4.png", true,
-                                                true);
-          aequus::video::win->obj->ScalePercent(3, 3);
+          aequus::video::win->obj->CreateButton("Hello World!!", "button4.png",
+                                                true, true, 600, 50);
           buttonobj = aequus::video::win->objects.size() - 1;
           pessum::logging::Log(pessum::logging::LOG_DEVELOPMENT_CHECK,
                                "Checked button", "Core");
         }
       }
     }
+
     if (drect == true) {
       int rect[4] = {10, 10, 100, 100};
       aequus::video::draw::Rect(rect);
