@@ -46,3 +46,8 @@ clean:
 run:
 	./aequus
 	gedit log_output.log
+
+.PHONY : compress
+compress:
+	cd ../
+	tar -zcvf $(PROGRAM_NAME).tar.gz Aequus
