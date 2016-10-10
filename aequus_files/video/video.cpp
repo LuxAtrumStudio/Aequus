@@ -1,6 +1,6 @@
+#include "video.h"
 #include "../../pessum_files/logging.h"
 #include "../aequus_headers.h"
-#include "video.h"
 
 namespace aequus {
 namespace video {
@@ -10,7 +10,7 @@ int boundwindow = 0;
 int boundobj = 0;
 std::string globalresourcedir = "resources/";
 std::vector<MessageBox> messageboxes;
-WindowData* win = NULL;
+WindowData *win = NULL;
 std::vector<ReturnData> output;
 }
 }
@@ -178,9 +178,8 @@ void aequus::video::SetIcon(std::string iconfiledirectory, int pointer) {
   iconfiledirectory = iconfiledirectory;
   iconsurface.LoadSurface(iconfiledirectory);
   SDL_SetWindowIcon(windows[pointer].sdlwindow, iconsurface.sdlsurface);
-  pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS,
-                          "Changed window icon to: " + iconfiledirectory,
-                          logloc, "SetIcon");
+  pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+                          "Set to set window icon to: " + iconfiledirectory, logloc, "SetIcon");
 }
 
 void aequus::video::SetMaximumSize(int width, int height, int pointer) {
@@ -217,10 +216,10 @@ void aequus::video::SetSize(int width, int height, int pointer) {
 
 void aequus::video::SetTitle(std::string title, int pointer) {
   SDL_SetWindowTitle(windows[pointer].sdlwindow, title.c_str());
-  pessum::logging::LogLoc(
-      pessum::logging::LOG_INFORMATION,
-      "Set window title: " + windows[pointer].title + " to: " + title,
-      windows[pointer].logloc, "SetTitle");
+  pessum::logging::LogLoc(pessum::logging::LOG_INFORMATION,
+                          "Set window title: " + windows[pointer].title +
+                              " to: " + title,
+                          windows[pointer].logloc, "SetTitle");
   windows[pointer].title = title;
 }
 
@@ -321,10 +320,10 @@ void aequus::video::HandleEvents(int pointer) {
               newreturn.windowID = pointer;
               newreturn.objectID = b;
               newreturn.value = 1;
-              pessum::logging::LogLoc(
-                  pessum::logging::LOG_DATA,
-                  "Button press: Button:" + std::to_string(b),
-                  windows[pointer].logloc, "HandleEvents");
+              pessum::logging::LogLoc(pessum::logging::LOG_DATA,
+                                      "Button press: Button:" +
+                                          std::to_string(b),
+                                      windows[pointer].logloc, "HandleEvents");
               output.push_back(newreturn);
             };
           }

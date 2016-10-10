@@ -1,15 +1,15 @@
 #ifndef _AEQUUS_FILES_VIDEO_MESSAGEBOX_H_
 #define _AEQUUS_FILES_VIDEO_MESSAGEBOX_H_
+#include "../sdl_headers.h"
 #include <string>
 #include <vector>
-#include "../sdl_headers.h"
 namespace aequus {
 namespace video {
 // Message box class is used to contain data and functions that pertain
 // to message boxes, that can be used for providing error, or information
 // to the user.
 class MessageBox {
- public:
+public:
   // Used to set different message box types
   enum MessageBoxFlags {
     ERROR = SDL_MESSAGEBOX_ERROR,
@@ -41,20 +41,20 @@ class MessageBox {
   // Adds an additional button to the message box
   void AddButton(MessageBoxButtonFlags flags, std::string text);
   // Creates a message box, must be called before any other message box function
-  void NewMessageBox(MessageBoxFlags flags, SDL_Window* parentwindow,
+  void NewMessageBox(MessageBoxFlags flags, SDL_Window *parentwindow,
                      std::string title, std::string message);
   // Displays the message box, and returns button press
   int RunMessageBox();
 
- private:
+private:
   // Data struct to contain and manage all internal data about the message box
   struct MessageBoxData {
     Uint32 flags = NULL;
-    SDL_Window* window = NULL;
+    SDL_Window *window = NULL;
     std::string title = "";
     std::string message = "";
     std::vector<SDL_MessageBoxButtonData> buttons;
-    SDL_MessageBoxColorScheme* colorscheme = NULL;
+    SDL_MessageBoxColorScheme *colorscheme = NULL;
   };
   // Variable to conatin and use the internal message box data
   MessageBoxData internalmessageboxdata;
@@ -63,4 +63,4 @@ class MessageBox {
 };
 }
 }
-#endif  // !_AEQUUS_FILES_VIDEO_WINDOW_MESSAGEBOX_H_
+#endif // !_AEQUUS_FILES_VIDEO_WINDOW_MESSAGEBOX_H_

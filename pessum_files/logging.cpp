@@ -1,8 +1,8 @@
+#include "logging.h"
+#include "pessum_core.h"
 #include <ctime>
 #include <fstream>
 #include <string>
-#include "logging.h"
-#include "pessum_core.h"
 
 namespace pessum {
 namespace logging {

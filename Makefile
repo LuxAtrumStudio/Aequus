@@ -44,4 +44,9 @@ clean:
 
 .PHONY : run
 run:
-	./aequus
+	./aequus.
+
+.PHONY : compress
+compress:
+	cd ../
+	tar -zcvf $(PROGRAM_NAME).tar.gz Aequus

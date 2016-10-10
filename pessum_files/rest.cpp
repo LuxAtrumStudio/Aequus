@@ -1,8 +1,8 @@
-#include <string>
-#include <vector>
+#include "rest.h"
 #include "logging.h"
 #include "pessum_core.h"
-#include "rest.h"
+#include <string>
+#include <vector>
 
 namespace pessum {
 namespace rest {
@@ -68,10 +68,10 @@ void pessum::rest::InterpretJson(std::string scriptoutputfiledirectory) {
     }
     load.close();
   } else {
-    pessum::logging::LogLoc(
-        logging::LOG_ERROR,
-        "Unable to open script output directory: " + scriptoutputfiledirectory,
-        logloc, "InterpretJson");
+    pessum::logging::LogLoc(logging::LOG_ERROR,
+                            "Unable to open script output directory: " +
+                                scriptoutputfiledirectory,
+                            logloc, "InterpretJson");
   }
   std::string current = "";
   ;
@@ -81,8 +81,9 @@ void pessum::rest::InterpretJson(std::string scriptoutputfiledirectory) {
   loadedjsonfiles.push_back(filejson);
 }
 
-pessum::rest::Variable pessum::rest::InterpretVariable(
-    std::string variablename, std::string rawvariable) {
+pessum::rest::Variable
+pessum::rest::InterpretVariable(std::string variablename,
+                                std::string rawvariable) {
   Variable newlevel;
   newlevel.variablename = variablename;
   std::string strLineA, strLineB;

@@ -5,7 +5,7 @@ namespace aequus {
 namespace audio {
 namespace music {
 struct Song {
-  Mix_Music* mixsong;
+  Mix_Music *mixsong;
   std::string songname;
 };
 extern std::vector<Song> songs;
@@ -30,4 +30,4 @@ void TerminateMusic();
 }
 }
 }
-#endif  // !_AEQUUS_FILES_AUDIO_MUSIC_H_
+#endif // !_AEQUUS_FILES_AUDIO_MUSIC_H_

@@ -1,10 +1,10 @@
+#include "renderer.h"
+#include "../../pessum_files/logging.h"
+#include "../aequus_headers.h"
 #include <string>
 #include <vector>
-#include "../../pessum_files/pessum_headers.h"
-#include "../aequus_headers.h"
-#include "renderer.h"
 
-void aequus::video::Renderer::CreateRenderer(SDL_Window* sdlwindow,
+void aequus::video::Renderer::CreateRenderer(SDL_Window *sdlwindow,
                                              std::string title,
                                              RendererFlags flags) {
   logloc = pessum::logging::AddLogLocation("aequus_files/video/window[" +

@@ -1,23 +1,23 @@
-#include "../../pessum_files/pessum_headers.h"
-#include "../aequus_headers.h"
 #include "draw.h"
+#include "../../pessum_files/logging.h"
+#include "../aequus_headers.h"
 
 namespace aequus {
 namespace video {
 namespace draw {
-SDL_Renderer* sdlrenderer = NULL;
+SDL_Renderer *sdlrenderer = NULL;
 int logloc = 0;
 double drawcolor[4] = {0};
 }
 }
 }
 
-void aequus::video::draw::InitializeDraw(SDL_Renderer* renderer) {
+void aequus::video::draw::InitializeDraw(SDL_Renderer *renderer) {
   sdlrenderer = renderer;
   logloc = pessum::logging::AddLogLocation("aequus_files/video/draw.h/");
 }
 
-void aequus::video::draw::SetRenderer(SDL_Renderer* renderer) {
+void aequus::video::draw::SetRenderer(SDL_Renderer *renderer) {
   sdlrenderer = renderer;
 }
 
@@ -30,7 +30,7 @@ void aequus::video::draw::Line(int a[2], int b[2]) {
   }
 }
 
-void aequus::video::draw::Lines(std::vector<int*> points) {
+void aequus::video::draw::Lines(std::vector<int *> points) {
   if (sdlrenderer != NULL) {
     std::vector<SDL_Point> sdlvec;
     for (unsigned a = 0; a < points.size(); a++) {
@@ -39,7 +39,7 @@ void aequus::video::draw::Lines(std::vector<int*> points) {
       newpoint.y = points[a][1];
       sdlvec.push_back(newpoint);
     }
-    SDL_Point* sdlpoints = &sdlvec[0];
+    SDL_Point *sdlpoints = &sdlvec[0];
     if (SDL_RenderDrawLines(sdlrenderer, sdlpoints, points.size()) != 0) {
       pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
                               "Failed to draw lines", logloc, "Lines");
@@ -56,7 +56,7 @@ void aequus::video::draw::Point(int p[2]) {
   }
 }
 
-void aequus::video::draw::Points(std::vector<int*> points) {
+void aequus::video::draw::Points(std::vector<int *> points) {
   if (sdlrenderer != NULL) {
     std::vector<SDL_Point> sdlvec;
     for (unsigned a = 0; a < points.size(); a++) {
@@ -65,7 +65,7 @@ void aequus::video::draw::Points(std::vector<int*> points) {
       newpoint.y = points[a][1];
       sdlvec.push_back(newpoint);
     }
-    SDL_Point* sdlpoints = &sdlvec[0];
+    SDL_Point *sdlpoints = &sdlvec[0];
     if (SDL_RenderDrawPoints(sdlrenderer, sdlpoints, points.size()) != 0) {
       pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
                               "Failed to draw points", logloc, "Points");
@@ -86,14 +86,14 @@ void aequus::video::draw::Rect(int rect[4]) {
   }
 }
 
-void aequus::video::draw::Rects(std::vector<int*> rects) {
+void aequus::video::draw::Rects(std::vector<int *> rects) {
   if (sdlrenderer != NULL) {
     std::vector<SDL_Rect> sdlvec;
     for (unsigned a = 0; a < rects.size(); a++) {
       SDL_Rect newrect = {rects[a][0], rects[a][1], rects[a][2], rects[a][3]};
       sdlvec.push_back(newrect);
     }
-    SDL_Rect* sdlrects = &sdlvec[0];
+    SDL_Rect *sdlrects = &sdlvec[0];
     if (SDL_RenderDrawRects(sdlrenderer, sdlrects, sdlvec.size()) != 0) {
       pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
                               "Failed to draw rectangles", logloc, "Rects");
@@ -111,14 +111,14 @@ void aequus::video::draw::FillRect(int rect[4]) {
   }
 }
 
-void aequus::video::draw::FillRects(std::vector<int*> rects) {
+void aequus::video::draw::FillRects(std::vector<int *> rects) {
   if (sdlrenderer != NULL) {
     std::vector<SDL_Rect> sdlvec;
     for (unsigned a = 0; a < rects.size(); a++) {
       SDL_Rect newrect = {rects[a][0], rects[a][1], rects[a][2], rects[a][3]};
       sdlvec.push_back(newrect);
     }
-    SDL_Rect* sdlrects = &sdlvec[0];
+    SDL_Rect *sdlrects = &sdlvec[0];
     if (SDL_RenderFillRects(sdlrenderer, sdlrects, sdlvec.size()) != 0) {
       pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
                               "Failed to fill rectangles", logloc, "FillRects");

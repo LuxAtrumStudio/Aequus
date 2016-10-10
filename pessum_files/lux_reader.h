@@ -1,8 +1,8 @@
 #ifndef _PESSUM_FILES_LUX_READER_H_
 #define _PESSUM_FILES_LUX_READER_H_
+#include "pessum_core.h"
 #include <string>
 #include <vector>
-#include "pessum_core.h"
 namespace pessum {
 // luxreader namespace provides support for lux files, and reading the data
 // files
@@ -51,6 +51,8 @@ void InitializeLuxReader();
 DataFile LoadLuxDataFile(std::string filedirectory);
 // Loads the data from a lux hierarchy file, and returns in a Hierarchy struct
 Hierarchy LoadLuxHierarchyFile(std::string filedirectory);
+// Loads the data from a lux list file, and returns in a vector of strings
+std::vector<std::string> LoadLuxListFile(std::string filedirectory);
 
 // Takes a DataFile structure, and converts it to RawLuxCode, to output
 void SaveLuxDataFile(std::string filedirectory, DataFile ouputdata);
@@ -62,4 +64,4 @@ void OuputRawFileData(LuxFileType filetype, std::string filedirectory,
                       RawLuxCode rawoutputcode);
 }
 }
-#endif  // !_PESSUM_FILES_LUX_READER_H_
+#endif // !_PESSUM_FILES_LUX_READER_H_

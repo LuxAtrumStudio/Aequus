@@ -1,6 +1,6 @@
+#include "input.h"
 #include "../../pessum_files/logging.h"
 #include "../aequus_headers.h"
-#include "input.h"
 
 namespace aequus {
 namespace input {

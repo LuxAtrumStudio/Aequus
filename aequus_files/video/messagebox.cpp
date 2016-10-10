@@ -1,6 +1,6 @@
+#include "messagebox.h"
 #include "../../pessum_files/logging.h"
 #include "../aequus_headers.h"
-#include "messagebox.h"
 
 void aequus::video::MessageBox::SetColorScheme(float r1, float g1, float b1,
                                                float r2, float g2, float b2,
@@ -43,7 +43,7 @@ void aequus::video::MessageBox::AddButton(MessageBoxButtonFlags flags,
 }
 
 void aequus::video::MessageBox::NewMessageBox(MessageBoxFlags flags,
-                                              SDL_Window* parentwindow,
+                                              SDL_Window *parentwindow,
                                               std::string title,
                                               std::string message) {
   internalmessageboxdata.flags = flags;

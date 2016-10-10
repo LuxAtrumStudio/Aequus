@@ -131,10 +131,6 @@ void aequus::video::Text::LoadFont() {
       pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
                               "Failed to load font file: " + filepath, logloc,
                               "LoadFont");
-    } else {
-      pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS,
-                              "Loaded font file: " + filepath, logloc,
-                              "LoadFont");
     }
   }
 }

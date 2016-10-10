@@ -10,7 +10,7 @@ void aequus::audio::Chunk::Volume(double percent) {
 
 void aequus::audio::Chunk::Terminate() { Mix_FreeChunk(chunk); }
 
-Mix_Chunk* aequus::audio::Chunk::GetChunk() {
+Mix_Chunk *aequus::audio::Chunk::GetChunk() {
   if (chunk == NULL) {
     return (NULL);
   } else {

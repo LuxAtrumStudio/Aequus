@@ -40,9 +40,9 @@ enum WindowPositionFlags {
 enum ReturnType { BUTTON };
 // Structure for storing window data
 struct WindowData {
-  SDL_Window* sdlwindow = NULL;
+  SDL_Window *sdlwindow = NULL;
   Renderer windowrenderer;
-  Object* obj = NULL;
+  Object *obj = NULL;
   std::vector<Object> objects;
   int logloc = 0;
   bool hidden = false;
@@ -73,13 +73,14 @@ extern std::string globalresourcedir;
 // window
 extern std::vector<MessageBox> messageboxes;
 // Pointer directly to bound window data
-extern WindowData* win;
+extern WindowData *win;
 // External access to return data from objects
 extern std::vector<ReturnData> output;
 // Creates new SDL window based off of given arguments
 void CreateWindow(std::string title = "NULL", int width = 600, int height = 600,
                   int x = SDL_WINDOWPOS_UNDEFINED,
-                  int y = SDL_WINDOWPOS_UNDEFINED, Uint32 flags = WINDOWED);
+                  int y = SDL_WINDOWPOS_UNDEFINED,
+                  Uint32 flags = WINDOWED | RESIZABLE);
 // Terminates an SDL window, and erases all data
 void TerminateWindow(int pointer = boundwindow);
 // Toggles weather the window is hidden
@@ -104,7 +105,6 @@ void SetGammaRamp(float red, float green, float blue,
 // Toggles grabing of input to window
 void SetGrab(bool grab, int pointer = boundwindow);
 // Sets window icon, given imagedirectory
-// TODO (Arden): create SetIcon function
 void SetIcon(std::string iconfiledirectory, int pointer = boundwindow);
 // Sets the maximum size for the window to be resized to
 void SetMaximumSize(int width, int height, int pointer = boundwindow);
@@ -140,4 +140,4 @@ void HandleEvents(int pointer = boundwindow);
 void HandleEventsAll();
 }
 }
-#endif  // !_AEQUUS_FILES_VIDEO_VIDEO_H_
+#endif // !_AEQUUS_FILES_VIDEO_VIDEO_H_

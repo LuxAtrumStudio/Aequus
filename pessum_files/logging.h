@@ -1,9 +1,9 @@
 #ifndef _PESSUM_FILES_LOGGING_H_
 #define _PESSUM_FILES_LOGGING_H_
+#include "pessum_core.h"
 #include <fstream>
 #include <string>
 #include <vector>
-#include "pessum_core.h"
 namespace pessum {
 // logging namespace is used to provide debuging assistance to the
 // user. It saves data to a seperate file incase of a crash.
@@ -37,4 +37,4 @@ void LogTimeStamp(bool date = false);
 void TerminateLogging();
 }
 }
-#endif  // !_PESSUM_FILES_LOGGING_H_
+#endif // !_PESSUM_FILES_LOGGING_H_

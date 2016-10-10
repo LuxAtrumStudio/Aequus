@@ -1,7 +1,7 @@
-#include <fstream>
+#include "music.h"
 #include "../../pessum_files/pessum_headers.h"
 #include "../aequus_headers.h"
-#include "music.h"
+#include <fstream>
 
 namespace aequus {
 namespace audio {
@@ -87,22 +87,10 @@ void aequus::audio::music::FadeOut(int endfadeout) {
 
 void aequus::audio::music::LoadPlaylist(std::string folder) {
   std::vector<std::string> filepaths;
-  std::string line, song;
   std::string playlistfile = folder + "/songs.lux";
-  std::ifstream playlist(playlistfile.c_str());
-  if (playlist.is_open()) {
-    while (getline(playlist, line)) {
-      song = folder + "/";
-      for (unsigned a = 0; a < line.size() - 1; a++) {
-        song = song + line[a];
-      }
-      filepaths.push_back(song);
-    }
-    playlist.close();
-    filepaths[filepaths.size() - 1] =
-        filepaths[filepaths.size() - 1] + line[line.size() - 1];
-  }
+  filepaths = pessum::luxreader::LoadLuxListFile(playlistfile);
   for (unsigned a = 0; a < filepaths.size(); a++) {
+    filepaths[a] = folder + "/" + filepaths[a];
     LoadSong(filepaths[a]);
   }
 }

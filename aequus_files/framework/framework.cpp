@@ -1,8 +1,8 @@
-#include <string>
-#include "../../pessum_files/pessum_headers.h"
+#include "framework.h"
+#include "../../pessum_files/logging.h"
 #include "../aequus_headers.h"
 #include "../sdl_headers.h"
-#include "framework.h"
+#include <string>
 
 namespace aequus {
 namespace framework {
@@ -46,7 +46,7 @@ void aequus::framework::SetMain() { SDL_SetMainReady(); }
 
 std::string aequus::framework::SdlError() {
   std::string errorstring = "";
-  const char* error = SDL_GetError();
+  const char *error = SDL_GetError();
   if (*error) {
     errorstring = error;
     SDL_ClearError();
@@ -59,23 +59,23 @@ std::string aequus::framework::SdlError() {
 std::string aequus::framework::GetError(int errortype) {
   std::string errorstring = "";
   if (errortype == 1) {
-    const char* error = SDL_GetError();
+    const char *error = SDL_GetError();
     if (*error) {
       errorstring = error;
       SDL_ClearError();
     }
   } else if (errortype == 2) {
-    const char* error = IMG_GetError();
+    const char *error = IMG_GetError();
     if (*error) {
       errorstring = error;
     }
   } else if (errortype == 3) {
-    const char* error = TTF_GetError();
+    const char *error = TTF_GetError();
     if (*error) {
       errorstring = error;
     }
   } else if (errortype == 4) {
-    const char* error = Mix_GetError();
+    const char *error = Mix_GetError();
     if (*error) {
       errorstring = error;
     }

@@ -1,8 +1,8 @@
 #ifndef _PESSUM_FILES_REST_H_
 #define _PESSUM_FILES_REST_H_
+#include "pessum_core.h"
 #include <string>
 #include <vector>
-#include "pessum_core.h"
 namespace pessum {
 // rest namespace allows access to urls and internet
 // api through the use of return json files
@@ -53,4 +53,4 @@ std::string GetStringVariable(std::string variablename,
                               std::string jsonfilename);
 }
 }
-#endif  // !_PESSUM_FILES_REST_H_
+#endif // !_PESSUM_FILES_REST_H_

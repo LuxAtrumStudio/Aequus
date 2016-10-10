@@ -1,15 +1,15 @@
 #ifndef _AEQUUS_FILES_VIDEO_RENDERER_H_
 #define _AEQUUS_FILES_VIDEO_RENDERER_H_
-#include <vector>
 #include "../sdl_headers.h"
 #include "object/object.h"
+#include <vector>
 namespace aequus {
 namespace video {
 // Renderer class, used to store all data for an SDL renderer, aswell as
 // running all basic renderer funcitons, such as changing settings
 // and basic draw functions.
 class Renderer {
- public:
+public:
   // Used to set renderer mode between the different poslible SDL modes
   enum RendererFlags {
     SOFTWARE = SDL_RENDERER_SOFTWARE,
@@ -25,11 +25,11 @@ class Renderer {
     MOD = SDL_BLENDMODE_MOD
   };
   // The pointer to the SDL renderer
-  SDL_Renderer* sdlrenderer;
+  SDL_Renderer *sdlrenderer;
   // Internal storage of the renderer mode, for functions to check against
   RendererFlags rendererflag;
   // Genoreates a new renderer from a given window, and creates the log
-  void CreateRenderer(SDL_Window* sdlwindow, std::string title,
+  void CreateRenderer(SDL_Window *sdlwindow, std::string title,
                       RendererFlags flags);
   // Destroys the renderer, but not the window
   void DestroyRenderer();
@@ -50,10 +50,10 @@ class Renderer {
   // Clears the renderer with the current draw color
   void Clear();
 
- private:
+private:
   // Sets log location for aequus framework logging
   int logloc = 0;
 };
 }
 }
-#endif  // !_AEQUUS_FILES_VIDEO_RENDERER_H_
+#endif // !_AEQUUS_FILES_VIDEO_RENDERER_H_

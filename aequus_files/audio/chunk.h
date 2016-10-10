@@ -4,15 +4,15 @@
 namespace aequus {
 namespace audio {
 class Chunk {
- public:
+public:
   void Load(std::string file);
   void Volume(double percent);
   void Terminate();
-  Mix_Chunk* GetChunk();
+  Mix_Chunk *GetChunk();
 
- private:
-  Mix_Chunk* chunk = NULL;
+private:
+  Mix_Chunk *chunk = NULL;
 };
 }
 }
-#endif  // !_AEQUUS_FILES_AUDIO_CHUNK_H_
+#endif // !_AEQUUS_FILES_AUDIO_CHUNK_H_

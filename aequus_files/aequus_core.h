@@ -11,4 +11,4 @@ extern int FPS;
 extern time_t FPStimecheck;
 void Frame();
 }
-#endif  // !_AEQUUS_AEQUUS_CORE_H_
+#endif // !_AEQUUS_AEQUUS_CORE_H_

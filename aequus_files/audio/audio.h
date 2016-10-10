@@ -21,4 +21,4 @@ void PlaySound(std::string file, int channel = boundchannel);
 void LoadSound(std::string file);
 }
 }
-#endif  // !_AEQUUS_FILES_AUDIO_AUDIO_H_
+#endif // !_AEQUUS_FILES_AUDIO_AUDIO_H_

@@ -1,17 +1,17 @@
 #ifndef _AEQUUS_FILES_VIDEO_OBJECT_OBJECT_H_
 #define _AEQUUS_FILES_VIDEO_OBJECT_OBJECT_H_
-#include <string>
-#include <vector>
 #include "../../sdl_headers.h"
 #include "surface.h"
 #include "text.h"
 #include "texture.h"
+#include <string>
+#include <vector>
 namespace aequus {
 namespace video {
 // Object class is used to manage everything to do with visual objects
 // Used to create an manipulates image texture or text textures
 class Object {
- public:
+public:
   enum ObjectType { IMAGE, TEXT, BUTTON };
   // Storage to Surface class assosiated with the object
   Surface objsurface;
@@ -21,12 +21,12 @@ class Object {
   Texture objtexture;
   ObjectType objtype = IMAGE;
   // Sets the base initialization requiered for a new object
-  void InitalizeObj(SDL_Renderer* renderer = NULL, int counter = 0,
+  void InitalizeObj(SDL_Renderer *renderer = NULL, int counter = 0,
                     std::string resource = "resources/");
   // Creates a new image object, based off of the given file path
   // Creates a new surface and links it to the texture
   void CreateImgObj(std::string filepath = "NULL.png",
-                    SDL_Renderer* renderer = NULL);
+                    SDL_Renderer *renderer = NULL);
   // Creates a new text object, based off of the given text and other parameters
   // Creates a new text and links it to the texture
   void CreateTextObj(std::string text = "NULL", int point = 12, double red = 1,
@@ -34,7 +34,7 @@ class Object {
                      Text::FontWeight weight = Text::REGULAR,
                      bool italic = false,
                      std::string fontdirectory = "Raleway/",
-                     SDL_Renderer* renderer = NULL);
+                     SDL_Renderer *renderer = NULL);
   // Scales the object to be a raw x by y size
   void Scale(int x = -1, int y = -1);
   // Scales the object relative to the percent of the total window size
@@ -59,14 +59,14 @@ class Object {
   void CreateButton(std::string text = "NULL",
                     std::string imagepath = "NULL.png", bool whitetext = false,
                     bool clipbutton = false, int width = -1, int height = -1,
-                    SDL_Renderer* renderer = NULL);
+                    SDL_Renderer *renderer = NULL);
   bool UpdateButton(int mousex = 0, int mousey = 0, int mousestate = 0);
 
- private:
+private:
   // Pointer to logging locaiton
   int logloc = 0;
   // Pointer to currently set sdl renderer
-  SDL_Renderer* objrenderer = NULL;
+  SDL_Renderer* objrenderer;
   // Position, size, and point of rotation data for the object
   int posx, posy, sizex, sizey, rotateaxisx, rotateaxisy;
   double scalex, scaley;
@@ -93,4 +93,4 @@ class Object {
 };
 }
 }
-#endif  // !_AEQUUS_FILES_VIDEO_OBJECT_OBJECT_H_
+#endif // !_AEQUUS_FILES_VIDEO_OBJECT_OBJECT_H_

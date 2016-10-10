@@ -5,7 +5,7 @@
 #include "../../sdl_headers.h"
 #include "object.h"
 
-void aequus::video::Object::InitalizeObj(SDL_Renderer *renderer, int counter,
+void aequus::video::Object::InitalizeObj(SDL_Renderer* renderer, int counter,
                                          std::string resource) {
   logloc = pessum::logging::AddLogLocation(
       "aequus_files/video/object/object.cpp[" + std::to_string(counter) + "]/");
@@ -236,15 +236,8 @@ void aequus::video::Object::CreateButton(std::string text,
   objtype = BUTTON;
   buttonclip = clipbutton;
   if (buttonclip == true) {
-    SetClipSpace(0, 0, sizex, sizey / 4);
-    destsizex = clipsizex * scalex;
-    destsizey = clipsizey * scaley;
-  } else if (buttonclip == false) {
-    destsizex = sizex * scalex;
-    destsizey = sizey * scaley;
+    SetClipSpace(0, 0, surfacewidth, surfaceheight / 4);
   }
-  int destrect[4] = {posx, posy, destsizex, destsizey};
-  objtexture.SetDestinationRect(destrect);
   for (int a = 0; a < 4; a++) {
     savedcolormod[a] = 1;
   }

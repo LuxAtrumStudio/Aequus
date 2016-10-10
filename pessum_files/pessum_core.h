@@ -10,4 +10,4 @@ void InitializePessumComponents();
 // Runs terminatrion functions for rest, and logging
 void TerminatePessumComponents();
 }
-#endif  // !_PESSUM_FILES_PESSUM_CORE_H_
+#endif // !_PESSUM_FILES_PESSUM_CORE_H_

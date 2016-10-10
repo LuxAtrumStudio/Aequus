@@ -1,9 +1,9 @@
-#include <string>
-#include <vector>
-#include "../../../pessum_files/pessum_headers.h"
+#include "surface.h"
+#include "../../../pessum_files/logging.h"
 #include "../../aequus_headers.h"
 #include "../../sdl_headers.h"
-#include "surface.h"
+#include <string>
+#include <vector>
 
 void aequus::video::Surface::LoadSurface(std::string filepath) {
   surfacefilepath = filepath;
@@ -12,7 +12,7 @@ void aequus::video::Surface::LoadSurface(std::string filepath) {
   sdlsurface = IMG_Load(filepath.c_str());
   if (sdlsurface == NULL) {
     pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
-                            "Filed to load image file", logloc, "LoadSurface");
+                            "Failed to load image file", logloc, "LoadSurface");
     framework::GetError(2);
   } else {
     width = sdlsurface->w;
@@ -55,7 +55,7 @@ void aequus::video::Surface::SetSourceRectangle(int rectangle[4]) {
   ConvertRectangles();
 }
 
-int* aequus::video::Surface::GetSourceRectangle() {
+int *aequus::video::Surface::GetSourceRectangle() {
   if (sdlsurface != NULL) {
     return source;
   } else {
@@ -76,7 +76,7 @@ void aequus::video::Surface::SetDestinationRectangle(int rectangle[4]) {
   ConvertRectangles();
 }
 
-int* aequus::video::Surface::GetDestinationRectangle() {
+int *aequus::video::Surface::GetDestinationRectangle() {
   if (sdlsurface != NULL) {
     return destination;
   } else {
@@ -105,7 +105,7 @@ void aequus::video::Surface::SetColorMod(double color[4]) {
   }
 }
 
-double* aequus::video::Surface::GetColorMode() {
+double *aequus::video::Surface::GetColorMode() {
   if (sdlsurface != NULL) {
     return colormod;
   } else {
@@ -146,7 +146,7 @@ aequus::video::Surface::BlendMode aequus::video::Surface::GetBlendMode() {
   }
 }
 
-int* aequus::video::Surface::GetSize() {
+int *aequus::video::Surface::GetSize() {
   if (sdlsurface != NULL) {
     int size[2] = {width, height};
     return (size);
@@ -173,7 +173,7 @@ void aequus::video::Surface::Terminate() {
 }
 
 void aequus::video::Surface::ScaleSurface(int width, int height) {
-  SDL_Surface* newsurface;
+  SDL_Surface *newsurface;
   newsurface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
   SDL_BlitScaled(sdlsurface, NULL, newsurface, NULL);
   sdlsurface = newsurface;

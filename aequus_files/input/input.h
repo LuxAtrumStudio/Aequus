@@ -1,9 +1,9 @@
 #ifndef _AEQUUS_FILES_INPUT_INPUT_H_
 #define _AEQUUS_FILES_INPUT_INPUT_H_
+#include "../sdl_headers.h"
 #include <ctime>
 #include <string>
 #include <vector>
-#include "../sdl_headers.h"
 namespace aequus {
 namespace input {
 enum EventType {
@@ -83,4 +83,4 @@ void PollEvents();
 void InterpretEvent();
 }
 }
-#endif  // !_AEQUUS_FILES_INPUT_INPUT_H_
+#endif // !_AEQUUS_FILES_INPUT_INPUT_H_

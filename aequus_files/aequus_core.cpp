@@ -1,7 +1,7 @@
-#include <ctime>
-#include "../pessum_files/pessum_headers.h"
 #include "aequus_core.h"
+#include "../pessum_files/pessum_headers.h"
 #include "aequus_headers.h"
+#include <ctime>
 namespace aequus {
 int FPS = -1;
 time_t FPStimecheck;
@@ -13,7 +13,6 @@ void aequus::Frame() {
   aequus::video::HandleEventsAll();
   aequus::video::UpdateAll();
   time_t current;
-  std::string currenttime = "00:00:00";
   time(&current);
   if (current > FPStimecheck + 10) {
     FPStimecheck = current;
