@@ -45,7 +45,6 @@ clean:
 .PHONY : run
 run:
 	./aequus
-	gedit log_output.log
 
 .PHONY : compress
 compress:
