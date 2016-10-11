@@ -1,6 +1,6 @@
 CPP_FILES = $(wildcard *.cpp)
 OBJ_FILES = $(notdir $(CPP_FILES:.cpp=.o))
-TOTAL_OBJ_FILES = $(OBJ_FILES) $(wildcard */*.o) $(wildcard */*/*.o) $(wildcard */*/*/*.o)
+TOTAL_OBJ_FILES = $(wildcard */*.o) $(wildcard */*/*.o) $(wildcard */*/*/*.o)
 CC = g++
 COMPILER_FLAGS = -MMD -std=c++11 -w -c
 LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
@@ -12,7 +12,7 @@ all: subsystem top_obj $(PROGRAM_NAME)
 
 $(PROGRAM_NAME): $(OBJ_FILES) $(wildcard */*.o) $(wildcard */*/*.o) $(wildcard */*/*/*.o)
 	setterm -foreground red
-	$(CC) $(TOTAL_OBJ_FILES) -o $(PROGRAM_NAME) $(LINKER_FLAGS)
+	$(CC) $(OBJ_FILES) $(TOTAL_OBJ_FILES) -o $(PROGRAM_NAME) $(LINKER_FLAGS)
 	setterm -default
 
 %.o: %.cpp
@@ -46,7 +46,6 @@ clean:
 run:
 	./aequus.
 
-.PHONY : compress
-compress:
-	cd ../
-	tar -zcvf $(PROGRAM_NAME).tar.gz Aequus
+.PHONY : lib
+lib:
+	ar rcs lib$(PROGRAM_NAME).a $(TOTAL_OBJ_FILES)
