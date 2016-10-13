@@ -6,6 +6,7 @@
 #include <vector>
 namespace aequus {
 namespace input {
+// Used to declare event type for general usage later
 enum EventType {
   WINDOW,
   KEYBOARD,
@@ -18,6 +19,7 @@ enum EventType {
   QUIT,
   DROP
 };
+// Used to declare different events for SDL windows
 enum WindowEvent {
   SHOWN,
   HIDDEN,
@@ -34,8 +36,11 @@ enum WindowEvent {
   FOCUSLOST,
   CLOSE
 };
+// Used to determin button or key state
 enum State { PRESSED, RELEASED, NONE };
+// Used to to declare mouse button that was pressed
 enum Button { LEFT, MIDDLE, RIGHT };
+// Used for internal event declaration
 struct Event {
   // All event types
   EventType type;
@@ -73,11 +78,17 @@ struct Event {
   // DragDrop
   std::string file = "NULL";
 };
+// Current event type
 extern EventType eventtype;
+// Current SDL event
 extern SDL_Event sdlevent;
+// New Internal event
 extern Event newevent;
+// Used to store if button is pressed
 extern bool press;
+// Used to determine if a quit event has been called
 extern bool quitevent;
+// Vector to store all events that are loaded when PollEvents is called
 extern std::vector<Event> events;
 // Gets all SDL events that can be read
 void PollEvents();

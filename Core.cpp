@@ -1,13 +1,13 @@
-#include <iostream>
 #include "aequus_files/aequus_headers.h"
 #include "pessum_files/pessum_headers.h"
+#include <iostream>
 using namespace std;
 
 int main(int argc, char *argv[]) {
   pessum::InitializePessumComponents();
-  // aequus::video::SetIcon("resources/icon/sun.png");
   aequus::framework::SdlStartUp();
   aequus::video::CreateWindow("Core", 600, 600);
+  aequus::video::SetIcon("resources/icon/sun.png");
   aequus::video::SetTitle("Aequus Framework Stress Test");
   bool music = false, sound = false;
   bool messagebox = false;
@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
         if (aequus::input::events[a].key == int('p') && obutton == false) {
           obutton = true;
           aequus::video::NewObject();
-          aequus::video::win->obj->CreateButton("Hello World!!", "button4.png",
+          aequus::video::win->obj->CreateButton("Hello World!!", "button.png",
                                                 true, true, 600, 50);
           buttonobj = aequus::video::win->objects.size() - 1;
           pessum::logging::Log(pessum::logging::LOG_DEVELOPMENT_CHECK,
