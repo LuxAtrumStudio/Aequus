@@ -43,8 +43,13 @@ clean:
 	@echo Cleared all '.o' and '.d' files
 
 .PHONY : run
-run:
-	./aequus.
+run: subsystem top_obj $(PROGRAM_NAME)
+	./aequus
+
+.PHONY : compress
+compress:
+	cd ../
+	tar -zcvf $(PROGRAM_NAME).tar.gz Aequus
 
 .PHONY : lib
 lib:
