@@ -79,7 +79,9 @@ extern Event newevent;
 extern bool press;
 extern bool quitevent;
 extern std::vector<Event> events;
+// Gets all SDL events that can be read
 void PollEvents();
+// Interprets events into aequus event structure
 void InterpretEvent();
 }
 }
