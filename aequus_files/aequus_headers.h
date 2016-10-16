@@ -8,6 +8,7 @@
 #include "video/renderer.h"
 #include "video/video.h"
 // Video/Object Headers
+#include "video/object/adv_object.h"
 #include "video/object/object.h"
 #include "video/object/surface.h"
 #include "video/object/text.h"

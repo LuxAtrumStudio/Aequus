@@ -42,9 +42,10 @@ clean:
 	clear
 	@echo Cleared all '.o' and '.d' files
 
-.PHONY : run
-run: subsystem top_obj $(PROGRAM_NAME)
+.PHONY : test
+test: subsystem top_obj $(PROGRAM_NAME)
 	./aequus
+	less log_output.log
 
 .PHONY : compress
 compress:
@@ -57,3 +58,7 @@ lib:
 	sudo cp lib$(PROGRAM_NAME).a ../../../../usr/local/lib/ -u
 	clear
 	@echo Compiled lib file, and copied to usr/local/lib
+
+.PHONY : log
+log:
+	less log_output.log
