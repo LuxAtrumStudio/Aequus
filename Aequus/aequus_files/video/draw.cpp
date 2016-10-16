@@ -133,5 +133,5 @@ void aequus::video::draw::SetColor(double red, double green, double blue,
   drawcolor[2] = blue;
   drawcolor[3] = alpha;
   SDL_SetRenderDrawColor(sdlrenderer, red * 255, green * 255, blue * 255,
-                         alpha * 255);
+	  alpha * 255);
 }

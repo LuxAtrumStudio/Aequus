@@ -91,16 +91,21 @@ void aequus::video::Renderer::SetTargetClip(int rect[4]) {
 void aequus::video::Renderer::Update() { SDL_RenderPresent(sdlrenderer); }
 
 void aequus::video::Renderer::Clear() {
-  SDL_SetRenderDrawColor(sdlrenderer, 0, 0, 0, 1);
+  SDL_SetRenderDrawColor(sdlrenderer, color[0] * 255, color[1] * 255, color[2] * 255, color[3] * 255);
   if (SDL_RenderClear(sdlrenderer) != 0) {
     pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
                             "Failed to clear renderer", logloc, "Clear");
     framework::GetError();
   }
-  double color[4];
-  for (unsigned a = 0; a < 4; a++) {
-    color[a] = aequus::video::draw::drawcolor[a];
-  }
-  SDL_SetRenderDrawColor(sdlrenderer, color[0] * 255, color[1] * 255,
-                         color[2] * 255, color[3] * 255);
+  SDL_SetRenderDrawColor(sdlrenderer, draw::drawcolor[0] * 255,
+                         draw::drawcolor[1] * 255, draw::drawcolor[2] * 255,
+                         draw::drawcolor[3] * 255);
+}
+
+void aequus::video::Renderer::SetColor(double red, double green, double blue,
+	double alpha) {
+	color[0] = red;
+	color[1] = green;
+	color[2] = blue;
+	color[3] = alpha;
 }

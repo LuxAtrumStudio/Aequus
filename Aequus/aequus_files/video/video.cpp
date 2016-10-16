@@ -224,21 +224,18 @@ void aequus::video::SetTitle(std::string title, int pointer) {
 }
 
 void aequus::video::Update(bool persistent, int pointer) {
+  if (persistent == false) {
+    windows[pointer].windowrenderer.Clear();
+  }
   for (unsigned a = 0; a < windows[pointer].objects.size(); a++) {
     windows[pointer].objects[a].DisplayObj();
   }
   windows[pointer].windowrenderer.Update();
-  if (persistent == false) {
-    windows[pointer].windowrenderer.Clear();
-  }
 }
 
 void aequus::video::UpdateAll(bool persistent) {
   for (unsigned a = 0; a < windows.size(); a++) {
     Update(persistent, a);
-  }
-  for (unsigned a = 0; a < windows.size(); a++) {
-    HandleEvents(a);
   }
 }
 

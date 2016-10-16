@@ -241,6 +241,7 @@ void aequus::video::Object::CreateButton(std::string text,
   for (int a = 0; a < 4; a++) {
     savedcolormod[a] = 1;
   }
+  SDL_SetTextureBlendMode(objtexture.sdltexture, SDL_BLENDMODE_NONE);
 }
 
 bool aequus::video::Object::UpdateButton(int mousex, int mousey,
