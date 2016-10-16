@@ -58,7 +58,8 @@ public:
   // Creates a button that returns the button id
   void CreateButton(std::string text = "NULL",
                     std::string imagepath = "NULL.png", bool whitetext = false,
-                    bool clipbutton = false, int width = -1, int height = -1,
+                    bool clipbutton = false, bool imagebutton = false,
+                    int width = -1, int height = -1,
                     SDL_Renderer *renderer = NULL);
   bool UpdateButton(int mousex = 0, int mousey = 0, int mousestate = 0);
 
@@ -66,7 +67,7 @@ private:
   // Pointer to logging locaiton
   int logloc = 0;
   // Pointer to currently set sdl renderer
-  SDL_Renderer* objrenderer;
+  SDL_Renderer *objrenderer;
   // Position, size, and point of rotation data for the object
   int posx, posy, sizex, sizey, rotateaxisx, rotateaxisy;
   double scalex, scaley;

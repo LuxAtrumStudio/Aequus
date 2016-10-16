@@ -132,7 +132,8 @@ void aequus::video::Object::DisplayObj() { objtexture.Render(); }
 
 void aequus::video::Object::CreateButton(std::string text,
                                          std::string imagepath, bool whitetext,
-                                         bool clipbutton, int width, int height,
+                                         bool clipbutton, bool imagebutton,
+                                         int width, int height,
                                          SDL_Renderer *renderer) {
   imagepath = resourcedir + "images/" + imagepath;
   int surfaceheight = 0, textheight = 0;
@@ -160,7 +161,7 @@ void aequus::video::Object::CreateButton(std::string text,
   if (clipbutton == true) {
     surfaceheight = surfaceheight / 4;
   }
-  if (text.size() != 0) {
+  if (text.size() != 0 && imagebutton == false) {
     objtext.CreateFont();
     if (whitetext == true) {
       double color[4] = {1, 1, 1, 1};
@@ -220,6 +221,64 @@ void aequus::video::Object::CreateButton(std::string text,
       rectsurface.y =
           ((surfaceheight - objtext.textsurface->h) / 2) + (3 * surfaceheight);
       SDL_BlitScaled(objtext.textsurface, &recttext, objsurface.sdlsurface,
+                     &rectsurface);
+    }
+  }
+  if (imagebutton == true) {
+    Surface imagesurface;
+    text = resourcedir + "images/" + text;
+    imagesurface.LoadSurface(text);
+    SDL_Rect rectimage;
+    if (imagesurface.sdlsurface->w > surfacewidth ||
+        imagesurface.sdlsurface->h > surfaceheight) {
+      rectimage.w = imagesurface.sdlsurface->w;
+      rectimage.h = imagesurface.sdlsurface->h;
+    } else {
+      rectimage.w = surfacewidth;
+      rectimage.h = surfaceheight;
+    }
+    rectimage.x = 0;
+    rectimage.y = 0;
+    SDL_Rect rectsurface;
+    rectsurface.h = surfaceheight;
+    rectsurface.w = surfacewidth;
+    rectsurface.x = (surfacewidth - imagesurface.sdlsurface->w) / 2;
+    rectsurface.y = (surfaceheight - imagesurface.sdlsurface->h) / 2;
+    if (rectsurface.x < 0) {
+      rectsurface.x = 0;
+    }
+    if (rectsurface.y < 0) {
+      rectsurface.y = 0;
+    }
+    SDL_BlitScaled(imagesurface.sdlsurface, &rectimage, objsurface.sdlsurface,
+                   &rectsurface);
+    if (clipbutton == true) {
+      rectsurface.h = surfaceheight;
+      rectsurface.w = surfacewidth;
+      rectsurface.y =
+          ((surfaceheight - imagesurface.sdlsurface->h) / 2) + surfaceheight;
+      if (rectsurface.y < surfaceheight) {
+        rectsurface.y = surfaceheight;
+      }
+      SDL_BlitScaled(imagesurface.sdlsurface, &rectimage, objsurface.sdlsurface,
+                     &rectsurface);
+      rectsurface.h = surfaceheight;
+      rectsurface.w = surfacewidth;
+      rectsurface.y = ((surfaceheight - imagesurface.sdlsurface->h) / 2) +
+                      (2 * surfaceheight);
+      if (rectsurface.y < surfaceheight * 2) {
+        rectsurface.y = surfaceheight * 2;
+      }
+      SDL_BlitScaled(imagesurface.sdlsurface, &rectimage, objsurface.sdlsurface,
+                     &rectsurface);
+      rectsurface.h = surfaceheight;
+      rectsurface.w = surfacewidth;
+      rectsurface.y = ((surfaceheight - imagesurface.sdlsurface->h) / 2) +
+                      (3 * surfaceheight);
+      if (rectsurface.y < surfaceheight * 3) {
+        rectsurface.y = surfaceheight * 3;
+      }
+      SDL_BlitScaled(imagesurface.sdlsurface, &rectimage, objsurface.sdlsurface,
                      &rectsurface);
     }
   }
