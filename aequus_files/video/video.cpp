@@ -1,6 +1,6 @@
-#include "video.h"
 #include "../../pessum_files/logging.h"
 #include "../aequus_headers.h"
+#include "video.h"
 
 namespace aequus {
 namespace video {
@@ -179,7 +179,8 @@ void aequus::video::SetIcon(std::string iconfiledirectory, int pointer) {
   iconsurface.LoadSurface(iconfiledirectory);
   SDL_SetWindowIcon(windows[pointer].sdlwindow, iconsurface.sdlsurface);
   pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
-                          "Set to set window icon to: " + iconfiledirectory, logloc, "SetIcon");
+                          "Set to set window icon to: " + iconfiledirectory,
+                          logloc, "SetIcon");
 }
 
 void aequus::video::SetMaximumSize(int width, int height, int pointer) {
@@ -224,21 +225,18 @@ void aequus::video::SetTitle(std::string title, int pointer) {
 }
 
 void aequus::video::Update(bool persistent, int pointer) {
+  if (persistent == false) {
+    windows[pointer].windowrenderer.Clear();
+  }
   for (unsigned a = 0; a < windows[pointer].objects.size(); a++) {
     windows[pointer].objects[a].DisplayObj();
   }
   windows[pointer].windowrenderer.Update();
-  if (persistent == false) {
-    windows[pointer].windowrenderer.Clear();
-  }
 }
 
 void aequus::video::UpdateAll(bool persistent) {
   for (unsigned a = 0; a < windows.size(); a++) {
     Update(persistent, a);
-  }
-  for (unsigned a = 0; a < windows.size(); a++) {
-    HandleEvents(a);
   }
 }
 

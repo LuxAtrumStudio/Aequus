@@ -15,6 +15,7 @@ int main(int argc, char *argv[]) {
   bool otext = false, otexture = false, obutton = false;
   double r, g, b, angle = 0;
   int textobj = 0, textureobj = 0, buttonobj = 0;
+  aequus::video::win->windowrenderer.SetColor(1, 1, 1, 1);
   while (aequus::video::AllClose() == false) {
     r = rand() % 255 / (double)255;
     g = rand() % 255 / (double)255;

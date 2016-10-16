@@ -49,10 +49,15 @@ public:
   void Update();
   // Clears the renderer with the current draw color
   void Clear();
+  // Sets the background color of the renderer/window
+  void SetColor(double red = 0, double green = 0, double blue = 0,
+                double alpha = 1);
 
 private:
   // Sets log location for aequus framework logging
   int logloc = 0;
+  // Storage for background color of renderer/window
+  double color[4] = {0, 0, 0, 1};
 };
 }
 }
