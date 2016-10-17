@@ -1,4 +1,4 @@
 #DATAFILE
-vector string titles Test_Graph X-Axis Y-Axis
-vector int X-Axis 0 1 2 3 4 5 6
-vector int Y-Axis 10 11 12 7 15 0 20
+vector string titles TestGraph XAxis YAxis
+vector int XAxis 0 1 2 3 4 5 6
+vector int YAxis 10 10 12 7 15 15 20

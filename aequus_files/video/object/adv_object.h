@@ -1,6 +1,7 @@
 #ifndef _AEQUUS_FILES_VIDEO_OBJECT_ADV_OBJECT_H_
 #define _AEQUUS_FILES_VIDEO_OBJECT_ADV_OBJECT_H_
 #include "../../sdl_headers.h"
+#include "object.h";
 #include "surface.h"
 #include "text.h"
 #include "texture.h"
@@ -16,8 +17,7 @@ public:
   enum AdvType { GRAPH, MODEL, DGRAPH };
   // Used to set points of either 2D or 3D
   struct Value {
-    int x, y, z;
-    double doublex, doubley, doublez;
+    double x, y, z;
   };
   // Initalizes Advanced object functions
   void InitalizeAdvObj(SDL_Renderer *renderer = NULL, int counter = 0,
@@ -28,6 +28,8 @@ public:
   // vector value (y-axis name) ....
   void CreateGraph(std::string datafile, int width = 100, int height = 100,
                    SDL_Renderer *renderer = NULL);
+  // Displays the advanced object
+  void Display();
 
 private:
   // Pointer to logging locaiton
@@ -45,6 +47,14 @@ private:
   double colormod[4];
   // Used to define advanced object type
   AdvType objtype;
+  // Titles for graphs
+  std::string xaxis, yaxis, zaxis, graphtitle;
+  // Storage for graph points in either 2D or 3D
+  std::vector<Value> points;
+  // Stores the domain and range for graphs
+  double minx, maxx, miny, maxy, minz, maxz;
+  // Loads the data for 2D graphs
+  void LoadGraphData(std::string datafile = "NULL");
 };
 }
 }
