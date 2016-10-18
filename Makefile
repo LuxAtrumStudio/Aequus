@@ -47,10 +47,9 @@ test: subsystem top_obj $(PROGRAM_NAME)
 	./aequus
 	less log_output.log
 
-.PHONY : compress
-compress:
-	cd ../
-	tar -zcvf $(PROGRAM_NAME).tar.gz Aequus
+.PHONY : tar
+tar: clean
+	tar -zcvf $(PROGRAM_NAME).tar.gz ../Aequus
 
 .PHONY : lib
 lib:

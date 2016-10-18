@@ -9,7 +9,8 @@ int main(int argc, char *argv[]) {
   aequus::video::CreateWindow("Aequus");
   aequus::video::AdvObject adv;
   adv.InitalizeAdvObj();
-  adv.CreateGraph("test.lux");
+  adv.CreateGraph("test.lux", 100, 100,
+                  aequus::video::win->windowrenderer.sdlrenderer);
   while (aequus::video::AllClose() == false) {
     aequus::Frame();
   }

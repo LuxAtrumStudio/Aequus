@@ -1,11 +1,11 @@
-#include <string>
-#include <vector>
 #include "../../../pessum_files/pessum_headers.h"
 #include "../../aequus_headers.h"
 #include "../../sdl_headers.h"
 #include "texture.h"
+#include <string>
+#include <vector>
 
-void aequus::video::Texture::CreateTexture(SDL_Surface* surface) {
+void aequus::video::Texture::CreateTexture(SDL_Surface *surface) {
   logloc =
       pessum::logging::AddLogLocation("aequus_files/video/object/texture.cpp/");
   sdlsurface = surface;
@@ -20,7 +20,7 @@ void aequus::video::Texture::TerminateTexture() {
   sdlrenderer = NULL;
 }
 
-void aequus::video::Texture::SetRenderer(SDL_Renderer* renderer) {
+void aequus::video::Texture::SetRenderer(SDL_Renderer *renderer) {
   sdlrenderer = renderer;
 }
 
@@ -32,8 +32,8 @@ void aequus::video::Texture::Render() {
   } else if (renderflip == VERITCAL) {
     sdlflip = SDL_FLIP_VERTICAL;
   }
-  SDL_Rect* sdlsource = NULL;
-  SDL_Rect* sdldestination = NULL;
+  SDL_Rect *sdlsource = NULL;
+  SDL_Rect *sdldestination = NULL;
   if (sourcerect.h == 0 && sourcerect.w == 0) {
     sdlsource = NULL;
   } else {
@@ -68,13 +68,13 @@ void aequus::video::Texture::SetColorMod(double colormod[4]) {
   if (SDL_SetTextureColorMod(sdltexture, color[0] * 255, color[1] * 255,
                              color[2] * 255) != 0) {
     pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
-                            "Filed to set texture color mod", logloc,
+                            "Failed to set texture color mod", logloc,
                             "SetColorMod");
     framework::GetError();
   }
   if (SDL_SetTextureAlphaMod(sdltexture, color[3] * 255) != 0) {
     pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
-                            "Filed to set texture alpha mod", logloc,
+                            "Failed to set texture alpha mod", logloc,
                             "SetColorMod");
     framework::GetError();
   }

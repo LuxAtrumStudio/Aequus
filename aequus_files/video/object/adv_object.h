@@ -19,6 +19,11 @@ public:
   struct Value {
     double x, y, z;
   };
+  // Used to store single line graph data
+  struct GraphData {
+    std::string title;
+    std::vector<Value> points;
+  };
   // Initalizes Advanced object functions
   void InitalizeAdvObj(SDL_Renderer *renderer = NULL, int counter = 0,
                        std::string resource = "resources/");
@@ -30,6 +35,7 @@ public:
                    SDL_Renderer *renderer = NULL);
   // Displays the advanced object
   void Display();
+  Object advobj;
 
 private:
   // Pointer to logging locaiton
@@ -48,11 +54,13 @@ private:
   // Used to define advanced object type
   AdvType objtype;
   // Titles for graphs
-  std::string xaxis, yaxis, zaxis, graphtitle;
+  std::string graphtitle;
+  std::vector<std::string> titles;
   // Storage for graph points in either 2D or 3D
-  std::vector<Value> points;
+  std::vector<GraphData> graphs;
   // Stores the domain and range for graphs
   double minx, maxx, miny, maxy, minz, maxz;
+  // The object class for the actual advanced object
   // Loads the data for 2D graphs
   void LoadGraphData(std::string datafile = "NULL");
 };

@@ -15,22 +15,28 @@ void aequus::video::Object::InitalizeObj(SDL_Renderer *renderer, int counter,
 
 void aequus::video::Object::CreateImgObj(std::string filepath,
                                          SDL_Renderer *renderer) {
-  filepath = resourcedir + "images/" + filepath;
-  objsurface.LoadSurface(filepath);
+  if (filepath != "") {
+    filepath = resourcedir + "images/" + filepath;
+    objsurface.LoadSurface(filepath);
+  }
   if (renderer != NULL) {
     objrenderer = renderer;
+    objtexture.SetRenderer(objrenderer);
   }
-  objtexture.SetRenderer(objrenderer);
-  objtexture.CreateTexture(objsurface.sdlsurface);
+  if (objsurface.sdlsurface != NULL) {
+    objtexture.CreateTexture(objsurface.sdlsurface);
+  }
   posx = 0;
   posy = 0;
-  sizex = objsurface.sdlsurface->w;
-  sizey = objsurface.sdlsurface->h;
-  rotateaxisx = sizex / 2;
-  rotateaxisy = sizey / 2;
-  objtexture.SetRotatePoint(rotateaxisx, rotateaxisy);
-  destsizex = sizex;
-  destsizey = sizey;
+  if (objtexture.sdltexture != NULL) {
+    sizex = objsurface.sdlsurface->w;
+    sizey = objsurface.sdlsurface->h;
+    rotateaxisx = sizex / 2;
+    rotateaxisy = sizey / 2;
+    objtexture.SetRotatePoint(rotateaxisx, rotateaxisy);
+    destsizex = sizex;
+    destsizey = sizey;
+  }
   rotateangle = 0;
   objtype = IMAGE;
 }
