@@ -378,3 +378,19 @@ bool aequus::video::Object::UpdateButton(int mousex, int mousey,
   }
   return (clicked);
 }
+
+void aequus::video::Object::LoadDefaults() {
+  posx = 0;
+  posy = 0;
+  if (objtexture.sdltexture != NULL) {
+    sizex = objsurface.sdlsurface->w;
+    sizey = objsurface.sdlsurface->h;
+    rotateaxisx = sizex / 2;
+    rotateaxisy = sizey / 2;
+    objtexture.SetRotatePoint(rotateaxisx, rotateaxisy);
+    destsizex = sizex;
+    destsizey = sizey;
+  }
+  rotateangle = 0;
+  objtype = IMAGE;
+}

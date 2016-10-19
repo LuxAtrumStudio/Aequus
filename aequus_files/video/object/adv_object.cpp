@@ -5,18 +5,18 @@
 #include <string>
 #include <vector>
 
-void aequus::video::AdvObject::InitalizeAdvObj(SDL_Renderer *renderer,
-                                               int counter,
-                                               std::string resource) {
+void aequus::video::AdvObject::InitializeAdvObj(Renderer renderer, int counter,
+                                                std::string resource) {
   logloc = pessum::logging::AddLogLocation(
       "aequus_files/video/object/adv_object.cpp[" + std::to_string(counter) +
       "]/");
   resourcedir = resource;
   objrenderer = renderer;
+  advobjcount = counter;
 }
 
 void aequus::video::AdvObject::CreateGraph(std::string datafile, int width,
-                                           int height, SDL_Renderer *renderer) {
+                                           int height) {
   objtype = GRAPH;
   LoadGraphData(datafile);
   maxx = graphs[0].points[0].x;
@@ -37,7 +37,24 @@ void aequus::video::AdvObject::CreateGraph(std::string datafile, int width,
       }
     }
   }
+  globalobj.InitalizeObj(objrenderer.sdlrenderer, (advobjcount * 10) + 1,
+                         resourcedir);
+  globalobj.objtexture.SetRenderer(objrenderer.sdlrenderer);
+  globalobj.objtexture.sdltexture =
+      SDL_CreateTexture(objrenderer.sdlrenderer, SDL_PIXELFORMAT_RGBA8888,
+                        SDL_TEXTUREACCESS_TARGET, width, height);
+  globalobj.LoadDefaults();
+  objrenderer.SetTargetTexture(globalobj);
+  draw::InitializeDraw(objrenderer.sdlrenderer);
+  draw::SetColor(1, 1, 1, 1);
+  int a[2] = {0, 0};
+  int b[2] = {100, 100};
+  draw::Line(a, b);
+  SDL_SetRenderTarget(objrenderer.sdlrenderer, NULL);
 }
+
+void aequus::video::AdvObject::Display() { globalobj.DisplayObj(); }
+
 void aequus::video::AdvObject::LoadGraphData(std::string datafile) {
   int pointerx, pointery;
   bool typedoublex, typedoubley;

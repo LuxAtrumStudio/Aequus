@@ -27,10 +27,10 @@ public:
   // The pointer to the SDL renderer
   SDL_Renderer *sdlrenderer;
   // Internal storage of the renderer mode, for functions to check against
-  RendererFlags rendererflag;
+  Uint32 rendererflag;
   // Genoreates a new renderer from a given window, and creates the log
   void CreateRenderer(SDL_Window *sdlwindow, std::string title,
-                      RendererFlags flags);
+                      Uint32 flags = TARGETTEXTURE);
   // Destroys the renderer, but not the window
   void DestroyRenderer();
   // Sets a texture to render to

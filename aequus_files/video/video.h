@@ -2,6 +2,7 @@
 #define _AEQUUS_FILES_VIDEO_VIDEO_H_
 #include "../aequus_headers.h"
 #include "messagebox.h"
+#include "object/adv_object.h"
 #include "object/object.h"
 #include "renderer.h"
 namespace aequus {
@@ -43,7 +44,9 @@ struct WindowData {
   SDL_Window *sdlwindow = NULL;
   Renderer windowrenderer;
   Object *obj = NULL;
+  AdvObject *advobj = NULL;
   std::vector<Object> objects;
+  std::vector<AdvObject> advobjects;
   int logloc = 0;
   bool hidden = false;
   bool minimized = false;
@@ -130,6 +133,11 @@ bool AllClose();
 void NewObject(int pointer = boundwindow);
 // Binds the current object
 void BindObject(int pointer);
+// Initalizes a new advanced object and sets it as the currently bound advanced
+// object
+void NewAdvObject(int pointer = boundwindow);
+// Binds the current advanced object
+void BindAdvObject(int pointer);
 // Binds the current window, and the current object
 void Bind(int windowpointer = 0, int objectpointer = 0);
 // Either enables or disables the screensaver

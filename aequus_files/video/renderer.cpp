@@ -5,8 +5,7 @@
 #include <vector>
 
 void aequus::video::Renderer::CreateRenderer(SDL_Window *sdlwindow,
-                                             std::string title,
-                                             RendererFlags flags) {
+                                             std::string title, Uint32 flags) {
   logloc = pessum::logging::AddLogLocation("aequus_files/video/window[" +
                                            title + "]/renderer");
   sdlrenderer = SDL_CreateRenderer(sdlwindow, -1, flags);
@@ -29,16 +28,14 @@ void aequus::video::Renderer::DestroyRenderer() {
 }
 
 void aequus::video::Renderer::SetTargetTexture(Object target) {
-  if (rendererflag == TARGETTEXTURE) {
-    if (SDL_SetRenderTarget(sdlrenderer, target.objtexture.sdltexture) != 0) {
-      pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
-                              "Failed to set render target texture", logloc,
-                              "SetTargetTexture");
-      framework::GetError();
-    }
-  } else {
+  if (SDL_SetRenderTarget(sdlrenderer, target.objtexture.sdltexture) != 0) {
     pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
-                            "Renderer cannot target texture", logloc,
+                            "Failed to set render target texture", logloc,
+                            "SetTargetTexture");
+    framework::GetError();
+  } else {
+    pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS,
+                            "Set renderer to target texture", logloc,
                             "SetTargetTexture");
   }
 }

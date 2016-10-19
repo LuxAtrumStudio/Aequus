@@ -7,10 +7,8 @@ int main(int argc, char *argv[]) {
   pessum::InitializePessumComponents();
   aequus::framework::SdlStartUp();
   aequus::video::CreateWindow("Aequus");
-  aequus::video::AdvObject adv;
-  adv.InitalizeAdvObj();
-  adv.CreateGraph("test.lux", 100, 100,
-                  aequus::video::win->windowrenderer.sdlrenderer);
+  aequus::video::NewAdvObject();
+  aequus::video::win->advobj->CreateGraph("test.lux", 100, 100);
   while (aequus::video::AllClose() == false) {
     aequus::Frame();
   }

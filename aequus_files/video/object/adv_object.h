@@ -25,23 +25,24 @@ public:
     std::vector<Value> points;
   };
   // Initalizes Advanced object functions
-  void InitalizeAdvObj(SDL_Renderer *renderer = NULL, int counter = 0,
-                       std::string resource = "resources/");
+  void InitializeAdvObj(Renderer renderer, int counter = 0,
+                        std::string resource = "resources/");
   // Creates a graph from a data file that folows the format:
   // vector string titles (Graph Title) (x-axis name) (y-axis name)
   // vector value (x-axis name) ....
   // vector value (y-axis name) ....
-  void CreateGraph(std::string datafile, int width = 100, int height = 100,
-                   SDL_Renderer *renderer = NULL);
+  void CreateGraph(std::string datafile, int width = 100, int height = 100);
   // Displays the advanced object
   void Display();
-  Object advobj;
+  Object globalobj;
 
 private:
   // Pointer to logging locaiton
   int logloc = 0;
+  // The advanced object count for the window
+  int advobjcount = 0;
   // Pointer to currently set sdl renderer
-  SDL_Renderer *objrenderer;
+  Renderer objrenderer;
   // Standard directory for all resources
   // Image files are stored in "images/"
   // Font files are stored in "fonts/"

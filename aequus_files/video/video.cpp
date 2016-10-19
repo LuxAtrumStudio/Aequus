@@ -33,7 +33,8 @@ void aequus::video::CreateWindow(std::string title, int width, int height,
                             newwindow.logloc, "CreateWindow");
     SDL_GetWindowSurface(newwindow.sdlwindow);
     newwindow.windowrenderer.CreateRenderer(
-        newwindow.sdlwindow, newwindow.title, Renderer::ACCELERATED);
+        newwindow.sdlwindow, newwindow.title,
+        Renderer::ACCELERATED | Renderer::TARGETTEXTURE);
     draw::InitializeDraw(newwindow.windowrenderer.sdlrenderer);
     newwindow.sizex = width;
     newwindow.sizey = height;
@@ -231,6 +232,9 @@ void aequus::video::Update(bool persistent, int pointer) {
   for (unsigned a = 0; a < windows[pointer].objects.size(); a++) {
     windows[pointer].objects[a].DisplayObj();
   }
+  for (unsigned a = 0; a < windows[pointer].advobjects.size(); a++) {
+    windows[pointer].advobjects[a].Display();
+  }
   windows[pointer].windowrenderer.Update();
 }
 
@@ -268,6 +272,23 @@ void aequus::video::BindObject(int pointer) {
   if (pointer < windows[boundwindow].objects.size()) {
     boundobj = pointer;
     windows[boundwindow].obj = &windows[boundwindow].objects[boundobj];
+  }
+}
+
+void aequus::video::NewAdvObject(int pointer) {
+  AdvObject newadvobject;
+  newadvobject.InitializeAdvObj(windows[pointer].windowrenderer,
+                                windows[pointer].advobjects.size(),
+                                globalresourcedir);
+  windows[boundwindow].advobjects.push_back(newadvobject);
+  boundobj = windows[boundwindow].advobjects.size() - 1;
+  windows[boundwindow].advobj = &windows[boundwindow].advobjects[boundobj];
+}
+
+void aequus::video::BindAdvObject(int pointer) {
+  if (pointer < windows[boundwindow].advobjects.size()) {
+    boundobj = pointer;
+    windows[boundwindow].advobj = &windows[boundwindow].advobjects[boundobj];
   }
 }
 

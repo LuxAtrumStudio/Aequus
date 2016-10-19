@@ -61,7 +61,10 @@ public:
                     bool clipbutton = false, bool imagebutton = false,
                     int width = -1, int height = -1,
                     SDL_Renderer *renderer = NULL);
+  // Updates and checks if a button has been pressed
   bool UpdateButton(int mousex = 0, int mousey = 0, int mousestate = 0);
+  // Load default values
+  void LoadDefaults();
 
 private:
   // Pointer to logging locaiton
