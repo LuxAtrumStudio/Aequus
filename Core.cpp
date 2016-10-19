@@ -8,9 +8,14 @@ int main(int argc, char *argv[]) {
   aequus::framework::SdlStartUp();
   aequus::video::CreateWindow("Aequus");
   aequus::video::NewAdvObject();
-  aequus::video::win->advobj->CreateGraph("test.lux", 100, 100);
+  aequus::video::win->advobj->CreateGraph("test.lux", 10, 10);
   while (aequus::video::AllClose() == false) {
     aequus::Frame();
+    if (aequus::input::events.size() > 0) {
+      if (aequus::input::events[0].type == aequus::input::KEYBOARD) {
+        aequus::video::TerminateWindow();
+      }
+    }
   }
   aequus::framework::TerminateSdl();
   pessum::TerminatePessumComponents();

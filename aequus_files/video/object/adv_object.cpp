@@ -39,18 +39,55 @@ void aequus::video::AdvObject::CreateGraph(std::string datafile, int width,
   }
   globalobj.InitalizeObj(objrenderer.sdlrenderer, (advobjcount * 10) + 1,
                          resourcedir);
-  globalobj.objtexture.SetRenderer(objrenderer.sdlrenderer);
-  globalobj.objtexture.sdltexture =
-      SDL_CreateTexture(objrenderer.sdlrenderer, SDL_PIXELFORMAT_RGBA8888,
-                        SDL_TEXTUREACCESS_TARGET, width, height);
-  globalobj.LoadDefaults();
-  objrenderer.SetTargetTexture(globalobj);
+  SDL_Surface *graphsurface;
+  graphsurface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
+  Renderer graphrenderer;
+  graphrenderer.sdlrenderer = SDL_CreateSoftwareRenderer(graphsurface);
+  if (graphrenderer.sdlrenderer == NULL) {
+    pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+                            "Failed to create software renderer for surface",
+                            logloc, "CreateGraph");
+    framework::GetError();
+  } else {
+    pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS,
+                            "Create software renderer for surface", logloc,
+                            "CreateGraph");
+  }
   draw::InitializeDraw(objrenderer.sdlrenderer);
   draw::SetColor(1, 1, 1, 1);
   int a[2] = {0, 0};
   int b[2] = {100, 100};
   draw::Line(a, b);
-  SDL_SetRenderTarget(objrenderer.sdlrenderer, NULL);
+  graphrenderer.Update();
+  globalobj.objsurface.sdlsurface = graphsurface;
+  globalobj.objtexture.SetRenderer(objrenderer.sdlrenderer);
+  globalobj.objtexture.CreateTexture(globalobj.objsurface.sdlsurface);
+  globalobj.LoadDefaults();
+  /*
+    globalobj.objtexture.SetRenderer(objrenderer.sdlrenderer);
+    globalobj.objtexture.sdltexture =
+        SDL_CreateTexture(objrenderer.sdlrenderer, SDL_PIXELFORMAT_RGBA8888,
+                          SDL_TEXTUREACCESS_STATIC, width, height);
+    globalobj.LoadDefaults();
+    objrenderer.SetTargetTexture(globalobj);
+    draw::InitializeDraw(objrenderer.sdlrenderer);
+    draw::SetColor(1, 1, 1, 1);
+    int a[2] = {0, 0};
+    int b[2] = {100, 100};
+    draw::Line(a, b);
+    SDL_RenderPresent(objrenderer.sdlrenderer);
+    if (SDL_SetRenderTarget(objrenderer.sdlrenderer, NULL) != 0) {
+      pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+                              "Failed to set renderer target to default",
+    logloc,
+                              "CreateGraph");
+      framework::GetError();
+    } else {
+      pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS,
+                              "Set renderer target to default", logloc,
+                              "CreateGraph");
+      objrenderer.Clear();
+    }*/
 }
 
 void aequus::video::AdvObject::Display() { globalobj.DisplayObj(); }

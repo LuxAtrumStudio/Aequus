@@ -45,7 +45,6 @@ clean:
 .PHONY : test
 test: subsystem top_obj $(PROGRAM_NAME)
 	./aequus
-	less log_output.log
 
 .PHONY : tar
 tar: clean
