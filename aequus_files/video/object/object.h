@@ -64,7 +64,7 @@ public:
   // Updates and checks if a button has been pressed
   bool UpdateButton(int mousex = 0, int mousey = 0, int mousestate = 0);
   // Load default values
-  void LoadDefaults();
+  void LoadDefaults(int width = -1, int height = -1);
 
 private:
   // Pointer to logging locaiton

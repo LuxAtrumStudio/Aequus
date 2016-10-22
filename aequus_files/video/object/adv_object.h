@@ -31,6 +31,9 @@ public:
   // vector value (y-axis name) ....
   void CreateGraph(std::string datafile, GraphType graphtype,
                    int graphwidth = 100, int graphheight = 100,
+                   bool graphbackground = false, bool graphaxis = false,
+                   bool graphvalues = false, bool graphlables = false,
+                   bool graphtitle = false, bool graphgrid = false,
                    double xstart = 0, double xend = 0, double ystart = 0,
                    double yend = 0);
   // Displays the advanced object
@@ -65,13 +68,17 @@ private:
   // Stores the domain and range for graphs
   double minx, maxx, miny, maxy, minz, maxz, stepx, stepy, stepz;
   // The object class for the actual advanced object
-  bool axis, values, lables, title, grid;
+  bool axis, values, lables, title, grid, background;
   // Loads the data for 2D graphs
   void LoadGraphData(std::string datafile = "NULL");
   // Computes the values for the plot graphs
   void ComputeDataPoints(std::string funciton = "y = x");
   // Draws the line graphs to the object
   void DrawLineGraph();
+  // Draws the background for grapns
+  void DrawBackground(int colorjump = 0);
+  // Draws the axis for graphs
+  void DrawAxis(int colorjump = 0);
 };
 }
 }
