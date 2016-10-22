@@ -15,14 +15,12 @@ class AdvObject {
 public:
   // Used to define what type of advanced object is being used
   enum AdvType { GRAPH, MODEL, DGRAPH };
-  // Used to set points of either 2D or 3D
-  struct Value {
-    double x, y, z;
-  };
+  // Used to define what graph type
+  enum GraphType { LINE, BAR, SCATTER, PIE, PLOT };
   // Used to store single line graph data
   struct GraphData {
     std::string title;
-    std::vector<Value> points;
+    std::vector<aequus::ValueGroup> points;
   };
   // Initalizes Advanced object functions
   void InitializeAdvObj(Renderer renderer, int counter = 0,
@@ -31,7 +29,10 @@ public:
   // vector string titles (Graph Title) (x-axis name) (y-axis name)
   // vector value (x-axis name) ....
   // vector value (y-axis name) ....
-  void CreateGraph(std::string datafile, int width = 100, int height = 100);
+  void CreateGraph(std::string datafile, GraphType graphtype,
+                   int graphwidth = 100, int graphheight = 100,
+                   double xstart = 0, double xend = 0, double ystart = 0,
+                   double yend = 0);
   // Displays the advanced object
   void Display();
   Object globalobj;
@@ -59,11 +60,18 @@ private:
   std::vector<std::string> titles;
   // Storage for graph points in either 2D or 3D
   std::vector<GraphData> graphs;
+  // Stores the colors for differnt graphs
+  std::vector<ValueGroup> colors;
   // Stores the domain and range for graphs
-  double minx, maxx, miny, maxy, minz, maxz;
+  double minx, maxx, miny, maxy, minz, maxz, stepx, stepy, stepz;
   // The object class for the actual advanced object
+  bool axis, values, lables, title, grid;
   // Loads the data for 2D graphs
   void LoadGraphData(std::string datafile = "NULL");
+  // Computes the values for the plot graphs
+  void ComputeDataPoints(std::string funciton = "y = x");
+  // Draws the line graphs to the object
+  void DrawLineGraph();
 };
 }
 }

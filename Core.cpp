@@ -8,7 +8,8 @@ int main(int argc, char *argv[]) {
   aequus::framework::SdlStartUp();
   aequus::video::CreateWindow("Aequus");
   aequus::video::NewAdvObject();
-  aequus::video::win->advobj->CreateGraph("test.lux", 10, 10);
+  aequus::video::win->advobj->CreateGraph(
+      "test.lux", aequus::video::AdvObject::LINE, 500, 500, 0, 0, 0, 0);
   while (aequus::video::AllClose() == false) {
     aequus::Frame();
     if (aequus::input::events.size() > 0) {

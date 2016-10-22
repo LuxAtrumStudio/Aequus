@@ -22,28 +22,28 @@ void SetRenderer(SDL_Renderer *renderer);
 // Draws a line given two points
 // a = x, y
 // b = x, y
-void Line(int a[2] = 0, int b[2] = 0);
+void Line(ValueGroup a, ValueGroup b);
 // Draws a series of connected lines, given a vector of points
 // point = x, y
-void Lines(std::vector<int *> points);
+void Lines(std::vector<ValueGroup> points);
 // Draws a single point
 // p = x, y
-void Point(int p[2] = 0);
+void Point(ValueGroup point);
 // Draws a series of points, given a vector of points
 // point = x, y
-void Points(std::vector<int *> points);
+void Points(std::vector<ValueGroup> points);
 // Draws a rectangle
 // rect = x, y, width, height
-void Rect(int rect[4]);
+void Rect(ValueGroup rect);
 // Draws a series of rectangels, given a vector of rectangle definitions
 // rectanlge = x, y, width, height
-void Rects(std::vector<int *> rects);
+void Rects(std::vector<ValueGroup> rects);
 // Draws a solid rectangles
 // rect = x, y, width, height
-void FillRect(int rect[4]);
+void FillRect(ValueGroup rect);
 // Draws a series of solid rectangels, gicen a vector of rectangle definitions
 // rectanlge = x, y, width, height
-void FillRects(std::vector<int *> rects);
+void FillRects(std::vector<ValueGroup> rects);
 // Sets the draw color for all drawing functions
 void SetColor(double red, double green, double blue, double alpha);
 }

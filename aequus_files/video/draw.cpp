@@ -1,6 +1,6 @@
-#include "draw.h"
 #include "../../pessum_files/logging.h"
 #include "../aequus_headers.h"
+#include "draw.h"
 
 namespace aequus {
 namespace video {
@@ -21,22 +21,22 @@ void aequus::video::draw::SetRenderer(SDL_Renderer *renderer) {
   sdlrenderer = renderer;
 }
 
-void aequus::video::draw::Line(int a[2], int b[2]) {
+void aequus::video::draw::Line(ValueGroup a, ValueGroup b) {
   if (sdlrenderer != NULL) {
-    if (SDL_RenderDrawLine(sdlrenderer, a[0], a[1], b[0], b[1]) != 0) {
+    if (SDL_RenderDrawLine(sdlrenderer, a.x, a.y, b.x, b.y) != 0) {
       pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to draw line",
                               logloc, "Line");
     }
   }
 }
 
-void aequus::video::draw::Lines(std::vector<int *> points) {
+void aequus::video::draw::Lines(std::vector<ValueGroup> points) {
   if (sdlrenderer != NULL) {
     std::vector<SDL_Point> sdlvec;
     for (unsigned a = 0; a < points.size(); a++) {
       SDL_Point newpoint;
-      newpoint.x = points[a][0];
-      newpoint.y = points[a][1];
+      newpoint.x = points[a].x;
+      newpoint.y = points[a].y;
       sdlvec.push_back(newpoint);
     }
     SDL_Point *sdlpoints = &sdlvec[0];
@@ -47,22 +47,22 @@ void aequus::video::draw::Lines(std::vector<int *> points) {
   }
 }
 
-void aequus::video::draw::Point(int p[2]) {
+void aequus::video::draw::Point(ValueGroup point) {
   if (sdlrenderer != NULL) {
-    if (SDL_RenderDrawPoint(sdlrenderer, p[0], p[1]) != 0) {
+    if (SDL_RenderDrawPoint(sdlrenderer, point.x, point.y) != 0) {
       pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
                               "Failed to draw point", logloc, "Point");
     }
   }
 }
 
-void aequus::video::draw::Points(std::vector<int *> points) {
+void aequus::video::draw::Points(std::vector<ValueGroup> points) {
   if (sdlrenderer != NULL) {
     std::vector<SDL_Point> sdlvec;
     for (unsigned a = 0; a < points.size(); a++) {
       SDL_Point newpoint;
-      newpoint.x = points[a][0];
-      newpoint.y = points[a][1];
+      newpoint.x = points[a].x;
+      newpoint.y = points[a].y;
       sdlvec.push_back(newpoint);
     }
     SDL_Point *sdlpoints = &sdlvec[0];
@@ -76,9 +76,9 @@ void aequus::video::draw::Points(std::vector<int *> points) {
   }
 }
 
-void aequus::video::draw::Rect(int rect[4]) {
+void aequus::video::draw::Rect(ValueGroup rect) {
   if (sdlrenderer != NULL) {
-    SDL_Rect sdlrect = {rect[0], rect[1], rect[2], rect[3]};
+    SDL_Rect sdlrect = {rect.x, rect.y, rect.w, rect.h};
     if (SDL_RenderDrawRect(sdlrenderer, &sdlrect) != 0) {
       pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
                               "Failed to draw rectangle", logloc, "Rect");
@@ -86,11 +86,11 @@ void aequus::video::draw::Rect(int rect[4]) {
   }
 }
 
-void aequus::video::draw::Rects(std::vector<int *> rects) {
+void aequus::video::draw::Rects(std::vector<ValueGroup> rects) {
   if (sdlrenderer != NULL) {
     std::vector<SDL_Rect> sdlvec;
     for (unsigned a = 0; a < rects.size(); a++) {
-      SDL_Rect newrect = {rects[a][0], rects[a][1], rects[a][2], rects[a][3]};
+      SDL_Rect newrect = {rects[a].x, rects[a].y, rects[a].w, rects[a].h};
       sdlvec.push_back(newrect);
     }
     SDL_Rect *sdlrects = &sdlvec[0];
@@ -101,9 +101,9 @@ void aequus::video::draw::Rects(std::vector<int *> rects) {
   }
 }
 
-void aequus::video::draw::FillRect(int rect[4]) {
+void aequus::video::draw::FillRect(ValueGroup rect) {
   if (sdlrenderer != NULL) {
-    SDL_Rect sdlrect = {rect[0], rect[1], rect[2], rect[3]};
+    SDL_Rect sdlrect = {rect.x, rect.y, rect.w, rect.h};
     if (SDL_RenderFillRect(sdlrenderer, &sdlrect) != 0) {
       pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
                               "Failed to fill rectangle", logloc, "FillRect");
@@ -111,11 +111,11 @@ void aequus::video::draw::FillRect(int rect[4]) {
   }
 }
 
-void aequus::video::draw::FillRects(std::vector<int *> rects) {
+void aequus::video::draw::FillRects(std::vector<ValueGroup> rects) {
   if (sdlrenderer != NULL) {
     std::vector<SDL_Rect> sdlvec;
     for (unsigned a = 0; a < rects.size(); a++) {
-      SDL_Rect newrect = {rects[a][0], rects[a][1], rects[a][2], rects[a][3]};
+      SDL_Rect newrect = {rects[a].x, rects[a].y, rects[a].w, rects[a].h};
       sdlvec.push_back(newrect);
     }
     SDL_Rect *sdlrects = &sdlvec[0];

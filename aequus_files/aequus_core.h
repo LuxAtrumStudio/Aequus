@@ -7,6 +7,11 @@ namespace video {}
 namespace input {}
 namespace audio {}
 namespace fileio {}
+struct ValueGroup {
+  float x, y, z;
+  float r, g, b, a;
+  float w, h;
+};
 extern int FPS;
 extern time_t FPStimecheck;
 void Frame();
