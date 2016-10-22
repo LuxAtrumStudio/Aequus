@@ -18,9 +18,9 @@ void aequus::video::AdvObject::InitializeAdvObj(Renderer renderer, int counter,
 
 void aequus::video::AdvObject::CreateGraph(
     std::string datafile, GraphType graphtype, int graphwidth, int graphheight,
-    bool graphbackground, bool graphaxis, bool graphvalues, bool graphlables,
-    bool graphtitle, bool graphgrid, double xstart, double xend, double ystart,
-    double yend) {
+    bool graphbackground, bool graphaxis, bool graphgrid, bool graphvalues,
+    bool graphlables, bool graphtitle, double xstart, double xend,
+    double ystart, double yend) {
   objtype = GRAPH;
   axis = graphaxis;
   values = graphvalues;
@@ -49,13 +49,11 @@ void aequus::video::AdvObject::CreateGraph(
                             "Failed to create texture", logloc, "CreateGraph");
     framework::GetError();
   }
-  pessum::logging::Log();
   globalobj.LoadDefaults(graphwidth, graphheight);
   posx = 0;
   posy = 0;
   width = graphwidth;
   height = graphheight;
-  pessum::logging::Log();
   if (graphtype == LINE) {
     DrawLineGraph();
   }
@@ -139,6 +137,10 @@ void aequus::video::AdvObject::LoadGraphData(std::string datafile) {
 void aequus::video::AdvObject::ComputeDataPoints(std::string funcion) {}
 
 void aequus::video::AdvObject::DrawLineGraph() {
+  backgroundcolor.r = 0;
+  backgroundcolor.g = 0;
+  backgroundcolor.b = 0;
+  backgroundcolor.a = 1;
   int colorjump = 0;
   maxx = graphs[0].points[0].x;
   minx = maxx;
@@ -167,9 +169,11 @@ void aequus::video::AdvObject::DrawLineGraph() {
     DrawBackground(colorjump);
     colorjump++;
   }
+  if (grid == true) {
+    DrawGrid();
+  }
   if (axis == true) {
-    DrawAxis(colorjump);
-    colorjump++;
+    DrawAxis();
   }
   for (unsigned a = 0; a < graphs.size(); a++) {
     if (colors.size() > a + colorjump) {
@@ -204,8 +208,16 @@ void aequus::video::AdvObject::DrawBackground(int colorjump) {
   if (colors.size() > colorjump) {
     draw::SetColor(colors[colorjump].r, colors[colorjump].g,
                    colors[colorjump].b, colors[colorjump].a);
+    backgroundcolor.r = colors[colorjump].r;
+    backgroundcolor.g = colors[colorjump].g;
+    backgroundcolor.b = colors[colorjump].b;
+    backgroundcolor.a = colors[colorjump].a;
   } else {
     draw::SetColor(1, 1, 1, 1);
+    backgroundcolor.r = 1;
+    backgroundcolor.g = 1;
+    backgroundcolor.b = 1;
+    backgroundcolor.a = 1;
   }
   ValueGroup rect;
   rect.x = 0;
@@ -215,14 +227,12 @@ void aequus::video::AdvObject::DrawBackground(int colorjump) {
   draw::FillRect(rect);
 }
 
-void aequus::video::AdvObject::DrawAxis(int colorjump) {
-  if (colors.size() > colorjump) {
-    draw::SetColor(colors[colorjump].r, colors[colorjump].g,
-                   colors[colorjump].b, colors[colorjump].a);
-  } else if (background == false) {
+void aequus::video::AdvObject::DrawAxis() {
+  if (background == false) {
     draw::SetColor(1, 1, 1, 1);
   } else if (background == true) {
-    draw::SetColor(0, 0, 0, 1);
+    draw::SetColor((backgroundcolor.r - 1) * -1, (backgroundcolor.g - 1) * -1,
+                   (backgroundcolor.b - 1) * -1, 1);
   }
   ValueGroup xstart, ystart, xend, yend;
   ystart.y = miny;
@@ -271,4 +281,135 @@ void aequus::video::AdvObject::DrawAxis(int colorjump) {
   yend.y = yend.y * stepy;
   draw::Line(xstart, xend);
   draw::Line(ystart, yend);
+}
+
+void aequus::video::AdvObject::DrawGrid() {
+  if (background == false) {
+    draw::SetColor(1, 1, 1, 1);
+  } else if (background == true) {
+    if (backgroundcolor.r != 0 || backgroundcolor.g != 0 ||
+        backgroundcolor.b != 0) {
+      draw::SetColor(((backgroundcolor.r * 0.2) - 1) * -1,
+                     ((backgroundcolor.g * 0.2) - 1) * -1,
+                     ((backgroundcolor.b * 0.2) - 1) * -1, 1);
+    } else if (backgroundcolor.r == 0 && backgroundcolor.g == 0 &&
+               backgroundcolor.b == 0) {
+      draw::SetColor(((backgroundcolor.r - 1) * -1 * 0.2),
+                     ((backgroundcolor.g - 1) * -1 * 0.2),
+                     ((backgroundcolor.b - 1) * -1 * 0.2), 1);
+    }
+  }
+  for (double a = 0; a < maxx; a = a + (maxx - minx) / 10) {
+    ValueGroup ystart, yend;
+    ystart.y = miny;
+    ystart.x = a;
+    yend.y = maxy;
+    yend.x = a;
+    if (minx > 0 || maxx < 0) {
+      ystart.y = miny;
+      ystart.x = minx;
+      yend.y = maxy;
+      yend.x = minx;
+    }
+    if (minx < 0) {
+      ystart.x = ystart.x + (minx * -1);
+      yend.x = yend.x + (minx * -1);
+    }
+    if (miny < 0) {
+      ystart.y = ystart.y + (miny * -1);
+      yend.y = yend.y + (miny * -1);
+    }
+    ystart.y = (ystart.y - (maxy - miny)) * -1;
+    ystart.x = ystart.x * stepx;
+    ystart.y = ystart.y * stepy;
+    yend.y = (yend.y - (maxy - miny)) * -1;
+    yend.x = yend.x * stepx;
+    yend.y = yend.y * stepy;
+    draw::Line(ystart, yend);
+  }
+  for (double a = 0; a > minx; a = a - (maxx - minx) / 10) {
+    ValueGroup ystart, yend;
+    ystart.y = miny;
+    ystart.x = a;
+    yend.y = maxy;
+    yend.x = a;
+    if (minx > 0 || maxx < 0) {
+      ystart.y = miny;
+      ystart.x = minx;
+      yend.y = maxy;
+      yend.x = minx;
+    }
+    if (minx < 0) {
+      ystart.x = ystart.x + (minx * -1);
+      yend.x = yend.x + (minx * -1);
+    }
+    if (miny < 0) {
+      ystart.y = ystart.y + (miny * -1);
+      yend.y = yend.y + (miny * -1);
+    }
+    ystart.y = (ystart.y - (maxy - miny)) * -1;
+    ystart.x = ystart.x * stepx;
+    ystart.y = ystart.y * stepy;
+    yend.y = (yend.y - (maxy - miny)) * -1;
+    yend.x = yend.x * stepx;
+    yend.y = yend.y * stepy;
+    draw::Line(ystart, yend);
+  }
+
+  for (double a = 0; a < maxy; a = a + (maxy - miny) / 10) {
+    ValueGroup xstart, xend;
+    xstart.x = minx;
+    xstart.y = a;
+    xend.x = maxx;
+    xend.y = a;
+    if (minx > 0 || maxx < 0) {
+      xstart.y = miny;
+      xstart.x = minx;
+      xend.y = maxy;
+      xend.x = minx;
+    }
+    if (minx < 0) {
+      xstart.x = xstart.x + (minx * -1);
+      xend.x = xend.x + (minx * -1);
+    }
+    if (miny < 0) {
+      xstart.y = xstart.y + (miny * -1);
+      xend.y = xend.y + (miny * -1);
+    }
+    xstart.y = (xstart.y - (maxy - miny)) * -1;
+    xstart.x = xstart.x * stepx;
+    xstart.y = xstart.y * stepy;
+    xend.y = (xend.y - (maxy - miny)) * -1;
+    xend.x = xend.x * stepx;
+    xend.y = xend.y * stepy;
+    draw::Line(xstart, xend);
+  }
+  for (double a = 0; a > minx; a = a - (maxx - minx) / 10) {
+    ValueGroup xstart, xend;
+    xstart.x = minx;
+    xstart.y = a;
+    xend.x = maxx;
+    xend.y = a;
+    if (minx > 0 || maxx < 0) {
+      xstart.y = miny;
+      xstart.x = minx;
+      xend.y = maxy;
+      xend.x = minx;
+    }
+    if (minx < 0) {
+      xstart.x = xstart.x + (minx * -1);
+      xend.x = xend.x + (minx * -1);
+    }
+    if (miny < 0) {
+      xstart.y = xstart.y + (miny * -1);
+      xend.y = xend.y + (miny * -1);
+    }
+    xstart.y = (xstart.y - (maxy - miny)) * -1;
+    xstart.x = xstart.x * stepx;
+    xstart.y = xstart.y * stepy;
+    xend.y = (xend.y - (maxy - miny)) * -1;
+    xend.x = xend.x * stepx;
+    xend.y = xend.y * stepy;
+    draw::Line(xstart, xend);
+  }
 }

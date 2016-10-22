@@ -380,12 +380,9 @@ bool aequus::video::Object::UpdateButton(int mousex, int mousey,
 }
 
 void aequus::video::Object::LoadDefaults(int width, int height) {
-  pessum::logging::Log(pessum::logging::LOG_DATA);
   posx = 0;
   posy = 0;
-  pessum::logging::Log();
   if (objtexture.sdltexture != NULL) {
-    pessum::logging::Log();
     if (width == -1) {
       sizex = objsurface.sdlsurface->w;
     } else if (width != -1) {
@@ -396,15 +393,12 @@ void aequus::video::Object::LoadDefaults(int width, int height) {
     } else if (height != -1) {
       sizey = height;
     }
-    pessum::logging::Log();
     rotateaxisx = sizex / 2;
     rotateaxisy = sizey / 2;
-    pessum::logging::Log();
     objtexture.SetRotatePoint(rotateaxisx, rotateaxisy);
     destsizex = sizex;
     destsizey = sizey;
   }
-  pessum::logging::Log();
   rotateangle = 0;
   objtype = IMAGE;
 }
