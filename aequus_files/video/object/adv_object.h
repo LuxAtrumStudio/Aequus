@@ -74,7 +74,7 @@ private:
   // Loads the data for 2D graphs
   void LoadGraphData(std::string datafile = "NULL");
   // Computes the values for the plot graphs
-  void ComputeDataPoints(std::string funciton = "y = x");
+  void ComputeDataPoints(std::string funciton = "x");
   // Draws the line graphs to the object
   void DrawLineGraph();
   // Draws the background for grapns
@@ -83,6 +83,8 @@ private:
   void DrawAxis();
   // Draws the coordinate grid for graphs
   void DrawGrid();
+  // Genorates colors for the color vector
+  void GenColors(int number);
 };
 }
 }

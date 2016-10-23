@@ -37,6 +37,7 @@ void aequus::video::AdvObject::CreateGraph(
   if (graphtype == PLOT) {
     minx = xstart;
     maxx = xend;
+    ComputeDataPoints(datafile);
   }
   globalobj.InitalizeObj(objrenderer.sdlrenderer, (advobjcount * 10) + 1,
                          resourcedir);
@@ -54,7 +55,7 @@ void aequus::video::AdvObject::CreateGraph(
   posy = 0;
   width = graphwidth;
   height = graphheight;
-  if (graphtype == LINE) {
+  if (graphtype == LINE || graphtype == PLOT) {
     DrawLineGraph();
   }
 }
@@ -134,7 +135,41 @@ void aequus::video::AdvObject::LoadGraphData(std::string datafile) {
   }
 }
 
-void aequus::video::AdvObject::ComputeDataPoints(std::string funcion) {}
+void aequus::video::AdvObject::ComputeDataPoints(std::string function) {
+  std::vector<std::string> functions;
+  std::string newfunction = "";
+  for (unsigned a = 0; a < function.size(); a++) {
+    if (function[a] != ',') {
+      newfunction = newfunction + function[a];
+    } else if (function[a] == ',') {
+      functions.push_back(newfunction);
+      newfunction = "";
+    }
+  }
+  functions.push_back(newfunction);
+  stepx = width / (maxx - minx);
+  GenColors(functions.size());
+  for (unsigned a = 0; a < functions.size(); a++) {
+    pessum::logging::Log();
+    GraphData newgraph;
+    newgraph.title = functions[a];
+    pessum::logging::Log();
+    for (double x = minx; x < maxx; x = x + (maxx - minx) / width) {
+      ValueGroup newpoint;
+      newpoint.x = x;
+      newpoint.y = x;
+      newgraph.points.push_back(newpoint);
+    }
+    graphs.push_back(newgraph);
+  }
+  for (unsigned a = 0; a < graphs.size(); a++) {
+    for (unsigned b = 0; b < graphs[a].points.size(); b++) {
+      pessum::logging::Log(pessum::logging::LOG_DATA,
+                           std::to_string(graphs[a].points[b].x) + "," +
+                               std::to_string(graphs[a].points[b].y));
+    }
+  }
+}
 
 void aequus::video::AdvObject::DrawLineGraph() {
   backgroundcolor.r = 0;
@@ -174,6 +209,12 @@ void aequus::video::AdvObject::DrawLineGraph() {
   }
   if (axis == true) {
     DrawAxis();
+  }
+  if (lables == true) {
+  }
+  if (title == true) {
+  }
+  if (values == true) {
   }
   for (unsigned a = 0; a < graphs.size(); a++) {
     if (colors.size() > a + colorjump) {
@@ -384,7 +425,7 @@ void aequus::video::AdvObject::DrawGrid() {
     xend.y = xend.y * stepy;
     draw::Line(xstart, xend);
   }
-  for (double a = 0; a > minx; a = a - (maxx - minx) / 10) {
+  for (double a = 0; a > miny; a = a - (maxy - miny) / 10) {
     ValueGroup xstart, xend;
     xstart.x = minx;
     xstart.y = a;
@@ -411,5 +452,52 @@ void aequus::video::AdvObject::DrawGrid() {
     xend.x = xend.x * stepx;
     xend.y = xend.y * stepy;
     draw::Line(xstart, xend);
+  }
+}
+
+void aequus::video::AdvObject::GenColors(int number) {
+  double red = 1, green = 0, blue = 0;
+  int stageone = 0, stagetwo = 0;
+  if (background == true) {
+    ValueGroup newcolor;
+    newcolor.r = 1;
+    newcolor.g = 1;
+    newcolor.b = 1;
+    newcolor.a = 1;
+    colors.push_back(newcolor);
+  }
+  for (int a = 0; a < number; a++) {
+    ValueGroup newcolor;
+    newcolor.r = red;
+    newcolor.g = green;
+    newcolor.b = blue;
+    newcolor.a = 1;
+    colors.push_back(newcolor);
+    if (stageone == 0) {
+      red = 0;
+      green = 1;
+      stageone = 1;
+    } else if (stageone == 1) {
+      green = 0;
+      blue = 1;
+      stageone = 2;
+    } else if (stageone == 2) {
+      red = 1;
+      green = 1;
+      blue = 1;
+      stageone = 3;
+    }
+    if (stageone > 2) {
+      if (stagetwo == 0) {
+        red = red - (0.9 / (number - 3));
+        stagetwo = 1;
+      } else if (stagetwo == 1) {
+        green = green - (0.9 / (number - 3));
+        stagetwo = 2;
+      } else if (stagetwo == 2) {
+        blue = blue - (0.9 / (number - 3));
+        stagetwo = 0;
+      }
+    }
   }
 }
