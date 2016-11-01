@@ -150,14 +150,12 @@ void aequus::video::AdvObject::ComputeDataPoints(std::string function) {
   stepx = width / (maxx - minx);
   GenColors(functions.size());
   for (unsigned a = 0; a < functions.size(); a++) {
-    pessum::logging::Log();
     GraphData newgraph;
     newgraph.title = functions[a];
-    pessum::logging::Log();
     for (double x = minx; x < maxx; x = x + (maxx - minx) / width) {
       ValueGroup newpoint;
       newpoint.x = x;
-      newpoint.y = x;
+      newpoint.y = pow(x, 0.5);
       newgraph.points.push_back(newpoint);
     }
     graphs.push_back(newgraph);

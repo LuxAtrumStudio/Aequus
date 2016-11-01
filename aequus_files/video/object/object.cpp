@@ -21,9 +21,9 @@ void aequus::video::Object::CreateImgObj(std::string filepath,
   }
   if (renderer != NULL) {
     objrenderer = renderer;
-    objtexture.SetRenderer(objrenderer);
   }
   if (objsurface.sdlsurface != NULL) {
+    objtexture.SetRenderer(objrenderer);
     objtexture.CreateTexture(objsurface.sdlsurface);
   }
   posx = 0;
