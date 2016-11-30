@@ -214,18 +214,6 @@ void aequus::video::AdvObject::DrawLineGraph() {
   if (axis == true) {
     DrawAxis();
   }
-  if (labels == true) {
-    DrawLabels();
-  }
-  if (title == true) {
-    DrawTitle();
-  }
-  if (values == true) {
-    DrawValues();
-  }
-  if (imagetitle == true) {
-    DrawImageTitle();
-  }
   for (unsigned a = 0; a < graphs.size(); a++) {
     if (colors.size() > a + colorjump) {
       draw::SetColor(colors[a + colorjump].r, colors[a + colorjump].g,
@@ -243,6 +231,19 @@ void aequus::video::AdvObject::DrawLineGraph() {
       graphpoints[b].y = ConvertValue(graphpoints[b].y, true);
     }
     draw::Lines(graphpoints);
+  }
+
+  if (labels == true) {
+    DrawLabels();
+  }
+  if (title == true) {
+    DrawTitle();
+  }
+  if (values == true) {
+    DrawValues();
+  }
+  if (imagetitle == true) {
+    DrawImageTitle();
   }
   SDL_SetRenderTarget(objrenderer.sdlrenderer, NULL);
   globalobj.Scale(width, height);
@@ -347,6 +348,49 @@ void aequus::video::AdvObject::DrawGrid() {
 void aequus::video::AdvObject::DrawLabels() {
   double red = 1, green = 1, blue = 1;
   if (grid == true) {
+    if (background == false) {
+      red = 0.5;
+      green = 0.5;
+      blue = 0.5;
+    } else if (background == true) {
+      if (backgroundcolor.r != 0 || backgroundcolor.g != 0 ||
+          backgroundcolor.b != 0) {
+        red = ((backgroundcolor.r * 0.5) - 1) * -1;
+        green = ((backgroundcolor.g * 0.5) - 1) * -1;
+        blue = ((backgroundcolor.b * 0.5) - 1) * -1;
+      } else if (backgroundcolor.r == 0 && backgroundcolor.g == 0 &&
+                 backgroundcolor.b == 0) {
+        red = 0.5;
+        green = 0.5;
+        blue = 0.5;
+      }
+    }
+    for (double i = minx; i < maxx; i += (maxx - minx) / (double)20) {
+      std::string labelstr = std::to_string(i);
+      for (int i = labelstr.size() - 1; i > 0; i--) {
+        if (labelstr[i] == '0') {
+          labelstr.pop_back();
+        }
+      }
+      Object label;
+      label.InitalizeObj(objrenderer.sdlrenderer);
+      label.CreateTextObj(labelstr, 10, red, green, blue, 1);
+      label.SetPos(ConvertValue(i, false), ConvertValue(0, true));
+      label.DisplayObj();
+    }
+    for (double i = miny; i < maxy; i += (maxy - miny) / (double)20) {
+      std::string labelstr = std::to_string(i);
+      for (int i = labelstr.size() - 1; i > 0; i--) {
+        if (labelstr[i] == '0') {
+          labelstr.pop_back();
+        }
+      }
+      Object label;
+      label.InitalizeObj(objrenderer.sdlrenderer);
+      label.CreateTextObj(labelstr, 10, red, green, blue, 1);
+      label.SetPos(ConvertValue(0, false), ConvertValue(i, true));
+      label.DisplayObj();
+    }
   }
   if (axis == true) {
     if (background == true) {
@@ -356,9 +400,15 @@ void aequus::video::AdvObject::DrawLabels() {
     }
     Object xlabel;
     xlabel.InitalizeObj(objrenderer.sdlrenderer);
-    xlabel.CreateTextObj("X", 20, red, green, blue, 1);
-    xlabel.SetPos(ConvertValue(maxx / 2, false), ConvertValue(maxy / 2, true));
+    xlabel.CreateTextObj("X", 10, red, green, blue, 1);
+    xlabel.SetPos(ConvertValue(maxx, false) - xlabel.GetIntValue("sizex"),
+                  ConvertValue(0, true) - xlabel.GetIntValue("sizey"));
     xlabel.DisplayObj();
+    Object ylabel;
+    ylabel.InitalizeObj(objrenderer.sdlrenderer);
+    ylabel.CreateTextObj("Y", 10, red, green, blue, 1);
+    ylabel.SetPos(ConvertValue(0, false), ConvertValue(maxy, true));
+    ylabel.DisplayObj();
   }
 }
 

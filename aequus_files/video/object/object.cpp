@@ -56,6 +56,8 @@ void aequus::video::Object::CreateTextObj(
   }
   objtexture.SetRenderer(objrenderer);
   objtexture.CreateTexture(objtext.textsurface);
+  sizex = objtext.textsurface->w;
+  sizey = objtext.textsurface->h;
   objtype = TEXT;
 }
 
@@ -93,8 +95,8 @@ void aequus::video::Object::Translate(int x, int y) {
 void aequus::video::Object::SetPos(int x, int y) {
   posx = x;
   posy = y;
-  // int rect[4] = {posx, posy, sizex, sizey};
-  int rect[4] = {posx, posy, 100, 100};
+  int rect[4] = {posx, posy, sizex, sizey};
+  // int rect[4] = {posx, posy, 100, 100};
   objtexture.SetDestinationRect(rect);
 }
 
@@ -402,4 +404,20 @@ void aequus::video::Object::LoadDefaults(int width, int height) {
   }
   rotateangle = 0;
   objtype = IMAGE;
+}
+
+int aequus::video::Object::GetIntValue(std::string value) {
+  if (value == "sizex") {
+    return (sizex);
+  }
+  if (value == "sizey") {
+    return (sizey);
+  }
+  if (value == "posx") {
+    return (posx);
+  }
+  if (value == "posy") {
+    return (posy);
+  }
+  return (0);
 }

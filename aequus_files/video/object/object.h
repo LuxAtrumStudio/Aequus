@@ -65,6 +65,8 @@ public:
   bool UpdateButton(int mousex = 0, int mousey = 0, int mousestate = 0);
   // Load default values
   void LoadDefaults(int width = -1, int height = -1);
+  // Returns private values
+  int GetIntValue(std::string value);
 
 private:
   // Pointer to logging locaiton

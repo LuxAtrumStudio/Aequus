@@ -16,9 +16,9 @@ int main(int argc, char *argv[]) {
       eqs += ",";
     }
   }
-  aequus::video::win->advobj->CreateGraph(eqs, aequus::video::AdvObject::PLOT,
-                                          500, 500, true, true, true, true,
-                                          true, true, true, -10, 10);
+  aequus::video::win->advobj->CreateGraph(
+      "x,x ^ 2,x ^ 3", aequus::video::AdvObject::PLOT, 500, 500, false, true,
+      true, true, true, true, true, -10, 10);
   while (aequus::video::AllClose() == false) {
     aequus::Frame();
     if (aequus::input::events.size() > 0) {
