@@ -93,7 +93,8 @@ void aequus::video::Object::Translate(int x, int y) {
 void aequus::video::Object::SetPos(int x, int y) {
   posx = x;
   posy = y;
-  int rect[4] = {posx, posy, sizex, sizey};
+  // int rect[4] = {posx, posy, sizex, sizey};
+  int rect[4] = {posx, posy, 100, 100};
   objtexture.SetDestinationRect(rect);
 }
 

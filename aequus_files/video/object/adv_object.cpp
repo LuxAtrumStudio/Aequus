@@ -168,9 +168,9 @@ void aequus::video::AdvObject::ComputeDataPoints(std::string function) {
   }
   for (unsigned a = 0; a < graphs.size(); a++) {
     for (unsigned b = 0; b < graphs[a].points.size(); b++) {
-      pessum::logging::Log(pessum::logging::LOG_DATA,
-                           std::to_string(graphs[a].points[b].x) + "," +
-                               std::to_string(graphs[a].points[b].y));
+      // pessum::logging::Log(pessum::logging::LOG_DATA,
+      //                     std::to_string(graphs[a].points[b].x) + "," +
+      //                         std::to_string(graphs[a].points[b].y));
     }
   }
 }
@@ -314,7 +314,7 @@ void aequus::video::AdvObject::DrawAxis() {
 
 void aequus::video::AdvObject::DrawGrid() {
   if (background == false) {
-    draw::SetColor(1, 1, 1, 1);
+    draw::SetColor(0.2, 0.2, 0.2, 1);
   } else if (background == true) {
     if (backgroundcolor.r != 0 || backgroundcolor.g != 0 ||
         backgroundcolor.b != 0) {
@@ -323,9 +323,7 @@ void aequus::video::AdvObject::DrawGrid() {
                      ((backgroundcolor.b * 0.2) - 1) * -1, 1);
     } else if (backgroundcolor.r == 0 && backgroundcolor.g == 0 &&
                backgroundcolor.b == 0) {
-      draw::SetColor(((backgroundcolor.r - 1) * -1 * 0.2),
-                     ((backgroundcolor.g - 1) * -1 * 0.2),
-                     ((backgroundcolor.b - 1) * -1 * 0.2), 1);
+      draw::SetColor(0.2, 0.2, 0.2, 1);
     }
   }
   for (double i = minx; i < maxx; i += (maxx - minx) / (double)20) {
@@ -346,7 +344,23 @@ void aequus::video::AdvObject::DrawGrid() {
   }
 }
 
-void aequus::video::AdvObject::DrawLabels() {}
+void aequus::video::AdvObject::DrawLabels() {
+  double red = 1, green = 1, blue = 1;
+  if (grid == true) {
+  }
+  if (axis == true) {
+    if (background == true) {
+      red = (backgroundcolor.r - 1) * -1;
+      green = (backgroundcolor.g - 1) * -1;
+      blue = (backgroundcolor.b - 1) * -1;
+    }
+    Object xlabel;
+    xlabel.InitalizeObj(objrenderer.sdlrenderer);
+    xlabel.CreateTextObj("X", 20, red, green, blue, 1);
+    xlabel.SetPos(ConvertValue(maxx / 2, false), ConvertValue(maxy / 2, true));
+    xlabel.DisplayObj();
+  }
+}
 
 void aequus::video::AdvObject::DrawTitle() {}
 
@@ -356,7 +370,7 @@ void aequus::video::AdvObject::DrawImageTitle() {}
 
 void aequus::video::AdvObject::GenColors(int number) {
   double red = 1, green = 0, blue = 0;
-  int stageone = 0, stagetwo = 0;
+  int stageone = 0;
   if (background == true) {
     ValueGroup newcolor;
     newcolor.r = 1;
@@ -386,17 +400,10 @@ void aequus::video::AdvObject::GenColors(int number) {
       blue = 1;
       stageone = 3;
     }
-    if (stageone > 2) {
-      if (stagetwo == 0) {
-        red = red - (0.9 / (number - 3));
-        stagetwo = 1;
-      } else if (stagetwo == 1) {
-        green = green - (0.9 / (number - 3));
-        stagetwo = 2;
-      } else if (stagetwo == 2) {
-        blue = blue - (0.9 / (number - 3));
-        stagetwo = 0;
-      }
+    if (stageone == 3) {
+      red = (rand() % 1000) / 1000.0;
+      green = (rand() % 1000) / 1000.0;
+      blue = (rand() % 1000) / 1000.0;
     }
   }
 }

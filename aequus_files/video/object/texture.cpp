@@ -132,7 +132,6 @@ void aequus::video::Texture::LoadTexture() {
     pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "No renderer declaired",
                             logloc, "LoadTexture");
   } else if (sdlsurface != NULL && sdlrenderer != NULL) {
-    pessum::logging::Log(pessum::logging::LOG_ERROR, "TESTING!!");
     sdltexture = SDL_CreateTextureFromSurface(sdlrenderer, sdlsurface);
     if (sdltexture == NULL) {
       pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
