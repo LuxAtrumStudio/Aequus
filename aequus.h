@@ -161,6 +161,11 @@ void TerminatePessumComponents();
 namespace aequus {
 // namespace framework overall framework for SDL api that does not fit in any
 // catagory
+struct ValueGroup {
+  float x, y, z;
+  float r, g, b, a;
+  float w, h;
+};
 namespace framework {
 // Used to declare the specific subsystems to be initialized
 enum SubSystem {
@@ -600,6 +605,83 @@ private:
   // Sets log location for aequus framework logging
   int logloc = 0;
 };
+// Advanced Object class is used to create complex objects that utilize many sub
+// objects
+class AdvObject {
+public:
+  // Used to define what type of advanced object is being used
+  enum AdvType { GRAPH, MODEL, DGRAPH };
+  // Used to define what graph type
+  enum GraphType { LINE, BAR, SCATTER, PIE, PLOT };
+  // Used to store single line graph data
+  struct GraphData {
+    std::string title;
+    std::vector<aequus::ValueGroup> points;
+  };
+  // Initalizes Advanced object functions
+  void InitializeAdvObj(Renderer renderer, int counter = 0,
+                        std::string resource = "resources/");
+  // Creates a graph from a data file that folows the format:
+  // vector string titles (Graph Title) (x-axis name) (y-axis name)
+  // vector value (x-axis name) ....
+  // vector value (y-axis name) ....
+  void CreateGraph(std::string datafile, GraphType graphtype,
+                   int graphwidth = 100, int graphheight = 100,
+                   bool graphbackground = false, bool graphaxis = false,
+                   bool graphgrid = false, bool graphvalues = false,
+                   bool graphlables = false, bool graphtitle = false,
+                   double xstart = 0, double xend = 0, double ystart = 0,
+                   double yend = 0);
+  // Displays the advanced object
+  void Display();
+  Object globalobj;
+
+private:
+  // Pointer to logging locaiton
+  int logloc = 0;
+  // The advanced object count for the window
+  int advobjcount = 0;
+  // Pointer to currently set sdl renderer
+  Renderer objrenderer;
+  // Standard directory for all resources
+  // Image files are stored in "images/"
+  // Font files are stored in "fonts/"
+  std::string resourcedir = "resources/";
+  // Storage for position and size values of the advanced object
+  int posx, posy, width, height;
+  // The color modification data for the object
+  //[0] red, [1] green, [2] blue, [3] alpha
+  double colormod[4];
+  // Used to define advanced object type
+  AdvType objtype;
+  // Titles for graphs
+  std::string graphtitle;
+  std::vector<std::string> titles;
+  // Storage for graph points in either 2D or 3D
+  std::vector<GraphData> graphs;
+  // Stores the colors for differnt graphs
+  std::vector<ValueGroup> colors;
+  // Stores the domain and range for graphs
+  double minx, maxx, miny, maxy, minz, maxz, stepx, stepy, stepz;
+  // The object class for the actual advanced object
+  bool axis, values, lables, title, grid, background;
+  // Stores the background color for the graphs
+  ValueGroup backgroundcolor;
+  // Loads the data for 2D graphs
+  void LoadGraphData(std::string datafile = "NULL");
+  // Computes the values for the plot graphs
+  void ComputeDataPoints(std::string funciton = "x");
+  // Draws the line graphs to the object
+  void DrawLineGraph();
+  // Draws the background for grapns
+  void DrawBackground(int colorjump = 0);
+  // Draws the axis for graphs
+  void DrawAxis();
+  // Draws the coordinate grid for graphs
+  void DrawGrid();
+  // Genorates colors for the color vector
+  void GenColors(int number);
+};
 // Message box class is used to contain data and functions that pertain
 // to message boxes, that can be used for providing error, or information
 // to the user.
@@ -691,7 +773,9 @@ struct WindowData {
   SDL_Window *sdlwindow = NULL;
   Renderer windowrenderer;
   Object *obj = NULL;
+  AdvObject *advobj = NULL;
   std::vector<Object> objects;
+  std::vector<AdvObject> advobjects;
   int logloc = 0;
   bool hidden = false;
   bool minimized = false;
@@ -778,6 +862,12 @@ bool AllClose();
 void NewObject(int pointer = boundwindow);
 // Binds the current object
 void BindObject(int pointer);
+// Initalizes a new advanced object and sets it as the currently bound advanced
+// object
+void NewAdvObject(int pointer = boundwindow);
+// Binds the current advanced object
+void BindAdvObject(int pointer);
+// Binds the current window, and the current object
 // Binds the current window, and the current object
 void Bind(int windowpointer = 0, int objectpointer = 0);
 // Either enables or disables the screensaver

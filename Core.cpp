@@ -9,10 +9,10 @@ int main(int argc, char *argv[]) {
   aequus::video::CreateWindow("Aequus");
   aequus::video::NewAdvObject();
   aequus::video::win->advobj->CreateGraph("x", aequus::video::AdvObject::PLOT,
-                                          500, 500, true, true, true, false,
-                                          false, false, 0.0001, 10);
-  aequus::video::NewObject();
-  aequus::video::win->obj->CreateImgObj("back_arrow.png");
+                                          500, 500, false, true, true, true,
+                                          true, true, 0.0001, 10);
+  // aequus::video::NewObject();
+  // aequus::video::win->obj->CreateImgObj("back_arrow.png");
   while (aequus::video::AllClose() == false) {
     aequus::Frame();
     if (aequus::input::events.size() > 0) {

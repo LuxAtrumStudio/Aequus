@@ -17,6 +17,7 @@ void aequus::video::Object::CreateImgObj(std::string filepath,
                                          SDL_Renderer *renderer) {
   if (filepath != "") {
     filepath = resourcedir + "images/" + filepath;
+    filepath = "resources/images/" + filepath;
     objsurface.LoadSurface(filepath);
   }
   if (renderer != NULL) {

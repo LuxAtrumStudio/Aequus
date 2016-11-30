@@ -53,7 +53,8 @@ tar: clean
 .PHONY : lib
 lib:
 	ar rcs lib$(PROGRAM_NAME).a $(TOTAL_OBJ_FILES)
-	sudo cp lib$(PROGRAM_NAME).a ../../../../usr/local/lib/
+	sudo cp lib$(PROGRAM_NAME).a ../../../../usr/local/lib/ -u
+	sudo cp $(PROGRAM_NAME).h ../../../../usr/local/include/ -u
 	clear
 	@echo Compiled lib file, and copied to usr/local/lib
 

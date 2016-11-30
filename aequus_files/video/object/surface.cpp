@@ -1,7 +1,7 @@
-#include "surface.h"
 #include "../../../pessum_files/logging.h"
 #include "../../aequus_headers.h"
 #include "../../sdl_headers.h"
+#include "surface.h"
 #include <string>
 #include <vector>
 
