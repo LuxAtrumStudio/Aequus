@@ -8,9 +8,18 @@ int main(int argc, char *argv[]) {
   aequus::framework::SdlStartUp();
   aequus::video::CreateWindow("Aequus");
   aequus::video::NewAdvObject();
-  aequus::video::win->advobj->CreateGraph(
-      "4 * ( x ^ 0.5 ) - 3", aequus::video::AdvObject::PLOT, 500, 500, true,
-      true, true, true, true, true, 0, 10);
+  std::string eqs;
+  for (int i = 0; i < 10; i++) {
+    eqs += "x + " + std::to_string(i) + ",";
+    eqs += "x - " + std::to_string(i);
+    if (i != 9) {
+      eqs += ",";
+    }
+  }
+  aequus::video::win->advobj->CreateGraph(eqs, aequus::video::AdvObject::PLOT,
+                                          500, 500, true, true, true, true,
+                                          true, true, true, -10, 10);
+
   aequus::video::NewObject();
   aequus::video::win->obj->CreateImgObj("back_arrow.png");
   while (aequus::video::AllClose() == false) {

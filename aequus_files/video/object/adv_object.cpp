@@ -19,14 +19,15 @@ void aequus::video::AdvObject::InitializeAdvObj(Renderer renderer, int counter,
 void aequus::video::AdvObject::CreateGraph(
     std::string datafile, GraphType graphtype, int graphwidth, int graphheight,
     bool graphbackground, bool graphaxis, bool graphgrid, bool graphvalues,
-    bool graphlables, bool graphtitle, double xstart, double xend,
-    double ystart, double yend) {
+    bool graphlabels, bool graphtitle, bool graphimagetitle, double xstart,
+    double xend, double ystart, double yend) {
   objtype = GRAPH;
   axis = graphaxis;
   values = graphvalues;
-  lables = graphlables;
+  labels = graphlabels;
   title = graphtitle;
   grid = graphgrid;
+  imagetitle = graphimagetitle;
   background = graphbackground;
   if (graphtype == LINE) {
     LoadGraphData(datafile);
@@ -64,7 +65,7 @@ void aequus::video::AdvObject::Display() { globalobj.DisplayObj(); }
 
 void aequus::video::AdvObject::LoadGraphData(std::string datafile) {
   int pointerx, pointery;
-  bool typedoublex, typedoubley;
+  bool typedoublex, typedoubley, colordef = false;
   pessum::luxreader::DataFile data =
       pessum::luxreader::LoadLuxDataFile(datafile);
   int dimensions = 2;
@@ -122,6 +123,7 @@ void aequus::video::AdvObject::LoadGraphData(std::string datafile) {
       }
     }
     if (data.datafilevariables[a].variablename == "colors") {
+      colordef = true;
       for (unsigned b = 0;
            b < data.datafilevariables[a].doublevectorvalues.size(); b += 4) {
         ValueGroup newvalue;
@@ -132,6 +134,9 @@ void aequus::video::AdvObject::LoadGraphData(std::string datafile) {
         colors.push_back(newvalue);
       }
     }
+  }
+  if (colordef == false) {
+    GenColors(graphs.size());
   }
 }
 
@@ -209,11 +214,17 @@ void aequus::video::AdvObject::DrawLineGraph() {
   if (axis == true) {
     DrawAxis();
   }
-  if (lables == true) {
+  if (labels == true) {
+    DrawLabels();
   }
   if (title == true) {
+    DrawTitle();
   }
   if (values == true) {
+    DrawValues();
+  }
+  if (imagetitle == true) {
+    DrawImageTitle();
   }
   for (unsigned a = 0; a < graphs.size(); a++) {
     if (colors.size() > a + colorjump) {
@@ -228,15 +239,8 @@ void aequus::video::AdvObject::DrawLineGraph() {
     }
     std::vector<ValueGroup> graphpoints = graphs[a].points;
     for (unsigned b = 0; b < graphpoints.size(); b++) {
-      if (minx < 0) {
-        graphpoints[b].x = graphpoints[b].x + (minx * -1);
-      }
-      if (miny < 0) {
-        graphpoints[b].y = graphpoints[b].y + (miny * -1);
-      }
-      graphpoints[b].y = (graphpoints[b].y - (maxy - miny)) * -1;
-      graphpoints[b].x = graphpoints[b].x * stepx;
-      graphpoints[b].y = graphpoints[b].y * stepy;
+      graphpoints[b].x = ConvertValue(graphpoints[b].x, false);
+      graphpoints[b].y = ConvertValue(graphpoints[b].y, true);
     }
     draw::Lines(graphpoints);
   }
@@ -295,30 +299,15 @@ void aequus::video::AdvObject::DrawAxis() {
     xend.x = maxx;
     xend.y = miny;
   }
-  if (minx < 0) {
-    xstart.x = xstart.x + (minx * -1);
-    xend.x = xend.x + (minx * -1);
-    ystart.x = ystart.x + (minx * -1);
-    yend.x = yend.x + (minx * -1);
-  }
-  if (miny < 0) {
-    xstart.y = xstart.y + (miny * -1);
-    xend.y = xend.y + (miny * -1);
-    ystart.y = ystart.y + (miny * -1);
-    yend.y = yend.y + (miny * -1);
-  }
-  xstart.y = (xstart.y - (maxy - miny)) * -1;
-  xstart.x = xstart.x * stepx;
-  xstart.y = xstart.y * stepy;
-  xend.y = (xend.y - (maxy - miny)) * -1;
-  xend.x = xend.x * stepx;
-  xend.y = xend.y * stepy;
-  ystart.y = (ystart.y - (maxy - miny)) * -1;
-  ystart.x = ystart.x * stepx;
-  ystart.y = ystart.y * stepy;
-  yend.y = (yend.y - (maxy - miny)) * -1;
-  yend.x = yend.x * stepx;
-  yend.y = yend.y * stepy;
+
+  xstart.x = ConvertValue(xstart.x, false);
+  xstart.y = ConvertValue(xstart.y, true);
+  xend.x = ConvertValue(xend.x, false);
+  xend.y = ConvertValue(xend.y, true);
+  ystart.x = ConvertValue(ystart.x, false);
+  ystart.y = ConvertValue(ystart.y, true);
+  yend.x = ConvertValue(yend.x, false);
+  yend.y = ConvertValue(yend.y, true);
   draw::Line(xstart, xend);
   draw::Line(ystart, yend);
 }
@@ -339,120 +328,31 @@ void aequus::video::AdvObject::DrawGrid() {
                      ((backgroundcolor.b - 1) * -1 * 0.2), 1);
     }
   }
-  for (double a = 0; a < maxx; a = a + (maxx - minx) / 10) {
-    ValueGroup ystart, yend;
-    ystart.y = miny;
-    ystart.x = a;
-    yend.y = maxy;
-    yend.x = a;
-    if (minx > 0 || maxx < 0) {
-      ystart.y = miny;
-      ystart.x = minx;
-      yend.y = maxy;
-      yend.x = minx;
-    }
-    if (minx < 0) {
-      ystart.x = ystart.x + (minx * -1);
-      yend.x = yend.x + (minx * -1);
-    }
-    if (miny < 0) {
-      ystart.y = ystart.y + (miny * -1);
-      yend.y = yend.y + (miny * -1);
-    }
-    ystart.y = (ystart.y - (maxy - miny)) * -1;
-    ystart.x = ystart.x * stepx;
-    ystart.y = ystart.y * stepy;
-    yend.y = (yend.y - (maxy - miny)) * -1;
-    yend.x = yend.x * stepx;
-    yend.y = yend.y * stepy;
-    draw::Line(ystart, yend);
+  for (double i = minx; i < maxx; i += (maxx - minx) / (double)20) {
+    ValueGroup start, end;
+    start.x = ConvertValue(i, false);
+    start.y = ConvertValue(miny, true);
+    end.x = ConvertValue(i, false);
+    end.y = ConvertValue(maxy, true);
+    draw::Line(start, end);
   }
-  for (double a = 0; a > minx; a = a - (maxx - minx) / 10) {
-    ValueGroup ystart, yend;
-    ystart.y = miny;
-    ystart.x = a;
-    yend.y = maxy;
-    yend.x = a;
-    if (minx > 0 || maxx < 0) {
-      ystart.y = miny;
-      ystart.x = minx;
-      yend.y = maxy;
-      yend.x = minx;
-    }
-    if (minx < 0) {
-      ystart.x = ystart.x + (minx * -1);
-      yend.x = yend.x + (minx * -1);
-    }
-    if (miny < 0) {
-      ystart.y = ystart.y + (miny * -1);
-      yend.y = yend.y + (miny * -1);
-    }
-    ystart.y = (ystart.y - (maxy - miny)) * -1;
-    ystart.x = ystart.x * stepx;
-    ystart.y = ystart.y * stepy;
-    yend.y = (yend.y - (maxy - miny)) * -1;
-    yend.x = yend.x * stepx;
-    yend.y = yend.y * stepy;
-    draw::Line(ystart, yend);
-  }
-
-  for (double a = 0; a < maxy; a = a + (maxy - miny) / 10) {
+  for (double i = miny; i < maxy; i += (maxy - miny) / (double)20) {
     ValueGroup xstart, xend;
-    xstart.x = minx;
-    xstart.y = a;
-    xend.x = maxx;
-    xend.y = a;
-    if (minx > 0 || maxx < 0) {
-      xstart.y = miny;
-      xstart.x = minx;
-      xend.y = maxy;
-      xend.x = minx;
-    }
-    if (minx < 0) {
-      xstart.x = xstart.x + (minx * -1);
-      xend.x = xend.x + (minx * -1);
-    }
-    if (miny < 0) {
-      xstart.y = xstart.y + (miny * -1);
-      xend.y = xend.y + (miny * -1);
-    }
-    xstart.y = (xstart.y - (maxy - miny)) * -1;
-    xstart.x = xstart.x * stepx;
-    xstart.y = xstart.y * stepy;
-    xend.y = (xend.y - (maxy - miny)) * -1;
-    xend.x = xend.x * stepx;
-    xend.y = xend.y * stepy;
-    draw::Line(xstart, xend);
-  }
-  for (double a = 0; a > miny; a = a - (maxy - miny) / 10) {
-    ValueGroup xstart, xend;
-    xstart.x = minx;
-    xstart.y = a;
-    xend.x = maxx;
-    xend.y = a;
-    if (minx > 0 || maxx < 0) {
-      xstart.y = miny;
-      xstart.x = minx;
-      xend.y = maxy;
-      xend.x = minx;
-    }
-    if (minx < 0) {
-      xstart.x = xstart.x + (minx * -1);
-      xend.x = xend.x + (minx * -1);
-    }
-    if (miny < 0) {
-      xstart.y = xstart.y + (miny * -1);
-      xend.y = xend.y + (miny * -1);
-    }
-    xstart.y = (xstart.y - (maxy - miny)) * -1;
-    xstart.x = xstart.x * stepx;
-    xstart.y = xstart.y * stepy;
-    xend.y = (xend.y - (maxy - miny)) * -1;
-    xend.x = xend.x * stepx;
-    xend.y = xend.y * stepy;
+    xstart.x = ConvertValue(minx, false);
+    xstart.y = ConvertValue(i, true);
+    xend.x = ConvertValue(maxx, false);
+    xend.y = ConvertValue(i, true);
     draw::Line(xstart, xend);
   }
 }
+
+void aequus::video::AdvObject::DrawLabels() {}
+
+void aequus::video::AdvObject::DrawTitle() {}
+
+void aequus::video::AdvObject::DrawValues() {}
+
+void aequus::video::AdvObject::DrawImageTitle() {}
 
 void aequus::video::AdvObject::GenColors(int number) {
   double red = 1, green = 0, blue = 0;
@@ -499,4 +399,26 @@ void aequus::video::AdvObject::GenColors(int number) {
       }
     }
   }
+}
+
+int aequus::video::AdvObject::ConvertValue(double value, bool yaxis) {
+  if (yaxis == false) {
+    if (minx < 0) {
+      value += minx * -1;
+    }
+    if (minx > 0) {
+      value -= minx;
+    }
+    value *= stepx;
+  } else if (yaxis == true) {
+    if (minx < 0) {
+      value += miny * -1;
+    }
+    if (minx > 0) {
+      value -= miny;
+    }
+    value = (value - (maxy - miny)) * -1;
+    value *= stepy;
+  }
+  return (value);
 }

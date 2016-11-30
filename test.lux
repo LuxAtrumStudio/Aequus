@@ -1,5 +1,5 @@
 #DATAFILE
 int dimensions 2
 vector string titles TestGraph GraphA
-vector double colors 0 0 0 1 0 0 1 1
-vector int GraphA -2 -2 -1 -1 0 0 1 1 2 2 3 3 4 4 5 5
+vector int GraphA 1 1 2 1 3 2 4 2 5 3 6 3
+vector int GraphB -2 -2 -1 -1 0 0 1 1 2 2

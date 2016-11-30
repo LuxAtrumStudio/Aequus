@@ -33,9 +33,9 @@ public:
                    int graphwidth = 100, int graphheight = 100,
                    bool graphbackground = false, bool graphaxis = false,
                    bool graphgrid = false, bool graphvalues = false,
-                   bool graphlables = false, bool graphtitle = false,
-                   double xstart = 0, double xend = 0, double ystart = 0,
-                   double yend = 0);
+                   bool graphlabels = false, bool graphtitle = false,
+                   bool graphimagetitle = false, double xstart = 0,
+                   double xend = 0, double ystart = 0, double yend = 0);
   // Displays the advanced object
   void Display();
   Object globalobj;
@@ -68,7 +68,7 @@ private:
   // Stores the domain and range for graphs
   double minx, maxx, miny, maxy, minz, maxz, stepx, stepy, stepz;
   // The object class for the actual advanced object
-  bool axis, values, lables, title, grid, background;
+  bool axis, values, labels, title, grid, imagetitle, background;
   // Stores the background color for the graphs
   ValueGroup backgroundcolor;
   // Loads the data for 2D graphs
@@ -83,8 +83,18 @@ private:
   void DrawAxis();
   // Draws the coordinate grid for graphs
   void DrawGrid();
+  // Draws labels for the axis and grid Lines
+  void DrawLabels();
+  // Draws the title of the curves
+  void DrawTitle();
+  // Draws labels for values along curve
+  void DrawValues();
+  // Draws title for compleate graphs
+  void DrawImageTitle();
   // Genorates colors for the color vector
   void GenColors(int number = 0);
+  // Converted value to display position
+  int ConvertValue(double value, bool yaxis);
 };
 }
 }
