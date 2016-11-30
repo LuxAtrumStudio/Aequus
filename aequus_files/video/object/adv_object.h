@@ -84,7 +84,7 @@ private:
   // Draws the coordinate grid for graphs
   void DrawGrid();
   // Genorates colors for the color vector
-  void GenColors(int number);
+  void GenColors(int number = 0);
 };
 }
 }

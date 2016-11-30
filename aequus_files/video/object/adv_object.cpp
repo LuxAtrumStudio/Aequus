@@ -152,10 +152,11 @@ void aequus::video::AdvObject::ComputeDataPoints(std::string function) {
   for (unsigned a = 0; a < functions.size(); a++) {
     GraphData newgraph;
     newgraph.title = functions[a];
+    int equation = pessum::parser::ParseEquation(functions[a]);
     for (double x = minx; x < maxx; x = x + (maxx - minx) / width) {
       ValueGroup newpoint;
       newpoint.x = x;
-      newpoint.y = pow(x, 0.5);
+      newpoint.y = pessum::parser::ComputeEquation(equation, x);
       newgraph.points.push_back(newpoint);
     }
     graphs.push_back(newgraph);
