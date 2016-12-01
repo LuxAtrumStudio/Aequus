@@ -34,8 +34,9 @@ public:
                    bool graphbackground = false, bool graphaxis = false,
                    bool graphgrid = false, bool graphvalues = false,
                    bool graphlabels = false, bool graphtitle = false,
-                   bool graphimagetitle = false, double xstart = 0,
-                   double xend = 0, double ystart = 0, double yend = 0);
+                   bool graphimagetitle = false, std::string graphname = "",
+                   double xstart = 0, double xend = 0, double ystart = 0,
+                   double yend = 0);
   // Displays the advanced object
   void Display();
   Object globalobj;
@@ -59,7 +60,7 @@ private:
   // Used to define advanced object type
   AdvType objtype;
   // Titles for graphs
-  std::string graphtitle;
+  std::string titlestr;
   std::vector<std::string> titles;
   // Storage for graph points in either 2D or 3D
   std::vector<GraphData> graphs;

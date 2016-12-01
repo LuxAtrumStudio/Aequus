@@ -7,21 +7,6 @@ int main(int argc, char *argv[]) {
   pessum::InitializePessumComponents();
   aequus::framework::SdlStartUp();
   aequus::video::CreateWindow("Aequus");
-  aequus::video::NewAdvObject();
-  std::string eqs;
-  for (int i = 0; i < 10; i++) {
-    eqs += "x * " + std::to_string(i);
-    // eqs += "x - " + std::to_string(i);
-    if (i != 9) {
-      eqs += ",";
-    }
-  }
-  aequus::video::win->advobj->CreateGraph(
-      "x,x ^ 2,x ^ 3", aequus::video::AdvObject::PLOT, 500, 500, true, true,
-      true, true, true, true, true, -10, 10);
-  // aequus::video::win->advobj->CreateGraph(
-  //    "test.lux", aequus::video::AdvObject::LINE, 500, 500, true, true, true,
-  //    true, true, true, true);
   while (aequus::video::AllClose() == false) {
     aequus::Frame();
     if (aequus::input::events.size() > 0) {

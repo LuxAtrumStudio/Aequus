@@ -19,8 +19,9 @@ void aequus::video::AdvObject::InitializeAdvObj(Renderer renderer, int counter,
 void aequus::video::AdvObject::CreateGraph(
     std::string datafile, GraphType graphtype, int graphwidth, int graphheight,
     bool graphbackground, bool graphaxis, bool graphgrid, bool graphvalues,
-    bool graphlabels, bool graphtitle, bool graphimagetitle, double xstart,
-    double xend, double ystart, double yend) {
+    bool graphlabels, bool graphtitle, bool graphimagetitle,
+    std::string graphname, double xstart, double xend, double ystart,
+    double yend) {
   objtype = GRAPH;
   axis = graphaxis;
   values = graphvalues;
@@ -30,6 +31,7 @@ void aequus::video::AdvObject::CreateGraph(
   imagetitle = graphimagetitle;
   background = graphbackground;
   graphformat = graphtype;
+  titlestr = graphname;
   if (graphtype == LINE) {
     LoadGraphData(datafile);
     pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS,
@@ -139,11 +141,13 @@ void aequus::video::AdvObject::LoadGraphData(std::string datafile) {
   if (colordef == false) {
     GenColors(graphs.size());
   }
-  graphtitle = titles[0];
+  titlestr = titles[0];
 }
 
 void aequus::video::AdvObject::ComputeDataPoints(std::string function) {
-  graphtitle = "PLOT GRAPH";
+  if (titlestr == "") {
+    titlestr = "PLOT GRAPH";
+  }
   std::vector<std::string> functions;
   std::string newfunction = "";
   for (unsigned a = 0; a < function.size(); a++) {
@@ -157,10 +161,15 @@ void aequus::video::AdvObject::ComputeDataPoints(std::string function) {
   functions.push_back(newfunction);
   stepx = width / (maxx - minx);
   GenColors(functions.size());
-  for (unsigned a = 0; a < functions.size(); a++) {
+  for (unsigned i = 0; i < functions.size(); i++) {
     GraphData newgraph;
-    newgraph.title = functions[a];
-    int equation = pessum::parser::ParseEquation(functions[a]);
+    newgraph.title = functions[i];
+    for (int j = 0; j < newgraph.title.size(); j++) {
+      if (newgraph.title[j] == ' ') {
+        newgraph.title.erase(newgraph.title.begin() + j);
+      }
+    }
+    int equation = pessum::parser::ParseEquation(functions[i]);
     for (double x = minx; x < maxx; x = x + (maxx - minx) / width) {
       ValueGroup newpoint;
       newpoint.x = x;
@@ -418,9 +427,70 @@ void aequus::video::AdvObject::DrawLabels() {
   }
 }
 
-void aequus::video::AdvObject::DrawTitle() {}
+void aequus::video::AdvObject::DrawTitle() {
+  double red = 1, blue = 1, green = 1, alpha = 1;
+  for (int i = 0; i < graphs.size(); i++) {
+    if (colors.size() > i + background) {
+      red = colors[i + background].r;
+      green = colors[i + background].g;
+      blue = colors[i + background].b;
+      alpha = colors[i + background].a;
+    } else if (background == true) {
+      red = 0;
+      blue = 0;
+      green = 0;
+      alpha = 1;
+    }
+    Object title;
+    title.InitalizeObj(objrenderer.sdlrenderer);
+    title.CreateTextObj(graphs[i].title, 12, red, green, blue, alpha);
+    title.SetPos(ConvertValue(graphs[i].points[0].x, false),
+                 ConvertValue(graphs[i].points[0].y, true) -
+                     title.GetIntValue("sizey"));
+    title.DisplayObj();
+  }
+}
 
-void aequus::video::AdvObject::DrawValues() {}
+void aequus::video::AdvObject::DrawValues() {
+  double red = 1, blue = 1, green = 1, alpha = 1;
+  for (int i = 0; i < graphs.size(); i++) {
+    double valuejump = 1;
+    if (graphs[i].points.size() > 20) {
+      valuejump = graphs[i].points.size() / 20.0;
+    }
+    if (colors.size() > i + background) {
+      red = colors[i + background].r;
+      green = colors[i + background].g;
+      blue = colors[i + background].b;
+      alpha = colors[i + background].a;
+    } else if (background == true) {
+      red = 0;
+      blue = 0;
+      green = 0;
+      alpha = 1;
+    }
+    for (double j = 0; j < graphs[i].points.size(); j += valuejump) {
+      int k = j;
+      std::string valuestr = std::to_string(graphs[i].points[k].y);
+      for (int i = valuestr.size() - 1; i > 0; i--) {
+        if (valuestr[i] == '0') {
+          valuestr.pop_back();
+        } else if (valuestr[i] != '0') {
+          break;
+        }
+      }
+      if (valuestr.back() == '.') {
+        valuestr.pop_back();
+      }
+      Object value;
+      value.InitalizeObj(objrenderer.sdlrenderer);
+      value.CreateTextObj(valuestr, 10, red, green, blue, alpha);
+      value.SetPos(ConvertValue(graphs[i].points[k].x, false),
+                   ConvertValue(graphs[i].points[k].y, true));
+      value.DisplayObj();
+    }
+  }
+}
 
 void aequus::video::AdvObject::DrawImageTitle() {
   double red = 1, green = 1, blue = 1;
@@ -431,7 +501,7 @@ void aequus::video::AdvObject::DrawImageTitle() {
   }
   Object name;
   name.InitalizeObj(objrenderer.sdlrenderer);
-  name.CreateTextObj(graphtitle, 20, red, green, blue, 1, Text::BOLD);
+  name.CreateTextObj(titlestr, 20, red, green, blue, 1, Text::BOLD);
   name.DisplayObj();
 }
 
