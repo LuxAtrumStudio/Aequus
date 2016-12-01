@@ -71,6 +71,8 @@ private:
   bool axis, values, labels, title, grid, imagetitle, background;
   // Stores the background color for the graphs
   ValueGroup backgroundcolor;
+  // Stores the graph type
+  GraphType graphformat;
   // Loads the data for 2D graphs
   void LoadGraphData(std::string datafile = "NULL");
   // Computes the values for the plot graphs
