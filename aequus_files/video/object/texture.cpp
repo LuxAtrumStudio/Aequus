@@ -150,4 +150,7 @@ void aequus::video::Texture::UpdateTexture() {
   LoadTexture();
 }
 
-void aequus::video::Texture::CloseTexture() { SDL_DestroyTexture(sdltexture); }
+void aequus::video::Texture::CloseTexture() {
+  SDL_DestroyTexture(sdltexture);
+  SDL_FreeSurface(sdlsurface);
+}

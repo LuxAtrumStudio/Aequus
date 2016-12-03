@@ -1,14 +1,14 @@
 #ifndef _AEQUUS_FILES_VIDEO_OBJECT_TEXT_H_
 #define _AEQUUS_FILES_VIDEO_OBJECT_TEXT_H_
+#include "../../sdl_headers.h"
 #include <string>
 #include <vector>
-#include "../../sdl_headers.h"
 namespace aequus {
 namespace video {
 // Text class is used to modify any and all data points in relation to the use
 // of text for objects
 class Text {
- public:
+public:
   // Used for setting the differnet font weights that are posible
   enum FontWeight {
     THIN = 0,
@@ -24,7 +24,7 @@ class Text {
   // Changes the quality ofthe font rendering mode
   enum FontRenderMode { SOLIDTEXT, SHADEDTEXT, BLENDTEXT };
   // Pointer to sdl surface for the text object
-  SDL_Surface* textsurface = NULL;
+  SDL_Surface *textsurface = NULL;
   // Sdl rectange structures for the source and destinaation rectangles
   SDL_Rect sourcerect, destinationrect;
   // Loads a new font based off of directory, size, weight, and italics
@@ -54,9 +54,11 @@ class Text {
                   std::string direcory = "resources/fonts/Raleway/",
                   double colors[4] = 0);
   // Find text size
-  void FindSize(int* x, int* y, std::string str = "NULL");
+  void FindSize(int *x, int *y, std::string str = "NULL");
+  // Terminates Text Object
+  void TerminateText();
 
- private:
+private:
   // Stores the log location index
   int logloc;
   // Stores the font folder, name, and file path
@@ -74,7 +76,7 @@ class Text {
   // Stores the background color
   double backgroundcolor[4];
   // Pointer to ttf font structure
-  TTF_Font* ttffont = NULL;
+  TTF_Font *ttffont = NULL;
   // Loads the ttf font from all loaded data
   void LoadFont();
   // Termiantes the ttf font pointer, and creates a new one based uppon the
@@ -87,4 +89,4 @@ class Text {
 };
 }
 }
-#endif  // !_AEQUUS_FILES_VIDEO_OBJECT_TEXT_H_
+#endif // !_AEQUUS_FILES_VIDEO_OBJECT_TEXT_H_

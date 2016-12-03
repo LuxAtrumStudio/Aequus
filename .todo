@@ -1,13 +1,22 @@
 <?xml version="1.0"?>
 <todo version="0.1.20">
+    <note priority="high" time="1480739787" done="1480786364">
+        Fix button colision box checking bug
+        <comment>
+            Simple missed declaration of upper bound
+        </comment>
+    </note>
     <note priority="medium" time="1480605775" done="1480739759">
         Add text input box, into advanced objects
         <comment>
             Compleated
         </comment>
     </note>
-    <note priority="high" time="1480739787">
-        Fix button colision box checking bug
+    <note priority="veryhigh" time="1480786431">
+        Fix seg-fault with text box creation
+    </note>
+    <note priority="medium" time="1480786445">
+        Create update graph function
     </note>
     <note priority="low" time="1480605952">
         Clean up past code to have better formating

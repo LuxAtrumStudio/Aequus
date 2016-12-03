@@ -102,8 +102,6 @@ void aequus::input::InterpretEvent() {
       } else if (keyint == 47) {
         keyint = 63;
       }
-      pessum::logging::LogLoc(pessum::logging::LOG_INFORMATION,
-                              std::to_string(keyint));
       newevent.key = keyint;
     }
   }

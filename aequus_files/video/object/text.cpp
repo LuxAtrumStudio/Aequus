@@ -1,9 +1,9 @@
-#include <string>
-#include <vector>
 #include "../../../pessum_files/pessum_headers.h"
 #include "../../aequus_headers.h"
 #include "../../sdl_headers.h"
 #include "text.h"
+#include <string>
+#include <vector>
 
 void aequus::video::Text::CreateFont(std::string directory, int point,
                                      FontWeight weight, bool italic) {
@@ -118,6 +118,19 @@ void aequus::video::Text::FindSize(int *x, int *y, std::string str) {
                             "FindSize");
   }
   TTF_SizeText(ttffont, str.c_str(), x, y);
+}
+
+void aequus::video::Text::TerminateText() {
+  CloseFont();
+  logloc = 0;
+  folderpath = "";
+  fontname = "";
+  filepath = "";
+  text = "";
+  fontweight = REGULAR;
+  fontpoint = 12;
+  ttffont = NULL;
+  SDL_FreeSurface(textsurface);
 }
 
 void aequus::video::Text::LoadFont() {

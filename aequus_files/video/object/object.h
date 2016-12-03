@@ -67,6 +67,8 @@ public:
   void LoadDefaults(int width = -1, int height = -1);
   // Returns private values
   int GetIntValue(std::string value);
+  // Terminates object
+  void TerminateObject();
 
 private:
   // Pointer to logging locaiton

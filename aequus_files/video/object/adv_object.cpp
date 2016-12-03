@@ -64,6 +64,23 @@ void aequus::video::AdvObject::CreateGraph(
   }
 }
 
+void aequus::video::AdvObject::UpdateGraph(std::string data) {
+  GraphType tgraphtype = graphformat;
+  int tgraphwidth = width, tgraphheight = height;
+  bool gbg = background, ga = axis, gv = values, gl = labels, gt = title,
+       gg = grid, git = imagetitle;
+  std::string gtitle = titlestr;
+  double gsx = minx, gex = maxx;
+  double gsy = miny, gey = maxy;
+  if (graphformat == PLOT) {
+    gsy = 0;
+    gey = 0;
+  }
+  TerminateAdvObject();
+  CreateGraph(data, tgraphtype, tgraphwidth, tgraphheight, gbg, ga, gg, gv, gl,
+              gt, git, gtitle, gsx, gex, gsy, gey);
+}
+
 void aequus::video::AdvObject::CreateTextBox(int boxwidth, int boxheight,
                                              std::string texture,
                                              bool whitetext, bool clip,
@@ -76,6 +93,8 @@ void aequus::video::AdvObject::CreateTextBox(int boxwidth, int boxheight,
   width = boxwidth;
   height = boxheight;
   texturedir = texture;
+  posx = 0;
+  posy = 0;
   globalobj.InitalizeObj(objrenderer.sdlrenderer, (advobjcount * 10) + 1,
                          resourcedir);
   globalobj.CreateButton(defaulttext, texturedir, whitetext, clip, false, width,
@@ -86,8 +105,12 @@ void aequus::video::AdvObject::UpdateTextBox(int x, int y, int state) {
   if (globalobj.UpdateButton(x, y, state) == true) {
     if (selected == true) {
       selected = false;
+      globalobj.SetColor(1, 1, 1, 1);
     } else {
       selected = true;
+      if (clipcheck == false) {
+        globalobj.SetColor(0.0, 0.5, 0.85, 1);
+      }
     }
   }
 }
@@ -98,7 +121,7 @@ void aequus::video::AdvObject::UpdateTextBoxText(int key) {
     if (key == 8 && storedtext.size() > 0) {
       updatetext = true;
       storedtext.pop_back();
-    } else if (key == 27) {
+    } else if (key == 13) {
       updatetext = true;
       selected = false;
     } else if (key == 127 && storedtext.size() > 0) {
@@ -111,11 +134,63 @@ void aequus::video::AdvObject::UpdateTextBoxText(int key) {
     if (updatetext = true) {
       globalobj.CreateButton(storedtext, texturedir, whitetextcheck, clipcheck,
                              false, width, height);
+      if (selected == true) {
+        globalobj.SetColor(0, 0.5, 0.85, 1);
+      } else {
+        globalobj.SetColor(1, 1, 1, 1);
+      }
+      globalobj.SetPos(posx, posy);
     }
   }
 }
 
+std::string aequus::video::AdvObject::GetString() {
+  if (selected == false) {
+    return (storedtext);
+  } else {
+    return ("");
+  }
+}
+
 void aequus::video::AdvObject::Display() { globalobj.DisplayObj(); }
+
+void aequus::video::AdvObject::SetPos(int x, int y) {
+  posx = x;
+  posy = y;
+  globalobj.SetPos(posx, posy);
+}
+
+void aequus::video::AdvObject::TerminateAdvObject() {
+  logloc = 0;
+  advobjcount = 0;
+  posx = 0;
+  posy = 0;
+  width = 0;
+  height = 0;
+  storedtext = "";
+  texturedir = "";
+  whitetextcheck = false;
+  clipcheck = false;
+  selected = false;
+  titlestr = "";
+  titles.clear();
+  graphs.clear();
+  colors.clear();
+  minx = 0;
+  maxx = 0;
+  miny = 0;
+  maxy = 0;
+  stepx = 0;
+  stepy = 0;
+  axis = false;
+  values = false;
+  labels = false;
+  title = false;
+  grid = false;
+  imagetitle = false;
+  background = false;
+  globalobj.TerminateObject();
+}
 
 void aequus::video::AdvObject::LoadGraphData(std::string datafile) {
   int pointerx, pointery;

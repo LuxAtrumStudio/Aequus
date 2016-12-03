@@ -22,6 +22,10 @@ public:
     std::string title;
     std::vector<aequus::ValueGroup> points;
   };
+  // Texture for advanced object
+  Object globalobj;
+  // Used to define advanced object type
+  AdvType objtype;
   // Initalizes Advanced object functions
   void InitializeAdvObj(Renderer renderer, int counter = 0,
                         std::string resource = "resources/");
@@ -39,20 +43,24 @@ public:
                    bool graphimagetitle = false, std::string graphname = "",
                    double xstart = 0, double xend = 0, double ystart = 0,
                    double yend = 0);
+  // Updates data in previously defined graph
+  void UpdateGraph(std::string data);
   // Creates a text box for entering text
   void CreateTextBox(int width = 100, int height = 100,
                      std::string texture = "", bool whitetext = false,
                      bool clip = false, std::string defaulttext = "");
   // Updates the statues of selected for text box
-  void UpdateTextBox(int x, int y, int state);
+  void UpdateTextBox(int x = 0, int y = 0, int state = 0);
   // Updates text box text
-  void UpdateTextBoxText(int key);
+  void UpdateTextBoxText(int key = 0);
+  // Returns text box string if it is unselected
+  std::string GetString();
   // Displays the advanced object
   void Display();
-  // Texture for advanced object
-  Object globalobj;
-  // Used to define advanced object type
-  AdvType objtype;
+  // Moves advanced object to specified position
+  void SetPos(int x = 0, int y = 0);
+  // Termiantes advanced object
+  void TerminateAdvObject();
 
 private:
   // Pointer to logging locaiton
@@ -85,7 +93,7 @@ private:
   // Stores the colors for differnt graphs
   std::vector<ValueGroup> colors;
   // Stores the domain and range for graphs
-  double minx, maxx, miny, maxy, minz, maxz, stepx, stepy, stepz;
+  double minx, maxx, miny, maxy, stepx, stepy;
   // The object class for the actual advanced object
   bool axis, values, labels, title, grid, imagetitle, background;
   // Stores the background color for the graphs

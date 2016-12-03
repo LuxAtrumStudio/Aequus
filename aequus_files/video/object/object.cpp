@@ -107,6 +107,9 @@ void aequus::video::Object::SetColor(double red, double green, double blue,
   colormod[2] = blue;
   colormod[3] = alpha;
   objtexture.SetColorMod(colormod);
+  for (int i = 0; i < 4; i++) {
+    savedcolormod[i] = colormod[i];
+  }
 }
 
 void aequus::video::Object::SetClipSpace(int startx, int starty, int width,
@@ -303,6 +306,8 @@ void aequus::video::Object::CreateButton(std::string text,
   rotateangle = 0;
   objtype = BUTTON;
   buttonclip = clipbutton;
+  destsizex = sizex;
+  destsizey = sizey;
   if (buttonclip == true) {
     SetClipSpace(0, 0, surfacewidth, surfaceheight);
   }
@@ -420,4 +425,29 @@ int aequus::video::Object::GetIntValue(std::string value) {
     return (posy);
   }
   return (0);
+}
+
+void aequus::video::Object::TerminateObject() {
+  logloc = 0;
+  objrenderer = NULL;
+  posx = 0;
+  posy = 0;
+  sizex = 0;
+  sizey = 0;
+  rotateaxisx = 0;
+  rotateaxisy = 0;
+  scalex = 1;
+  scaley = 1;
+  clipx = 0;
+  clipy = 0;
+  clipsizex = 0;
+  clipsizey = 0;
+  destsizex = 0;
+  destsizey = 0;
+  rotateangle = 0;
+  buttonclip = false;
+  resourcedir = "resources/";
+  objsurface.Terminate();
+  objtext.TerminateText();
+  objtexture.TerminateTexture();
 }
