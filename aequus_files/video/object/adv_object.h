@@ -14,7 +14,7 @@ namespace video {
 class AdvObject {
 public:
   // Used to define what type of advanced object is being used
-  enum AdvType { GRAPH, MODEL, DGRAPH };
+  enum AdvType { GRAPH, TEXTBOX };
   // Used to define what graph type
   enum GraphType { LINE, BAR, SCATTER, PIE, PLOT };
   // Used to store single line graph data
@@ -25,10 +25,12 @@ public:
   // Initalizes Advanced object functions
   void InitializeAdvObj(Renderer renderer, int counter = 0,
                         std::string resource = "resources/");
-  // Creates a graph from a data file that folows the format:
-  // vector string titles (Graph Title) (x-axis name) (y-axis name)
-  // vector value (x-axis name) ....
-  // vector value (y-axis name) ....
+  // Creates a graph from a datefile, or equations with folowing args
+  // graphheight(int) in pixels, graphwidth(int) in pixels
+  // background(bool), axis(bool), grid(bool), values(bool), labels(bool),
+  // title(bool), graphtitle(bool)
+  // graphname(string), domain start(double), domain end(double), range
+  // start(double), range end(double)
   void CreateGraph(std::string datafile, GraphType graphtype,
                    int graphwidth = 100, int graphheight = 100,
                    bool graphbackground = false, bool graphaxis = false,
@@ -37,9 +39,20 @@ public:
                    bool graphimagetitle = false, std::string graphname = "",
                    double xstart = 0, double xend = 0, double ystart = 0,
                    double yend = 0);
+  // Creates a text box for entering text
+  void CreateTextBox(int width = 100, int height = 100,
+                     std::string texture = "", bool whitetext = false,
+                     bool clip = false, std::string defaulttext = "");
+  // Updates the statues of selected for text box
+  void UpdateTextBox(int x, int y, int state);
+  // Updates text box text
+  void UpdateTextBoxText(int key);
   // Displays the advanced object
   void Display();
+  // Texture for advanced object
   Object globalobj;
+  // Used to define advanced object type
+  AdvType objtype;
 
 private:
   // Pointer to logging locaiton
@@ -57,8 +70,13 @@ private:
   // The color modification data for the object
   //[0] red, [1] green, [2] blue, [3] alpha
   double colormod[4];
-  // Used to define advanced object type
-  AdvType objtype;
+  // Used to store text entered to text box
+  std::string storedtext;
+  // Saved date for recreation of button
+  std::string texturedir;
+  bool whitetextcheck, clipcheck;
+  // Used to determin if textbox is selected
+  bool selected;
   // Titles for graphs
   std::string titlestr;
   std::vector<std::string> titles;

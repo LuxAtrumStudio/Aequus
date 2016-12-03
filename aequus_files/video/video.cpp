@@ -349,6 +349,33 @@ void aequus::video::HandleEvents(int pointer) {
           }
         }
       }
+      for (int b = 0; b < windows[pointer].advobjects.size(); b++) {
+        if (windows[pointer].advobjects[b].objtype == AdvObject::TEXTBOX) {
+          if (windowevent.type == input::MOUSEMOTION ||
+              windowevent.type == input::MOUSEBUTTON) {
+            int x, y, state = 0;
+            x = windowevent.posx;
+            y = windowevent.posy;
+            if (windowevent.type == input::MOUSEBUTTON) {
+              if (windowevent.buttonstate == input::PRESSED ||
+                  windowevent.mousepress == true) {
+                state = 1;
+              }
+              if (windowevent.buttonstate == input::RELEASED) {
+                state = 2;
+              }
+            }
+            if (windowevent.mousepress == true) {
+              state = 1;
+            }
+            windows[pointer].advobjects[b].UpdateTextBox(x, y, state);
+          }
+          if (windowevent.type == input::KEYBOARD &&
+              windowevent.buttonstate == input::RELEASED) {
+            windows[pointer].advobjects[b].UpdateTextBoxText(windowevent.key);
+          }
+        }
+      }
     }
     if (windowevent.type == input::QUIT) {
       TerminateWindow();

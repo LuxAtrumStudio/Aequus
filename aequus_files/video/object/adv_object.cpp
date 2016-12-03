@@ -64,6 +64,57 @@ void aequus::video::AdvObject::CreateGraph(
   }
 }
 
+void aequus::video::AdvObject::CreateTextBox(int boxwidth, int boxheight,
+                                             std::string texture,
+                                             bool whitetext, bool clip,
+                                             std::string defaulttext) {
+  objtype = TEXTBOX;
+  storedtext = defaulttext;
+  selected = false;
+  whitetextcheck = whitetext;
+  clipcheck = clipcheck;
+  width = boxwidth;
+  height = boxheight;
+  texturedir = texture;
+  globalobj.InitalizeObj(objrenderer.sdlrenderer, (advobjcount * 10) + 1,
+                         resourcedir);
+  globalobj.CreateButton(defaulttext, texturedir, whitetext, clip, false, width,
+                         height);
+}
+
+void aequus::video::AdvObject::UpdateTextBox(int x, int y, int state) {
+  if (globalobj.UpdateButton(x, y, state) == true) {
+    if (selected == true) {
+      selected = false;
+    } else {
+      selected = true;
+    }
+  }
+}
+
+void aequus::video::AdvObject::UpdateTextBoxText(int key) {
+  bool updatetext = false;
+  if (selected == true) {
+    if (key == 8 && storedtext.size() > 0) {
+      updatetext = true;
+      storedtext.pop_back();
+    } else if (key == 27) {
+      updatetext = true;
+      selected = false;
+    } else if (key == 127 && storedtext.size() > 0) {
+      updatetext = true;
+      storedtext.pop_back();
+    } else if (key >= 32 && key <= 126) {
+      updatetext = true;
+      storedtext.push_back(char(key));
+    }
+    if (updatetext = true) {
+      globalobj.CreateButton(storedtext, texturedir, whitetextcheck, clipcheck,
+                             false, width, height);
+    }
+  }
+}
+
 void aequus::video::AdvObject::Display() { globalobj.DisplayObj(); }
 
 void aequus::video::AdvObject::LoadGraphData(std::string datafile) {

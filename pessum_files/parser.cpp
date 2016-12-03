@@ -30,6 +30,10 @@ int pessum::parser::ParseEquation(std::string equation) {
       if (int(partstring[0]) >= 48 && int(partstring[0]) <= 57) {
         newpart.value = stod(partstring);
         newpart.type = VALUE;
+      } else if (partstring[0] == '-' && partstring.size() > 1) {
+        partstring.erase(partstring.begin());
+        newpart.value = -1 * stod(partstring);
+        newpart.type = VALUE;
       } else if (partstring == "+") {
         newpart.operation = ADD;
         newpart.type = OPERATOR;

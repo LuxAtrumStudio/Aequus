@@ -1,6 +1,6 @@
-#include "input.h"
 #include "../../pessum_files/logging.h"
 #include "../aequus_headers.h"
+#include "input.h"
 
 namespace aequus {
 namespace input {
@@ -52,7 +52,60 @@ void aequus::input::InterpretEvent() {
       newevent.repeate = true;
     }
     newevent.keydata = sdlevent.key.keysym;
-    newevent.key = sdlevent.key.keysym.sym;
+    if (sdlevent.key.keysym.mod == KMOD_NONE) {
+      newevent.key = sdlevent.key.keysym.sym;
+    } else if (sdlevent.key.keysym.mod == KMOD_LSHIFT ||
+               sdlevent.key.keysym.mod == KMOD_RSHIFT) {
+      int keyint = sdlevent.key.keysym.sym;
+      if (keyint >= 97 && keyint <= 122) {
+        keyint -= 32;
+      } else if (keyint == 96) {
+        keyint = 126;
+      } else if (keyint == 48) {
+        keyint = 41;
+      } else if (keyint == 49) {
+        keyint = 33;
+      } else if (keyint == 50) {
+        keyint = 64;
+      } else if (keyint == 51) {
+        keyint = 35;
+      } else if (keyint == 52) {
+        keyint = 36;
+      } else if (keyint == 53) {
+        keyint = 37;
+      } else if (keyint == 54) {
+        keyint = 94;
+      } else if (keyint == 55) {
+        keyint = 38;
+      } else if (keyint == 56) {
+        keyint = 42;
+      } else if (keyint == 57) {
+        keyint = 40;
+      } else if (keyint == 45) {
+        keyint = 95;
+      } else if (keyint == 61) {
+        keyint = 43;
+      } else if (keyint == 91) {
+        keyint = 123;
+      } else if (keyint == 93) {
+        keyint = 125;
+      } else if (keyint == 92) {
+        keyint = 124;
+      } else if (keyint == 59) {
+        keyint = 58;
+      } else if (keyint == 39) {
+        keyint = 34;
+      } else if (keyint == 44) {
+        keyint = 60;
+      } else if (keyint == 46) {
+        keyint = 62;
+      } else if (keyint == 47) {
+        keyint = 63;
+      }
+      pessum::logging::LogLoc(pessum::logging::LOG_INFORMATION,
+                              std::to_string(keyint));
+      newevent.key = keyint;
+    }
   }
   if (sdlevent.type == SDL_MOUSEMOTION) {
     newevent.type = MOUSEMOTION;
