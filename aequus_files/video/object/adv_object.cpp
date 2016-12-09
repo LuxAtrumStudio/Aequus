@@ -80,9 +80,7 @@ void aequus::video::AdvObject::UpdateGraph(std::string data) {
     gsy = 0;
     gey = 0;
   }
-  pessum::logging::Log();
   TerminateAdvObject();
-  pessum::logging::Log();
   CreateGraph(data, tgraphtype, tgraphwidth, tgraphheight, gbg, ga, gg, gv, gl,
               gt, git, gtitle, gsx, gex, gsy, gey);
 }
@@ -195,9 +193,7 @@ void aequus::video::AdvObject::TerminateAdvObject() {
   grid = false;
   imagetitle = false;
   background = false;
-  pessum::logging::Log(pessum::logging::LOG_INFORMATION, "A");
   globalobj.TerminateObject();
-  pessum::logging::Log(pessum::logging::LOG_INFORMATION, "A");
 }
 
 void aequus::video::AdvObject::LoadGraphData(std::string datafile) {
@@ -304,7 +300,7 @@ void aequus::video::AdvObject::ComputeDataPoints(std::string function) {
       }
     }
     int equation = pessum::parser::ParseEquation(functions[i]);
-    for (double x = minx; x < maxx; x += stepx) {
+    for (double x = minx; x <= maxx; x += stepx) {
       ValueGroup newpoint;
       newpoint.x = x;
       newpoint.y = pessum::parser::ComputeEquation(equation, x);
@@ -337,6 +333,14 @@ void aequus::video::AdvObject::DrawLineGraph() {
         miny = graphs[a].points[b].y;
       }
     }
+  }
+  if (maxx == minx) {
+    maxx += 1;
+    minx -= 1;
+  }
+  if (maxy == miny) {
+    maxy += 1;
+    miny -= 1;
   }
   stepx = width / (maxx - minx);
   stepy = height / (maxy - miny);

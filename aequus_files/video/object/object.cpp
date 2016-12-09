@@ -447,11 +447,7 @@ void aequus::video::Object::TerminateObject() {
   rotateangle = 0;
   buttonclip = false;
   resourcedir = "resources/";
-  pessum::logging::Log(pessum::logging::LOG_INFORMATION, "B");
   objsurface.Terminate();
-  pessum::logging::Log(pessum::logging::LOG_INFORMATION, "B");
   objtext.TerminateText();
-  pessum::logging::Log(pessum::logging::LOG_INFORMATION, "B");
   objtexture.TerminateTexture();
-  pessum::logging::Log(pessum::logging::LOG_INFORMATION, "B");
 }

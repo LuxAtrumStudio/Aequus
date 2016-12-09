@@ -73,9 +73,19 @@ int pessum::parser::ParseEquation(std::string equation) {
       } else {
         newpart.variable = partstring;
         newpart.type = VARIABLE;
-        Variable newvariable;
-        newvariable.name = partstring;
-        equations[equationpointer].variables.push_back(newvariable);
+        bool newvar = true;
+        for (int j = 0;
+             j < equations[equationpointer].variables.size() && newvar == true;
+             j++) {
+          if (partstring == equations[equationpointer].variables[j].name) {
+            newvar = false;
+          }
+        }
+        if (newvar == true) {
+          Variable newvariable;
+          newvariable.name = partstring;
+          equations[equationpointer].variables.push_back(newvariable);
+        }
       }
       partstring = "";
       equations[equationpointer].parts.push_back(newpart);
