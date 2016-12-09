@@ -162,7 +162,7 @@ int *aequus::video::Surface::GetSize() {
 
 void aequus::video::Surface::Terminate() {
   if (sdlsurface != NULL) {
-    SDL_FreeSurface(sdlsurface);
+    sdlsurface = NULL;
   } else {
     logloc = pessum::logging::AddLogLocation(
         "aequus_files/video/object/surface[NULL]/");
