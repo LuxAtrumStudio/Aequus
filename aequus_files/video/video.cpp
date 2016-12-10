@@ -44,6 +44,12 @@ void aequus::video::CreateWindow(std::string title, int width, int height,
 }
 
 void aequus::video::TerminateWindow(int pointer) {
+  for (int i = 0; i < windows[pointer].objects.size(); i++) {
+    windows[pointer].objects[i].TerminateObject();
+  }
+  for (int i = 0; i < windows[pointer].advobjects.size(); i++) {
+    windows[pointer].advobjects[i].TerminateAdvObject();
+  }
   SDL_DestroyWindow(windows[pointer].sdlwindow);
   WindowData cleandata;
   pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS,
