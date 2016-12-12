@@ -1,6 +1,7 @@
 CPP_FILES = $(wildcard *.cpp)
 OBJ_FILES = $(notdir $(CPP_FILES:.cpp=.o))
 TOTAL_OBJ_FILES = $(wildcard */*.o) $(wildcard */*/*.o) $(wildcard */*/*/*.o)
+HEADER_FILES = $(wildcard *.h) $(wildcard */*.h) $(wildcard */*/*.h) $(wildcard */*/*/*.h)
 CC = g++
 COMPILER_FLAGS = -MMD -std=c++11 -w -c
 LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
@@ -54,7 +55,7 @@ tar: clean
 lib:
 	ar rcs lib$(PROGRAM_NAME).a $(TOTAL_OBJ_FILES)
 	sudo cp lib$(PROGRAM_NAME).a ../../../../usr/local/lib/ -u
-	sudo cp $(PROGRAM_NAME).h ../../../../usr/local/include/ -u
+	sudo cp $(HEADER_FILES) ../../../../usr/local/include/ -u
 	clear
 	@echo Compiled lib file, and copied to usr/local/lib
 
