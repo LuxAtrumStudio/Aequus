@@ -14,13 +14,18 @@ main:$(OBJ_FILES)
 .PHONY : subsystem
 subsystem:
 	setterm -foreground green
+	@echo =====-----AUDIO FILES:
 	cd audio && $(MAKE)
 	setterm -foreground cyan
+	@echo =====-----FRAMEWORK FILES:
 	cd framework && $(MAKE)
 	setterm -foreground red
+	@echo =====-----INPUT FILES:
 	cd input && $(MAKE)
 	setterm -foreground magenta
+	@echo =====-----VIDEO FILES:
 	cd video && $(MAKE)
 	setterm -foreground yellow
+	@echo =====----------OBJECT FILES:
 	cd video/object && $(MAKE)
 	setterm -foreground blue

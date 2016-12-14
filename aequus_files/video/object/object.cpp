@@ -1,9 +1,9 @@
+#include <string>
+#include <vector>
 #include "../../../pessum_files/logging.h"
 #include "../../aequus_headers.h"
 #include "../../sdl_headers.h"
 #include "object.h"
-#include <string>
-#include <vector>
 
 void aequus::video::Object::InitalizeObj(SDL_Renderer *renderer, int counter,
                                          std::string resource) {

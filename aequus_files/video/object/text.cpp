@@ -1,9 +1,9 @@
+#include <string>
+#include <vector>
 #include "../../../pessum_files/pessum_headers.h"
 #include "../../aequus_headers.h"
 #include "../../sdl_headers.h"
 #include "text.h"
-#include <string>
-#include <vector>
 
 void aequus::video::Text::CreateFont(std::string directory, int point,
                                      FontWeight weight, bool italic) {
@@ -130,7 +130,8 @@ void aequus::video::Text::TerminateText() {
   fontweight = REGULAR;
   fontpoint = 12;
   ttffont = NULL;
-  SDL_FreeSurface(textsurface);
+  textsurface = NULL;
+  // SDL_FreeSurface(textsurface);
 }
 
 void aequus::video::Text::LoadFont() {

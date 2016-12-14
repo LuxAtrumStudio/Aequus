@@ -24,9 +24,11 @@ top_obj:$(OBJ_FILES)
 
 .PHONY : subsystem
 subsystem:
-	setterm -background white -foreground black
+	setterm -foreground white
+	@echo =====PESSUM FILES:
 	cd pessum_files && $(MAKE)
-	setterm -background black -foreground blue
+	setterm -foreground blue
+	@echo =====AEQUUS FILES:
 	cd aequus_files && $(MAKE)
 	setterm -default
 
