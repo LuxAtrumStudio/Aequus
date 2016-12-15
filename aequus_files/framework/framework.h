@@ -1,7 +1,8 @@
 #ifndef _AEQUUS_FILES_FRAMEWORK_H_
 #define _AEQUUS_FILES_FRAMEWORK_H_
-#include "../sdl_headers.h"
+#include <ctime>
 #include <string>
+#include "../sdl_headers.h"
 namespace aequus {
 // namespace framework overall framework for SDL api that does not fit in any
 // catagory
@@ -20,6 +21,8 @@ enum SubSystem {
 };
 // Sets log location for aequus framework logging
 extern int logloc;
+// Stores the starting time for timmer
+extern clock_t timmerstart;
 // Initalizes all SDL subsystems, and checks versions
 void SdlStartUp();
 // Initalizes specific SDL subsystems
@@ -44,6 +47,8 @@ void InitalizeImg();
 void InitializeTtf();
 // Initializes SDL Mixer
 void InitializeMixer();
+// Runs timer and returns the time elapsed
+double Timmer(bool start = false);
 }
 }
-#endif // !_AEQUUS_FILES_FRAMEWORK_H_
+#endif  // !_AEQUUS_FILES_FRAMEWORK_H_

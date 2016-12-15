@@ -1,12 +1,14 @@
-#include "framework.h"
+#include <ctime>
+#include <string>
 #include "../../pessum_files/logging.h"
 #include "../aequus_headers.h"
 #include "../sdl_headers.h"
-#include <string>
+#include "framework.h"
 
 namespace aequus {
 namespace framework {
 int logloc = 0;
+clock_t timmerstart = 0;
 }
 }
 
@@ -117,7 +119,7 @@ void aequus::framework::CheckSdlVersions() {
 
 void aequus::framework::InitalizeImg() {
   int imgFlags = IMG_INIT_PNG;
-  if (IMG_Init(imgFlags) & imgFlags != 0) {
+  if (IMG_Init(imgFlags) && imgFlags != 0) {
     pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
                             "Failed to initialize SDL IMG", logloc,
                             "InitalizeImg");
@@ -152,4 +154,15 @@ void aequus::framework::InitializeMixer() {
                             "Initialized SDL Mixer", logloc, "InitializeMixer");
     aequus::audio::InitializeAudio();
   }
+}
+
+double aequus::framework::Timmer(bool start) {
+  double elapsed = 0;
+  if (start == true) {
+    timmerstart = clock();
+  } else if (start == false) {
+    clock_t end = clock();
+    elapsed = (end - timmerstart) / (double)CLOCKS_PER_SEC;
+  }
+  return (elapsed);
 }

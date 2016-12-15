@@ -1,9 +1,9 @@
+#include <string>
+#include <vector>
 #include "../../../pessum_files/pessum_headers.h"
 #include "../../aequus_headers.h"
 #include "../../sdl_headers.h"
 #include "texture.h"
-#include <string>
-#include <vector>
 
 void aequus::video::Texture::CreateTexture(SDL_Surface *surface) {
   logloc =
@@ -17,10 +17,15 @@ void aequus::video::Texture::CreateTexture(SDL_Surface *surface) {
 
 void aequus::video::Texture::TerminateTexture() {
   CloseTexture();
-  sdlrenderer = NULL;
+  // sdlrenderer = NULL;
 }
 
 void aequus::video::Texture::SetRenderer(SDL_Renderer *renderer) {
+  if (renderer == NULL) {
+    pessum::logging::LogLoc(pessum::logging::LOG_WARNING,
+                            "Settings NULL as texture renderer", logloc,
+                            "SetRenderer");
+  }
   sdlrenderer = renderer;
 }
 
@@ -153,4 +158,5 @@ void aequus::video::Texture::UpdateTexture() {
 void aequus::video::Texture::CloseTexture() {
   SDL_DestroyTexture(sdltexture);
   sdlsurface = NULL;
+  sdltexture = NULL;
 }
