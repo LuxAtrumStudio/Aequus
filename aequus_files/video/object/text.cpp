@@ -121,7 +121,7 @@ void aequus::video::Text::FindSize(int *x, int *y, std::string str) {
 }
 
 void aequus::video::Text::TerminateText() {
-  CloseFont();
+  TerminateFont();
   logloc = 0;
   folderpath = "";
   fontname = "";

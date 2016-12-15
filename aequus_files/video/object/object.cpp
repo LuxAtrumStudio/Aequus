@@ -429,7 +429,6 @@ int aequus::video::Object::GetIntValue(std::string value) {
 
 void aequus::video::Object::TerminateObject() {
   logloc = 0;
-  objrenderer = NULL;
   posx = 0;
   posy = 0;
   sizex = 0;

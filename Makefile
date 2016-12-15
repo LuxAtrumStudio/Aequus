@@ -54,10 +54,15 @@ tar: clean
 	tar -zcvf $(PROGRAM_NAME).tar.gz ../Aequus
 
 .PHONY : lib
-lib:
+lib: all
 	ar rcs lib$(PROGRAM_NAME).a $(TOTAL_OBJ_FILES)
 	sudo cp lib$(PROGRAM_NAME).a ../../../../usr/local/lib/ -u
-	sudo cp $(HEADER_FILES) ../../../../usr/local/include/ -u
+	sudo cp */*.h *.h ../../../../usr/local/include/ -u
+	sudo cp aequus_files/audio/*.h ../../../../usr/local/include/audio/ -u
+	sudo cp aequus_files/framework/*.h ../../../../usr/local/include/framework/ -u
+	sudo cp aequus_files/input/*.h ../../../../usr/local/include/input/ -u
+	sudo cp aequus_files/video/*.h ../../../../usr/local/include/video/ -u
+	sudo cp aequus_files/video/object/*.h ../../../../usr/local/include/video/object/ -u
 	clear
 	@echo Compiled lib file, and copied to usr/local/lib
 

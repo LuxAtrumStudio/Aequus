@@ -8,14 +8,14 @@ int main(int argc, char *argv[]) {
   aequus::framework::SdlStartUp();
   aequus::video::CreateWindow("Aequus");
   aequus::video::NewObject();
-  // aequus::video::win->obj->CreateImgObj("circle.png");
-  aequus::video::win->obj->CreateTextObj("Hello World!");
   while (aequus::video::AllClose() == false) {
+    aequus::video::win->obj->CreateTextObj(std::to_string(rand()), 12, 1, 1, 1,
+                                           1);
     aequus::Frame();
+    aequus::video::win->obj->TerminateObject();
     if (aequus::input::events.size() > 0) {
       if (aequus::input::events[0].type == aequus::input::KEYBOARD &&
           aequus::input::events[0].key == 113) {
-        aequus::video::win->obj->TerminateObject();
         aequus::video::TerminateWindow();
       }
     }
