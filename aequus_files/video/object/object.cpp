@@ -64,6 +64,8 @@ void aequus::video::Object::CreateTextObj(
 void aequus::video::Object::Scale(int x, int y) {
   sizex = x;
   sizey = y;
+  destsizex = x;
+  destsizey = y;
   int rect[4] = {posx, posy, sizex, sizey};
   objtexture.SetDestinationRect(rect);
   if (objtype == BUTTON) {
@@ -90,14 +92,21 @@ void aequus::video::Object::Translate(int x, int y) {
   posy = posy + y;
   int rect[4] = {posx, posy, sizex, sizey};
   objtexture.SetDestinationRect(rect);
+  if (objtype == BUTTON) {
+    UpdateButton(posx + 1, posy + 1, 0);
+    UpdateButton(posx, posy, 0);
+  }
 }
 
 void aequus::video::Object::SetPos(int x, int y) {
   posx = x;
   posy = y;
   int rect[4] = {posx, posy, sizex, sizey};
-  // int rect[4] = {posx, posy, 100, 100};
   objtexture.SetDestinationRect(rect);
+  if (objtype == BUTTON) {
+    UpdateButton(posx + 1, posy + 1, 0);
+    UpdateButton(posx, posy, 0);
+  }
 }
 
 void aequus::video::Object::SetColor(double red, double green, double blue,
@@ -322,6 +331,10 @@ bool aequus::video::Object::UpdateButton(int mousex, int mousey,
   if (buttonclip == false) {
     if (mousex < destsizex + posx && mousex > posx) {
       if (mousey < destsizey + posy && mousey > posy) {
+        // pessum::logging::Log(pessum::logging::LOG_DATA,
+        //                     std::to_string(posx) + "-" +
+        //                         std::to_string(mousex) + "-" +
+        //                         std::to_string(destsizex + posx));
         if (mousestate == 0) {
           for (int a = 0; a < 4; a++) {
             if (colormod[a] != savedcolormod[a] + mouseovercolormod[a]) {

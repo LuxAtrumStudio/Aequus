@@ -77,3 +77,8 @@ help:
 	@echo make tar
 	@echo make lib
 	@echo make log
+	@echo make new
+
+
+.PHONY : new
+new: clean all

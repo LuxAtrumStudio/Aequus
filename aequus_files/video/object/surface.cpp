@@ -167,11 +167,20 @@ void aequus::video::Surface::Terminate() {
 }
 
 void aequus::video::Surface::ScaleSurface(int width, int height) {
-  SDL_Surface *newsurface;
+  SDL_Surface *newsurface = NULL;
   newsurface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
+  SDL_SetSurfaceBlendMode(newsurface, SDL_BLENDMODE_BLEND);
+  if (sdlsurface == NULL || newsurface == NULL) {
+    pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+                            "Failed to genorate scaled surface", logloc,
+                            "ScaleSurface");
+  }
   SDL_BlitScaled(sdlsurface, NULL, newsurface, NULL);
-  sdlsurface = newsurface;
-  SDL_FreeSurface(newsurface);
+  if (newsurface != NULL) {
+    sdlsurface = newsurface;
+  }
+  newsurface = NULL;
+  // SDL_FreeSurface(newsurface);
 }
 
 void aequus::video::Surface::ConvertRectangles() {
