@@ -39,6 +39,7 @@ void aequus::video::Object::CreateImgObj(std::string filepath,
   }
   rotateangle = 0;
   objtype = IMAGE;
+  objsurface.Terminate();
 }
 
 void aequus::video::Object::CreateTextObj(
@@ -459,7 +460,10 @@ void aequus::video::Object::TerminateObject() {
   rotateangle = 0;
   buttonclip = false;
   resourcedir = "resources/";
-  objsurface.Terminate();
-  objtext.TerminateText();
   objtexture.TerminateTexture();
+  if (objtype == IMAGE) {
+    objsurface.Terminate();
+  } else if (objtype == TEXT) {
+    objtext.TerminateText();
+  }
 }

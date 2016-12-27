@@ -146,7 +146,6 @@ void aequus::video::Texture::LoadTexture() {
     }
     texturewidth = sdlsurface->w;
     textureheight = sdlsurface->h;
-    SDL_FreeSurface(sdlsurface);
   }
 }
 
@@ -157,6 +156,5 @@ void aequus::video::Texture::UpdateTexture() {
 
 void aequus::video::Texture::CloseTexture() {
   SDL_DestroyTexture(sdltexture);
-  sdlsurface = NULL;
   sdltexture = NULL;
 }

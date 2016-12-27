@@ -131,7 +131,7 @@ void aequus::video::Text::TerminateText() {
   fontpoint = 12;
   ttffont = NULL;
   textsurface = NULL;
-  // SDL_FreeSurface(textsurface);
+  SDL_FreeSurface(textsurface);
 }
 
 void aequus::video::Text::LoadFont() {

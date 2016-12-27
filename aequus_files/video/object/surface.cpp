@@ -162,6 +162,7 @@ int *aequus::video::Surface::GetSize() {
 
 void aequus::video::Surface::Terminate() {
   if (sdlsurface != NULL) {
+    SDL_FreeSurface(sdlsurface);
     sdlsurface = NULL;
   }
 }
@@ -180,7 +181,7 @@ void aequus::video::Surface::ScaleSurface(int width, int height) {
     sdlsurface = newsurface;
   }
   newsurface = NULL;
-  // SDL_FreeSurface(newsurface);
+  SDL_FreeSurface(newsurface);
 }
 
 void aequus::video::Surface::ConvertRectangles() {
