@@ -155,6 +155,8 @@ void aequus::video::Texture::UpdateTexture() {
 }
 
 void aequus::video::Texture::CloseTexture() {
-  SDL_DestroyTexture(sdltexture);
+  if (sdltexture != NULL) {
+    SDL_DestroyTexture(sdltexture);
+  }
   sdltexture = NULL;
 }

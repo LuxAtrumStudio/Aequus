@@ -1,5 +1,6 @@
 #include "logging.h"
 #include "lux_reader.h"
+#include "math.h"
 #include "parser.h"
 #include "pessum_core.h"
 #include "rest.h"
@@ -9,6 +10,7 @@ void pessum::InitializePessumComponents() {
   luxreader::InitializeLuxReader();
   rest::Initialzierest();
   parser::InitalizeParser();
+  math::InitializeMath();
 }
 
 void pessum::TerminatePessumComponents() {

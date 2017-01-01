@@ -1,8 +1,8 @@
-#include "logging.h"
-#include "pessum_core.h"
 #include <ctime>
 #include <fstream>
 #include <string>
+#include "logging.h"
+#include "pessum_core.h"
 
 namespace pessum {
 namespace logging {
@@ -90,7 +90,7 @@ void pessum::logging::TerminateLogging() {
   if (logfile.is_open()) {
     time_t logclosetime = time(NULL);
     Log(LOG_SUCCESS, "Terminated log file",
-        "Pessum/logging.cpp/TerminateLogging");
+        "pessum_files/logging.cpp/TerminateLogging");
     LogTimeStamp(true);
     logfile.close();
   }
