@@ -1,5 +1,5 @@
 #include "music.h"
-#include "../../pessum_files/pessum_headers.h"
+#include <pessum.h>
 #include "../aequus_headers.h"
 #include <fstream>
 
@@ -25,7 +25,7 @@ void aequus::audio::music::LoadSong(std::string file) {
   newsong.mixsong = NULL;
   newsong.mixsong = Mix_LoadMUS(file.c_str());
   if (!newsong.mixsong) {
-    pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+    pessum::logging::LogLoc(pessum::logging::ERROR,
                             "Failed to load song file: " + file, logloc,
                             "Loadsong");
     framework::GetError(4);
@@ -54,14 +54,14 @@ void aequus::audio::music::PlaySong(int startfadein, int startloops,
   if (songs.size() >= currentsong && songs[currentsong].mixsong != NULL) {
     if (Mix_FadeInMusicPos(songs[currentsong].mixsong, loops, fadein,
                            position) == -1) {
-      pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to play song",
+      pessum::logging::LogLoc(pessum::logging::ERROR, "Failed to play song",
                               logloc, "PlaySong");
       framework::GetError(4);
     } else {
       songs.erase(songs.begin() + currentsong);
     }
   } else {
-    pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "Failed to play song",
+    pessum::logging::LogLoc(pessum::logging::ERROR, "Failed to play song",
                             logloc, "PlaySong");
   }
 }

@@ -1,6 +1,6 @@
 #include <string>
 #include <vector>
-#include "../../../pessum_files/pessum_headers.h"
+#include <pessum.h>
 #include "../../aequus_headers.h"
 #include "../../sdl_headers.h"
 #include "text.h"
@@ -113,7 +113,7 @@ void aequus::video::Text::CreateText(std::string str, int point,
 
 void aequus::video::Text::FindSize(int *x, int *y, std::string str) {
   if (ttffont == NULL) {
-    pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+    pessum::logging::LogLoc(pessum::logging::ERROR,
                             "Cannot estimate size, font is undeclaired", logloc,
                             "FindSize");
   }
@@ -136,13 +136,13 @@ void aequus::video::Text::TerminateText() {
 
 void aequus::video::Text::LoadFont() {
   if (filepath == "NULL") {
-    pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+    pessum::logging::LogLoc(pessum::logging::ERROR,
                             "File path not declaired", logloc, "LoadFont");
   } else {
     std::string dir = folderpath + filepath;
     ttffont = TTF_OpenFont(dir.c_str(), fontpoint);
     if (ttffont == NULL) {
-      pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+      pessum::logging::LogLoc(pessum::logging::ERROR,
                               "Failed to load font file: " + filepath, logloc,
                               "LoadFont");
     }
@@ -155,7 +155,7 @@ void aequus::video::Text::UpdateFont() {
   std::string dir = folderpath + filepath;
   ttffont = TTF_OpenFont(dir.c_str(), fontpoint);
   if (ttffont == NULL) {
-    pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+    pessum::logging::LogLoc(pessum::logging::ERROR,
                             "Failed to load font file: " + filepath, logloc,
                             "UpdateFont");
   }

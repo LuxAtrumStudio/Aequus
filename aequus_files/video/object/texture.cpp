@@ -1,6 +1,6 @@
 #include <string>
 #include <vector>
-#include "../../../pessum_files/pessum_headers.h"
+#include <pessum.h>
 #include "../../aequus_headers.h"
 #include "../../sdl_headers.h"
 #include "texture.h"
@@ -22,7 +22,7 @@ void aequus::video::Texture::TerminateTexture() {
 
 void aequus::video::Texture::SetRenderer(SDL_Renderer *renderer) {
   if (renderer == NULL) {
-    pessum::logging::LogLoc(pessum::logging::LOG_WARNING,
+    pessum::logging::LogLoc(pessum::logging::WARNING,
                             "Settings NULL as texture renderer", logloc,
                             "SetRenderer");
   }
@@ -59,7 +59,7 @@ void aequus::video::Texture::Render() {
   }
   if (SDL_RenderCopyEx(sdlrenderer, sdltexture, sdlsource, sdldestination,
                        rotateangle, &rotatepoint, sdlflip) != 0) {
-    pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+    pessum::logging::LogLoc(pessum::logging::ERROR,
                             "Failed to copy texture to renderer", logloc,
                             "Render");
     framework::GetError();
@@ -72,13 +72,13 @@ void aequus::video::Texture::SetColorMod(double colormod[4]) {
   }
   if (SDL_SetTextureColorMod(sdltexture, color[0] * 255, color[1] * 255,
                              color[2] * 255) != 0) {
-    pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+    pessum::logging::LogLoc(pessum::logging::ERROR,
                             "Failed to set texture color mod", logloc,
                             "SetColorMod");
     framework::GetError();
   }
   if (SDL_SetTextureAlphaMod(sdltexture, color[3] * 255) != 0) {
-    pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+    pessum::logging::LogLoc(pessum::logging::ERROR,
                             "Failed to set texture alpha mod", logloc,
                             "SetColorMod");
     framework::GetError();
@@ -131,15 +131,15 @@ void aequus::video::Texture::SetDestinationRect(int rect[4]) {
 
 void aequus::video::Texture::LoadTexture() {
   if (sdlsurface == NULL) {
-    pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "No surface declaired",
+    pessum::logging::LogLoc(pessum::logging::ERROR, "No surface declaired",
                             logloc, "LoadTexture");
   } else if (sdlrenderer == NULL) {
-    pessum::logging::LogLoc(pessum::logging::LOG_ERROR, "No renderer declaired",
+    pessum::logging::LogLoc(pessum::logging::ERROR, "No renderer declaired",
                             logloc, "LoadTexture");
   } else if (sdlsurface != NULL && sdlrenderer != NULL) {
     sdltexture = SDL_CreateTextureFromSurface(sdlrenderer, sdlsurface);
     if (sdltexture == NULL) {
-      pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+      pessum::logging::LogLoc(pessum::logging::ERROR,
                               "Failed to create texture from surface", logloc,
                               "LoadTexture");
       framework::GetError();

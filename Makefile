@@ -2,9 +2,9 @@ CPP_FILES = $(wildcard *.cpp)
 OBJ_FILES = $(notdir $(CPP_FILES:.cpp=.o))
 TOTAL_OBJ_FILES = $(wildcard */*.o) $(wildcard */*/*.o) $(wildcard */*/*/*.o)
 HEADER_FILES = $(wildcard *.h) $(wildcard */*.h) $(wildcard */*/*.h) $(wildcard */*/*/*.h)
-CC = g++
+CC = clang++
 COMPILER_FLAGS = -MMD -std=c++11 -w -c
-LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
+LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lpessum
 PROGRAM_NAME = aequus
 
 all: subsystem top_obj $(PROGRAM_NAME)
@@ -17,16 +17,14 @@ $(PROGRAM_NAME): $(OBJ_FILES) $(wildcard */*.o) $(wildcard */*/*.o) $(wildcard *
 	setterm -default
 
 %.o: %.cpp
-	g++ $(COMPILER_FLAGS) -o $(notdir $*).o $*.cpp
+	$(CC) $(COMPILER_FLAGS) -o $(notdir $*).o $*.cpp
 
 .PHONY : top_obj
 top_obj:$(OBJ_FILES)
 
 .PHONY : subsystem
 subsystem:
-	setterm -foreground white
-	@echo =====PESSUM FILES:
-	cd pessum_files && $(MAKE)
+	export CC
 	setterm -foreground blue
 	@echo =====AEQUUS FILES:
 	cd aequus_files && $(MAKE)
@@ -56,13 +54,14 @@ tar: clean
 .PHONY : lib
 lib: all
 	ar rcs lib$(PROGRAM_NAME).a $(TOTAL_OBJ_FILES)
-	sudo cp lib$(PROGRAM_NAME).a ../../../../usr/local/lib/ -u
-	sudo cp */*.h *.h ../../../../usr/local/include/ -u
-	sudo cp aequus_files/audio/*.h ../../../../usr/local/include/audio/ -u
-	sudo cp aequus_files/framework/*.h ../../../../usr/local/include/framework/ -u
-	sudo cp aequus_files/input/*.h ../../../../usr/local/include/input/ -u
-	sudo cp aequus_files/video/*.h ../../../../usr/local/include/video/ -u
-	sudo cp aequus_files/video/object/*.h ../../../../usr/local/include/video/object/ -u
+	sudo cp lib$(PROGRAM_NAME).a /usr/local/lib/ -u
+	sudo cp aequus.h /usr/local/include/
+	sudo cp aequus_files/*.h /usr/local/include/aequus_files/
+	sudo cp aequus_files/audio/*.h /usr/local/include/aequus_files/audio/ -u
+	sudo cp aequus_files/framework/*.h /usr/local/include/aequus_files/framework/ -u
+	sudo cp aequus_files/input/*.h /usr/local/include/aequus_files/input/ -u
+	sudo cp aequus_files/video/*.h /usr/local/include/aequus_files/video/ -u
+	sudo cp aequus_files/video/object/*.h /usr/local/include/aequus_files/video/object/ -u
 	clear
 	@echo Compiled lib file, and copied to usr/local/lib
 

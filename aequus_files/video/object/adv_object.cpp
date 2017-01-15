@@ -1,4 +1,4 @@
-#include "../../../pessum_files/pessum_headers.h"
+#include <pessum.h>
 #include "../../aequus_headers.h"
 #include "../../sdl_headers.h"
 #include "adv_object.h"
@@ -38,7 +38,7 @@ void aequus::video::AdvObject::CreateGraph(
   height = graphheight;
   if (graphtype == LINE) {
     LoadGraphData(datafile);
-    pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS,
+    pessum::logging::LogLoc(pessum::logging::SUCCESS,
                             "Loaded graph data from luxfile", logloc,
                             "CreateGraph");
   }
@@ -54,7 +54,7 @@ void aequus::video::AdvObject::CreateGraph(
       SDL_CreateTexture(objrenderer.sdlrenderer, SDL_PIXELFORMAT_RGBA8888,
                         SDL_TEXTUREACCESS_TARGET, graphwidth, graphheight);
   if (globalobj.objtexture.sdltexture == NULL) {
-    pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+    pessum::logging::LogLoc(pessum::logging::ERROR,
                             "Failed to create texture", logloc, "CreateGraph");
     framework::GetError();
   }

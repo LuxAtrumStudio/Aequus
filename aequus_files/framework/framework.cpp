@@ -1,6 +1,6 @@
 #include <ctime>
 #include <string>
-#include "../../pessum_files/logging.h"
+#include <pessum.h>
 #include "../aequus_headers.h"
 #include "../sdl_headers.h"
 #include "framework.h"
@@ -24,12 +24,12 @@ void aequus::framework::SdlStartUp() {
 void aequus::framework::InitializeSdl(Uint32 flags) {
   logloc = pessum::logging::AddLogLocation("aequus_files/framework/");
   if (SDL_Init(flags) != 0) {
-    pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+    pessum::logging::LogLoc(pessum::logging::ERROR,
                             "Failed to initialize SDL", logloc,
                             "InitializeSdl");
     SdlError();
   } else {
-    pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Initialized SDL",
+    pessum::logging::LogLoc(pessum::logging::SUCCESS, "Initialized SDL",
                             logloc, "InitializeSdl");
   }
 }
@@ -40,7 +40,7 @@ void aequus::framework::TerminateSdl() {
   IMG_Quit();
   TTF_Quit();
   Mix_Quit();
-  pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS,
+  pessum::logging::LogLoc(pessum::logging::SUCCESS,
                           "Terminated all SDL systems", logloc, "TermianteSdl");
 }
 
@@ -53,7 +53,7 @@ std::string aequus::framework::SdlError() {
     errorstring = error;
     SDL_ClearError();
   }
-  pessum::logging::Log(pessum::logging::LOG_ERROR, "SDL Error: " + errorstring,
+  pessum::logging::Log(pessum::logging::ERROR, "SDL Error: " + errorstring,
                        "AEQUUS SDL ERROR");
   return (errorstring);
 }
@@ -82,7 +82,7 @@ std::string aequus::framework::GetError(int errortype) {
       errorstring = error;
     }
   }
-  pessum::logging::Log(pessum::logging::LOG_ERROR, "SDL Error: " + errorstring,
+  pessum::logging::Log(pessum::logging::ERROR, "SDL Error: " + errorstring,
                        "AEQUUS SDL ERROR");
   return (errorstring);
 }
@@ -93,23 +93,23 @@ void aequus::framework::CheckSdlVersions() {
   SDL_GetVersion(&linked);
   if (compiled.major == linked.major && compiled.minor == linked.minor &&
       compiled.patch == linked.patch) {
-    pessum::logging::LogLoc(pessum::logging::LOG_DATA,
+    pessum::logging::LogLoc(pessum::logging::DATA,
                             "SDL versions match: " +
                                 std::to_string(compiled.major) + "." +
                                 std::to_string(compiled.minor) + "." +
                                 std::to_string(compiled.patch),
                             logloc, "CheckSdlVersions");
   } else {
-    pessum::logging::LogLoc(pessum::logging::LOG_WARNING,
+    pessum::logging::LogLoc(pessum::logging::WARNING,
                             "SDL versions do not match", logloc,
                             "CheckSdlversons");
-    pessum::logging::LogLoc(pessum::logging::LOG_DATA,
+    pessum::logging::LogLoc(pessum::logging::DATA,
                             "Compiled version: " +
                                 std::to_string(compiled.major) + "." +
                                 std::to_string(compiled.minor) + "." +
                                 std::to_string(compiled.patch),
                             logloc, "CheckSdlVersions");
-    pessum::logging::LogLoc(pessum::logging::LOG_DATA,
+    pessum::logging::LogLoc(pessum::logging::DATA,
                             "Linked version: " + std::to_string(linked.major) +
                                 "." + std::to_string(linked.minor) + "." +
                                 std::to_string(linked.patch),
@@ -120,10 +120,10 @@ void aequus::framework::CheckSdlVersions() {
 void aequus::framework::InitalizeImg() {
   int imgFlags = IMG_INIT_PNG;
   if (IMG_Init(imgFlags) && imgFlags != 0) {
-    pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Initialized SDL IMG",
+    pessum::logging::LogLoc(pessum::logging::SUCCESS, "Initialized SDL IMG",
                             logloc, "InitalizeImg");
   } else {
-    pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+    pessum::logging::LogLoc(pessum::logging::ERROR,
                             "Failed to initialize SDL IMG", logloc,
                             "InitalizeImg");
     GetError(2);
@@ -132,12 +132,12 @@ void aequus::framework::InitalizeImg() {
 
 void aequus::framework::InitializeTtf() {
   if (TTF_Init() == -1) {
-    pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+    pessum::logging::LogLoc(pessum::logging::ERROR,
                             "Failed to initialize SDL TTG", logloc,
                             "InitializeTtf");
     GetError(3);
   } else {
-    pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS, "Initialized SDL TTG",
+    pessum::logging::LogLoc(pessum::logging::SUCCESS, "Initialized SDL TTG",
                             logloc, "InitializeTtf");
   }
 }
@@ -145,12 +145,12 @@ void aequus::framework::InitializeTtf() {
 void aequus::framework::InitializeMixer() {
   if (Mix_Init(MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_MP3 | MIX_INIT_OGG) ==
       0) {
-    pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+    pessum::logging::LogLoc(pessum::logging::ERROR,
                             "Failed to initialize SDL Mixer", logloc,
                             "InitializeMixer");
     GetError(4);
   } else {
-    pessum::logging::LogLoc(pessum::logging::LOG_SUCCESS,
+    pessum::logging::LogLoc(pessum::logging::SUCCESS,
                             "Initialized SDL Mixer", logloc, "InitializeMixer");
     aequus::audio::InitializeAudio();
   }

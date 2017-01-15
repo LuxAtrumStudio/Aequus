@@ -1,6 +1,6 @@
 #include <string>
 #include <vector>
-#include "../../../pessum_files/logging.h"
+#include <pessum.h>
 #include "../../aequus_headers.h"
 #include "../../sdl_headers.h"
 #include "surface.h"
@@ -11,7 +11,7 @@ void aequus::video::Surface::LoadSurface(std::string filepath) {
       "aequus_files/video/object/surface.cpp[" + filepath + "]/");
   sdlsurface = IMG_Load(filepath.c_str());
   if (sdlsurface == NULL) {
-    pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+    pessum::logging::LogLoc(pessum::logging::ERROR,
                             "Failed to load image file", logloc, "LoadSurface");
     framework::GetError(2);
   } else {
@@ -41,7 +41,7 @@ std::string aequus::video::Surface::GetSurfaceFilePath() {
   } else {
     logloc = pessum::logging::AddLogLocation(
         "aequus_files/video/object/surface[NULL]/");
-    pessum::logging::LogLoc(pessum::logging::LOG_WARNING,
+    pessum::logging::LogLoc(pessum::logging::WARNING,
                             "Surface has not been created", logloc,
                             "GetSurfaceFilePath");
     return ("NULL");
@@ -61,7 +61,7 @@ int *aequus::video::Surface::GetSourceRectangle() {
   } else {
     logloc = pessum::logging::AddLogLocation(
         "aequus_files/video/object/surface[NULL]/");
-    pessum::logging::LogLoc(pessum::logging::LOG_WARNING,
+    pessum::logging::LogLoc(pessum::logging::WARNING,
                             "Surface has not been created", logloc,
                             "GetSourceRectangle");
     int null[4] = {0, 0, 0, 0};
@@ -82,7 +82,7 @@ int *aequus::video::Surface::GetDestinationRectangle() {
   } else {
     logloc = pessum::logging::AddLogLocation(
         "aequus_files/video/object/surface[NULL]/");
-    pessum::logging::LogLoc(pessum::logging::LOG_WARNING,
+    pessum::logging::LogLoc(pessum::logging::WARNING,
                             "Surface has not been created", logloc,
                             "GetDestinationRectangle");
     int null[4] = {0, 0, 0, 0};
@@ -99,7 +99,7 @@ void aequus::video::Surface::SetColorMod(double color[4]) {
   } else {
     logloc = pessum::logging::AddLogLocation(
         "aequus_files/video/object/surface[NULL]/");
-    pessum::logging::LogLoc(pessum::logging::LOG_WARNING,
+    pessum::logging::LogLoc(pessum::logging::WARNING,
                             "Surface has not been created", logloc,
                             "SetColorMod");
   }
@@ -111,7 +111,7 @@ double *aequus::video::Surface::GetColorMode() {
   } else {
     logloc = pessum::logging::AddLogLocation(
         "aequus_files/video/object/surface[NULL]/");
-    pessum::logging::LogLoc(pessum::logging::LOG_WARNING,
+    pessum::logging::LogLoc(pessum::logging::WARNING,
                             "Surface has not been created", logloc,
                             "GetColorMod");
     double null[4] = {0, 0, 0, 0};
@@ -126,7 +126,7 @@ void aequus::video::Surface::SetBlendMode(BlendMode mode) {
   } else {
     logloc = pessum::logging::AddLogLocation(
         "aequus_files/video/object/surface[NULL]/");
-    pessum::logging::LogLoc(pessum::logging::LOG_WARNING,
+    pessum::logging::LogLoc(pessum::logging::WARNING,
                             "Surface has not been created", logloc,
                             "SetBlendMode");
   }
@@ -138,7 +138,7 @@ aequus::video::Surface::BlendMode aequus::video::Surface::GetBlendMode() {
   } else {
     logloc = pessum::logging::AddLogLocation(
         "aequus_files/video/object/surface[NULL]/");
-    pessum::logging::LogLoc(pessum::logging::LOG_WARNING,
+    pessum::logging::LogLoc(pessum::logging::WARNING,
                             "Surface has not been created", logloc,
                             "GetBlendMode");
     BlendMode null = NONE;
@@ -153,7 +153,7 @@ int *aequus::video::Surface::GetSize() {
   } else {
     logloc = pessum::logging::AddLogLocation(
         "aequus_files/video/object/surface[NULL]/");
-    pessum::logging::LogLoc(pessum::logging::LOG_WARNING,
+    pessum::logging::LogLoc(pessum::logging::WARNING,
                             "Surface has not been created", logloc, "GetSize");
     int null[2] = {0, 0};
     return (null);
@@ -172,7 +172,7 @@ void aequus::video::Surface::ScaleSurface(int width, int height) {
   newsurface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
   SDL_SetSurfaceBlendMode(newsurface, SDL_BLENDMODE_BLEND);
   if (sdlsurface == NULL || newsurface == NULL) {
-    pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+    pessum::logging::LogLoc(pessum::logging::ERROR,
                             "Failed to genorate scaled surface", logloc,
                             "ScaleSurface");
   }
@@ -216,13 +216,13 @@ void aequus::video::Surface::ConvertRectangles() {
 void aequus::video::Surface::SetSurfaceColor() {
   if (SDL_SetSurfaceColorMod(sdlsurface, colormod[0] * 255, colormod[1] * 255,
                              colormod[2] * 255) != 0) {
-    pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+    pessum::logging::LogLoc(pessum::logging::ERROR,
                             "Failed to set surface color mod", logloc,
                             "SetSurfaceColor");
     framework::GetError();
   }
   if (SDL_SetSurfaceAlphaMod(sdlsurface, colormod[3] * 255) != 0) {
-    pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+    pessum::logging::LogLoc(pessum::logging::ERROR,
                             "Failed to set surface alpha mod", logloc,
                             "SetSurfaceColor");
     framework::GetError();
@@ -239,7 +239,7 @@ void aequus::video::Surface::SetSurfaceBlend() {
     sdlblendmode = SDL_BLENDMODE_MOD;
   }
   if (SDL_SetSurfaceBlendMode(sdlsurface, sdlblendmode) != 0) {
-    pessum::logging::LogLoc(pessum::logging::LOG_ERROR,
+    pessum::logging::LogLoc(pessum::logging::ERROR,
                             "Failed to set surface blend mode", logloc,
                             "SetSurfaceBlend");
     framework::GetError();

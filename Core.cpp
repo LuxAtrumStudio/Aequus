@@ -1,6 +1,6 @@
 #include <iostream>
 #include "aequus_files/aequus_headers.h"
-#include "pessum_files/pessum_headers.h"
+#include <pessum.h>
 using namespace std;
 
 int main(int argc, char *argv[]) {

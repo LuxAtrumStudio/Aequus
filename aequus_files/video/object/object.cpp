@@ -1,6 +1,6 @@
 #include <string>
 #include <vector>
-#include "../../../pessum_files/logging.h"
+#include <pessum.h>
 #include "../../aequus_headers.h"
 #include "../../sdl_headers.h"
 #include "object.h"
@@ -332,7 +332,7 @@ bool aequus::video::Object::UpdateButton(int mousex, int mousey,
   if (buttonclip == false) {
     if (mousex < destsizex + posx && mousex > posx) {
       if (mousey < destsizey + posy && mousey > posy) {
-        // pessum::logging::Log(pessum::logging::LOG_DATA,
+        // pessum::logging::Log(pessum::logging::DATA,
         //                     std::to_string(posx) + "-" +
         //                         std::to_string(mousex) + "-" +
         //                         std::to_string(destsizex + posx));

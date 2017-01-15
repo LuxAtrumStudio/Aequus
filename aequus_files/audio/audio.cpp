@@ -1,5 +1,5 @@
 #include "audio.h"
-#include "../../pessum_files/logging.h"
+#include <pessum.h>
 #include "../aequus_headers.h"
 
 namespace aequus {
