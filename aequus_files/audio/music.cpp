@@ -1,7 +1,7 @@
-#include "music.h"
-#include <pessum.h>
 #include "../aequus_headers.h"
+#include "music.h"
 #include <fstream>
+#include <pessum.h>
 
 namespace aequus {
 namespace audio {
