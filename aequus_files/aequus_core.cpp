@@ -1,30 +1,18 @@
 #include "aequus_core.hpp"
-#include "aequus_headers.hpp"
-#include <ctime>
+#include "framework/framework.hpp"
+#include "log_indices.hpp"
+#include <map>
 #include <pessum.h>
-#include <string>
-namespace aequus {
-int FPS = -1;
-time_t FPStimecheck;
+
+void aequus::InitializeAequus() {
+  pessum::InitializePessumComponents(DEV_MODE);
+  pessum::logging::AddLogLocation("aequus/");
+  pessum::logging::AddLogLocation("aequus/framework/");
+
+  framework::InitializeSdl();
 }
 
-void aequus::Frame() {
-  aequus::audio::music::Update();
-  aequus::input::PollEvents();
-  aequus::video::HandleEventsAll();
-  aequus::video::UpdateAll();
-  time_t current;
-  time(&current);
-  if (current > FPStimecheck + 10) {
-    FPStimecheck = current;
-    double FPScalc = FPS / 10;
-    if (FPScalc <= 30 && FPS != -1) {
-      pessum::logging::Log(pessum::logging::WARNING,
-                           "FPS < 30: " + std::to_string(FPScalc),
-                           "aequus_files/aequus_core.cpp/Frame");
-      pessum::logging::LogTimeStamp();
-    }
-    FPS = 0;
-  }
-  FPS++;
+void aequus::TerminateAequus() {
+  framework::TerminateSdl();
+  pessum::TerminatePessumComponents();
 }

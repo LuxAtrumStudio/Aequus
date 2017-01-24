@@ -67,7 +67,7 @@ lib: all
 
 .PHONY : log
 log:
-	less log_output.log
+	less output.log
 
 .PHONY : help
 help:
