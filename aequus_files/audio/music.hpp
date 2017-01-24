@@ -1,6 +1,6 @@
 #ifndef _AEQUUS_FILES_AUDIO_MUSIC_H_
 #define _AEQUUS_FILES_AUDIO_MUSIC_H_
-#include "../aequus_headers.h"
+#include "../aequus_headers.hpp"
 namespace aequus {
 namespace audio {
 namespace music {

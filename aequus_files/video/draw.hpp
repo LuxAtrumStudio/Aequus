@@ -1,7 +1,7 @@
 #ifndef _AEQUUS_FILES_VIDEO_DRAW_H_
 #define _AEQUUS_FILES_VIDEO_DRAW_H_
-#include "../sdl_headers.h"
-#include "renderer.h"
+#include "../sdl_headers.hpp"
+#include "renderer.hpp"
 #include <string>
 #include <vector>
 namespace aequus {

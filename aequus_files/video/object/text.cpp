@@ -1,9 +1,9 @@
+#include "../../aequus_headers.hpp"
+#include "../../sdl_headers.hpp"
+#include "text.hpp"
+#include <pessum.h>
 #include <string>
 #include <vector>
-#include <pessum.h>
-#include "../../aequus_headers.h"
-#include "../../sdl_headers.h"
-#include "text.h"
 
 void aequus::video::Text::CreateFont(std::string directory, int point,
                                      FontWeight weight, bool italic) {
@@ -136,8 +136,8 @@ void aequus::video::Text::TerminateText() {
 
 void aequus::video::Text::LoadFont() {
   if (filepath == "NULL") {
-    pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "File path not declaired", logloc, "LoadFont");
+    pessum::logging::LogLoc(pessum::logging::ERROR, "File path not declaired",
+                            logloc, "LoadFont");
   } else {
     std::string dir = folderpath + filepath;
     ttffont = TTF_OpenFont(dir.c_str(), fontpoint);

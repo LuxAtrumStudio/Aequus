@@ -1,7 +1,7 @@
 #ifndef _AEQUUS_FILES_AUDIO_AUDIO_H_
 #define _AEQUUS_FILES_AUDIO_AUDIO_H_
-#include "../aequus_headers.h"
-#include "chunk.h"
+#include "../aequus_headers.hpp"
+#include "chunk.hpp"
 namespace aequus {
 namespace audio {
 class Chunk;

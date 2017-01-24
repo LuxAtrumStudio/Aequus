@@ -1,6 +1,6 @@
+#include "../aequus_headers.hpp"
+#include "renderer.hpp"
 #include <pessum.h>
-#include "../aequus_headers.h"
-#include "renderer.h"
 #include <string>
 #include <vector>
 
@@ -11,13 +11,12 @@ void aequus::video::Renderer::CreateRenderer(SDL_Window *sdlwindow,
   sdlrenderer = SDL_CreateRenderer(sdlwindow, -1, flags);
   rendererflag = flags;
   if (sdlrenderer == NULL) {
-    pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Failed to create renderer", logloc,
-                            "CreateRenderer");
+    pessum::logging::LogLoc(pessum::logging::ERROR, "Failed to create renderer",
+                            logloc, "CreateRenderer");
     framework::GetError();
   } else {
-    pessum::logging::LogLoc(pessum::logging::SUCCESS, "Create renderer",
-                            logloc, "CreateRenderer");
+    pessum::logging::LogLoc(pessum::logging::SUCCESS, "Create renderer", logloc,
+                            "CreateRenderer");
   }
 }
 
@@ -78,9 +77,8 @@ void aequus::video::Renderer::SetTargetClip(int rect[4]) {
   sdlrect.w = rect[2];
   sdlrect.h = rect[3];
   if (SDL_RenderSetClipRect(sdlrenderer, &sdlrect) != 0) {
-    pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Failed to set render clip", logloc,
-                            "SetTargetClip");
+    pessum::logging::LogLoc(pessum::logging::ERROR, "Failed to set render clip",
+                            logloc, "SetTargetClip");
     framework::GetError();
   }
 }
@@ -91,8 +89,8 @@ void aequus::video::Renderer::Clear() {
   SDL_SetRenderDrawColor(sdlrenderer, color[0] * 255, color[1] * 255,
                          color[2] * 255, color[3] * 255);
   if (SDL_RenderClear(sdlrenderer) != 0) {
-    pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Failed to clear renderer", logloc, "Clear");
+    pessum::logging::LogLoc(pessum::logging::ERROR, "Failed to clear renderer",
+                            logloc, "Clear");
     framework::GetError();
   }
   SDL_SetRenderDrawColor(sdlrenderer, draw::drawcolor[0] * 255,

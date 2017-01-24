@@ -7,7 +7,7 @@ all: subsystem main
 
 .PHONY : main
 main:$(OBJ_FILES)
-%.o: %.cpp %.h
+%.o: %.cpp %.hpp
 	$(CC) $(COMPILER_FLAGS) -o $(notdir $*).o $*.cpp $(LINKER_FLAGS)
 
 .PHONY : subsystem

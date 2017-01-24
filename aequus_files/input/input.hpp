@@ -1,6 +1,6 @@
 #ifndef _AEQUUS_FILES_INPUT_INPUT_H_
 #define _AEQUUS_FILES_INPUT_INPUT_H_
-#include "../sdl_headers.h"
+#include "../sdl_headers.hpp"
 #include <ctime>
 #include <string>
 #include <vector>

@@ -1,7 +1,8 @@
-#include "aequus_core.h"
-#include <pessum.h>
-#include "aequus_headers.h"
+#include "aequus_core.hpp"
+#include "aequus_headers.hpp"
 #include <ctime>
+#include <pessum.h>
+#include <string>
 namespace aequus {
 int FPS = -1;
 time_t FPStimecheck;

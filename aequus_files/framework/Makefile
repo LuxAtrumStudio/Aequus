@@ -3,5 +3,5 @@ OBJ_FILES = $(notdir $(CPP_FILES:.cpp=.o))
 COMPILER_FLAGS = -MMD -std=c++11 -w -c
 LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 main:$(OBJ_FILES)
-%.o: %.cpp %.h
+%.o: %.cpp %.hpp
 	$(CC) $(COMPILER_FLAGS) -o $(notdir $*).o $*.cpp $(LINKER_FLAGS)

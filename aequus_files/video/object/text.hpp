@@ -1,6 +1,6 @@
 #ifndef _AEQUUS_FILES_VIDEO_OBJECT_TEXT_H_
 #define _AEQUUS_FILES_VIDEO_OBJECT_TEXT_H_
-#include "../../sdl_headers.h"
+#include "../../sdl_headers.hpp"
 #include <string>
 #include <vector>
 namespace aequus {

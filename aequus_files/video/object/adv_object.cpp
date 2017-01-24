@@ -1,8 +1,8 @@
-#include <pessum.h>
-#include "../../aequus_headers.h"
-#include "../../sdl_headers.h"
-#include "adv_object.h"
+#include "../../aequus_headers.hpp"
+#include "../../sdl_headers.hpp"
+#include "adv_object.hpp"
 #include <iostream>
+#include <pessum.h>
 #include <string>
 #include <vector>
 
@@ -54,8 +54,8 @@ void aequus::video::AdvObject::CreateGraph(
       SDL_CreateTexture(objrenderer.sdlrenderer, SDL_PIXELFORMAT_RGBA8888,
                         SDL_TEXTUREACCESS_TARGET, graphwidth, graphheight);
   if (globalobj.objtexture.sdltexture == NULL) {
-    pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Failed to create texture", logloc, "CreateGraph");
+    pessum::logging::LogLoc(pessum::logging::ERROR, "Failed to create texture",
+                            logloc, "CreateGraph");
     framework::GetError();
   }
   globalobj.LoadDefaults(graphwidth, graphheight);

@@ -1,6 +1,6 @@
+#include "../aequus_headers.hpp"
+#include "video.hpp"
 #include <pessum.h>
-#include "../aequus_headers.h"
-#include "video.h"
 
 namespace aequus {
 namespace video {
@@ -62,14 +62,12 @@ void aequus::video::TerminateWindow(int pointer) {
 void aequus::video::SetHidden(bool hide, int pointer) {
   if (hide == true && windows[pointer].hidden == false) {
     SDL_HideWindow(windows[pointer].sdlwindow);
-    pessum::logging::LogLoc(pessum::logging::INFORMATION,
-                            "Set window to hide", windows[pointer].logloc,
-                            "SetHidden");
+    pessum::logging::LogLoc(pessum::logging::INFORMATION, "Set window to hide",
+                            windows[pointer].logloc, "SetHidden");
   } else if (hide == false && windows[pointer].hidden == true) {
     SDL_ShowWindow(windows[pointer].sdlwindow);
-    pessum::logging::LogLoc(pessum::logging::INFORMATION,
-                            "Set window to show", windows[pointer].logloc,
-                            "SetHidden");
+    pessum::logging::LogLoc(pessum::logging::INFORMATION, "Set window to show",
+                            windows[pointer].logloc, "SetHidden");
   }
   windows[pointer].hidden = hide;
 }
@@ -77,9 +75,8 @@ void aequus::video::SetHidden(bool hide, int pointer) {
 void aequus::video::Maximize(int pointer) {
   if (windows[pointer].maximized != true) {
     SDL_MaximizeWindow(windows[pointer].sdlwindow);
-    pessum::logging::LogLoc(pessum::logging::INFORMATION,
-                            "Maximized window", windows[pointer].logloc,
-                            "Maximize");
+    pessum::logging::LogLoc(pessum::logging::INFORMATION, "Maximized window",
+                            windows[pointer].logloc, "Maximize");
   }
   windows[pointer].maximized = true;
 }
@@ -87,9 +84,8 @@ void aequus::video::Maximize(int pointer) {
 void aequus::video::Minimize(int pointer) {
   if (windows[pointer].minimized != true) {
     SDL_MinimizeWindow(windows[pointer].sdlwindow);
-    pessum::logging::LogLoc(pessum::logging::INFORMATION,
-                            "Minimized window", windows[pointer].logloc,
-                            "Minimize");
+    pessum::logging::LogLoc(pessum::logging::INFORMATION, "Minimized window",
+                            windows[pointer].logloc, "Minimize");
   }
   windows[pointer].minimized = true;
 }
@@ -131,9 +127,8 @@ void aequus::video::SetBrightness(float brightness, int pointer) {
                             windows[pointer].logloc, "SetBrightness");
     framework::SdlError();
   } else {
-    pessum::logging::LogLoc(pessum::logging::SUCCESS,
-                            "Set window brightness", windows[pointer].logloc,
-                            "SetBrightness");
+    pessum::logging::LogLoc(pessum::logging::SUCCESS, "Set window brightness",
+                            windows[pointer].logloc, "SetBrightness");
   }
 }
 
@@ -144,9 +139,8 @@ void aequus::video::SetFullscreen(Uint32 flags, int pointer) {
                             windows[pointer].logloc, "SetFullscreen");
     framework::SdlError();
   } else {
-    pessum::logging::LogLoc(pessum::logging::SUCCESS,
-                            "Set window fullscreen", windows[pointer].logloc,
-                            "SetFullscreen");
+    pessum::logging::LogLoc(pessum::logging::SUCCESS, "Set window fullscreen",
+                            windows[pointer].logloc, "SetFullscreen");
   }
 }
 
@@ -162,9 +156,8 @@ void aequus::video::SetGammaRamp(float red, float green, float blue,
                             windows[pointer].logloc, "SetGammaRamp");
     framework::SdlError();
   } else {
-    pessum::logging::LogLoc(pessum::logging::SUCCESS,
-                            "Set window gamma ramp", windows[pointer].logloc,
-                            "SetGammaRamp");
+    pessum::logging::LogLoc(pessum::logging::SUCCESS, "Set window gamma ramp",
+                            windows[pointer].logloc, "SetGammaRamp");
   }
 }
 

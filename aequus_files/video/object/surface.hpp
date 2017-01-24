@@ -1,14 +1,14 @@
 #ifndef _AEQUUS_FILES_VIDEO_OBJECT_SURFACE_H_
 #define _AEQUUS_FILES_VIDEO_OBJECT_SURFACE_H_
+#include "../../sdl_headers.hpp"
 #include <string>
 #include <vector>
-#include "../../sdl_headers.h"
 namespace aequus {
 namespace video {
 // Surface class is used to define everything that is part o the
 // sdl surface library, and used to create and terminate surfaces
 class Surface {
- public:
+public:
   // Used to set the different blend modes for the surface
   enum BlendMode {
     NONE = SDL_BLENDMODE_NONE,
@@ -17,10 +17,10 @@ class Surface {
     MOD = SDL_BLENDMODE_MOD
   };
   // SDL surface pointer
-  SDL_Surface* sdlsurface;
+  SDL_Surface *sdlsurface;
   // SDL surface rectangle pointers
-  SDL_Rect* sourcerect = new SDL_Rect();
-  SDL_Rect* destinationrect = new SDL_Rect();
+  SDL_Rect *sourcerect = new SDL_Rect();
+  SDL_Rect *destinationrect = new SDL_Rect();
   // Loads the given filepath to the surface
   void LoadSurface(std::string filepath = "NULL");
   // Returns the surfaces image file path
@@ -29,29 +29,29 @@ class Surface {
   // x, y, width, height
   void SetSourceRectangle(int rectangle[4]);
   // Returns the source rect.
-  int* GetSourceRectangle();
+  int *GetSourceRectangle();
   // Sets the destination rect.
   // x, y, width, height
   void SetDestinationRectangle(int rectangle[4]);
   // Returns the destination rect.
-  int* GetDestinationRectangle();
+  int *GetDestinationRectangle();
   // Sets the color mod of the surface
   // red, green, blue, alpha
   void SetColorMod(double color[4] = 0);
   // Returns the currently set color mod of the surface
-  double* GetColorMode();
+  double *GetColorMode();
   // Sets the blend mode of the surface
   void SetBlendMode(BlendMode mode = NONE);
   // Returns the currently set blend mode of the surface
   BlendMode GetBlendMode();
   // Returns the width and height of the surface
-  int* GetSize();
+  int *GetSize();
   // Terminates the surface, and frees the SDL pointer from memory
   void Terminate();
   // Scales the surface to given values for width, and height
   void ScaleSurface(int width, int height);
 
- private:
+private:
   // Stores the log location index
   int logloc = 0;
   // The width and height of the surface
@@ -74,4 +74,4 @@ class Surface {
 };
 }
 }
-#endif  // !_AEQUUS_FILES_VIDEO_OBJECT_SURFACE_H_
+#endif // !_AEQUUS_FILES_VIDEO_OBJECT_SURFACE_H_

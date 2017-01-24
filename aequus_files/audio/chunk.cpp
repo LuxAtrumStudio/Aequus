@@ -1,4 +1,4 @@
-#include "chunk.h"
+#include "chunk.hpp"
 
 void aequus::audio::Chunk::Load(std::string file) {
   chunk = Mix_LoadWAV(file.c_str());

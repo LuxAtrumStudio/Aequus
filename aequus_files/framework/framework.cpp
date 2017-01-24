@@ -1,9 +1,9 @@
+#include "../aequus_headers.hpp"
+#include "../sdl_headers.hpp"
+#include "framework.hpp"
 #include <ctime>
-#include <string>
 #include <pessum.h>
-#include "../aequus_headers.h"
-#include "../sdl_headers.h"
-#include "framework.h"
+#include <string>
 
 namespace aequus {
 namespace framework {
@@ -24,13 +24,12 @@ void aequus::framework::SdlStartUp() {
 void aequus::framework::InitializeSdl(Uint32 flags) {
   logloc = pessum::logging::AddLogLocation("aequus_files/framework/");
   if (SDL_Init(flags) != 0) {
-    pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Failed to initialize SDL", logloc,
-                            "InitializeSdl");
+    pessum::logging::LogLoc(pessum::logging::ERROR, "Failed to initialize SDL",
+                            logloc, "InitializeSdl");
     SdlError();
   } else {
-    pessum::logging::LogLoc(pessum::logging::SUCCESS, "Initialized SDL",
-                            logloc, "InitializeSdl");
+    pessum::logging::LogLoc(pessum::logging::SUCCESS, "Initialized SDL", logloc,
+                            "InitializeSdl");
   }
 }
 
@@ -150,8 +149,8 @@ void aequus::framework::InitializeMixer() {
                             "InitializeMixer");
     GetError(4);
   } else {
-    pessum::logging::LogLoc(pessum::logging::SUCCESS,
-                            "Initialized SDL Mixer", logloc, "InitializeMixer");
+    pessum::logging::LogLoc(pessum::logging::SUCCESS, "Initialized SDL Mixer",
+                            logloc, "InitializeMixer");
     aequus::audio::InitializeAudio();
   }
 }

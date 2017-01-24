@@ -1,9 +1,9 @@
+#include "../../aequus_headers.hpp"
+#include "../../sdl_headers.hpp"
+#include "surface.hpp"
+#include <pessum.h>
 #include <string>
 #include <vector>
-#include <pessum.h>
-#include "../../aequus_headers.h"
-#include "../../sdl_headers.h"
-#include "surface.h"
 
 void aequus::video::Surface::LoadSurface(std::string filepath) {
   surfacefilepath = filepath;
@@ -11,8 +11,8 @@ void aequus::video::Surface::LoadSurface(std::string filepath) {
       "aequus_files/video/object/surface.cpp[" + filepath + "]/");
   sdlsurface = IMG_Load(filepath.c_str());
   if (sdlsurface == NULL) {
-    pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Failed to load image file", logloc, "LoadSurface");
+    pessum::logging::LogLoc(pessum::logging::ERROR, "Failed to load image file",
+                            logloc, "LoadSurface");
     framework::GetError(2);
   } else {
     width = sdlsurface->w;

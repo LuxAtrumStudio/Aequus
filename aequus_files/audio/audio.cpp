@@ -1,6 +1,6 @@
-#include "audio.h"
+#include "../aequus_headers.hpp"
+#include "audio.hpp"
 #include <pessum.h>
-#include "../aequus_headers.h"
 
 namespace aequus {
 namespace audio {

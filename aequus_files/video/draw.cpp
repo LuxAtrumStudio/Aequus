@@ -1,6 +1,6 @@
+#include "../aequus_headers.hpp"
+#include "draw.hpp"
 #include <pessum.h>
-#include "../aequus_headers.h"
-#include "draw.h"
 
 namespace aequus {
 namespace video {
@@ -41,8 +41,8 @@ void aequus::video::draw::Lines(std::vector<ValueGroup> points) {
     }
     SDL_Point *sdlpoints = &sdlvec[0];
     if (SDL_RenderDrawLines(sdlrenderer, sdlpoints, points.size()) != 0) {
-      pessum::logging::LogLoc(pessum::logging::ERROR,
-                              "Failed to draw lines", logloc, "Lines");
+      pessum::logging::LogLoc(pessum::logging::ERROR, "Failed to draw lines",
+                              logloc, "Lines");
     }
   }
 }
@@ -50,8 +50,8 @@ void aequus::video::draw::Lines(std::vector<ValueGroup> points) {
 void aequus::video::draw::Point(ValueGroup point) {
   if (sdlrenderer != NULL) {
     if (SDL_RenderDrawPoint(sdlrenderer, point.x, point.y) != 0) {
-      pessum::logging::LogLoc(pessum::logging::ERROR,
-                              "Failed to draw point", logloc, "Point");
+      pessum::logging::LogLoc(pessum::logging::ERROR, "Failed to draw point",
+                              logloc, "Point");
     }
   }
 }
@@ -67,8 +67,8 @@ void aequus::video::draw::Points(std::vector<ValueGroup> points) {
     }
     SDL_Point *sdlpoints = &sdlvec[0];
     if (SDL_RenderDrawPoints(sdlrenderer, sdlpoints, points.size()) != 0) {
-      pessum::logging::LogLoc(pessum::logging::ERROR,
-                              "Failed to draw points", logloc, "Points");
+      pessum::logging::LogLoc(pessum::logging::ERROR, "Failed to draw points",
+                              logloc, "Points");
     }
   } else {
     pessum::logging::LogLoc(pessum::logging::ERROR, "Renderer Undeclaired",

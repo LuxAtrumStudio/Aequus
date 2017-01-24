@@ -1,5 +1,5 @@
-#include "../aequus_headers.h"
-#include "music.h"
+#include "../aequus_headers.hpp"
+#include "music.hpp"
 #include <fstream>
 #include <pessum.h>
 

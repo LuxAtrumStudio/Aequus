@@ -1,9 +1,9 @@
 #ifndef _AEQUUS_FILES_VIDEO_OBJECT_OBJECT_H_
 #define _AEQUUS_FILES_VIDEO_OBJECT_OBJECT_H_
-#include "../../sdl_headers.h"
-#include "surface.h"
-#include "text.h"
-#include "texture.h"
+#include "../../sdl_headers.hpp"
+#include "surface.hpp"
+#include "text.hpp"
+#include "texture.hpp"
 #include <string>
 #include <vector>
 namespace aequus {

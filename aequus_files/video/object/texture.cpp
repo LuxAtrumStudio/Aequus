@@ -1,9 +1,9 @@
+#include "../../aequus_headers.hpp"
+#include "../../sdl_headers.hpp"
+#include "texture.hpp"
+#include <pessum.h>
 #include <string>
 #include <vector>
-#include <pessum.h>
-#include "../../aequus_headers.h"
-#include "../../sdl_headers.h"
-#include "texture.h"
 
 void aequus::video::Texture::CreateTexture(SDL_Surface *surface) {
   logloc =
