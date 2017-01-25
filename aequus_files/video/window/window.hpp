@@ -32,6 +32,7 @@ enum WindowPositionFlags {
 };
 class Window {
 public:
+  Window();
   Window(std::string title, int width, int height,
          WindowPositionFlags x = CENTERED, WindowPositionFlags y = CENTERED,
          Uint32 flags = WINDOWED);

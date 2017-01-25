@@ -5,6 +5,7 @@
 #include <vector>
 namespace aequus {
 namespace video {
+extern std::map<std::string, Window> windowmap;
 extern std::vector<Window> windows;
 bool AllClose();
 void NewWindow(std::string title = "", int width = 200, int height = 200,

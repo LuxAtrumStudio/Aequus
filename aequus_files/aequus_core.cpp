@@ -15,7 +15,7 @@ void aequus::InitializeAequus() {
   pessum::logging::AddLogLocation("aequus/video/");
   pessum::logging::AddLogLocation("aequus/video/window/");
   pessum::logging::AddLogLocation("aequus/video/renderer/");
-
+  QuitState = false;
   framework::InitializeSdl();
 }
 

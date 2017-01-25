@@ -1,6 +1,7 @@
 #ifndef VIDEO_RENDERER_RENDERER_HPP
 #define VIDEO_RENDERER_RENDERER_HPP
 #include "../../sdl_headers.hpp"
+#include <string>
 namespace aequus {
 namespace video {
 enum RendererFlags {
@@ -17,13 +18,14 @@ enum BlendMode {
 };
 class Renderer {
 public:
-  Renderer(SDL_Window *sdlwindow, Uint32 flags);
+  Renderer(SDL_Window *sdlwindow, Uint32 flags, std::string name = "");
   Renderer();
   ~Renderer();
   void Display();
 
 private:
   SDL_Renderer *sdlrenderer = NULL;
+  std::string windowname;
 };
 }
 }

@@ -6,6 +6,8 @@
 #include <pessum.h>
 #include <string>
 
+aequus::video::Window::Window() {}
+
 aequus::video::Window::Window(std::string title, int width, int height,
                               WindowPositionFlags x, WindowPositionFlags y,
                               Uint32 flags)
@@ -26,14 +28,13 @@ aequus::video::Window::Window(std::string title, int width, int height,
     pessum::logging::LogLoc(pessum::logging::SUCCESS,
                             "Created SDL window: " + windowname, AVW, "Window");
     SDL_GetWindowSurface(sdlwindow);
-    windowrenderer = Renderer(sdlwindow, ACCELERATED | TARGETTEXTURE);
+    windowrenderer =
+        Renderer(sdlwindow, ACCELERATED | TARGETTEXTURE, windowname);
     sdlwindowid = SDL_GetWindowID(sdlwindow);
   }
 }
 
 aequus::video::Window::Window(const Window &clone) {
-  pessum::logging::LogLoc(pessum::logging::SUCCESS,
-                          "Copied SDL window: " + windowname, AVW, "Window");
   windowname = clone.windowname;
   windowwidth = clone.windowwidth;
   windowheight = clone.windowheight;
@@ -42,6 +43,8 @@ aequus::video::Window::Window(const Window &clone) {
   sdlwindow = clone.sdlwindow;
   windowrenderer = clone.windowrenderer;
   sdlwindowid = clone.sdlwindowid;
+  pessum::logging::LogLoc(pessum::logging::SUCCESS,
+                          "Copied SDL window: " + windowname, AVW, "Window");
 }
 
 aequus::video::Window::~Window() {

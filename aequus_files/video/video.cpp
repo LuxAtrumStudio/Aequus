@@ -9,12 +9,13 @@
 
 namespace aequus {
 namespace video {
+std::map<std::string, Window> windowmap;
 std::vector<Window> windows;
 }
 }
 
 bool aequus::video::AllClose() {
-  if (windows.size() != 0) {
+  if (windowmap.size() != 0) {
     return (false);
   } else {
     return (true);
@@ -24,24 +25,26 @@ bool aequus::video::AllClose() {
 void aequus::video::NewWindow(std::string title, int width, int height,
                               WindowPositionFlags x, WindowPositionFlags y,
                               Uint32 flags) {
-  windows.push_back(Window(title, width, height, x, y, flags));
+  windowmap[title] = Window(title, width, height, x, y, flags);
 }
 
 void aequus::video::UpdateAll() {
-  for (int i = 0; i < windows.size(); i++) {
-    windows[i].Display();
+  std::map<std::string, Window>::iterator i;
+  for (i = windowmap.begin(); i != windowmap.end(); ++i) {
+    i->second.Display();
   }
 }
 
 void aequus::video::HandleEvents() {
   for (int i = 0; i < input::events.size(); i++) {
     if (input::events[i].type == SDL_WINDOWEVENT) {
-      for (int j = 0; j < windows.size(); j++) {
-        if (windows[j].CheckIndex(input::events[i].window.windowID) == true) {
+      std::map<std::string, Window>::iterator j;
+      for (j = windowmap.begin(); j != windowmap.end(); ++j) {
+        if (j->second.CheckIndex(input::events[i].window.windowID) == true) {
           if (input::events[i].window.event != SDL_WINDOWEVENT_CLOSE) {
-            windows[j].HandleEvent(input::events[i]);
+            j->second.HandleEvent(input::events[i]);
           } else if (input::events[i].window.event == SDL_WINDOWEVENT_CLOSE) {
-            windows.erase(windows.begin() + j);
+            windowmap.erase(j);
           }
         }
       }
@@ -49,4 +52,4 @@ void aequus::video::HandleEvents() {
   }
 }
 
-void aequus::video::DeleteWindows() { windows.clear(); }
+void aequus::video::DeleteWindows() { windowmap.clear(); }
