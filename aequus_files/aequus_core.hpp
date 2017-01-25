@@ -4,5 +4,6 @@
 namespace aequus {
 void InitializeAequus();
 void TerminateAequus();
+void Frame();
 }
 #endif

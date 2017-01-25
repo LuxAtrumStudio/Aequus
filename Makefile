@@ -25,10 +25,7 @@ top_obj:$(OBJ_FILES)
 .PHONY : subsystem
 subsystem:
 	export CC
-	setterm -foreground blue
-	@echo =====AEQUUS FILES:
 	cd aequus_files && $(MAKE)
-	setterm -default
 
 .PHONY : clean
 clean:
@@ -62,7 +59,6 @@ lib: all
 	sudo cp aequus_files/input/*.h /usr/local/include/aequus_files/input/ -u
 	sudo cp aequus_files/video/*.h /usr/local/include/aequus_files/video/ -u
 	sudo cp aequus_files/video/object/*.h /usr/local/include/aequus_files/video/object/ -u
-	clear
 	@echo Compiled lib file, and copied to usr/local/lib
 
 .PHONY : log

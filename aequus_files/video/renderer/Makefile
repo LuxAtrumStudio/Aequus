@@ -12,5 +12,3 @@ main:$(OBJ_FILES)
 
 .PHONY : subsystem
 subsystem:
-	cd framework && $(MAKE)
-	cd video && $(MAKE)
