@@ -31,6 +31,19 @@ aequus::video::Window::Window(std::string title, int width, int height,
   }
 }
 
+aequus::video::Window::Window(const Window &clone) {
+  pessum::logging::LogLoc(pessum::logging::SUCCESS,
+                          "Copied SDL window: " + windowname, AVW, "Window");
+  windowname = clone.windowname;
+  windowwidth = clone.windowwidth;
+  windowheight = clone.windowheight;
+  windowx = clone.windowx;
+  windowy = clone.windowy;
+  sdlwindow = clone.sdlwindow;
+  windowrenderer = clone.windowrenderer;
+  sdlwindowid = clone.sdlwindowid;
+}
+
 aequus::video::Window::~Window() {
   objects.clear();
   SDL_DestroyWindow(sdlwindow);
@@ -54,3 +67,5 @@ bool aequus::video::Window::CheckIndex(int index) {
     return (false);
   }
 }
+
+void aequus::video::Window::HandleEvent(SDL_Event sdlevent) {}
