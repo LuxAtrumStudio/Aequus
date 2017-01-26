@@ -9,13 +9,13 @@
 
 namespace aequus {
 namespace video {
-std::map<std::string, Window> windowmap;
 std::vector<Window> windows;
+Window *win = NULL;
 }
 }
 
 bool aequus::video::AllClose() {
-  if (windowmap.size() != 0) {
+  if (windows.size() != 0) {
     return (false);
   } else {
     return (true);
@@ -25,26 +25,28 @@ bool aequus::video::AllClose() {
 void aequus::video::NewWindow(std::string title, int width, int height,
                               WindowPositionFlags x, WindowPositionFlags y,
                               Uint32 flags) {
-  windowmap[title] = Window(title, width, height, x, y, flags);
+  Window newwin;
+  newwin.Init(title, width, height, x, y, flags);
+  windows.push_back(newwin);
+  win = &windows[windows.size() - 1];
 }
 
 void aequus::video::UpdateAll() {
-  std::map<std::string, Window>::iterator i;
-  for (i = windowmap.begin(); i != windowmap.end(); ++i) {
-    i->second.Display();
+  for (int i = 0; i < windows.size(); i++) {
+    windows[i].Display();
   }
 }
 
 void aequus::video::HandleEvents() {
   for (int i = 0; i < input::events.size(); i++) {
     if (input::events[i].type == SDL_WINDOWEVENT) {
-      std::map<std::string, Window>::iterator j;
-      for (j = windowmap.begin(); j != windowmap.end(); ++j) {
-        if (j->second.CheckIndex(input::events[i].window.windowID) == true) {
+      for (int j = 0; j < windows.size(); j++) {
+        if (windows[j].CheckIndex(input::events[i].window.windowID) == true) {
           if (input::events[i].window.event != SDL_WINDOWEVENT_CLOSE) {
-            j->second.HandleEvent(input::events[i]);
+            windows[j].HandleEvent(input::events[i]);
           } else if (input::events[i].window.event == SDL_WINDOWEVENT_CLOSE) {
-            windowmap.erase(j);
+            windows[j].Delete();
+            windows.erase(windows.begin() + j);
           }
         }
       }
@@ -52,4 +54,18 @@ void aequus::video::HandleEvents() {
   }
 }
 
-void aequus::video::DeleteWindows() { windowmap.clear(); }
+void aequus::video::DeleteWindows() {
+  for (int i = 0; i < windows.size(); i++) {
+    windows[i].Delete();
+  }
+  windows.clear();
+}
+
+int aequus::video::GetIndex(std::string name) {
+  for (int i = 0; i < windows.size(); i++) {
+    if (windows[i].GetName() == name) {
+      return (i);
+    }
+  }
+  return (0);
+}

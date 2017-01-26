@@ -5,8 +5,8 @@
 #include <vector>
 namespace aequus {
 namespace video {
-extern std::map<std::string, Window> windowmap;
 extern std::vector<Window> windows;
+extern Window *win;
 bool AllClose();
 void NewWindow(std::string title = "", int width = 200, int height = 200,
                WindowPositionFlags x = CENTERED,
@@ -14,6 +14,7 @@ void NewWindow(std::string title = "", int width = 200, int height = 200,
 void UpdateAll();
 void HandleEvents();
 void DeleteWindows();
+int GetIndex(std::string name);
 }
 }
 #endif

@@ -18,10 +18,10 @@ enum BlendMode {
 };
 class Renderer {
 public:
-  Renderer(SDL_Window *sdlwindow, Uint32 flags, std::string name = "");
-  Renderer();
-  ~Renderer();
+  void Init(SDL_Window *sdlwindow, Uint32 flags, std::string name = "");
+  void Delete();
   void Display();
+  void Clear();
 
 private:
   SDL_Renderer *sdlrenderer = NULL;

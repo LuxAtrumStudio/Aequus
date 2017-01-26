@@ -6,8 +6,8 @@
 #include <pessum.h>
 #include <string>
 
-aequus::video::Renderer::Renderer(SDL_Window *sdlwindow, Uint32 flags,
-                                  std::string name) {
+void aequus::video::Renderer::Init(SDL_Window *sdlwindow, Uint32 flags,
+                                   std::string name) {
   windowname = name;
   sdlrenderer = SDL_CreateRenderer(sdlwindow, -1, flags);
   if (sdlrenderer == NULL) {
@@ -22,13 +22,24 @@ aequus::video::Renderer::Renderer(SDL_Window *sdlwindow, Uint32 flags,
   }
 }
 
-aequus::video::Renderer::Renderer() { sdlrenderer = NULL; }
-
-aequus::video::Renderer::~Renderer() {
+void aequus::video::Renderer::Delete() {
   SDL_DestroyRenderer(sdlrenderer);
-  pessum::logging::LogLoc(pessum::logging::SUCCESS,
-                          "Destroyed renderer for: " + windowname, AVR,
-                          "~Renderer");
+  sdlrenderer = NULL;
 }
 
-void aequus::video::Renderer::Display() { SDL_RenderPresent(sdlrenderer); }
+void aequus::video::Renderer::Display() {
+  if (sdlrenderer == NULL) {
+    pessum::logging::LogLoc(pessum::logging::ERROR,
+                            "Failed to display renderer", AVR, "Display");
+  } else {
+    SDL_RenderPresent(sdlrenderer);
+  }
+}
+
+void aequus::video::Renderer::Clear() {
+  if (SDL_RenderClear(sdlrenderer) != 0) {
+    pessum::logging::LogLoc(pessum::logging::ERROR, "Failed to clear renderer",
+                            AVR, "Clear");
+    framework::GetSdlError(framework::SDL);
+  }
+}

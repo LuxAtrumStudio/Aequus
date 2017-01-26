@@ -1,4 +1,4 @@
 #ifndef LOG_INDICES_HPP
 #define LOG_INDICES_HPP
-enum Log { A = 3, AF = 4, AI, AV, AVW, AVR };
+enum Log { A = 3, AF = 4, AI, AV, AVW, AVR, AVO, AVOS, AVOTEX, AVOT };
 #endif

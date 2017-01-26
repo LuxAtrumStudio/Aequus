@@ -32,14 +32,13 @@ enum WindowPositionFlags {
 };
 class Window {
 public:
-  Window();
-  Window(std::string title, int width, int height,
-         WindowPositionFlags x = CENTERED, WindowPositionFlags y = CENTERED,
-         Uint32 flags = WINDOWED);
-  Window(const Window &clone);
-  ~Window();
+  void Init(std::string title, int width, int height,
+            WindowPositionFlags x = CENTERED, WindowPositionFlags y = CENTERED,
+            Uint32 flags = WINDOWED);
+  void Delete();
   void Display();
   bool CheckIndex(int index);
+  std::string GetName();
   void HandleEvent(SDL_Event sdlevent);
 
 private:

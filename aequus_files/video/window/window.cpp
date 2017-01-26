@@ -6,12 +6,9 @@
 #include <pessum.h>
 #include <string>
 
-aequus::video::Window::Window() {}
-
-aequus::video::Window::Window(std::string title, int width, int height,
-                              WindowPositionFlags x, WindowPositionFlags y,
-                              Uint32 flags)
-    : windowrenderer() {
+void aequus::video::Window::Init(std::string title, int width, int height,
+                                 WindowPositionFlags x, WindowPositionFlags y,
+                                 Uint32 flags) {
   windowname = title;
   windowwidth = width;
   windowheight = height;
@@ -28,28 +25,15 @@ aequus::video::Window::Window(std::string title, int width, int height,
     pessum::logging::LogLoc(pessum::logging::SUCCESS,
                             "Created SDL window: " + windowname, AVW, "Window");
     SDL_GetWindowSurface(sdlwindow);
-    windowrenderer =
-        Renderer(sdlwindow, ACCELERATED | TARGETTEXTURE, windowname);
+    windowrenderer.Init(sdlwindow, ACCELERATED | TARGETTEXTURE, windowname);
     sdlwindowid = SDL_GetWindowID(sdlwindow);
   }
 }
 
-aequus::video::Window::Window(const Window &clone) {
-  windowname = clone.windowname;
-  windowwidth = clone.windowwidth;
-  windowheight = clone.windowheight;
-  windowx = clone.windowx;
-  windowy = clone.windowy;
-  sdlwindow = clone.sdlwindow;
-  windowrenderer = clone.windowrenderer;
-  sdlwindowid = clone.sdlwindowid;
-  pessum::logging::LogLoc(pessum::logging::SUCCESS,
-                          "Copied SDL window: " + windowname, AVW, "Window");
-}
-
-aequus::video::Window::~Window() {
+void aequus::video::Window::Delete() {
   objects.clear();
   SDL_DestroyWindow(sdlwindow);
+  windowrenderer.Delete();
   pessum::logging::LogLoc(pessum::logging::SUCCESS,
                           "Terminated SDL window: " + windowname, AVW,
                           "~Window");
@@ -61,7 +45,10 @@ aequus::video::Window::~Window() {
   sdlwindowid = 0;
 }
 
-void aequus::video::Window::Display() { windowrenderer.Display(); }
+void aequus::video::Window::Display() {
+  windowrenderer.Clear();
+  windowrenderer.Display();
+}
 
 bool aequus::video::Window::CheckIndex(int index) {
   if (index == sdlwindowid) {
@@ -70,5 +57,7 @@ bool aequus::video::Window::CheckIndex(int index) {
     return (false);
   }
 }
+
+std::string aequus::video::Window::GetName() { return (windowname); }
 
 void aequus::video::Window::HandleEvent(SDL_Event sdlevent) {}
