@@ -1,8 +1,7 @@
 #include "../../framework/framework.hpp"
 #include "../../log_indices.hpp"
 #include "../../sdl_headers.hpp"
-#include "../window/window.hpp"
-#include "renderer.hpp"
+#include "../video_headers.hpp"
 #include <pessum.h>
 #include <string>
 
@@ -43,3 +42,5 @@ void aequus::video::Renderer::Clear() {
     framework::GetSdlError(framework::SDL);
   }
 }
+
+SDL_Renderer *aequus::video::Renderer::GetRenderer() { return (sdlrenderer); }

@@ -1,18 +1,21 @@
 #ifndef VIDEO_OBJECT_OBJECT_HPP
 #define VIDEO_OBJECT_OBJECT_HPP
+#include "../../sdl_headers.hpp"
+#include "texture/texture.hpp"
+#include <string>
 namespace aequus {
 namespace video {
 enum ObjectType { TEXTURE };
 class Object {
 public:
-  class Texture;
-  class Surface;
-  Object();
-  ~Object();
-  int width, height, x, y;
+  void Init(std::string str, SDL_Renderer *renderer);
+  void Delete();
+  void Display();
 
 private:
-  ObjectType type;
+  SDL_Renderer *sdlrenderer;
+  ObjectType objtype;
+  Texture objtexture;
 };
 }
 }

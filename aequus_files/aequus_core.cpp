@@ -16,9 +16,7 @@ void aequus::InitializeAequus() {
   pessum::logging::AddLogLocation("aequus/video/window/");
   pessum::logging::AddLogLocation("aequus/video/renderer/");
   pessum::logging::AddLogLocation("aequus/video/object/");
-  pessum::logging::AddLogLocation("aequus/video/object/surface");
-  pessum::logging::AddLogLocation("aequus/video/object/text");
-  pessum::logging::AddLogLocation("aequus/video/object/texture");
+  pessum::logging::AddLogLocation("aequus/video/object/texture/");
   QuitState = false;
   framework::InitializeSdl();
 }

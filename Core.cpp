@@ -5,6 +5,7 @@
 int main(int argc, char *argv[]) {
   aequus::InitializeAequus();
   aequus::video::NewWindow("Aequus", 500, 500);
+  aequus::video::win->NewObj("no.png");
   while (aequus::video::AllClose() == false) {
     aequus::Frame();
   }

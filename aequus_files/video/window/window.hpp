@@ -1,6 +1,7 @@
 #ifndef VIDEO_WINDOW_WINDOW_HPP
 #define VIDEO_WINDOW_WINDOW_HPP
 #include "../../sdl_headers.hpp"
+#include "../object/object.hpp"
 #include "../renderer/renderer.hpp"
 #include <string>
 #include <vector>
@@ -40,6 +41,7 @@ public:
   bool CheckIndex(int index);
   std::string GetName();
   void HandleEvent(SDL_Event sdlevent);
+  void NewObj(std::string str);
 
 private:
   std::string windowname = "";
@@ -48,7 +50,7 @@ private:
   SDL_Window *sdlwindow = NULL;
   int sdlwindowid = 0;
   Renderer windowrenderer;
-  std::vector<int> objects;
+  std::vector<Object> objects;
 };
 }
 }

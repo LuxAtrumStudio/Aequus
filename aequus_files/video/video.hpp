@@ -7,6 +7,7 @@ namespace aequus {
 namespace video {
 extern std::vector<Window> windows;
 extern Window *win;
+extern int winindex;
 bool AllClose();
 void NewWindow(std::string title = "", int width = 200, int height = 200,
                WindowPositionFlags x = CENTERED,

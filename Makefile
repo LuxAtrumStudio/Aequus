@@ -1,7 +1,7 @@
 CPP_FILES = $(wildcard *.cpp)
 OBJ_FILES = $(notdir $(CPP_FILES:.cpp=.o))
-TOTAL_OBJ_FILES = $(wildcard */*.o) $(wildcard */*/*.o) $(wildcard */*/*/*.o)
-HEADER_FILES = $(wildcard *.h) $(wildcard */*.h) $(wildcard */*/*.h) $(wildcard */*/*/*.h)
+TOTAL_OBJ_FILES = $(wildcard */*.o) $(wildcard */*/*.o) $(wildcard */*/*/*.o) $(wildcard */*/*/*/*.o) $(wildcard */*/*/*/*/*.o)
+HEADER_FILES = $(wildcard *.hpp) $(wildcard */*.hpp) $(wildcard */*/*.hpp) $(wildcard */*/*/*.hpp) $(wildcard */*/*/*/*.hpp) $(wildcard */*/*/*/*/*.hpp)
 CC = clang++
 COMPILER_FLAGS = -MMD -std=c++11 -w -c
 LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lpessum
@@ -11,7 +11,7 @@ all: subsystem top_obj $(PROGRAM_NAME)
 	clear
 	@echo Compleated compiling $(PROGRAM_NAME)
 
-$(PROGRAM_NAME): $(OBJ_FILES) $(wildcard */*.o) $(wildcard */*/*.o) $(wildcard */*/*/*.o)
+$(PROGRAM_NAME): $(OBJ_FILES) $(wildcard */*.o) $(wildcard */*/*.o) $(wildcard */*/*/*.o) $(wildcard */*/*/*/*.o) $(wildcard */*/*/*/*/*.o)
 	setterm -foreground red
 	$(CC) $(OBJ_FILES) $(TOTAL_OBJ_FILES) -o $(PROGRAM_NAME) $(LINKER_FLAGS)
 	setterm -default
@@ -37,6 +37,10 @@ clean:
 	rm -f */*/*.d
 	rm -f */*/*/*.o
 	rm -f */*/*/*.d
+	rm -f */*/*/*/*.o
+	rm -f */*/*/*/*.d
+	rm -f */*/*/*/*/*.o
+	rm -f */*/*/*/*/*.d
 	clear
 	@echo Cleared all '.o' and '.d' files
 

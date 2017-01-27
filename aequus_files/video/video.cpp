@@ -2,7 +2,7 @@
 #include "../input/input.hpp"
 #include "../log_indices.hpp"
 #include "../sdl_headers.hpp"
-#include "video.hpp"
+#include "video_headers.hpp"
 #include <map>
 #include <pessum.h>
 #include <string>
@@ -11,6 +11,7 @@ namespace aequus {
 namespace video {
 std::vector<Window> windows;
 Window *win = NULL;
+int winindex = 0;
 }
 }
 
@@ -28,6 +29,7 @@ void aequus::video::NewWindow(std::string title, int width, int height,
   Window newwin;
   newwin.Init(title, width, height, x, y, flags);
   windows.push_back(newwin);
+  winindex = windows.size() - 1;
   win = &windows[windows.size() - 1];
 }
 

@@ -10,18 +10,13 @@ enum RendererFlags {
   VSYNC = SDL_RENDERER_PRESENTVSYNC,
   TARGETTEXTURE = SDL_RENDERER_TARGETTEXTURE
 };
-enum BlendMode {
-  NONE = SDL_BLENDMODE_NONE,
-  BLEND = SDL_BLENDMODE_BLEND,
-  ADD = SDL_BLENDMODE_ADD,
-  MOD = SDL_BLENDMODE_MOD
-};
 class Renderer {
 public:
   void Init(SDL_Window *sdlwindow, Uint32 flags, std::string name = "");
   void Delete();
   void Display();
   void Clear();
+  SDL_Renderer *GetRenderer();
 
 private:
   SDL_Renderer *sdlrenderer = NULL;

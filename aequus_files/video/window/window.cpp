@@ -1,8 +1,7 @@
 #include "../../framework/framework.hpp"
 #include "../../log_indices.hpp"
 #include "../../sdl_headers.hpp"
-#include "../renderer/renderer.hpp"
-#include "window.hpp"
+#include "../video_headers.hpp"
 #include <pessum.h>
 #include <string>
 
@@ -47,6 +46,9 @@ void aequus::video::Window::Delete() {
 
 void aequus::video::Window::Display() {
   windowrenderer.Clear();
+  for (int i = 0; i < objects.size(); i++) {
+    objects[i].Display();
+  }
   windowrenderer.Display();
 }
 
@@ -61,3 +63,9 @@ bool aequus::video::Window::CheckIndex(int index) {
 std::string aequus::video::Window::GetName() { return (windowname); }
 
 void aequus::video::Window::HandleEvent(SDL_Event sdlevent) {}
+
+void aequus::video::Window::NewObj(std::string str) {
+  Object newobj;
+  newobj.Init(str, windowrenderer.GetRenderer());
+  objects.push_back(newobj);
+}

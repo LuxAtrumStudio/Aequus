@@ -1,0 +1,10 @@
+#ifndef AEQUUS_VIDEO_ENUM_HPP
+#define AEQUUS_VIDEO_ENUM_HPP
+#include "../sdl_headers.hpp"
+enum BlendMode {
+  NONE = SDL_BLENDMODE_NONE,
+  BLEND = SDL_BLENDMODE_BLEND,
+  ADD = SDL_BLENDMODE_ADD,
+  MOD = SDL_BLENDMODE_MOD
+};
+#endif
