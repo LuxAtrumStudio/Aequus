@@ -42,6 +42,7 @@ public:
   std::string GetName();
   void HandleEvent(SDL_Event sdlevent);
   void NewObj(std::string str);
+  void ManipulateObject(std::string function, std::string params, ...);
 
 private:
   std::string windowname = "";
@@ -49,6 +50,7 @@ private:
   int windowx = 0, windowy = 0;
   SDL_Window *sdlwindow = NULL;
   int sdlwindowid = 0;
+  int currentobj = 0;
   Renderer windowrenderer;
   std::vector<Object> objects;
 };

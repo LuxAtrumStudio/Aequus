@@ -39,10 +39,10 @@ private:
   std::vector<int> sourcerect = {0, 0, 0, 0}, destrect = {0, 0, 0, 0},
                    colormod = {255, 255, 255, 255};
 
-  SDL_Point rotatepoint = {0, 0};
+  SDL_Point *rotatepoint = NULL;
   SDL_RendererFlip sdlflip = SDL_FLIP_NONE;
   SDL_BlendMode sdlblend;
-  SDL_Rect *sdlsourcerect, *sdldestrect;
+  SDL_Rect *sdlsourcerect = NULL, *sdldestrect = NULL;
   SDL_Renderer *sdlrenderer = NULL;
   SDL_Surface *sdlsurface = NULL;
   SDL_Texture *sdltexture = NULL;

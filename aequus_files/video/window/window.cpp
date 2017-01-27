@@ -2,7 +2,9 @@
 #include "../../log_indices.hpp"
 #include "../../sdl_headers.hpp"
 #include "../video_headers.hpp"
+#include <map>
 #include <pessum.h>
+#include <stdarg.h>
 #include <string>
 
 void aequus::video::Window::Init(std::string title, int width, int height,
@@ -68,4 +70,12 @@ void aequus::video::Window::NewObj(std::string str) {
   Object newobj;
   newobj.Init(str, windowrenderer.GetRenderer());
   objects.push_back(newobj);
+  currentobj = objects.size() - 1;
+}
+
+void aequus::video::Window::ManipulateObject(std::string function,
+                                             std::string params, ...) {
+  std::vector<int> intparams;
+  std::vector<double> doubleparams;
+  std::vector<std::string> stringparams;
 }

@@ -31,6 +31,11 @@ void aequus::video::Texture::Init(std::string filepath,
                               "Init");
       width = sdlsurface->w;
       height = sdlsurface->h;
+      rotatepoint = new SDL_Point();
+      rotatepoint->x = width / 2;
+      rotatepoint->y = height / 2;
+      sdlsourcerect = NULL;
+      sdldestrect = NULL;
     }
   }
 }
@@ -118,11 +123,23 @@ void aequus::video::Texture::Flip(RenderFlip renderflip) {
 void aequus::video::Texture::SetRotatePoint(int x, int y) {
   rotatex = x;
   rotatey = y;
+  if (rotatex != rotatepoint->x) {
+    rotatepoint->x = rotatex;
+  }
+  if (rotatey != rotatepoint->y) {
+    rotatepoint->y = rotatey;
+  }
 }
 
 void aequus::video::Texture::SetRotatePoint(double x, double y) {
   rotatex = width * x;
   rotatey = height * y;
+  if (rotatex != rotatepoint->x) {
+    rotatepoint->x = rotatex;
+  }
+  if (rotatey != rotatepoint->y) {
+    rotatepoint->y = rotatey;
+  }
 }
 
 void aequus::video::Texture::SetSourceRect(std::vector<int> rect) {
@@ -189,14 +206,11 @@ void aequus::video::Texture::SetPos(int x, int y) {
 }
 
 void aequus::video::Texture::Display() {
-  pessum::logging::Log();
   if (SDL_RenderCopyEx(sdlrenderer, sdltexture, sdlsourcerect, sdldestrect,
-                       angle, &rotatepoint, sdlflip) != 0) {
-    pessum::logging::Log();
+                       angle, rotatepoint, sdlflip) != 0) {
     pessum::logging::LogLoc(pessum::logging::ERROR,
                             "Failed to copy texture to renderer", AVOT,
                             "Display");
     framework::GetSdlError(framework::SDL);
   }
-  pessum::logging::Log();
 }
