@@ -5,9 +5,11 @@
 int main(int argc, char *argv[]) {
   aequus::InitializeAequus();
   aequus::video::NewWindow("Aequus", 500, 500);
-  aequus::video::Font newfont;
-  newfont.Init("resources/Roboto");
-  newfont.GetFont(aequus::video::BOLD);
+  // aequus::video::LoadFont("resources/Roboto");
+  // aequus::video::win->NewTxtObj("Hello", "Roboto");
+  pessum::logging::Log();
+  // aequus::video::win->NewImgObj("resources/test.png");
+  pessum::logging::Log();
   while (aequus::video::AllClose() == false) {
     aequus::Frame();
   }

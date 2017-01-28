@@ -10,6 +10,7 @@
 namespace aequus {
 namespace video {
 std::vector<Window> windows;
+std::map<std::string, Font> fontmap;
 Window *win = NULL;
 int winindex = 0;
 }
@@ -70,4 +71,33 @@ int aequus::video::GetIndex(std::string name) {
     }
   }
   return (0);
+}
+
+void aequus::video::LoadFont(std::string filepath) {
+  std::string name = "";
+  for (unsigned a = filepath.size() - 1; a > 0 && filepath[a] != '/'; a--) {
+    name = filepath[a] + name;
+  }
+  Font newfont;
+  newfont.Init(filepath);
+  if (newfont.GoodFont() == true) {
+    fontmap[name] = newfont;
+  } else {
+    pessum::logging::LogLoc(pessum::logging::ERROR, "Invalid font folder", AV,
+                            "LoadFont");
+  }
+}
+
+aequus::video::Font aequus::video::GetFont(std::string name) {
+  std::map<std::string, Font>::iterator font;
+  font = fontmap.find(name);
+  if (font != fontmap.end()) {
+    return (font->second);
+  } else {
+    pessum::logging::LogLoc(pessum::logging::ERROR,
+                            "Font: " + name + " not initialized", AV,
+                            "GetFont");
+    Font newfont;
+    return (newfont);
+  }
 }

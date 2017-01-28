@@ -29,6 +29,7 @@ void aequus::video::Image::UpdateFile(std::string img) {
     framework::GetSdlError(framework::IMG);
   } else {
     InitTexture(imgsurface, NULL);
+    SDL_FreeSurface(imgsurface);
   }
 }
 

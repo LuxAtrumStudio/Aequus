@@ -28,6 +28,14 @@ TTF_Font *aequus::video::Font::GetFont(FontOptions option) {
   }
 }
 
+bool aequus::video::Font::GoodFont() {
+  if (fonts.size() > 0) {
+    return (true);
+  } else {
+    return (false);
+  }
+}
+
 void aequus::video::Font::GenorateFonts() {
   std::vector<FontOptions> options = {
       THIN,   ITALIC_THIN,   EXTRA_LIGHT, ITALIC_EXTRA_LIGHT,

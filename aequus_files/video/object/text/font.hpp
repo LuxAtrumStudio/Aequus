@@ -33,6 +33,7 @@ public:
   void Init(std::string folderpath);
   void Delete();
   TTF_Font *GetFont(FontOptions option);
+  bool GoodFont();
 
 private:
   std::string path = "";

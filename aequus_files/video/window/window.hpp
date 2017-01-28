@@ -43,7 +43,8 @@ public:
   bool CheckIndex(int index);
   std::string GetName();
   void HandleEvent(SDL_Event sdlevent);
-  void NewObj(std::string str);
+  void NewImgObj(std::string str);
+  void NewTxtObj(std::string str, std::string font);
   void ManipulateObject(std::string function, std::string params, ...);
 
 private:

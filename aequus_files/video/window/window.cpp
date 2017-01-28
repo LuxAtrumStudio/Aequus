@@ -66,9 +66,16 @@ std::string aequus::video::Window::GetName() { return (windowname); }
 
 void aequus::video::Window::HandleEvent(SDL_Event sdlevent) {}
 
-void aequus::video::Window::NewObj(std::string str) {
+void aequus::video::Window::NewImgObj(std::string str) {
   Object newobj;
-  newobj.Init(str, windowrenderer.GetRenderer());
+  newobj.InitImg(str, windowrenderer.GetRenderer());
+  objects.push_back(newobj);
+  currentobj = objects.size() - 1;
+}
+
+void aequus::video::Window::NewTxtObj(std::string str, std::string font) {
+  Object newobj;
+  newobj.InitTxt(str, font, windowrenderer.GetRenderer());
   objects.push_back(newobj);
   currentobj = objects.size() - 1;
 }
