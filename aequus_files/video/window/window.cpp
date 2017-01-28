@@ -72,10 +72,3 @@ void aequus::video::Window::NewObj(std::string str) {
   objects.push_back(newobj);
   currentobj = objects.size() - 1;
 }
-
-void aequus::video::Window::ManipulateObject(std::string function,
-                                             std::string params, ...) {
-  std::vector<int> intparams;
-  std::vector<double> doubleparams;
-  std::vector<std::string> stringparams;
-}

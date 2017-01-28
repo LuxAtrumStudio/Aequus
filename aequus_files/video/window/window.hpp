@@ -2,6 +2,7 @@
 #define VIDEO_WINDOW_WINDOW_HPP
 #include "../../sdl_headers.hpp"
 #include "../object/object.hpp"
+#include "../object/texture/texture.hpp"
 #include "../renderer/renderer.hpp"
 #include <string>
 #include <vector>
@@ -33,6 +34,7 @@ enum WindowPositionFlags {
 };
 class Window {
 public:
+  std::vector<Object> objects;
   void Init(std::string title, int width, int height,
             WindowPositionFlags x = CENTERED, WindowPositionFlags y = CENTERED,
             Uint32 flags = WINDOWED);
@@ -52,7 +54,6 @@ private:
   int sdlwindowid = 0;
   int currentobj = 0;
   Renderer windowrenderer;
-  std::vector<Object> objects;
 };
 }
 }

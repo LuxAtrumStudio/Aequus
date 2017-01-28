@@ -12,5 +12,3 @@ main:$(OBJ_FILES)
 
 .PHONY : subsystem
 subsystem:
-	cd texture && $(MAKE)
-	cd image && $(MAKE)

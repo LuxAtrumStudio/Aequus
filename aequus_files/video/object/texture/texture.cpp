@@ -5,42 +5,53 @@
 #include <pessum.h>
 #include <string>
 
-void aequus::video::Texture::Init(std::string filepath,
-                                  SDL_Renderer *renderer) {
+void aequus::video::Texture::InitTexture(SDL_Surface *surface,
+                                         SDL_Renderer *renderer) {
+  if (surface == NULL) {
+    surface = sdlsurface;
+  }
+  if (renderer == NULL) {
+    renderer = sdlrenderer;
+  }
+  if (sdlsurface != NULL) {
+    DeleteTexture();
+  }
+  sdlsurface = surface;
   sdlrenderer = renderer;
-  imagepath = filepath;
-  sdlsurface = IMG_Load(imagepath.c_str());
   if (sdlsurface == NULL) {
-    pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Failed to load image file: " + imagepath, AVOT,
-                            "Init");
+    pessum::logging::LogLoc(pessum::logging::ERROR, "Invalid surface", AVOT,
+                            "CreateTexture");
     framework::GetSdlError(framework::IMG);
   } else if (sdlrenderer == NULL) {
     pessum::logging::LogLoc(pessum::logging::ERROR, "Invalid renderer", AVOT,
-                            "Init");
+                            "CreateTexture");
   } else if (sdlsurface != NULL && sdlrenderer != NULL) {
     sdltexture = SDL_CreateTextureFromSurface(sdlrenderer, sdlsurface);
     if (sdltexture == NULL) {
       pessum::logging::LogLoc(pessum::logging::ERROR,
                               "Failed to create texture from surface", AVOT,
-                              "Init");
+                              "CreateTexture");
       framework::GetSdlError(framework::SDL);
     } else {
       pessum::logging::LogLoc(pessum::logging::SUCCESS,
-                              "Loaded texture from: " + imagepath, AVOT,
-                              "Init");
+                              "Created texture from surface", AVOT,
+                              "CreateTexture");
       width = sdlsurface->w;
       height = sdlsurface->h;
       rotatepoint = new SDL_Point();
       rotatepoint->x = width / 2;
       rotatepoint->y = height / 2;
       sdlsourcerect = NULL;
-      sdldestrect = NULL;
+      sdldestrect = new SDL_Rect;
+      sdldestrect->x = 0;
+      sdldestrect->y = 0;
+      sdldestrect->w = width;
+      sdldestrect->h = height;
     }
   }
 }
 
-void aequus::video::Texture::Delete() {
+void aequus::video::Texture::DeleteTexture() {
   SDL_FreeSurface(sdlsurface);
   SDL_DestroyTexture(sdltexture);
 }
@@ -203,6 +214,11 @@ void aequus::video::Texture::Scale(double scaledwidth, double scaledheight) {
 void aequus::video::Texture::SetPos(int x, int y) {
   posx = x;
   posy = y;
+}
+
+void aequus::video::Texture::UpdateTexture() {
+  SDL_DestroyTexture(sdltexture);
+  InitTexture();
 }
 
 void aequus::video::Texture::Display() {

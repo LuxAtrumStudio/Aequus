@@ -9,9 +9,9 @@ namespace video {
 enum RenderFlip { NOFLIP = 0, HORIZONTAL = 1, VERITCAL = 2 };
 class Texture {
 public:
-  void Init(std::string filepath, SDL_Renderer *renderer);
-  void Delete();
-  void SetRenderer(SDL_Renderer *renderer);
+  void InitTexture(SDL_Surface *surface = NULL, SDL_Renderer *renderer = NULL);
+  void DeleteTexture();
+  void SetRenderer(SDL_Renderer *renderer = NULL);
   void SetColorMod(std::vector<int> colors);
   void SetColorMod(std::vector<double> colors);
   void SetBlendMode(BlendMode mode);
@@ -27,10 +27,10 @@ public:
   void Scale(int scaledwidth, int scaledheight);
   void Scale(double scaledwidth, double scaledheight);
   void SetPos(int x, int y);
+  void UpdateTexture();
   void Display();
 
-private:
-  std::string imagepath = "";
+protected:
   int width = 0, height = 0, posx = 0, posy = 0, rotatex = 0, rotatey = 0,
       scalewidth = 0, scaleheight = 0;
   double angle = 0;
@@ -38,7 +38,6 @@ private:
   RenderFlip flip = NOFLIP;
   std::vector<int> sourcerect = {0, 0, 0, 0}, destrect = {0, 0, 0, 0},
                    colormod = {255, 255, 255, 255};
-
   SDL_Point *rotatepoint = NULL;
   SDL_RendererFlip sdlflip = SDL_FLIP_NONE;
   SDL_BlendMode sdlblend;
