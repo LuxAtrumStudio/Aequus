@@ -18,6 +18,8 @@ void aequus::InitializeAequus() {
   pessum::logging::AddLogLocation("aequus/video/object/");
   pessum::logging::AddLogLocation("aequus/video/object/texture/");
   pessum::logging::AddLogLocation("aequus/video/object/image/");
+  pessum::logging::AddLogLocation("aequus/video/object/text/");
+  pessum::logging::AddLogLocation("aequus/video/object/font/");
   QuitState = false;
   framework::InitializeSdl();
 }

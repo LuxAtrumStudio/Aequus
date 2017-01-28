@@ -1,5 +1,5 @@
-#ifndef AEQUUS_VIDEO_IMAGE_IMAGE_HPP
-#define AEQUUS_VIDEO_IMAGE_IMAGE_HPP
+#ifndef VIDEO_OBJECT_IMAGE_IMAGE_HPP
+#define VIDEO_OBJECT_IMAGE_IMAGE_HPP
 #include "../../../sdl_headers.hpp"
 #include "../../video_enums.hpp"
 #include "../texture/texture.hpp"

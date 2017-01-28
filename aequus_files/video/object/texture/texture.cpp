@@ -143,8 +143,8 @@ void aequus::video::Texture::SetRotatePoint(int x, int y) {
 }
 
 void aequus::video::Texture::SetRotatePoint(double x, double y) {
-  rotatex = width * x;
-  rotatey = height * y;
+  rotatex = scalewidth * x;
+  rotatey = scaleheight * y;
   if (rotatex != rotatepoint->x) {
     rotatepoint->x = rotatex;
   }
@@ -177,10 +177,10 @@ void aequus::video::Texture::SetSourceRect(std::vector<double> rect) {
 void aequus::video::Texture::SetDestRect(std::vector<int> rect) {
   destrect = rect;
   if (destrect.size() == 4) {
-    sdldestrect->x = destrect[0] + posx;
-    sdldestrect->y = destrect[1] + posy;
-    sdldestrect->w = destrect[2] + posx;
-    sdldestrect->h = destrect[3] + posy;
+    sdldestrect->x = destrect[0];
+    sdldestrect->y = destrect[1];
+    sdldestrect->w = destrect[2];
+    sdldestrect->h = destrect[3];
   } else {
     sdldestrect = NULL;
   }
@@ -208,7 +208,7 @@ void aequus::video::Texture::Scale(int scaledwidth, int scaledheight) {
 }
 
 void aequus::video::Texture::Scale(double scaledwidth, double scaledheight) {
-  Scale((int)scaledwidth * width, (int)scaleheight * height);
+  Scale((int)(scaledwidth * width), (int)(scaledheight * height));
 }
 
 void aequus::video::Texture::SetPos(int x, int y) {
@@ -222,6 +222,8 @@ void aequus::video::Texture::UpdateTexture() {
 }
 
 void aequus::video::Texture::Display() {
+  sdldestrect->x += posx;
+  sdldestrect->y += posy;
   if (SDL_RenderCopyEx(sdlrenderer, sdltexture, sdlsourcerect, sdldestrect,
                        angle, rotatepoint, sdlflip) != 0) {
     pessum::logging::LogLoc(pessum::logging::ERROR,
@@ -229,4 +231,6 @@ void aequus::video::Texture::Display() {
                             "Display");
     framework::GetSdlError(framework::SDL);
   }
+  sdldestrect->x -= posx;
+  sdldestrect->y -= posy;
 }
