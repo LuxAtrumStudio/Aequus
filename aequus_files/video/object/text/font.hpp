@@ -32,6 +32,8 @@ class Font {
 public:
   void Init(std::string folderpath);
   void Delete();
+  void SetPoint(int pt = 12);
+  void SetFolder(std::string folderpath);
   TTF_Font *GetFont(FontOptions option);
   bool GoodFont();
 

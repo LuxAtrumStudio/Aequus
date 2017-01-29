@@ -13,7 +13,25 @@ void aequus::video::Font::Init(std::string folderpath) {
                           AVOF, "Init");
 }
 
-void aequus::video::Font::Delete() {}
+void aequus::video::Font::Delete() {
+  std::map<FontOptions, TTF_Font *>::iterator font;
+  for (font = fonts.begin(); font != fonts.end(); ++font) {
+    TTF_CloseFont(font->second);
+  }
+  fonts.clear();
+  path = "";
+  point = 12;
+}
+
+void aequus::video::Font::SetPoint(int pt) {
+  point = pt;
+  UpdateFonts();
+}
+
+void aequus::video::Font::SetFolder(std::string folderpath) {
+  path = folderpath;
+  UpdateFonts();
+}
 
 TTF_Font *aequus::video::Font::GetFont(FontOptions option) {
   std::map<FontOptions, TTF_Font *>::iterator font;
@@ -50,7 +68,14 @@ void aequus::video::Font::GenorateFonts() {
   }
 }
 
-void aequus::video::Font::UpdateFonts() {}
+void aequus::video::Font::UpdateFonts() {
+  std::map<FontOptions, TTF_Font *>::iterator font;
+  for (font = fonts.begin(); font != fonts.end(); ++font) {
+    TTF_CloseFont(font->second);
+  }
+  fonts.clear();
+  GenorateFonts();
+}
 
 std::string aequus::video::Font::GetFile(FontOptions option) {
   std::string file = "";
