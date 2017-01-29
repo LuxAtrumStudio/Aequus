@@ -54,6 +54,8 @@ void aequus::video::Texture::InitTexture(SDL_Surface *surface,
 void aequus::video::Texture::DeleteTexture() {
   SDL_FreeSurface(sdlsurface);
   SDL_DestroyTexture(sdltexture);
+  sdlsurface = NULL;
+  sdltexture = NULL;
 }
 
 void aequus::video::Texture::SetRenderer(SDL_Renderer *renderer) {

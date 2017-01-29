@@ -14,9 +14,16 @@ void aequus::video::Font::Init(std::string folderpath) {
 }
 
 void aequus::video::Font::Delete() {
-  std::map<FontOptions, TTF_Font *>::iterator font;
-  for (font = fonts.begin(); font != fonts.end(); ++font) {
-    TTF_CloseFont(font->second);
+  std::vector<FontOptions> options = {
+      THIN,   ITALIC_THIN,   EXTRA_LIGHT, ITALIC_EXTRA_LIGHT,
+      LIGHT,  ITALIC_LIGHT,  REGULAR,     ITALIC_REGULAR,
+      MEDIUM, ITALIC_MEDIUM, SEMIBOLD,    ITALIC_SEMIBOLD,
+      BOLD,   ITALIC_BOLD,   EXTRA_BOLD,  ITALIC_EXTRA_BOLD,
+      BLACK,  ITALIC_BLACK};
+  for (int i = 0; i < options.size(); i++) {
+    if (Exists(GetFile(options[i])) == true) {
+      TTF_CloseFont(GetFont(options[i]));
+    }
   }
   fonts.clear();
   path = "";

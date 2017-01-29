@@ -18,7 +18,7 @@ void UpdateAll();
 void HandleEvents();
 void DeleteWindows();
 int GetIndex(std::string name);
-void LoadFont(std::string filepath);
+void LoadFont(std::string filepath, std::string mapname = "");
 Font GetFont(std::string name);
 }
 }

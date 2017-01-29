@@ -16,6 +16,7 @@ public:
   void SetTextColor(std::vector<double> color);
   void SetBackgroundColor(std::vector<int> color);
   void SetBackgroundColor(std::vector<double> color);
+  void SetFormat(FontOptions format);
   void UpdateString(std::string newstr = "");
   void UpdateText();
   void Delete();
@@ -23,7 +24,8 @@ public:
 private:
   std::string text = "";
   TextRenderer textformat = BLEND;
-  std::string textfont = "";
+  std::string textfontname = "";
+  FontOptions fontoption = REGULAR;
   std::vector<int> textcolor = {255, 255, 255, 255},
                    backgroundcolor = {0, 0, 0, 255};
 

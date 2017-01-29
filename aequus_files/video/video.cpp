@@ -73,10 +73,14 @@ int aequus::video::GetIndex(std::string name) {
   return (0);
 }
 
-void aequus::video::LoadFont(std::string filepath) {
+void aequus::video::LoadFont(std::string filepath, std::string mapname) {
   std::string name = "";
-  for (unsigned a = filepath.size() - 1; a > 0 && filepath[a] != '/'; a--) {
-    name = filepath[a] + name;
+  if (mapname == "") {
+    for (unsigned a = filepath.size() - 1; a > 0 && filepath[a] != '/'; a--) {
+      name = filepath[a] + name;
+    }
+  } else {
+    name = mapname;
   }
   Font newfont;
   newfont.Init(filepath);
