@@ -2,7 +2,6 @@
 #define VIDEO_WINDOW_WINDOW_HPP
 #include "../../sdl_headers.hpp"
 #include "../object/object.hpp"
-#include "../object/texture/texture.hpp"
 #include "../renderer/renderer.hpp"
 #include <string>
 #include <vector>

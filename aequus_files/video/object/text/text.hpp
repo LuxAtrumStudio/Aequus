@@ -2,14 +2,15 @@
 #define VIDEO_OBJECT_TEXT_TEXT_HPP
 #include "../../../sdl_headers.hpp"
 #include "../../video_enums.hpp"
-#include "../texture/texture.hpp"
+#include "../object.hpp"
 #include "font.hpp"
 #include <string>
 #include <vector>
 namespace aequus {
 namespace video {
-enum TextRenderer { SOLID, SHADED, BLEND };
-class Text : public Texture {
+class Text : public Object {
+  enum TextRenderer { SOLID, SHADED, BLEND };
+
 public:
   void Init(std::string str, std::string fontname, SDL_Renderer *renderer);
   void SetTextColor(std::vector<int> color);

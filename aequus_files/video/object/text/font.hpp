@@ -2,7 +2,7 @@
 #define VIDEO_OBJECT_TEXT_FONT_HPP
 #include "../../../sdl_headers.hpp"
 #include "../../video_enums.hpp"
-#include "../texture/texture.hpp"
+#include "../object.hpp"
 #include <map>
 #include <string>
 #include <vector>
