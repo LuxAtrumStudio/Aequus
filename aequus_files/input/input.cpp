@@ -14,6 +14,7 @@ std::vector<SDL_Event> events;
 
 void aequus::input::PollEvents() {
   SDL_Event sdlevent;
+  events.clear();
   while (SDL_PollEvent(&sdlevent) != 0) {
     if (sdlevent.type == SDL_QUIT) {
       QuitState = true;

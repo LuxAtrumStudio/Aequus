@@ -2,7 +2,6 @@
 #include "../../../log_indices.hpp"
 #include "../../../sdl_headers.hpp"
 #include "../../video.hpp"
-#include "../texture/texture.hpp"
 #include "text.hpp"
 #include <iostream>
 #include <pessum.h>
@@ -12,7 +11,7 @@ void aequus::video::Text::Init(std::string str, std::string fontname,
                                SDL_Renderer *renderer) {
   text = str;
   textfontname = fontname;
-  textformat = BLEND;
+  textformat = TEXT_BLEND;
   sdltextcolor.r = textcolor[0];
   sdltextcolor.g = textcolor[1];
   sdltextcolor.b = textcolor[2];
@@ -98,16 +97,16 @@ void aequus::video::Text::Delete() {
 void aequus::video::Text::GenorateText(SDL_Renderer *renderer) {
   SDL_Surface *textsurface;
   Font textfont = GetFont(textfontname);
-  if (textformat == SOLID) {
+  if (textformat == TEXT_SOLID) {
     textsurface = TTF_RenderText_Solid(textfont.GetFont(fontoption),
                                        text.c_str(), sdltextcolor);
   }
-  if (textformat == SHADED) {
+  if (textformat == TEXT_SHADED) {
     textsurface =
         TTF_RenderText_Shaded(textfont.GetFont(fontoption), text.c_str(),
                               sdltextcolor, sdlbackgroundcolor);
   }
-  if (textformat == BLEND) {
+  if (textformat == TEXT_BLEND) {
     textsurface = TTF_RenderText_Blended(textfont.GetFont(fontoption),
                                          text.c_str(), sdltextcolor);
   }

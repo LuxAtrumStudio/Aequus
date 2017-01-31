@@ -33,6 +33,7 @@ void aequus::video::Window::Init(std::string title, int width, int height,
 
 void aequus::video::Window::Delete() {
   objects.clear();
+  buttonobjects.clear();
   SDL_DestroyWindow(sdlwindow);
   windowrenderer.Delete();
   pessum::logging::LogLoc(pessum::logging::SUCCESS,
@@ -51,6 +52,9 @@ void aequus::video::Window::Display() {
   for (int i = 0; i < objects.size(); i++) {
     objects[i].Display();
   }
+  for (int i = 0; i < buttonobjects.size(); i++) {
+    buttonobjects[i].Display();
+  }
   windowrenderer.Display();
 }
 
@@ -64,7 +68,11 @@ bool aequus::video::Window::CheckIndex(int index) {
 
 std::string aequus::video::Window::GetName() { return (windowname); }
 
-void aequus::video::Window::HandleEvent(SDL_Event sdlevent) {}
+void aequus::video::Window::HandleEvent(SDL_Event sdlevent) {
+  for (int i = 0; i < buttonobjects.size(); i++) {
+    buttonobjects[i].EventCheck(sdlevent);
+  }
+}
 
 void aequus::video::Window::NewImgObj(std::string str) {
   Image newimg;
@@ -77,5 +85,14 @@ void aequus::video::Window::NewTxtObj(std::string str, std::string font) {
   Text newtxt;
   newtxt.Init(str, font, windowrenderer.GetRenderer());
   objects.push_back(newtxt);
+  currentobj = objects.size() - 1;
+}
+
+void aequus::video::Window::NewButtonObj(std::string str, std::string font,
+                                         std::string img, int width,
+                                         int height) {
+  Button newbutton;
+  newbutton.Init(str, font, img, windowrenderer.GetRenderer(), width, height);
+  buttonobjects.push_back(newbutton);
   currentobj = objects.size() - 1;
 }

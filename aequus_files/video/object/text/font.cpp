@@ -61,6 +61,21 @@ bool aequus::video::Font::GoodFont() {
   }
 }
 
+void aequus::video::Font::ScaleFont(std::string text, int width, int height,
+                                    FontOptions style) {
+  int textwidth = 0, textheight = 0;
+  while (textwidth < width || textheight < height) {
+    TTF_SizeText(fonts[style], text.c_str(), &textwidth, &textheight);
+    point += 2;
+    UpdateFonts();
+  }
+  while (textwidth > width || textheight > height) {
+    TTF_SizeText(fonts[style], text.c_str(), &textwidth, &textheight);
+    point -= 1;
+    UpdateFonts();
+  }
+}
+
 void aequus::video::Font::GenorateFonts() {
   std::vector<FontOptions> options = {
       THIN,   ITALIC_THIN,   EXTRA_LIGHT, ITALIC_EXTRA_LIGHT,

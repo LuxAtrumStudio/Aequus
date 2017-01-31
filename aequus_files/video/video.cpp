@@ -42,17 +42,13 @@ void aequus::video::UpdateAll() {
 
 void aequus::video::HandleEvents() {
   for (int i = 0; i < input::events.size(); i++) {
-    if (input::events[i].type == SDL_WINDOWEVENT) {
-      for (int j = 0; j < windows.size(); j++) {
-        if (windows[j].CheckIndex(input::events[i].window.windowID) == true) {
-          if (input::events[i].window.event != SDL_WINDOWEVENT_CLOSE) {
-            windows[j].HandleEvent(input::events[i]);
-          } else if (input::events[i].window.event == SDL_WINDOWEVENT_CLOSE) {
-            windows[j].Delete();
-            windows.erase(windows.begin() + j);
-          }
-        }
+    for (int j = 0; j < windows.size(); j++) {
+      if (windows[j].CheckIndex(input::events[i].window.windowID) == true &&
+          input::events[i].window.event == SDL_WINDOWEVENT_CLOSE) {
+        windows[j].Delete();
+        windows.erase(windows.begin() + j);
       }
+      windows[j].HandleEvent(input::events[i]);
     }
   }
 }

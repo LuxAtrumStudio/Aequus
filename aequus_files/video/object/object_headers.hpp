@@ -1,3 +1,4 @@
+#include "button/button.hpp"
 #include "image/image.hpp"
 #include "object.hpp"
 #include "text/font.hpp"

@@ -9,7 +9,6 @@
 namespace aequus {
 namespace video {
 class Text : public Object {
-  enum TextRenderer { SOLID, SHADED, BLEND };
 
 public:
   void Init(std::string str, std::string fontname, SDL_Renderer *renderer);
@@ -24,7 +23,7 @@ public:
 
 private:
   std::string text = "";
-  TextRenderer textformat = BLEND;
+  TextRenderer textformat = TEXT_BLEND;
   std::string textfontname = "";
   FontOptions fontoption = REGULAR;
   std::vector<int> textcolor = {255, 255, 255, 255},

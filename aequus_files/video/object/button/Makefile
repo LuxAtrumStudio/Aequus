@@ -12,6 +12,3 @@ main:$(OBJ_FILES)
 
 .PHONY : subsystem
 subsystem:
-	cd image && $(MAKE)
-	cd text && $(MAKE)
-	cd button && $(MAKE)

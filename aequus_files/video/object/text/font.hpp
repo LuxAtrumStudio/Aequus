@@ -36,6 +36,8 @@ public:
   void SetFolder(std::string folderpath);
   TTF_Font *GetFont(FontOptions option);
   bool GoodFont();
+  void ScaleFont(std::string text, int width, int height,
+                 FontOptions style = REGULAR);
 
 private:
   std::string path = "";

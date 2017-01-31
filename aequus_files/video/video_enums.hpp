@@ -7,4 +7,6 @@ enum BlendMode {
   ADD = SDL_BLENDMODE_ADD,
   MOD = SDL_BLENDMODE_MOD
 };
+enum TextRenderer { TEXT_SOLID, TEXT_SHADED, TEXT_BLEND };
+enum ButtonState { NORMAL, HOVER, PRESS, RELEASE };
 #endif

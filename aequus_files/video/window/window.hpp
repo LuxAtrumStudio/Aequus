@@ -1,6 +1,7 @@
 #ifndef VIDEO_WINDOW_WINDOW_HPP
 #define VIDEO_WINDOW_WINDOW_HPP
 #include "../../sdl_headers.hpp"
+#include "../object/button/button.hpp"
 #include "../object/object.hpp"
 #include "../renderer/renderer.hpp"
 #include <string>
@@ -34,6 +35,7 @@ enum WindowPositionFlags {
 class Window {
 public:
   std::vector<Object> objects;
+  std::vector<Button> buttonobjects;
   void Init(std::string title, int width, int height,
             WindowPositionFlags x = CENTERED, WindowPositionFlags y = CENTERED,
             Uint32 flags = WINDOWED);
@@ -44,7 +46,8 @@ public:
   void HandleEvent(SDL_Event sdlevent);
   void NewImgObj(std::string str);
   void NewTxtObj(std::string str, std::string font);
-  void ManipulateObject(std::string function, std::string params, ...);
+  void NewButtonObj(std::string str, std::string font, std::string img,
+                    int width = -1, int height = -1);
 
 private:
   std::string windowname = "";
