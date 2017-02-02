@@ -72,16 +72,14 @@ bool aequus::video::Window::CheckIndex(int index) {
 std::string aequus::video::Window::GetName() { return (windowname); }
 
 void aequus::video::Window::HandleEvent(SDL_Event sdlevent) {
+  windowlayout->HandleEvent(sdlevent);
   for (int i = 0; i < objects.size(); i++) {
-    pessum::logging::Log();
     Button *b = new Button();
     b = dynamic_cast<Button *>(objects[i]);
-    pessum::logging::Log();
     if (b != 0) {
       // std::cout << "downcast from b1 to d successful\n";
       b->EventCheck(sdlevent); // safe to call
     }
-    pessum::logging::Log();
   }
 }
 

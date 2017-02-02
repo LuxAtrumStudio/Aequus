@@ -3,6 +3,7 @@
 #include "../../sdl_headers.hpp"
 #include "../video_headers.hpp"
 #include "layout.hpp"
+#include <iostream>
 #include <pessum.h>
 #include <string>
 
@@ -28,8 +29,8 @@ void aequus::video::Layout::Display() {
   }
 }
 
-void aequus::video::Layout::AddObject(Object obj) {
-  objects.push_back(&obj);
+void aequus::video::Layout::AddObject(Object *obj) {
+  objects.push_back(obj);
   parts.push_back(OBJ);
   ReSize();
 }
@@ -62,6 +63,21 @@ void aequus::video::Layout::SetPos(int x, int y) {
   layoutx = x;
   layouty = y;
   ReSize();
+}
+
+void aequus::video::Layout::HandleEvent(SDL_Event event) {
+  for (int i = 0; i < objects.size(); i++) {
+    if (objects[i]->type == 3) {
+      Button *but = new Button();
+      but = dynamic_cast<Button *>(objects[i]);
+      if (but != 0) {
+        but->EventCheck(event);
+      }
+    }
+  }
+  for (int i = 0; i < sublayouts.size(); i++) {
+    sublayouts[i]->HandleEvent(event);
+  }
 }
 
 void aequus::video::Layout::ReSize() {

@@ -11,11 +11,12 @@ class Layout {
 public:
   void Init(LayoutFormat format);
   void Display();
-  void AddObject(Object obj);
+  void AddObject(Object *obj);
   void AddLayout(Layout lay);
   void Delete();
   void SetSize(int newwidth, int newheight);
   void SetPos(int x, int y);
+  void HandleEvent(SDL_Event event);
 
 private:
   void ReSize();
