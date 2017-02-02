@@ -51,6 +51,7 @@ void aequus::video::Window::Display() {
   for (int i = 0; i < objects.size(); i++) {
     objects[i]->Display();
   }
+  windowlayout->Display();
   windowrenderer.Display();
 }
 
@@ -76,6 +77,14 @@ void aequus::video::Window::HandleEvent(SDL_Event sdlevent) {
     }
     pessum::logging::Log();
   }
+}
+
+void aequus::video::Window::SetLayout(Layout *layout) {
+  if (windowlayout != NULL) {
+    windowlayout->Delete();
+  }
+  windowlayout = layout;
+  windowlayout->SetSize(windowwidth, windowheight);
 }
 
 void aequus::video::Window::NewImgObj(std::string str) {
