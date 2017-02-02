@@ -57,12 +57,17 @@ lib: all
 	ar rcs lib$(PROGRAM_NAME).a $(TOTAL_OBJ_FILES)
 	sudo cp lib$(PROGRAM_NAME).a /usr/local/lib/ -u
 	sudo cp aequus.h /usr/local/include/
-	sudo cp aequus_files/*.h /usr/local/include/aequus_files/
-	sudo cp aequus_files/audio/*.h /usr/local/include/aequus_files/audio/ -u
-	sudo cp aequus_files/framework/*.h /usr/local/include/aequus_files/framework/ -u
-	sudo cp aequus_files/input/*.h /usr/local/include/aequus_files/input/ -u
-	sudo cp aequus_files/video/*.h /usr/local/include/aequus_files/video/ -u
-	sudo cp aequus_files/video/object/*.h /usr/local/include/aequus_files/video/object/ -u
+	sudo cp aequus_files/*.hpp /usr/local/include/aequus_files/
+	#sudo cp aequus_files/audio/*.hpp /usr/local/include/aequus_files/audio/ -u
+	sudo cp aequus_files/framework/*.hpp /usr/local/include/aequus_files/framework/ -u
+	sudo cp aequus_files/input/*.hpp /usr/local/include/aequus_files/input/ -u
+	sudo cp aequus_files/video/*.hpp /usr/local/include/aequus_files/video/ -u
+	sudo cp aequus_files/video/object/*.hpp /usr/local/include/aequus_files/video/object/ -u
+	sudo cp aequus_files/video/window/*.hpp /usr/local/include/aequus_files/video/window/ -u
+	sudo cp aequus_files/video/renderer/*.hpp /usr/local/include/aequus_files/video/renderer/ -u
+	sudo cp aequus_files/video/object/button/*.hpp /usr/local/include/aequus_files/video/object/button/ -u
+	sudo cp aequus_files/video/object/image/*.hpp /usr/local/include/aequus_files/video/object/image/ -u
+	sudo cp aequus_files/video/object/text/*.hpp /usr/local/include/aequus_files/video/object/text/ -u
 	@echo Compiled lib file, and copied to usr/local/lib
 
 .PHONY : log

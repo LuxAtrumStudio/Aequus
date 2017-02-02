@@ -10,6 +10,7 @@ enum RenderFlip { NOFLIP = 0, HORIZONTAL = 1, VERITCAL = 2 };
 class Object {
 public:
   int type = 0;
+  virtual void Dummy() {}
   void SetRenderer(SDL_Renderer *renderer = NULL);
   void SetColorMod(std::vector<int> colors);
   void SetColorMod(std::vector<double> colors);

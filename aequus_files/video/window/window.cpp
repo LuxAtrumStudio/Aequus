@@ -33,7 +33,6 @@ void aequus::video::Window::Init(std::string title, int width, int height,
 
 void aequus::video::Window::Delete() {
   objects.clear();
-  buttonobjects.clear();
   SDL_DestroyWindow(sdlwindow);
   windowrenderer.Delete();
   pessum::logging::LogLoc(pessum::logging::SUCCESS,
@@ -50,10 +49,7 @@ void aequus::video::Window::Delete() {
 void aequus::video::Window::Display() {
   windowrenderer.Clear();
   for (int i = 0; i < objects.size(); i++) {
-    objects[i].Display();
-  }
-  for (int i = 0; i < buttonobjects.size(); i++) {
-    buttonobjects[i].Display();
+    objects[i]->Display();
   }
   windowrenderer.Display();
 }
@@ -69,21 +65,29 @@ bool aequus::video::Window::CheckIndex(int index) {
 std::string aequus::video::Window::GetName() { return (windowname); }
 
 void aequus::video::Window::HandleEvent(SDL_Event sdlevent) {
-  for (int i = 0; i < buttonobjects.size(); i++) {
-    buttonobjects[i].EventCheck(sdlevent);
+  for (int i = 0; i < objects.size(); i++) {
+    pessum::logging::Log();
+    Button *b = new Button();
+    b = dynamic_cast<Button *>(objects[i]);
+    pessum::logging::Log();
+    if (b != 0) {
+      // std::cout << "downcast from b1 to d successful\n";
+      b->EventCheck(sdlevent); // safe to call
+    }
+    pessum::logging::Log();
   }
 }
 
 void aequus::video::Window::NewImgObj(std::string str) {
-  Image newimg;
-  newimg.Init(str, windowrenderer.GetRenderer());
+  Image *newimg = new Image();
+  newimg->Init(str, windowrenderer.GetRenderer());
   objects.push_back(newimg);
   currentobj = objects.size() - 1;
 }
 
 void aequus::video::Window::NewTxtObj(std::string str, std::string font) {
-  Text newtxt;
-  newtxt.Init(str, font, windowrenderer.GetRenderer());
+  Text *newtxt = new Text();
+  newtxt->Init(str, font, windowrenderer.GetRenderer());
   objects.push_back(newtxt);
   currentobj = objects.size() - 1;
 }
@@ -91,8 +95,11 @@ void aequus::video::Window::NewTxtObj(std::string str, std::string font) {
 void aequus::video::Window::NewButtonObj(std::string str, std::string font,
                                          std::string img, int width,
                                          int height) {
-  Button newbutton;
-  newbutton.Init(str, font, img, windowrenderer.GetRenderer(), width, height);
-  buttonobjects.push_back(newbutton);
+  // Button newbutton;
+  Button *newbutton = new Button();
+  newbutton->Init(str, font, img, windowrenderer.GetRenderer(), width, height);
+  // newbutton.Init(str, font, img, windowrenderer.GetRenderer(), width,
+  // height);
+  objects.push_back(newbutton);
   currentobj = objects.size() - 1;
 }

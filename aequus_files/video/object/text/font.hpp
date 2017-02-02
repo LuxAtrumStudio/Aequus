@@ -8,26 +8,6 @@
 #include <vector>
 namespace aequus {
 namespace video {
-enum FontOptions {
-  THIN,
-  ITALIC_THIN,
-  EXTRA_LIGHT,
-  ITALIC_EXTRA_LIGHT,
-  LIGHT,
-  ITALIC_LIGHT,
-  REGULAR,
-  ITALIC_REGULAR,
-  MEDIUM,
-  ITALIC_MEDIUM,
-  SEMIBOLD,
-  ITALIC_SEMIBOLD,
-  BOLD,
-  ITALIC_BOLD,
-  EXTRA_BOLD,
-  ITALIC_EXTRA_BOLD,
-  BLACK,
-  ITALIC_BLACK
-};
 class Font {
 public:
   void Init(std::string folderpath);

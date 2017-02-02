@@ -1,6 +1,7 @@
 #ifndef VIDEO_OBJECT_BUTTON_BUTTON_HPP
 #define VIDEO_OBJECT_BUTTON_BUTTON_HPP
 #include "../../../sdl_headers.hpp"
+#include "../../video_enums.hpp"
 #include "../image/image.hpp"
 #include "../object.hpp"
 #include "../text/text.hpp"
@@ -10,7 +11,6 @@ namespace aequus {
 namespace video {
 class Button : public Object {
 public:
-  enum Cases { CLIP, COLOR, CUSTOM, NONE };
   void Init(std::string text, std::string font, std::string img,
             SDL_Renderer *renderer, int inwidth = -1, int inheight = -1);
   // Image Functions
@@ -37,7 +37,7 @@ private:
 
   ButtonState currentstate = NORMAL;
   Cases hoverstate = COLOR, pressstate = COLOR, normalstate = COLOR,
-        releasestate = NONE;
+        releasestate = NOCASE;
   void (*hoverfunction)(void);
   void (*pressfunction)(void);
   void (*normalfunction)(void);

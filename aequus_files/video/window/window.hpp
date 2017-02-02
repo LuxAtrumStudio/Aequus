@@ -34,8 +34,7 @@ enum WindowPositionFlags {
 };
 class Window {
 public:
-  std::vector<Object> objects;
-  std::vector<Button> buttonobjects;
+  std::vector<Object *> objects;
   void Init(std::string title, int width, int height,
             WindowPositionFlags x = CENTERED, WindowPositionFlags y = CENTERED,
             Uint32 flags = WINDOWED);
