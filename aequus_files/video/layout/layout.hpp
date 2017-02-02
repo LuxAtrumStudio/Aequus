@@ -15,10 +15,12 @@ public:
   void AddLayout(Layout lay);
   void Delete();
   void SetSize(int newwidth, int newheight);
+  void SetPos(int x, int y);
 
 private:
   void ReSize();
   int width = 0, height = 0;
+  int layoutx = 0, layouty = 0;
   LayoutFormat layoutformat;
   enum LayoutObjectType { OBJ, LAY };
   std::vector<LayoutObjectType> parts;

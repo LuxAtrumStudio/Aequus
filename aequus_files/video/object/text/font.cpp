@@ -10,7 +10,7 @@ void aequus::video::Font::Init(std::string folderpath) {
   path = folderpath;
   GenorateFonts();
   pessum::logging::LogLoc(pessum::logging::SUCCESS, "Loaded font: " + path,
-                          AVOF, "Init");
+                          LOG_AEQ_VID_OBJ_FON, "Init");
 }
 
 void aequus::video::Font::Delete() {
@@ -48,7 +48,7 @@ TTF_Font *aequus::video::Font::GetFont(FontOptions option) {
   } else {
     pessum::logging::LogLoc(pessum::logging::ERROR,
                             "Font file does not exist: " + GetFile(option),
-                            AVOF, "GetFont");
+                            LOG_AEQ_VID_OBJ_FON, "GetFont");
     return (NULL);
   }
 }

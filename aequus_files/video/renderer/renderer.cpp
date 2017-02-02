@@ -11,13 +11,13 @@ void aequus::video::Renderer::Init(SDL_Window *sdlwindow, Uint32 flags,
   sdlrenderer = SDL_CreateRenderer(sdlwindow, -1, flags);
   if (sdlrenderer == NULL) {
     pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Failed to create renderer for: " + windowname, AVR,
-                            "Renderer");
+                            "Failed to create renderer for: " + windowname,
+                            LOG_AEQ_VID_REN, "Renderer");
     framework::GetSdlError(framework::SDL);
   } else {
     pessum::logging::LogLoc(pessum::logging::SUCCESS,
-                            "Created renderer for: " + windowname, AVR,
-                            "Renderer");
+                            "Created renderer for: " + windowname,
+                            LOG_AEQ_VID_REN, "Renderer");
   }
 }
 
@@ -29,7 +29,8 @@ void aequus::video::Renderer::Delete() {
 void aequus::video::Renderer::Display() {
   if (sdlrenderer == NULL) {
     pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Failed to display renderer", AVR, "Display");
+                            "Failed to display renderer", LOG_AEQ_VID_REN,
+                            "Display");
   } else {
     SDL_RenderPresent(sdlrenderer);
   }
@@ -38,7 +39,7 @@ void aequus::video::Renderer::Display() {
 void aequus::video::Renderer::Clear() {
   if (SDL_RenderClear(sdlrenderer) != 0) {
     pessum::logging::LogLoc(pessum::logging::ERROR, "Failed to clear renderer",
-                            AVR, "Clear");
+                            LOG_AEQ_VID_REN, "Clear");
     framework::GetSdlError(framework::SDL);
   }
 }

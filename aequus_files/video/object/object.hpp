@@ -28,7 +28,10 @@ public:
   void Scale(double scaledwidth, double scaledheight);
   void SetPos(int x, int y);
   void UpdateTexture();
+  std::pair<int, int> GetSize();
   void Display();
+
+  virtual void Delete();
 
 protected:
   void InitTexture(SDL_Surface *surface = NULL, SDL_Renderer *renderer = NULL);

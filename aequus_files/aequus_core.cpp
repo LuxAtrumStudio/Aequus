@@ -9,18 +9,22 @@ bool QuitState = false;
 
 void aequus::InitializeAequus() {
   pessum::InitializePessumComponents(DEV_MODE);
-  pessum::logging::AddLogLocation("aequus/");
-  pessum::logging::AddLogLocation("aequus/framework/");
-  pessum::logging::AddLogLocation("aequus/input/");
-  pessum::logging::AddLogLocation("aequus/video/");
-  pessum::logging::AddLogLocation("aequus/video/window/");
-  pessum::logging::AddLogLocation("aequus/video/renderer/");
-  pessum::logging::AddLogLocation("aequus/video/object/");
-  pessum::logging::AddLogLocation("aequus/video/object/texture/");
-  pessum::logging::AddLogLocation("aequus/video/object/image/");
-  pessum::logging::AddLogLocation("aequus/video/object/text/");
-  pessum::logging::AddLogLocation("aequus/video/object/font/");
-  pessum::logging::AddLogLocation("aequus/video/object/button/");
+  std::vector<std::string> locations = {"aequus/",
+                                        "aequus/audio/",
+                                        "aequus/framework/",
+                                        "aequus/input/",
+                                        "aequus/video/",
+                                        "aequus/video/layout/",
+                                        "aequus/video/object/",
+                                        "aequus/video/object/button/",
+                                        "aequus/video/object/image/",
+                                        "aequus/video/object/text/",
+                                        "aequus/video/object/font/",
+                                        "aequus/video/renderer/",
+                                        "aequus/video/window/"};
+  for (int i = 0; i < locations.size(); i++) {
+    pessum::logging::AddLogLocation(locations[i]);
+  }
   QuitState = false;
   framework::InitializeSdl();
 }

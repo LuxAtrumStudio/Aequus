@@ -12,7 +12,3 @@ main:$(OBJ_FILES)
 
 .PHONY : subsystem
 subsystem:
-	cd object && $(MAKE)
-	cd renderer && $(MAKE)
-	cd window && $(MAKE)
-	cd layout && $(MAKE)

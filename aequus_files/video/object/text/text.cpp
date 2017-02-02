@@ -22,7 +22,7 @@ void aequus::video::Text::Init(std::string str, std::string fontname,
   sdlbackgroundcolor.a = backgroundcolor[3];
   GenorateText(renderer);
   pessum::logging::LogLoc(pessum::logging::SUCCESS, "Loaded text texture",
-                          AVOTEXT, "Init");
+                          LOG_AEQ_VID_OBJ_TEX, "Init");
 }
 
 void aequus::video::Text::SetTextColor(std::vector<int> color) {
@@ -112,8 +112,8 @@ void aequus::video::Text::GenorateText(SDL_Renderer *renderer) {
   }
   if (textsurface == NULL) {
     pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Failed to genorate surface from text", AVOTEXT,
-                            "GenorateText");
+                            "Failed to genorate surface from text",
+                            LOG_AEQ_VID_OBJ_TEX, "GenorateText");
     framework::GetSdlError(framework::TTF);
   }
   InitTexture(textsurface, renderer);

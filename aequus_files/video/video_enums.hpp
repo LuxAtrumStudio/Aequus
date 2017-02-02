@@ -30,5 +30,5 @@ enum FontOptions {
   BLACK,
   ITALIC_BLACK
 };
-enum LayoutFormat { HORIZONTAL, VERTICAL };
+enum LayoutFormat { HORIZONTALLAYOUT, VERTICALLAYOUT };
 #endif

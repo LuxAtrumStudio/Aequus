@@ -22,7 +22,7 @@ void aequus::video::Button::Init(std::string text, std::string font,
   GenorateButton(renderer);
   type = 3;
   pessum::logging::LogLoc(pessum::logging::SUCCESS, "Loaded button texture",
-                          AVOB, "Init");
+                          LOG_AEQ_VID_OBJ_BUT, "Init");
 }
 
 void aequus::video::Button::UpdateFile(std::string img) { GenorateButton(); }
@@ -170,15 +170,15 @@ void aequus::video::Button::GenorateButton(SDL_Renderer *renderer) {
                                        buttontext.c_str(), sdltextcolor);
   if (textsurface == NULL) {
     pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Failed to genorate surface from text", AVOB,
-                            "GenorateText");
+                            "Failed to genorate surface from text",
+                            LOG_AEQ_VID_OBJ_BUT, "GenorateText");
     framework::GetSdlError(framework::TTF);
   }
   SDL_Surface *imgsurface = IMG_Load(filepath.c_str());
   if (imgsurface == NULL) {
     pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Failed to load image file: " + filepath, AVOB,
-                            "Init");
+                            "Failed to load image file: " + filepath,
+                            LOG_AEQ_VID_OBJ_BUT, "Init");
     framework::GetSdlError(framework::IMG);
   }
   int twidth = buttonwidth, theight = buttonheight;
@@ -194,8 +194,8 @@ void aequus::video::Button::GenorateButton(SDL_Renderer *renderer) {
     SDL_SetSurfaceBlendMode(newsurface, SDL_BLENDMODE_BLEND);
     if (sdlsurface == NULL || newsurface == NULL) {
       pessum::logging::LogLoc(pessum::logging::ERROR,
-                              "Failed to genorate scaled surface", AVOB,
-                              "ScaleSurface");
+                              "Failed to genorate scaled surface",
+                              LOG_AEQ_VID_OBJ_BUT, "ScaleSurface");
     }
     SDL_BlitScaled(imgsurface, NULL, newsurface, NULL);
     if (newsurface != NULL) {

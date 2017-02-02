@@ -11,7 +11,8 @@ namespace video {
 class Text : public Object {
 
 public:
-  void Init(std::string str, std::string fontname, SDL_Renderer *renderer);
+  void Init(std::string str, std::string fontname,
+            SDL_Renderer *renderer = NULL);
   void SetTextColor(std::vector<int> color);
   void SetTextColor(std::vector<double> color);
   void SetBackgroundColor(std::vector<int> color);

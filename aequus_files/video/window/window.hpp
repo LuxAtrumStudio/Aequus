@@ -36,7 +36,8 @@ enum WindowPositionFlags {
 class Window {
 public:
   std::vector<Object *> objects;
-  Layout *windowlayout;
+  Layout *windowlayout = NULL;
+  Renderer windowrenderer;
   void Init(std::string title, int width, int height,
             WindowPositionFlags x = CENTERED, WindowPositionFlags y = CENTERED,
             Uint32 flags = WINDOWED);
@@ -58,7 +59,6 @@ private:
   SDL_Window *sdlwindow = NULL;
   int sdlwindowid = 0;
   int currentobj = 0;
-  Renderer windowrenderer;
 };
 }
 }
