@@ -168,7 +168,7 @@ void aequus::video::Object::SetPos(int x, int y) {
 }
 
 void aequus::video::Object::UpdateTexture() {
-  SDL_DestroyTexture(sdltexture);
+  // SDL_DestroyTexture(sdltexture);
   InitTexture();
 }
 
@@ -239,8 +239,12 @@ void aequus::video::Object::InitTexture(SDL_Surface *surface,
 }
 
 void aequus::video::Object::DeleteTexture() {
-  SDL_FreeSurface(sdlsurface);
-  SDL_DestroyTexture(sdltexture);
+  if (sdlsurface != NULL) {
+    // SDL_FreeSurface(sdlsurface);
+  }
+  if (sdltexture != NULL) {
+    SDL_DestroyTexture(sdltexture);
+  }
   sdlsurface = NULL;
   sdltexture = NULL;
 }

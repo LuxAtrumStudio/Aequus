@@ -59,9 +59,9 @@ void aequus::video::Button::UpdateString(std::string newstr) {
 }
 
 void aequus::video::Button::EventCheck(SDL_Event event) {
-  if ((event.motion.x >= posx && event.motion.y <= posx + width &&
+  if ((event.motion.x >= posx && event.motion.x <= posx + width &&
        event.motion.y >= posy && event.motion.y <= posy + height) ||
-      (event.button.x >= posx && event.button.y <= posx + width &&
+      (event.button.x >= posx && event.button.x <= posx + width &&
        event.button.y >= posy && event.button.y <= posy + height)) {
     if (event.type == SDL_MOUSEMOTION) {
       if (currentstate != HOVER) {
@@ -192,7 +192,7 @@ void aequus::video::Button::GenorateButton(SDL_Renderer *renderer) {
     SDL_Surface *newsurface = NULL;
     newsurface = SDL_CreateRGBSurface(0, twidth, theight, 32, 0, 0, 0, 0);
     SDL_SetSurfaceBlendMode(newsurface, SDL_BLENDMODE_BLEND);
-    if (sdlsurface == NULL || newsurface == NULL) {
+    if (newsurface == NULL) {
       pessum::logging::LogLoc(pessum::logging::ERROR,
                               "Failed to genorate scaled surface",
                               LOG_AEQ_VID_OBJ_BUT, "ScaleSurface");
