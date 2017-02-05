@@ -177,17 +177,19 @@ std::pair<int, int> aequus::video::Object::GetSize() {
 }
 
 void aequus::video::Object::Display() {
-  sdldestrect->x += posx;
-  sdldestrect->y += posy;
-  if (SDL_RenderCopyEx(sdlrenderer, sdltexture, sdlsourcerect, sdldestrect,
-                       angle, sdlrotate, sdlflip) != 0) {
-    pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Failed to copy texture to renderer",
-                            LOG_AEQ_VID_OBJ, "Display");
-    framework::GetSdlError(framework::SDL);
+  if (sdltexture != NULL) {
+    sdldestrect->x += posx;
+    sdldestrect->y += posy;
+    if (SDL_RenderCopyEx(sdlrenderer, sdltexture, sdlsourcerect, sdldestrect,
+                         angle, sdlrotate, sdlflip) != 0) {
+      pessum::logging::LogLoc(pessum::logging::ERROR,
+                              "Failed to copy texture to renderer",
+                              LOG_AEQ_VID_OBJ, "Display");
+      framework::GetSdlError(framework::SDL);
+    }
+    sdldestrect->x -= posx;
+    sdldestrect->y -= posy;
   }
-  sdldestrect->x -= posx;
-  sdldestrect->y -= posy;
 }
 
 void aequus::video::Object::InitTexture(SDL_Surface *surface,

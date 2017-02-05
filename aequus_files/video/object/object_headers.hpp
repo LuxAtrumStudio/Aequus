@@ -1,5 +1,6 @@
 #include "button/button.hpp"
 #include "image/image.hpp"
 #include "object.hpp"
+#include "spacer/spacer.hpp"
 #include "text/font.hpp"
 #include "text/text.hpp"

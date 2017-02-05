@@ -1,31 +1,33 @@
+export COMPILER = clang++
+export COMPILER_FLAGS = -MMD -std=c++11 -w -c
 CPP_FILES = $(wildcard *.cpp)
-OBJ_FILES = $(notdir $(CPP_FILES:.cpp=.o))
-TOTAL_OBJ_FILES = $(wildcard */*.o) $(wildcard */*/*.o) $(wildcard */*/*/*.o) $(wildcard */*/*/*/*.o) $(wildcard */*/*/*/*/*.o)
-HEADER_FILES = $(wildcard *.hpp) $(wildcard */*.hpp) $(wildcard */*/*.hpp) $(wildcard */*/*/*.hpp) $(wildcard */*/*/*/*.hpp) $(wildcard */*/*/*/*/*.hpp)
-CC = clang++
-COMPILER_FLAGS = -MMD -std=c++11 -w -c
+TOP_DIR = $(notdir $(CPP_FILES:.cpp=.o))
+OBJ_FILES = $(wildcard */*.o)
+OBJ_FILES += $(wildcard */*/*.o)
+OBJ_FILES += $(wildcard */*/*/*.o)
+OBJ_FILES += $(wildcard */*/*/*/*.o)
+OBJ_FILES += $(wildcard */*/*/*/*/*.o)
+OBJ_FILES += $(wildcard */*/*/*/*/*/*.o)
 LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lpessum
 PROGRAM_NAME = aequus
 
-all: subsystem top_obj $(PROGRAM_NAME)
-	clear
-	@echo Compleated compiling $(PROGRAM_NAME)
+all: $(TOP_DIR) subsystem $(PROGRAM_NAME)
+	@setterm -fore green
+	@printf "==========>Successfuly compiled $(PROGRAM_NAME)<==========\n"
+	@setterm -fore white
 
-$(PROGRAM_NAME): $(OBJ_FILES) $(wildcard */*.o) $(wildcard */*/*.o) $(wildcard */*/*/*.o) $(wildcard */*/*/*/*.o) $(wildcard */*/*/*/*/*.o)
-	setterm -foreground red
-	$(CC) $(OBJ_FILES) $(TOTAL_OBJ_FILES) -o $(PROGRAM_NAME) $(LINKER_FLAGS)
-	setterm -default
+$(PROGRAM_NAME): $(TOP_DIR) $(OBJ_FILES)
+	@setterm -fore red
+	@printf "==========>CORE<==========\n"
+	@setterm -fore white
+	$(COMPILER) $(TOP_DIR) $(OBJ_FILES) -o $(PROGRAM_NAME) $(LINKER_FLAGS)
 
 %.o: %.cpp
-	$(CC) $(COMPILER_FLAGS) -o $(notdir $*).o $*.cpp
-
-.PHONY : top_obj
-top_obj:$(OBJ_FILES)
+	$(COMPILER) $(COMPILER_FLAGS) -o $(notdir $*).o $*.cpp
 
 .PHONY : subsystem
 subsystem:
-	export CC
-	cd aequus_files && $(MAKE)
+	@cd aequus_files && $(MAKE)
 
 .PHONY : clean
 clean:
@@ -43,10 +45,6 @@ clean:
 	rm -f */*/*/*/*/*.d
 	clear
 	@echo Cleared all '.o' and '.d' files
-
-.PHONY : test
-test: subsystem top_obj $(PROGRAM_NAME)
-	./aequus
 
 .PHONY : tar
 tar: clean
@@ -76,12 +74,7 @@ log:
 
 .PHONY : help
 help:
-	@echo make clean
-	@echo make test
-	@echo make tar
-	@echo make lib
-	@echo make log
-	@echo make new
+	@printf "make\nmake clean\nmake tar\nmake lib\nmake log\nmake new\n"
 
 
 .PHONY : new

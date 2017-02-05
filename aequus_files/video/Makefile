@@ -1,18 +1,34 @@
 CPP_FILES = $(wildcard *.cpp)
 OBJ_FILES = $(notdir $(CPP_FILES:.cpp=.o))
-COMPILER_FLAGS = -MMD -std=c++11 -w -c
-LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 
-all: subsystem main
+all: $(OBJ_FILES) subsystem
 
-.PHONY : main
-main:$(OBJ_FILES)
 %.o: %.cpp %.hpp
-	$(CC) $(COMPILER_FLAGS) -o $(notdir $*).o $*.cpp $(LINKER_FLAGS)
+	$(COMPILER) $(COMPILER_FLAGS) -o $(notdir $*).o $*.cpp
 
 .PHONY : subsystem
 subsystem:
-	cd object && $(MAKE)
-	cd renderer && $(MAKE)
-	cd window && $(MAKE)
-	cd layout && $(MAKE)
+	@setterm -fore cyan
+	@printf "VIDEO/"
+	@setterm -fore blue
+	@printf "OBJECT\n"
+	@setterm -fore white
+	@cd object && $(MAKE)
+	@setterm -fore cyan
+	@printf "VIDEO/"
+	@setterm -fore green
+	@printf "RENDERER\n"
+	@setterm -fore white
+	@cd renderer && $(MAKE)
+	@setterm -fore cyan
+	@printf "VIDEO/"
+	@setterm -fore cyan
+	@printf "WINDOW\n"
+	@setterm -fore white
+	@cd window && $(MAKE)
+	@setterm -fore cyan
+	@printf "VIDEO/"
+	@setterm -fore red
+	@printf "LAYOUT\n"
+	@setterm -fore white
+	@cd layout && $(MAKE)

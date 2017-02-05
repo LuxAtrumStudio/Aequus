@@ -1,17 +1,42 @@
 CPP_FILES = $(wildcard *.cpp)
 OBJ_FILES = $(notdir $(CPP_FILES:.cpp=.o))
-COMPILER_FLAGS = -MMD -std=c++11 -w -c
-LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 
-all: subsystem main
+all: $(OBJ_FILES) subsystem
 
-.PHONY : main
-main:$(OBJ_FILES)
 %.o: %.cpp %.hpp
-	$(CC) $(COMPILER_FLAGS) -o $(notdir $*).o $*.cpp $(LINKER_FLAGS)
+	$(COMPILER) $(COMPILER_FLAGS) -o $(notdir $*).o $*.cpp
 
 .PHONY : subsystem
 subsystem:
-	cd image && $(MAKE)
-	cd text && $(MAKE)
-	cd button && $(MAKE)
+	@setterm -fore cyan
+	@printf "VIDEO/"
+	@setterm -fore blue
+	@printf "OBJECT/"
+	@setterm -fore blue
+	@printf "IMAGE\n"
+	@setterm -fore white
+	@cd image && $(MAKE)
+	@setterm -fore cyan
+	@printf "VIDEO/"
+	@setterm -fore blue
+	@printf "OBJECT/"
+	@setterm -fore green
+	@printf "TEXT\n"
+	@setterm -fore white
+	@cd text && $(MAKE)
+	@setterm -fore cyan
+	@printf "VIDEO/"
+	@setterm -fore blue
+	@printf "OBJECT/"
+	@setterm -fore cyan
+	@printf "BUTTON\n"
+	@setterm -fore white
+	@cd button && $(MAKE)
+	@setterm -fore cyan
+	@printf "VIDEO/"
+	@setterm -fore blue
+	@printf "OBJECT/"
+	@setterm -fore red
+	@printf "SPACER\n"
+	@setterm -fore white
+	@cd spacer && $(MAKE)
