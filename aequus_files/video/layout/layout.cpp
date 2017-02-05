@@ -35,8 +35,8 @@ void aequus::video::Layout::AddObject(Object *obj) {
   ReSize();
 }
 
-void aequus::video::Layout::AddLayout(Layout lay) {
-  sublayouts.push_back(&lay);
+void aequus::video::Layout::AddLayout(Layout *lay) {
+  sublayouts.push_back(lay);
   parts.push_back(LAY);
   ReSize();
 }

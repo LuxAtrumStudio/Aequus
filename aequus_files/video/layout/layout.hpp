@@ -12,7 +12,7 @@ public:
   void Init(LayoutFormat format);
   void Display();
   void AddObject(Object *obj);
-  void AddLayout(Layout lay);
+  void AddLayout(Layout *lay);
   void Delete();
   void SetSize(int newwidth, int newheight);
   void SetPos(int x, int y);
