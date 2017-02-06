@@ -17,6 +17,7 @@ void aequus::video::Image::Init(std::string img, SDL_Renderer *renderer) {
   } else {
     InitTexture(imgsurface, renderer);
   }
+  type = 1;
 }
 
 void aequus::video::Image::UpdateFile(std::string img) {

@@ -23,6 +23,7 @@ void aequus::video::Text::Init(std::string str, std::string fontname,
   GenorateText(renderer);
   pessum::logging::LogLoc(pessum::logging::SUCCESS, "Loaded text texture",
                           LOG_AEQ_VID_OBJ_TEX, "Init");
+  type = 2;
 }
 
 void aequus::video::Text::SetTextColor(std::vector<int> color) {

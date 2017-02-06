@@ -20,3 +20,7 @@ subsystem:
 	@printf "VIDEO\n"
 	@setterm -fore white
 	@cd video && $(MAKE)
+	@setterm -fore red
+	@printf "AUDIO\n"
+	@setterm -fore white
+	@cd audio && $(MAKE)

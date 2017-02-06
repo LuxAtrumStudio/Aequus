@@ -65,6 +65,15 @@ void aequus::video::Layout::SetPos(int x, int y) {
   ReSize();
 }
 
+void aequus::video::Layout::SetSizePos(int newwidth, int newheight, int x,
+                                       int y) {
+  width = newwidth;
+  height = newheight;
+  layoutx = x;
+  layouty = y;
+  ReSize();
+}
+
 void aequus::video::Layout::HandleEvent(SDL_Event event) {
   for (int i = 0; i < objects.size(); i++) {
     if (objects[i]->type == 3) {
@@ -82,36 +91,67 @@ void aequus::video::Layout::HandleEvent(SDL_Event event) {
 
 void aequus::video::Layout::ReSize() {
   if (width != 0 && height != 0 && parts.size() > 0) {
-    int iwidth = 0, iheight = 0;
-    int xpos = layoutx, ypos = layouty;
-    if (layoutformat == HORIZONTALLAYOUT) {
-      iheight = height;
-      iwidth = width / parts.size();
-    } else if (layoutformat == VERTICALLAYOUT) {
-      iwidth = width;
-      iheight = height / parts.size();
-    }
-    int objindex = 0;
-    int layoutindex = 0;
+    int objectindex = 0, layoutindex = 0;
+    std::pair<int, int> elementtotal(0, 0);
     for (int i = 0; i < parts.size(); i++) {
       if (parts[i] == OBJ) {
-        int objwidth, objheight;
-        std::pair<int, int> objsize = objects[objindex]->GetSize();
-        objwidth = objsize.first;
-        objheight = objsize.second;
-        int objposx = (iwidth - objwidth) / 2,
-            objposy = (iheight - objheight) / 2;
-        objects[objindex]->SetPos(objposx + xpos, objposy + ypos);
-        objindex++;
+        elementtotal.first += objects[objectindex]->GetSize().first;
+        elementtotal.second += objects[objectindex]->GetSize().second;
+        objectindex++;
       } else if (parts[i] == LAY) {
-        sublayouts[layoutindex]->SetSize(iwidth, iheight);
-        sublayouts[layoutindex]->SetPos(xpos, ypos);
+        if (layoutformat == HORIZONTALLAYOUT) {
+          elementtotal.first += width / parts.size();
+          elementtotal.second = height;
+        } else if (layoutformat == VERTICALLAYOUT) {
+          elementtotal.first = width;
+          elementtotal.second += height / parts.size();
+        }
+        layoutindex++;
+      }
+    }
+    objectindex = 0;
+    layoutindex = 0;
+    std::pair<double, double> elementweight(width / (double)elementtotal.first,
+                                            height /
+                                                (double)elementtotal.second);
+    int posx = layoutx, posy = layouty;
+    for (int i = 0; i < parts.size(); i++) {
+      std::pair<int, int> objsize(0, 0);
+      if (parts[i] == OBJ) {
+        objsize = objects[objectindex]->GetSize();
+      } else if (parts[i] == LAY) {
+        if (layoutformat == HORIZONTALLAYOUT) {
+          objsize.first = width / parts.size();
+          objsize.second = height;
+        } else if (layoutformat == VERTICALLAYOUT) {
+          objsize.first = width;
+          objsize.second = height / parts.size();
+        }
+      }
+      std::pair<int, int> elementpos(
+          (int)(objsize.first * elementweight.first),
+          (int)(objsize.second * elementweight.second));
+      if (layoutformat == HORIZONTALLAYOUT) {
+        elementpos.second = height;
+      } else if (layoutformat == VERTICALLAYOUT) {
+        elementpos.first = width;
+      }
+      elementpos.first = (elementpos.first - objsize.first) / 2;
+      elementpos.second = (elementpos.second - objsize.second) / 2;
+      if (parts[i] == OBJ) {
+        objects[objectindex]->SetPos(posx + elementpos.first,
+                                     posy + elementpos.second);
+        objectindex++;
+      } else if (parts[i] == LAY) {
+        sublayouts[layoutindex]->SetSizePos(objsize.first, objsize.second,
+                                            posx + elementpos.first,
+                                            posy + elementpos.second);
         layoutindex++;
       }
       if (layoutformat == HORIZONTALLAYOUT) {
-        xpos += iwidth;
+        posx += objsize.first * elementweight.first;
       } else if (layoutformat == VERTICALLAYOUT) {
-        ypos += iheight;
+        posy += objsize.second * elementweight.second;
       }
     }
   }

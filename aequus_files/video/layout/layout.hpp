@@ -16,6 +16,7 @@ public:
   void Delete();
   void SetSize(int newwidth, int newheight);
   void SetPos(int x, int y);
+  void SetSizePos(int newwidth, int newheight, int x, int y);
   void HandleEvent(SDL_Event event);
 
 private:
