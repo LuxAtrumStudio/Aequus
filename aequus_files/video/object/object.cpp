@@ -27,14 +27,14 @@ void aequus::video::Object::SetColorMod(std::vector<int> colors) {
       SDL_SetTextureColorMod(sdltexture, colormod[0], colormod[1],
                              colormod[2]) != 0) {
     pessum::logging::LogLoc(pessum::logging::WARNING,
-                            "Failed to set texture colormod", LOG_AEQ_VID_OBJ,
-                            "SetColorMod");
+                            "Failed to set texture colormod",
+                            logmap["AEQ_VID_OBJ"], "SetColorMod");
     framework::GetSdlError(framework::SDL);
   }
   if (updatea == true && SDL_SetTextureAlphaMod(sdltexture, colormod[3]) != 0) {
     pessum::logging::LogLoc(pessum::logging::WARNING,
-                            "Failed to set texture alpha mod", LOG_AEQ_VID_OBJ,
-                            "SetColorMod");
+                            "Failed to set texture alpha mod",
+                            logmap["AEQ_VID_OBJ"], "SetColorMod");
   }
 }
 
@@ -184,7 +184,7 @@ void aequus::video::Object::Display() {
                          angle, sdlrotate, sdlflip) != 0) {
       pessum::logging::LogLoc(pessum::logging::ERROR,
                               "Failed to copy texture to renderer",
-                              LOG_AEQ_VID_OBJ, "Display");
+                              logmap["AEQ_VID_OBJ"], "Display");
       framework::GetSdlError(framework::SDL);
     }
     sdldestrect->x -= posx;
@@ -207,22 +207,22 @@ void aequus::video::Object::InitTexture(SDL_Surface *surface,
   sdlrenderer = renderer;
   if (sdlsurface == NULL) {
     pessum::logging::LogLoc(pessum::logging::ERROR, "Invalid surface",
-                            LOG_AEQ_VID_OBJ, "CreateTexture");
+                            logmap["AEQ_VID_OBJ"], "CreateTexture");
     framework::GetSdlError(framework::IMG);
   } else if (sdlrenderer == NULL) {
     pessum::logging::LogLoc(pessum::logging::ERROR, "Invalid renderer",
-                            LOG_AEQ_VID_OBJ, "CreateTexture");
+                            logmap["AEQ_VID_OBJ"], "CreateTexture");
   } else if (sdlsurface != NULL && sdlrenderer != NULL) {
     sdltexture = SDL_CreateTextureFromSurface(sdlrenderer, sdlsurface);
     if (sdltexture == NULL) {
       pessum::logging::LogLoc(pessum::logging::ERROR,
                               "Failed to create texture from surface",
-                              LOG_AEQ_VID_OBJ, "CreateTexture");
+                              logmap["AEQ_VID_OBJ"], "CreateTexture");
       framework::GetSdlError(framework::SDL);
     } else {
       pessum::logging::LogLoc(pessum::logging::SUCCESS,
-                              "Created texture from surface", LOG_AEQ_VID_OBJ,
-                              "CreateTexture");
+                              "Created texture from surface",
+                              logmap["AEQ_VID_OBJ"], "CreateTexture");
       width = sdlsurface->w;
       height = sdlsurface->h;
       scalewidth = width;

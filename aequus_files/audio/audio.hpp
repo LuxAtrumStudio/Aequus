@@ -3,8 +3,14 @@
 #include <string>
 namespace aequus {
 namespace audio {
-void InitializeAudio();
-void TerminateAudio();
+extern int channelcount;
+void InitDevice(int channels = 1);
+void DeleteDevice();
+void InitChannels(int count = 1);
+void SetChannelVolume(int vol, int channel);
+void StopChannel(int channel);
+void PlayChunk(std::string file, int channel);
+bool CheckChannel(int channel);
 }
 }
 #endif

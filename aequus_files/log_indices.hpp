@@ -1,18 +1,8 @@
 #ifndef LOG_INDICES_HPP
 #define LOG_INDICES_HPP
-enum Log {
-  LOG_AEQ,
-  LOG_AEQ_AUD,
-  LOG_AEQ_FRA,
-  LOG_AEQ_INP,
-  LOG_AEQ_VID,
-  LOG_AEQ_VID_LAY,
-  LOG_AEQ_VID_OBJ,
-  LOG_AEQ_VID_OBJ_BUT,
-  LOG_AEQ_VID_OBJ_IMG,
-  LOG_AEQ_VID_OBJ_TEX,
-  LOG_AEQ_VID_OBJ_FON,
-  LOG_AEQ_VID_REN,
-  LOG_AEQ_VID_WIN
-};
+#include <map>
+#include <string>
+namespace aequus {
+extern std::map<std::string, int> logmap;
+}
 #endif

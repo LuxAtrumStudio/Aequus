@@ -8,3 +8,9 @@ all: subsystem $(OBJ_FILES)
 
 .PHONY : subsystem
 subsystem:
+	@setterm -fore red
+	@printf "AUDIO/"
+	@setterm -fore blue
+	@printf "CHUNK\n"
+	@setterm -fore white
+	@cd chunk && $(MAKE)

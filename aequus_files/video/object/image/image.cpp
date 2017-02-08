@@ -12,7 +12,7 @@ void aequus::video::Image::Init(std::string img, SDL_Renderer *renderer) {
   if (imgsurface == NULL) {
     pessum::logging::LogLoc(pessum::logging::ERROR,
                             "Failed to load image file: " + filepath,
-                            LOG_AEQ_VID_OBJ_IMG, "Init");
+                            logmap["AEQ_VID_OBJ_IMG"], "Init");
     framework::GetSdlError(framework::IMG);
   } else {
     InitTexture(imgsurface, renderer);
@@ -26,7 +26,7 @@ void aequus::video::Image::UpdateFile(std::string img) {
   if (imgsurface == NULL) {
     pessum::logging::LogLoc(pessum::logging::ERROR,
                             "Failed to load image file: " + filepath,
-                            LOG_AEQ_VID_OBJ_IMG, "Init");
+                            logmap["AEQ_VID_OBJ_IMG"], "Init");
     framework::GetSdlError(framework::IMG);
   } else {
     InitTexture(imgsurface, NULL);

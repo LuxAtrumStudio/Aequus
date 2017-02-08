@@ -84,7 +84,7 @@ void aequus::video::LoadFont(std::string filepath, std::string mapname) {
     fontmap[name] = newfont;
   } else {
     pessum::logging::LogLoc(pessum::logging::ERROR, "Invalid font folder",
-                            LOG_AEQ_VID, "LoadFont");
+                            logmap["AEQ_VID"], "LoadFont");
   }
 }
 
@@ -95,8 +95,8 @@ aequus::video::Font aequus::video::GetFont(std::string name) {
     return (font->second);
   } else {
     pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Font: " + name + " not initialized", LOG_AEQ_VID,
-                            "GetFont");
+                            "Font: " + name + " not initialized",
+                            logmap["AEQ_VID"], "GetFont");
     Font newfont;
     return (newfont);
   }
