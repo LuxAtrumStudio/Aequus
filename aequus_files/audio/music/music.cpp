@@ -6,6 +6,14 @@
 #include <pessum.h>
 #include <string>
 
+namespace aequus {
+namespace audio {
+namespace music {
+std::vector<Song> queue;
+}
+}
+}
+
 void aequus::audio::music::SetVolume(int vol) { Mix_VolumeMusic(vol); }
 
 void aequus::audio::music::PlayMusic(Song song, int loops) {
@@ -51,5 +59,14 @@ void aequus::audio::music::SetPos(double position) {
   if (Mix_PlayingMusic() == 1) {
     Mix_RewindMusic();
     Mix_SetMusicPosition(position);
+  }
+}
+
+void aequus::audio::music::AddSongToQueue(Song song) { queue.push_back(song); }
+
+void aequus::audio::music::AutoPlayQueue() {
+  if (queue.size() > 1 && Mix_PlayingMusic() == 0) {
+    queue.erase(queue.begin());
+    PlayMusic(queue[0]);
   }
 }
