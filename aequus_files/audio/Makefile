@@ -14,3 +14,9 @@ subsystem:
 	@printf "CHUNK\n"
 	@setterm -fore white
 	@cd chunk && $(MAKE)
+	@setterm -fore red
+	@printf "AUDIO/"
+	@setterm -fore green
+	@printf "MUSIC\n"
+	@setterm -fore white
+	@cd music && $(MAKE)
