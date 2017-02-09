@@ -40,3 +40,11 @@ subsystem:
 	@printf "SPACER\n"
 	@setterm -fore white
 	@cd spacer && $(MAKE)
+	@setterm -fore cyan
+	@printf "VIDEO/"
+	@setterm -fore blue
+	@printf "OBJECT/"
+	@setterm -fore magenta
+	@printf "CANVAS\n"
+	@setterm -fore white
+	@cd canvas && $(MAKE)

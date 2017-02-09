@@ -32,6 +32,8 @@ public:
   void Display();
 
   virtual void Delete();
+  SDL_Texture *sdltexture = NULL;
+  SDL_Surface *sdlsurface = NULL;
 
 protected:
   void InitTexture(SDL_Surface *surface = NULL, SDL_Renderer *renderer = NULL);
@@ -49,8 +51,6 @@ protected:
   SDL_Point *sdlrotate = NULL;
   SDL_Rect *sdlsourcerect = NULL, *sdldestrect = NULL;
   SDL_Renderer *sdlrenderer = NULL;
-  SDL_Surface *sdlsurface = NULL;
-  SDL_Texture *sdltexture = NULL;
 };
 }
 }

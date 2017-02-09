@@ -56,7 +56,7 @@ lib: all
 	sudo cp lib$(PROGRAM_NAME).a /usr/local/lib/ -u
 	sudo cp aequus.h /usr/local/include/
 	sudo cp aequus_files/*.hpp /usr/local/include/aequus_files/
-	#sudo cp aequus_files/audio/*.hpp /usr/local/include/aequus_files/audio/ -u
+	sudo cp aequus_files/audio/*.hpp /usr/local/include/aequus_files/audio/ -u
 	sudo cp aequus_files/framework/*.hpp /usr/local/include/aequus_files/framework/ -u
 	sudo cp aequus_files/input/*.hpp /usr/local/include/aequus_files/input/ -u
 	sudo cp aequus_files/video/*.hpp /usr/local/include/aequus_files/video/ -u
@@ -70,12 +70,16 @@ lib: all
 
 .PHONY : log
 log:
-	less output.log
+	@less output.log
 
 .PHONY : help
 help:
-	@printf "make\nmake clean\nmake tar\nmake lib\nmake log\nmake new\n"
+	@printf "make\nmake clean\nmake tar\nmake lib\nmake log\nmake new\nmake todo\n"
 
 
 .PHONY : new
 new: clean all
+
+.PHONY : todo
+todo:
+	@less TODO

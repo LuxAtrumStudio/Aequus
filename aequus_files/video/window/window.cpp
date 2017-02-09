@@ -96,6 +96,8 @@ void aequus::video::Window::SetLayout(Layout *layout) {
   windowlayout->SetSize(windowwidth, windowheight);
 }
 
+void aequus::video::Window::AddObject(Object *obj) { objects.push_back(obj); }
+
 void aequus::video::Window::NewImgObj(std::string str) {
   Image *newimg = new Image();
   newimg->Init(str, windowrenderer.GetRenderer());

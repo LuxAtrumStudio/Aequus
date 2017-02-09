@@ -47,6 +47,7 @@ public:
   std::string GetName();
   void HandleEvent(SDL_Event sdlevent);
   void SetLayout(Layout *layout);
+  void AddObject(Object *obj);
   void NewImgObj(std::string str);
   void NewTxtObj(std::string str, std::string font);
   void NewButtonObj(std::string str, std::string font, std::string img,

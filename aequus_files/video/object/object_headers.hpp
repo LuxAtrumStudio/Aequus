@@ -1,4 +1,5 @@
 #include "button/button.hpp"
+#include "canvas/canvas.hpp"
 #include "image/image.hpp"
 #include "object.hpp"
 #include "spacer/spacer.hpp"
