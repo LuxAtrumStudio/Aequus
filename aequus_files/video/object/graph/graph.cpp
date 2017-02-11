@@ -76,7 +76,7 @@ void aequus::video::Graph::Update() {}
 
 void aequus::video::Graph::Delete() {
   for (int i = 0; i < plots.size(); i++) {
-    // plots[i]->Delete();
+    plots[i]->Delete();
   }
 }
 
@@ -84,7 +84,7 @@ void aequus::video::Graph::Clear() {}
 
 void aequus::video::Graph::DrawPlots() {
   for (int i = 0; i < plots.size(); i++) {
-    // plots[i]->Display();
+    plots[i]->Display();
   }
 }
 
