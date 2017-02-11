@@ -18,6 +18,8 @@ public:
   bool GoodFont();
   void ScaleFont(std::string text, int width, int height,
                  FontOptions style = REGULAR);
+  void GetSize(std::string text, int &width, int &height,
+               FontOptions style = REGULAR);
 
 private:
   std::string path = "";

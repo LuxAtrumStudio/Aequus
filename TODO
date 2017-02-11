@@ -1,10 +1,11 @@
->AEQUUS
->>VIDEO
->>>OBJECT
--Add drawing canvas
--Add graphs
---Line
---Bar
---Area
---Scatter
--Add Particle
+>AEQUUS<
+>>VIDEO<<
+>>>OBJECT<<<<
+[X]Add drawing canvas
+   [?]Add fill
+[ ]Add graphs
+   [ ]Line
+   [ ]Bar
+   [ ]Area
+   [ ]Scatter
+[ ]Add Particle

@@ -12,6 +12,7 @@ void aequus::video::Canvas::Init(int width, int height,
                                  SDL_Renderer *renderer) {
   sdlsurface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
   texturerenderer = SDL_CreateSoftwareRenderer(sdlsurface);
+  SDL_SetRenderDrawBlendMode(texturerenderer, SDL_BLENDMODE_BLEND);
   InitTexture(sdlsurface, renderer);
   pessum::logging::LogLoc(pessum::logging::SUCCESS, "Created canvas",
                           logmap["AEQ_VID_OBJ_CAN"], "Init");

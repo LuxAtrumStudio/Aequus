@@ -76,6 +76,11 @@ void aequus::video::Font::ScaleFont(std::string text, int width, int height,
   }
 }
 
+void aequus::video::Font::GetSize(std::string text, int &width, int &height,
+                                  FontOptions style) {
+  TTF_SizeText(fonts[style], text.c_str(), &width, &height);
+}
+
 void aequus::video::Font::GenorateFonts() {
   std::vector<FontOptions> options = {
       THIN,   ITALIC_THIN,   EXTRA_LIGHT, ITALIC_EXTRA_LIGHT,

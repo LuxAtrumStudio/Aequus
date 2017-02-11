@@ -48,3 +48,11 @@ subsystem:
 	@printf "CANVAS\n"
 	@setterm -fore white
 	@cd canvas && $(MAKE)
+	@setterm -fore cyan
+	@printf "VIDEO/"
+	@setterm -fore blue
+	@printf "OBJECT/"
+	@setterm -fore yellow
+	@printf "GRAPH\n"
+	@setterm -fore white
+	@cd graph && $(MAKE)

@@ -8,6 +8,12 @@ OBJ_FILES += $(wildcard */*/*/*.o)
 OBJ_FILES += $(wildcard */*/*/*/*.o)
 OBJ_FILES += $(wildcard */*/*/*/*/*.o)
 OBJ_FILES += $(wildcard */*/*/*/*/*/*.o)
+HEADER_FILES = $(wildcard */*.hpp)
+HEADER_FILES += $(wildcard */*/*.hpp)
+HEADER_FILES += $(wildcard */*/*/*.hpp)
+HEADER_FILES += $(wildcard */*/*/*/*.hpp)
+HEADER_FILES += $(wildcard */*/*/*/*/*.hpp)
+HEADER_FILES += $(wildcard */*/*/*/*/*/*.hpp)
 LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lpessum
 PROGRAM_NAME = aequus
 
@@ -55,17 +61,7 @@ lib: all
 	ar rcs lib$(PROGRAM_NAME).a $(TOTAL_OBJ_FILES)
 	sudo cp lib$(PROGRAM_NAME).a /usr/local/lib/ -u
 	sudo cp aequus.h /usr/local/include/
-	sudo cp aequus_files/*.hpp /usr/local/include/aequus_files/
-	sudo cp aequus_files/audio/*.hpp /usr/local/include/aequus_files/audio/ -u
-	sudo cp aequus_files/framework/*.hpp /usr/local/include/aequus_files/framework/ -u
-	sudo cp aequus_files/input/*.hpp /usr/local/include/aequus_files/input/ -u
-	sudo cp aequus_files/video/*.hpp /usr/local/include/aequus_files/video/ -u
-	sudo cp aequus_files/video/object/*.hpp /usr/local/include/aequus_files/video/object/ -u
-	sudo cp aequus_files/video/window/*.hpp /usr/local/include/aequus_files/video/window/ -u
-	sudo cp aequus_files/video/renderer/*.hpp /usr/local/include/aequus_files/video/renderer/ -u
-	sudo cp aequus_files/video/object/button/*.hpp /usr/local/include/aequus_files/video/object/button/ -u
-	sudo cp aequus_files/video/object/image/*.hpp /usr/local/include/aequus_files/video/object/image/ -u
-	sudo cp aequus_files/video/object/text/*.hpp /usr/local/include/aequus_files/video/object/text/ -u
+	#sudo cp $(HEADER_FILES) /usr/local/include/aequus_files/
 	@echo Compiled lib file, and copied to usr/local/lib
 
 .PHONY : log
