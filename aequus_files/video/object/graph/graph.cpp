@@ -72,7 +72,19 @@ void aequus::video::Graph::AddColorSetting(std::vector<double> color) {
 
 void aequus::video::Graph::AddPlot(Plot *newplot) { plots.push_back(newplot); }
 
-void aequus::video::Graph::Update() {}
+void aequus::video::Graph::AddPlot(std::string ploteq) {
+  SDL_SetRenderDrawColor(texturerenderer, 255, 0, 0, 255);
+  Plot *newplot = new Plot;
+  newplot->Init(ploteq);
+  double step =
+      (domain.second - domain.first) / (width - domainoffset - domainmax);
+  newplot->GenPlot(domain.first, domain.second, step);
+  plots.push_back(newplot);
+  DrawPlots();
+  Update();
+}
+
+void aequus::video::Graph::Update() { UpdateTexture(); }
 
 void aequus::video::Graph::Delete() {
   for (int i = 0; i < plots.size(); i++) {
@@ -84,7 +96,13 @@ void aequus::video::Graph::Clear() {}
 
 void aequus::video::Graph::DrawPlots() {
   for (int i = 0; i < plots.size(); i++) {
-    plots[i]->Display();
+    std::vector<std::pair<double, double>> points = plots[i]->GetPoints();
+    for (int i = 0; i < points.size(); i++) {
+      if (points[i].second > range.first && points[i].second < range.second) {
+        SDL_RenderDrawPoint(texturerenderer, ConvertToPix(points[i].first),
+                            ConvertToPix(points[i].second, true));
+      }
+    }
   }
 }
 
@@ -195,4 +213,13 @@ void aequus::video::Graph::LoadColor(std::string comp) {
   } else {
     SDL_SetRenderDrawColor(texturerenderer, 255, 255, 255, 0);
   }
+}
+
+int aequus::video::Graph::ConvertToPix(double val, bool isrange) {
+  if (isrange == false) {
+    return (((val - domain.first) * dvaltopix) + domainoffset);
+  } else if (isrange == true) {
+    return (height - (((val - range.first) * rvaltopix) + rangeoffset));
+  }
+  return (0);
 }

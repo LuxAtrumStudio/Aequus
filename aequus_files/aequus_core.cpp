@@ -1,6 +1,7 @@
 #include "aequus_core.hpp"
 #include "aequus_headers.hpp"
 #include "log_indices.hpp"
+#include <duco.h>
 #include <map>
 #include <pessum.h>
 
@@ -12,6 +13,7 @@ std::map<std::string, int> logmap;
 
 void aequus::InitializeAequus() {
   pessum::InitializePessumComponents(DEV_MODE);
+  duco::LoadOperMap();
   std::vector<std::string> locations = {"aequus/",
                                         "aequus/audio/",
                                         "aequus/audio/chunk/",

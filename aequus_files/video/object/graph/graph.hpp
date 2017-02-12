@@ -28,6 +28,7 @@ public:
   void LoadColorMap(std::string file);
   void AddColorSetting(std::vector<double> color);
   void AddPlot(Plot *newplot);
+  void AddPlot(std::string ploteq);
   void Update();
   void Delete();
   void Clear();
@@ -38,6 +39,7 @@ private:
   void DrawGrid();
   void CalcValToPix();
   void LoadColor(std::string comp);
+  int ConvertToPix(double val, bool isrange = false);
   std::string textfontname = "";
   int width, height;
   int domainmajormarkecount = 10, domainminormarkcount = 1;

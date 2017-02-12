@@ -16,4 +16,5 @@ subsystem:
 	@printf "GRAPH/"
 	@setterm -fore blue
 	@printf "PLOT\n"
+	@setterm -fore white
 	@cd plot && $(MAKE)
