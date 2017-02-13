@@ -26,7 +26,7 @@ class Graph : public Object {
 public:
   void Init(int w, int h, SDL_Renderer *renderer);
   void LoadColorMap(std::string file);
-  void AddColorSetting(std::vector<double> color);
+  void AddColorSetting(std::vector<int> color);
   void AddPlot(Plot *newplot);
   void AddPlot(std::string ploteq);
   void Update();
@@ -42,15 +42,15 @@ private:
   int ConvertToPix(double val, bool isrange = false);
   std::string textfontname = "";
   int width, height;
-  int domainmajormarkecount = 10, domainminormarkcount = 1;
-  int rangemajormarkcount = 10, rangeminormarkcount = 1;
+  int domainmajormarkecount = 0, domainminormarkcount = 0;
+  int rangemajormarkcount = 0, rangeminormarkcount = 0;
   int domainoffset, rangeoffset, domainmax, rangemax;
   double dvaltopix = 0, rvaltopix = 0;
   std::vector<Plot *> plots;
   std::pair<double, double> domain, range;
   std::pair<std::string, std::string> axistitles;
-  std::vector<std::vector<double>> colormap;
-  std::map<std::string, std::vector<double>> colors;
+  std::vector<std::vector<int>> colormap;
+  std::map<std::string, std::vector<int>> colors;
   SDL_Renderer *texturerenderer;
 };
 }

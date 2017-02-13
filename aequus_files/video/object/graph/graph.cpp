@@ -62,23 +62,24 @@ void aequus::video::Graph::LoadColorMap(std::string file) {
   pessum::luxreader::DataFile lux = pessum::luxreader::LoadLuxDataFile(file);
   int indexcount = lux.datafilevariables[0].intvalue;
   for (int i = 1; i < indexcount + 1 && i < lux.datafilevariables.size(); i++) {
-    colormap.push_back(lux.datafilevariables[i].doublevectorvalues);
+    colormap.push_back(lux.datafilevariables[i].intvectorvalues);
   }
 }
 
-void aequus::video::Graph::AddColorSetting(std::vector<double> color) {
+void aequus::video::Graph::AddColorSetting(std::vector<int> color) {
   colormap.push_back(color);
 }
 
 void aequus::video::Graph::AddPlot(Plot *newplot) { plots.push_back(newplot); }
 
 void aequus::video::Graph::AddPlot(std::string ploteq) {
-  SDL_SetRenderDrawColor(texturerenderer, 255, 0, 0, 255);
   Plot *newplot = new Plot;
   newplot->Init(ploteq);
   double step =
       (domain.second - domain.first) / (width - domainoffset - domainmax);
   newplot->GenPlot(domain.first, domain.second, step);
+  newplot->SetColorMap({{255, 0, 0, 255}, {0, 255, 0, 255}, {0, 0, 255, 255}},
+                       true);
   plots.push_back(newplot);
   DrawPlots();
   Update();
@@ -96,13 +97,18 @@ void aequus::video::Graph::Clear() {}
 
 void aequus::video::Graph::DrawPlots() {
   for (int i = 0; i < plots.size(); i++) {
-    std::vector<std::pair<double, double>> points = plots[i]->GetPoints();
-    for (int i = 0; i < points.size(); i++) {
-      if (points[i].second > range.first && points[i].second < range.second) {
-        SDL_RenderDrawPoint(texturerenderer, ConvertToPix(points[i].first),
-                            ConvertToPix(points[i].second, true));
-      }
-    }
+    plots[i]->Display(texturerenderer,
+                      {domain.first, domain.second, dvaltopix,
+                       (double)domainoffset, range.first, range.second,
+                       rvaltopix, (double)rangeoffset, (double)width,
+                       (double)height});
+    // std::vector<std::pair<double, double>> points = plots[i]->GetPoints();
+    // for (int i = 0; i < points.size(); i++) {
+    //  if (points[i].second > range.first && points[i].second < range.second) {
+    //    SDL_RenderDrawPoint(texturerenderer, ConvertToPix(points[i].first),
+    //                        ConvertToPix(points[i].second, true));
+    //  }
+    //}
   }
 }
 
@@ -205,7 +211,7 @@ void aequus::video::Graph::CalcValToPix() {
 }
 
 void aequus::video::Graph::LoadColor(std::string comp) {
-  std::map<std::string, std::vector<double>>::iterator color;
+  std::map<std::string, std::vector<int>>::iterator color;
   color = colors.find(comp);
   if (color != colors.end()) {
     SDL_SetRenderDrawColor(texturerenderer, color->second[0], color->second[1],

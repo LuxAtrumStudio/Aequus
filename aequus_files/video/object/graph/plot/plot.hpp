@@ -10,12 +10,18 @@ class Plot {
 public:
   void Init(std::string eq);
   void GenPlot(double min, double max, double step);
-  void Display(SDL_Renderer *renderer);
+  void SetColor(std::vector<int> color);
+  void SetColorMap(std::vector<std::vector<int>> incolormap, bool range);
+  void Display(SDL_Renderer *renderer, std::vector<double> data);
+  void LoadColor(double x, double y, SDL_Renderer *renderer,
+                 std::vector<double> data);
   std::vector<std::pair<double, double>> GetPoints();
   virtual void Delete();
 
 private:
   std::vector<std::pair<double, double>> vals;
+  std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>>
+      colormap;
   duco::equation::Equation ploteq;
 };
 }

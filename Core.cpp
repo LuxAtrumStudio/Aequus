@@ -11,7 +11,15 @@ int main(int argc, char *argv[]) {
   SDL_Renderer *ren = aequus::video::windows[0].windowrenderer.GetRenderer();
   aequus::video::Graph gra;
   gra.Init(300, 300, ren);
-  gra.AddPlot("2 MUL TAN x");
+  gra.AddPlot("SIN x");
+  gra.AddPlot("SIN x - 2");
+  gra.AddPlot("SIN x + 2");
+  gra.AddPlot("SIN x - 4");
+  gra.AddPlot("SIN x + 4");
+  gra.AddPlot("SIN x - 6");
+  gra.AddPlot("SIN x + 6");
+  gra.AddPlot("SIN x - 8");
+  gra.AddPlot("SIN x + 8");
   aequus::video::win->AddObject(&gra);
   while (aequus::video::AllClose() == false) {
     aequus::Frame();
