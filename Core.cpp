@@ -8,19 +8,10 @@ int main(int argc, char *argv[]) {
   aequus::InitializeAequus();
   aequus::video::NewWindow("Aequus", 500, 500);
   aequus::video::LoadFont("resources/Roboto");
-  SDL_Renderer *ren = aequus::video::windows[0].windowrenderer.GetRenderer();
-  aequus::video::Graph gra;
-  gra.Init(300, 300, ren);
-  gra.AddPlot("SIN x");
-  gra.AddPlot("SIN x - 2");
-  gra.AddPlot("SIN x + 2");
-  gra.AddPlot("SIN x - 4");
-  gra.AddPlot("SIN x + 4");
-  gra.AddPlot("SIN x - 6");
-  gra.AddPlot("SIN x + 6");
-  gra.AddPlot("SIN x - 8");
-  gra.AddPlot("SIN x + 8");
-  aequus::video::win->AddObject(&gra);
+  // SDL_Renderer *ren = aequus::video::windows[0].windowrenderer.GetRenderer();
+  // aequus::video::Graph gra;
+  // gra.Init(300, 300, ren);
+  // aequus::video::win->AddObject(&gra);
   while (aequus::video::AllClose() == false) {
     aequus::Frame();
   }
