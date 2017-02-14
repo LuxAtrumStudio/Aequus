@@ -11,6 +11,23 @@
 #include <string>
 
 void aequus::video::Graph::Init(int width, int height, SDL_Renderer *renderer) {
+  sdlsurface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
+  texturerenderer = SDL_CreateSoftwareRenderer(sdlsurface);
+  SDL_SetRenderDrawBlendMode(texturerenderer, SDL_BLENDMODE_BLEND);
+  InitTexture(sdlsurface, renderer);
+  Dimension newdim;
+  dimensions.push_back(newdim);
+  dimensions.push_back(newdim);
+  pessum::logging::LogLoc(pessum::logging::SUCCESS, "Created graph",
+                          logmap["AEQ_VID_OBJ_GRA"], "Init");
+  graphwidth = width;
+  graphheight = height;
+  colormap["AXIS"] = {255, 255, 255, 255};
+  colormap["MAJORGRID"] = {255, 255, 255, 364};
+  colormap["MINORGRID"] = {255, 255, 255, 50};
+  colormap["BACKGROUND"] = {0, 0, 0, 255};
+  CalculatePix();
+  DisplayGraph();
 }
 
 void aequus::video::Graph::Init(int width, int height, bool axis, bool grid,
@@ -55,52 +72,23 @@ void aequus::video::Graph::SetColor(std::string name, double red, double green,
                                     (int)(255 * blue), (int)(255 * alpha)};
 }
 
-void aequus::video::Graph::SetDomainGrid(int major, int minor) {
-  domainmajor = major;
-  domainminor = minor;
-}
-
-void aequus::video::Graph::SetRangeGrid(int major, int minor) {
-  rangemajor = major;
-  rangeminor = minor;
-}
-
-void aequus::video::Graph::SetDomain(std::pair<double, double> domain) {
-  domainmin = domain.first;
-  domainmax = domain.second;
-}
-
-void aequus::video::Graph::SetRange(std::pair<double, double> range) {
-  rangemin = range.first;
-  rangemax = range.second;
-}
-
-void aequus::video::Graph::SetAxisTitle(
-    std::pair<std::string, std::string> titles) {
-  if (titles.first != "") {
-    domaintitle = titles.first;
-  }
-  if (titles.second != "") {
-    rangetitle = titles.second;
+void aequus::video::Graph::SetGrid(int dim, int major, int minor) {
+  if (dim >= 0 && dim < dimensions.size()) {
+    dimensions[dim].majormarks = major;
+    dimensions[dim].minormarks = minor;
   }
 }
 
-void aequus::video::Graph::SetDomain(double min, double max) {
-  domainmin = min;
-  domainmax = max;
-}
-
-void aequus::video::Graph::SetRange(double min, double max) {
-  rangemin = min;
-  rangemax = max;
-}
-
-void aequus::video::Graph::SetAxisTitle(std::string domain, std::string range) {
-  if (domain != "") {
-    domaintitle = domain;
+void aequus::video::Graph::SetRange(int dim, double min, double max) {
+  if (dim >= 0 && dim < dimensions.size()) {
+    dimensions[dim].min = min;
+    dimensions[dim].max = max;
   }
-  if (range != "") {
-    rangetitle = range;
+}
+
+void aequus::video::Graph::SetAxisTitle(int dim, std::string title) {
+  if (dim >= 0 && dim < dimensions.size()) {
+    dimensions[dim].title = title;
   }
 }
 
@@ -115,112 +103,68 @@ std::vector<int> aequus::video::Graph::GetColor(std::string name) {
 
 void aequus::video::Graph::AddPlot(Plot newplot) { plots.push_back(newplot); }
 
-// void aequus::video::Graph::Init(int w, int h, SDL_Renderer *renderer) {
-//   sdlsurface = SDL_CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0);
-//   texturerenderer = SDL_CreateSoftwareRenderer(sdlsurface);
-//   SDL_SetRenderDrawBlendMode(texturerenderer, SDL_BLENDMODE_BLEND);
-//   InitTexture(sdlsurface, renderer);
-//   pessum::logging::LogLoc(pessum::logging::SUCCESS, "Created graph",
-//                           logmap["AEQ_VID_OBJ_GRA"], "Init");
-//   textfontname = "Roboto";
-//   width = w;
-//   height = h;
-//   domain = std::make_pair(-10, 10);
-//   range = std::make_pair(-10, 10);
-//   colors["AXIS"] = {255, 255, 255, 255};
-//   colors["MAJORGRID"] = {255, 255, 255, 364};
-//   colors["MINORGRID"] = {255, 255, 255, 50};
-//   colors["BACKGROUND"] = {0, 0, 0, 255};
-//   int null = 0;
-//   Font font = GetFont(textfontname);
-//   double rangeval = range.second;
-//   if (std::to_string(range.first).size() >
-//       std::to_string(range.second).size()) {
-//     rangeval = range.first;
-//   }
-//   std::string str = ShrinkString(std::to_string(rangeval));
-//   font.GetSize(str, domainoffset, null);
-//   str = ShrinkString(std::to_string(domain.second));
-//   font.GetSize(str, null, rangeoffset);
-//   domainmax = rangeoffset / 2;
-//   rangemax = domainoffset / 2;
-//   DrawAll();
-// }
-//
-//
-// void aequus::video::Graph::Update() { UpdateTexture(); }
-//
-// void aequus::video::Graph::Delete() {
-//   for (int i = 0; i < plots.size(); i++) {
-//     plots[i].Delete();
-//   }
-// }
-//
-// void aequus::video::Graph::Clear() {
-//   LoadColor("BACKGROUND");
-//   SDL_RenderClear(texturerenderer);
-// }
-//
-// void aequus::video::Graph::DrawAll() {
-//   Clear();
-//   CalcValToPix();
-//   if (drawgrid == true) {
-//     DrawGrid();
-//   }
-//   if (drawaxis == true) {
-//     DrawAxis();
-//   }
-//   if (drawlabel == true) {
-//   }
-//   if (drawtitle == true) {
-//   }
-//   UpdateTexture();
-// }
-//
-// void aequus::video::Graph::DrawPlots() {
-//   for (int i = 0; i < plots.size(); i++) {
-//     plots[i].Display(texturerenderer,
-//                      {domain.first, domain.second, dvaltopix,
-//                       (double)domainoffset, range.first, range.second,
-//                       rvaltopix, (double)rangeoffset, (double)width,
-//                       (double)height});
-//   }
-// }
-//
-// void aequus::video::Graph::DrawAxis() {
-//   LoadColor("AXIS");
-//   Font font = GetFont(textfontname);
-//   int null;
-//   SDL_RenderDrawLine(texturerenderer, domainoffset, height - rangeoffset,
-//                      domainoffset, rangemax);
-//   SDL_RenderDrawLine(texturerenderer, domainoffset, height - rangeoffset,
-//                      width - domainmax, height - rangeoffset);
-//   double domainstep = (domain.second - domain.first) / domainmajormarkcount;
-//   double rangestep = (range.second - range.first) / rangemajormarkcount;
-//   for (double i = domain.first; i <= domain.second; i += domainstep) {
-//     int width;
-//     std::string str = ShrinkString(std::to_string(i));
-//     Text label;
-//     label.Init(str, textfontname, texturerenderer);
-//     font.GetSize(str, width, null);
-//     label.SetPos(((i - domain.first) * dvaltopix) + domainoffset - (width /
-//     2),
-//                  height - rangeoffset);
-//     label.Display();
-//   }
-//   for (double i = range.first; i <= range.second; i += rangestep) {
-//     int txtwidth, txtheight;
-//     std::string str = ShrinkString(std::to_string(i));
-//     Text label;
-//     label.Init(str, textfontname, texturerenderer);
-//     font.GetSize(str, txtwidth, txtheight);
-//     label.SetPos(domainoffset - txtwidth,
-//                  height - (((i - range.first) * rvaltopix) + rangeoffset +
-//                            (txtheight / 2)));
-//     label.Display();
-//   }
-// }
-//
+void aequus::video::Graph::Delete() {}
+
+void aequus::video::Graph::DisplayGraph() {
+  ClearGraph();
+  if (dispgrid == true) {
+    DisplayGrid();
+  }
+  if (dispaxis == true) {
+    DisplayAxis();
+  }
+  if (displabel == true) {
+    DisplayLabel();
+  }
+  if (disptitle == true) {
+    DisplayTitle();
+  }
+  UpdateTexture();
+}
+
+void aequus::video::Graph::ClearGraph() {
+  LoadColor("BACKGROUND");
+  SDL_RenderClear(texturerenderer);
+}
+
+void aequus::video::Graph::DisplayPlots() {
+  for (int i = 0; i < plots.size(); i++) {
+    // plots[i].Display();
+  }
+}
+
+void aequus::video::Graph::DisplayAxis() {
+  LoadColor("AXIS");
+  Font font = GetFont(fontname);
+  Text label;
+  label.Init("", fontname, texturerenderer);
+  std::pair<int, int> point, endpoint;
+  std::vector<double> pos, endpos;
+  for (int i = 0; i < dimensions.size(); i++) {
+    pos.push_back(dimensions[i].min);
+  }
+  point = ConvertToPix(pos);
+  for (int i = 0; i < dimensions.size(); i++) {
+    endpos = std::vector<double>(dimensions.size(), 0);
+    endpos[i] = dimensions[i].max;
+    endpoint = ConvertToPix(endpos);
+    SDL_RenderDrawLine(texturerenderer, point.first, point.second,
+                       endpoint.first, endpoint.second);
+    double step = (dimensions[i].max - dimensions[i].min) /
+                  (double)dimensions[i].majormarks;
+    for (double j = dimensions[i].min; i <= dimensions[i].max; j += step) {
+      int width, height;
+      std::string str = ShortenDouble(j);
+      label.UpdateString(str);
+      font.GetSize(str, width, height);
+      endpos[i] = j;
+      endpoint = ConvertToPix(endpos);
+      label.SetPos(endpoint.first, endpoint.second);
+      label.Display();
+    }
+  }
+  label.Delete();
+}
 // void aequus::video::Graph::DrawGrid() {
 //   double domainstep = (domain.second - domain.first) / domainmajormarkcount;
 //   double rangestep = (range.second - range.first) / rangemajormarkcount;
@@ -265,14 +209,144 @@ void aequus::video::Graph::AddPlot(Plot newplot) { plots.push_back(newplot); }
 //     }
 //   }
 // }
+void aequus::video::Graph::DisplayGrid() {
+  for (int i = 0; i < dimensions.size(); i++) {
+    double majorstep = (dimensions[i].max - dimensions[i].min) /
+                       (double)(dimensions[i].majormarks + 1);
+    double minorstep = majorstep / (double)(dimensions[i].minormarks + 1);
+    for (double j = dimensions[i].min; j <= dimensions[i].max; j += minorstep) {
+      if (remainder(j, majorstep) == 0) {
+        LoadColor("MAJORGRID");
+      } else {
+        LoadColor("MINORGRID");
+      }
+    }
+  }
+}
+
+void aequus::video::Graph::DisplayLabel() {}
+
+void aequus::video::Graph::DisplayTitle() {}
+
+void aequus::video::Graph::CalculatePix() {
+  int textheight = 0;
+  if (dimensions.size() == 2) {
+    if (fontname != "") {
+      int null = 0;
+      Font font = GetFont(fontname);
+      double rangeval = dimensions[1].max;
+      if (std::to_string(dimensions[1].min).size() >
+          std::to_string(dimensions[1].max).size()) {
+        rangeval = dimensions[1].min;
+      }
+      std::string str = ShortenDouble(rangeval);
+      font.GetSize(str, dimensions[0].pixelstart, null);
+      str = ShortenDouble(dimensions[0].max);
+      font.GetSize(str, null, textheight);
+      dimensions[1].pixelstart = textheight;
+      dimensions[0].pixelend = dimensions[1].pixelstart;
+      dimensions[1].pixelend = dimensions[0].pixelstart;
+      font.Delete();
+    }
+    if (displabel == true) {
+      dimensions[0].pixelstart += textheight;
+      dimensions[1].pixelstart += textheight;
+    }
+    if (disptitle == true) {
+      dimensions[1].pixelend -= textheight;
+    }
+    dimensions[0].valtopixel = (double)(graphwidth - dimensions[0].pixelstart -
+                                        dimensions[0].pixelend) /
+                               (double)(dimensions[0].max - dimensions[0].min);
+    dimensions[1].valtopixel = (double)(graphwidth - dimensions[1].pixelstart -
+                                        dimensions[1].pixelend) /
+                               (double)(dimensions[1].max - dimensions[1].min);
+  }
+}
+
+void aequus::video::Graph::LoadColor(std::string color) {
+  std::map<std::string, std::vector<int>>::iterator it;
+  it = colormap.find(color);
+  if (it != colormap.end()) {
+    SDL_SetRenderDrawColor(texturerenderer, it->second[0], it->second[1],
+                           it->second[2], it->second[3]);
+  } else {
+    SDL_SetRenderDrawColor(texturerenderer, 255, 255, 255, 0);
+  }
+}
+
+std::string aequus::video::Graph::ShortenDouble(double val) {
+  std::string str = std::to_string(val);
+  for (int j = str.size() - 1; j > 0 && (str[j] == '0' || str[j] == '.'); j--) {
+    if (str[j] == '.') {
+      j = 0;
+    }
+    str.pop_back();
+  }
+  return (str);
+}
+
+std::pair<int, int>
+aequus::video::Graph::ConvertToPix(std::vector<double> vals) {
+  std::pair<int, int> pixel(0, 0);
+  if (dimensions.size() != vals.size()) {
+    return (pixel);
+  }
+  if (dimensions.size() == 2) {
+    if (coordinatization == CARTESIAN) {
+      pixel.first = (vals[0] - dimensions[0].min) * dimensions[0].valtopixel;
+      pixel.second = (vals[0] - dimensions[1].min) * dimensions[1].valtopixel;
+    }
+    pixel.first += dimensions[0].pixelstart;
+    pixel.second = graphheight - (pixel.second + dimensions[1].pixelstart);
+  }
+  return (pixel);
+}
 //
-// void aequus::video::Graph::CalcValToPix() {
-//   int graphdomainpix = width - domainoffset - domainmax;
-//   int graphrangepix = height - rangeoffset - rangemax;
-//   double deltadomain = domain.second - domain.first,
-//          deltarange = range.second - range.first;
-//   dvaltopix = (double)graphdomainpix / deltadomain;
-//   rvaltopix = (double)graphrangepix / deltarange;
+//
+// void aequus::video::Graph::DrawGrid() {
+//   double domainstep = (domain.second - domain.first) / domainmajormarkcount;
+//   double rangestep = (range.second - range.first) / rangemajormarkcount;
+//   for (double i = domain.first; i <= domain.second; i += domainstep) {
+//     LoadColor("MAJORGRID");
+//     SDL_RenderDrawLine(
+//         texturerenderer, ((i - domain.first) * dvaltopix) + domainoffset,
+//         height - rangeoffset, ((i - domain.first) * dvaltopix) +
+//         domainoffset,
+//         rangemax);
+//     if (domainminormarkcount != 0) {
+//       LoadColor("MINORGRID");
+//       double minstep = domainstep / (double)(domainminormarkcount + 1);
+//       for (double j = i; j < i + domainstep && j < domain.second;
+//            j += minstep) {
+//         SDL_RenderDrawLine(
+//             texturerenderer, ((j - domain.first) * dvaltopix) + domainoffset,
+//             height - rangeoffset,
+//             ((j - domain.first) * dvaltopix) + domainoffset, rangemax);
+//       }
+//     }
+//   }
+//   for (double i = range.first; i <= range.second; i += rangestep) {
+//     LoadColor("MAJORGRID");
+//     SDL_RenderDrawLine(texturerenderer, domainoffset,
+//                        height - (((i - range.first) * rvaltopix) +
+//                        rangeoffset),
+//                        width - domainmax,
+//                        height -
+//                            (((i - range.first) * rvaltopix) + rangeoffset));
+//     if (rangeminormarkcount != 0) {
+//       LoadColor("MINORGRID");
+//       double minstep = rangestep / (double)(rangeminormarkcount + 1);
+//       for (double j = i; j < i + rangestep && j < range.second; j += minstep)
+//       {
+//         SDL_RenderDrawLine(
+//             texturerenderer, domainoffset,
+//             height - (((j - range.first) * rvaltopix) + rangeoffset),
+//             width - domainmax,
+//             height - (((j - range.first) * rvaltopix) + rangeoffset));
+//       }
+//     }
+//   }
 // }
 //
 // void aequus::video::Graph::LoadColor(std::string comp) {

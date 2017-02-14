@@ -1,8 +1,7 @@
 #ifndef VIDEO_OBJECT_GRAPH_GRAPH_HPP
 #define VIDEO_OBJECT_GRAPH_GRAPH_HPP
 #include "../../../sdl_headers.hpp"
-#include "../object.hpp"
-#include "plot/plot_headers.hpp"
+#include "../object_headers.hpp"
 #include <map>
 #include <string>
 #include <vector>
@@ -21,9 +20,16 @@ namespace video {
 // [ ]Area Plots
 // [ ]Scatter Plots
 // [ ]Polar Coords
-
+enum GraphCoordinate { CARTESIAN, POLAR, CYLINDRICAL, SPHERICAL, CUSTOM };
 class Graph : public Object {
 public:
+  struct Dimension {
+    std::string title = "";
+    int majormarks = 0, minormarks = 0;
+    double min = -10, max = 10;
+    int pixelstart = 0, pixelend = 0;
+    double valtopixel = 0;
+  };
   std::vector<Plot> plots;
 
   void Init(int width, int height, SDL_Renderer *renderer);
@@ -45,19 +51,23 @@ public:
   void SetColor(std::string name, double red, double green, double blue,
                 double alpha);
 
-  void SetDomainGrid(int major, int minor);
-  void SetRangeGrid(int major, int minor);
+  // void SetDomainGrid(int major, int minor);
+  // void SetRangeGrid(int major, int minor);
+  void SetGrid(int dim, int major, int minor);
 
-  void SetDomain(std::pair<double, double> domain);
-  void SetRange(std::pair<double, double> range);
-  void SetAxisTitle(std::pair<std::string, std::string> titles);
-  void SetDomain(double min, double max);
-  void SetRange(double min, double max);
-  void SetAxisTitle(std::string domain, std::string range);
+  // void SetDomain(std::pair<double, double> domain);
+  // void SetRange(std::pair<double, double> range);
+  void SetRange(int dim, double min, double max);
+  void SetAxisTitle(int dim, std::string title);
+  // void SetAxisTitle(std::vector<std::string> titles);
+  // void SetDomain(double min, double max);
+  // void SetRange(double min, double max);
 
   std::vector<int> GetColor(std::string name);
 
   void AddPlot(Plot newplot);
+
+  void Delete();
 
 private:
   int graphwidth = 0, graphheight = 0;
@@ -65,16 +75,24 @@ private:
   SDL_Renderer *texturerenderer = NULL;
 
   bool dispaxis = false, dispgrid = false, displabel = false, disptitle = false;
-  std::string graphtitle = "", domaintitle = "", rangetitle = "";
-  double domainmin = -10, domainmax = 10, rangemin = -10, rangemax = 10;
-  int domainmajor = 0, domainminor = 0, rangemajor = 0, rangeminor = 0;
+  std::string graphtitle = "";
   std::map<std::string, std::vector<int>> colormap;
+  std::vector<Dimension> dimensions;
+  GraphCoordinate coordinatization = CARTESIAN;
 
+  void DisplayGraph();
+  void ClearGraph();
   void DisplayPlots();
   void DisplayAxis();
   void DisplayGrid();
   void DisplayLabel();
   void DisplayTitle();
+
+  void CalculatePix();
+  void LoadColor(std::string color);
+
+  std::string ShortenDouble(double val);
+  std::pair<int, int> ConvertToPix(std::vector<double> vals);
   // public:
   //   void Init(int w, int h, SDL_Renderer *renderer);
   //

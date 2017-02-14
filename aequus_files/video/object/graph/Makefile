@@ -8,13 +8,3 @@ all: $(OBJ_FILES) subsystem
 
 .PHONY : subsystem
 subsystem:
-	@setterm -fore cyan
-	@printf "VIDEO/"
-	@setterm -fore blue
-	@printf "OBJECT/"
-	@setterm -fore yellow
-	@printf "GRAPH/"
-	@setterm -fore blue
-	@printf "PLOT\n"
-	@setterm -fore white
-	@cd plot && $(MAKE)

@@ -1,6 +1,7 @@
 #include "button/button.hpp"
 #include "canvas/canvas.hpp"
 #include "graph/graph.hpp"
+#include "graph/plot.hpp"
 #include "image/image.hpp"
 #include "object.hpp"
 #include "spacer/spacer.hpp"
