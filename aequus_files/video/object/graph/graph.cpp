@@ -92,6 +92,16 @@ void aequus::video::Graph::SetAxisTitle(int dim, std::string title) {
   }
 }
 
+void aequus::video::Graph::SetGraphTitle(std::string title) {
+  graphtitle = title;
+}
+
+void aequus::video::Graph::SetFont(std::string name) { fontname = name; }
+
+void aequus::video::Graph::SetTitleFont(std::string name) { titlefont = name; }
+
+void aequus::video::Graph::SetLabelFont(std::string name) { labelfont = name; }
+
 std::vector<int> aequus::video::Graph::GetColor(std::string name) {
   std::map<std::string, std::vector<int>>::iterator it = colormap.find(name);
   if (it != colormap.end()) {
@@ -102,6 +112,11 @@ std::vector<int> aequus::video::Graph::GetColor(std::string name) {
 }
 
 void aequus::video::Graph::AddPlot(Plot newplot) { plots.push_back(newplot); }
+
+void aequus::video::Graph::Update() {
+  CalculatePix();
+  DisplayGraph();
+}
 
 void aequus::video::Graph::Delete() {}
 
@@ -145,71 +160,30 @@ void aequus::video::Graph::DisplayAxis() {
   }
   point = ConvertToPix(pos);
   for (int i = 0; i < dimensions.size(); i++) {
-    endpos = std::vector<double>(dimensions.size(), 0);
+    endpos = pos;
     endpos[i] = dimensions[i].max;
     endpoint = ConvertToPix(endpos);
     SDL_RenderDrawLine(texturerenderer, point.first, point.second,
                        endpoint.first, endpoint.second);
     double step = (dimensions[i].max - dimensions[i].min) /
-                  (double)dimensions[i].majormarks;
-    for (double j = dimensions[i].min; i <= dimensions[i].max; j += step) {
+                  (double)(dimensions[i].majormarks + 1);
+    for (double j = dimensions[i].min; j <= dimensions[i].max; j += step) {
       int width, height;
       std::string str = ShortenDouble(j);
       label.UpdateString(str);
       font.GetSize(str, width, height);
       endpos[i] = j;
       endpoint = ConvertToPix(endpos);
+      endpoint.first -= width;
       label.SetPos(endpoint.first, endpoint.second);
       label.Display();
     }
   }
   label.Delete();
 }
-// void aequus::video::Graph::DrawGrid() {
-//   double domainstep = (domain.second - domain.first) / domainmajormarkcount;
-//   double rangestep = (range.second - range.first) / rangemajormarkcount;
-//   for (double i = domain.first; i <= domain.second; i += domainstep) {
-//     LoadColor("MAJORGRID");
-//     SDL_RenderDrawLine(
-//         texturerenderer, ((i - domain.first) * dvaltopix) + domainoffset,
-//         height - rangeoffset, ((i - domain.first) * dvaltopix) +
-//         domainoffset,
-//         rangemax);
-//     if (domainminormarkcount != 0) {
-//       LoadColor("MINORGRID");
-//       double minstep = domainstep / (double)(domainminormarkcount + 1);
-//       for (double j = i; j < i + domainstep && j < domain.second;
-//            j += minstep) {
-//         SDL_RenderDrawLine(
-//             texturerenderer, ((j - domain.first) * dvaltopix) + domainoffset,
-//             height - rangeoffset,
-//             ((j - domain.first) * dvaltopix) + domainoffset, rangemax);
-//       }
-//     }
-//   }
-//   for (double i = range.first; i <= range.second; i += rangestep) {
-//     LoadColor("MAJORGRID");
-//     SDL_RenderDrawLine(texturerenderer, domainoffset,
-//                        height - (((i - range.first) * rvaltopix) +
-//                        rangeoffset),
-//                        width - domainmax,
-//                        height -
-//                            (((i - range.first) * rvaltopix) + rangeoffset));
-//     if (rangeminormarkcount != 0) {
-//       LoadColor("MINORGRID");
-//       double minstep = rangestep / (double)(rangeminormarkcount + 1);
-//       for (double j = i; j < i + rangestep && j < range.second; j += minstep)
-//       {
-//         SDL_RenderDrawLine(
-//             texturerenderer, domainoffset,
-//             height - (((j - range.first) * rvaltopix) + rangeoffset),
-//             width - domainmax,
-//             height - (((j - range.first) * rvaltopix) + rangeoffset));
-//       }
-//     }
-//   }
-// }
+
 void aequus::video::Graph::DisplayGrid() {
+  std::pair<int, int> start(0, 0), end(0, 0);
   for (int i = 0; i < dimensions.size(); i++) {
     double majorstep = (dimensions[i].max - dimensions[i].min) /
                        (double)(dimensions[i].majormarks + 1);
@@ -220,20 +194,71 @@ void aequus::video::Graph::DisplayGrid() {
       } else {
         LoadColor("MINORGRID");
       }
+      for (int k = 0; k < dimensions.size(); k++) {
+        if (k != i) {
+          std::vector<double> startpos(dimensions.size(), 0),
+              endpos(dimensions.size(), 0);
+          startpos[i] = j;
+          endpos[i] = j;
+          startpos[k] = dimensions[k].min;
+          endpos[k] = dimensions[k].max;
+          start = ConvertToPix(startpos);
+          end = ConvertToPix(endpos);
+          SDL_RenderDrawLine(texturerenderer, start.first, start.second,
+                             end.first, end.second);
+        }
+      }
     }
   }
 }
 
-void aequus::video::Graph::DisplayLabel() {}
+void aequus::video::Graph::DisplayLabel() {
+  Text label;
+  std::string loadedfont;
+  if (labelfont != "") {
+    loadedfont = labelfont;
+  } else {
+    loadedfont = fontname;
+  }
+  Font font = GetFont(loadedfont);
+  label.Init("", loadedfont, texturerenderer);
+  int width = 0, height = 0;
+  if (dimensions.size() == 2 && coordinatization == CARTESIAN) {
+    font.GetSize(dimensions[0].title, width, height);
+    label.UpdateString(dimensions[0].title);
+    label.SetPos((graphwidth - width) / 2, graphheight - height);
+    label.Display();
+    font.GetSize(dimensions[1].title, width, height);
+    label.UpdateString(dimensions[1].title);
+    label.SetPos((-2.0 / 3.0) * height, (graphheight - width) / 2);
+    label.SetRotatePoint(0.5, 0.5);
+    label.Rotate(90);
+    label.Display();
+  }
+  label.Delete();
+}
 
-void aequus::video::Graph::DisplayTitle() {}
+void aequus::video::Graph::DisplayTitle() {
+  Text title;
+  std::string loadedfont;
+  if (titlefont != "") {
+    loadedfont = titlefont;
+  } else if (labelfont != "") {
+    loadedfont = labelfont;
+  } else {
+    loadedfont = fontname;
+  }
+  title.Init(graphtitle, loadedfont, texturerenderer);
+  title.Display();
+  title.Delete();
+}
 
 void aequus::video::Graph::CalculatePix() {
-  int textheight = 0;
+  int textheight = 0, null = 0;
+  Font font;
   if (dimensions.size() == 2) {
     if (fontname != "") {
-      int null = 0;
-      Font font = GetFont(fontname);
+      font = GetFont(fontname);
       double rangeval = dimensions[1].max;
       if (std::to_string(dimensions[1].min).size() >
           std::to_string(dimensions[1].max).size()) {
@@ -244,16 +269,29 @@ void aequus::video::Graph::CalculatePix() {
       str = ShortenDouble(dimensions[0].max);
       font.GetSize(str, null, textheight);
       dimensions[1].pixelstart = textheight;
-      dimensions[0].pixelend = dimensions[1].pixelstart;
-      dimensions[1].pixelend = dimensions[0].pixelstart;
-      font.Delete();
+      dimensions[0].pixelend = 2;
+      dimensions[1].pixelend = 2;
     }
     if (displabel == true) {
+      std::string loadedfont = fontname;
+      if (labelfont != "") {
+        loadedfont = labelfont;
+      }
+      font = GetFont(loadedfont);
+      font.GetSize("A", null, textheight);
       dimensions[0].pixelstart += textheight;
       dimensions[1].pixelstart += textheight;
     }
     if (disptitle == true) {
-      dimensions[1].pixelend -= textheight;
+      std::string loadedfont = fontname;
+      if (titlefont != "") {
+        loadedfont = titlefont;
+      } else if (labelfont != "") {
+        loadedfont = labelfont;
+      }
+      font = GetFont(loadedfont);
+      font.GetSize("A", null, textheight);
+      dimensions[1].pixelend += textheight;
     }
     dimensions[0].valtopixel = (double)(graphwidth - dimensions[0].pixelstart -
                                         dimensions[0].pixelend) /
@@ -292,10 +330,10 @@ aequus::video::Graph::ConvertToPix(std::vector<double> vals) {
   if (dimensions.size() != vals.size()) {
     return (pixel);
   }
-  if (dimensions.size() == 2) {
-    if (coordinatization == CARTESIAN) {
+  if (coordinatization == CARTESIAN) {
+    if (dimensions.size() == 2) {
       pixel.first = (vals[0] - dimensions[0].min) * dimensions[0].valtopixel;
-      pixel.second = (vals[0] - dimensions[1].min) * dimensions[1].valtopixel;
+      pixel.second = (vals[1] - dimensions[1].min) * dimensions[1].valtopixel;
     }
     pixel.first += dimensions[0].pixelstart;
     pixel.second = graphheight - (pixel.second + dimensions[1].pixelstart);

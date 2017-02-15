@@ -63,11 +63,11 @@ void aequus::video::Object::SetBlendMode(BlendMode mode) {
   }
 }
 
-void aequus::video::Object::Rotate(double theta) { angle = theta; }
-
-void aequus::video::Object::Rotate(int degree) {
-  angle = ((double)degree * (3.141592653) / 180.0);
+void aequus::video::Object::Rotate(double theta) {
+  angle = theta * (180.0 / 3.141592653);
 }
+
+void aequus::video::Object::Rotate(int degree) { angle = degree; }
 
 void aequus::video::Object::Flip(RenderFlip renderflip) {
   if (flip != renderflip) {

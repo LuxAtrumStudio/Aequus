@@ -24,7 +24,7 @@ enum GraphCoordinate { CARTESIAN, POLAR, CYLINDRICAL, SPHERICAL, CUSTOM };
 class Graph : public Object {
 public:
   struct Dimension {
-    std::string title = "";
+    std::string title = "LABEL";
     int majormarks = 0, minormarks = 0;
     double min = -10, max = 10;
     int pixelstart = 0, pixelend = 0;
@@ -51,27 +51,27 @@ public:
   void SetColor(std::string name, double red, double green, double blue,
                 double alpha);
 
-  // void SetDomainGrid(int major, int minor);
-  // void SetRangeGrid(int major, int minor);
   void SetGrid(int dim, int major, int minor);
 
-  // void SetDomain(std::pair<double, double> domain);
-  // void SetRange(std::pair<double, double> range);
   void SetRange(int dim, double min, double max);
   void SetAxisTitle(int dim, std::string title);
-  // void SetAxisTitle(std::vector<std::string> titles);
-  // void SetDomain(double min, double max);
-  // void SetRange(double min, double max);
+  void SetGraphTitle(std::string title);
+
+  void SetFont(std::string name);
+  void SetTitleFont(std::string name);
+  void SetLabelFont(std::string name);
 
   std::vector<int> GetColor(std::string name);
 
   void AddPlot(Plot newplot);
 
+  void Update();
+
   void Delete();
 
 private:
   int graphwidth = 0, graphheight = 0;
-  std::string fontname = "";
+  std::string fontname = "", titlefont = "", labelfont = "";
   SDL_Renderer *texturerenderer = NULL;
 
   bool dispaxis = false, dispgrid = false, displabel = false, disptitle = false;
