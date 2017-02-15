@@ -2,6 +2,7 @@
 #define VIDEO_OBJECT_GRAPH_GRAPH_HPP
 #include "../../../sdl_headers.hpp"
 #include "../object_headers.hpp"
+#include "dimension.hpp"
 #include <map>
 #include <string>
 #include <vector>
@@ -23,13 +24,6 @@ namespace video {
 enum GraphCoordinate { CARTESIAN, POLAR, CYLINDRICAL, SPHERICAL, CUSTOM };
 class Graph : public Object {
 public:
-  struct Dimension {
-    std::string title = "LABEL";
-    int majormarks = 0, minormarks = 0;
-    double min = -10, max = 10;
-    int pixelstart = 0, pixelend = 0;
-    double valtopixel = 0;
-  };
   std::vector<Plot> plots;
 
   void Init(int width, int height, SDL_Renderer *renderer);
