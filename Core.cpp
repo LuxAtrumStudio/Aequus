@@ -27,7 +27,17 @@ int main(int argc, char *argv[]) {
   gra.SetDrawGrid(true);
   gra.SetDrawTitle(true);
   gra.SetDrawLabel(true);
+  gra.SetRange(0, 0, 10);
+  // gra.SetRange(1, -1, 1);
   gra.Update();
+
+  aequus::video::Plot plo;
+
+  plo.Init("SIN x");
+  plo.SetColorMap({{255, 0, 0, 255}, {0, 255, 0, 255}, {0, 0, 255, 255}}, true);
+
+  gra.AddPlot(plo);
+
   aequus::video::win->AddObject(&gra);
   while (aequus::video::AllClose() == false) {
     aequus::Frame();

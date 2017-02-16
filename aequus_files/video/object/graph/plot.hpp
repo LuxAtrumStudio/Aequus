@@ -10,15 +10,23 @@ namespace video {
 class Plot {
 public:
   void Init(std::string str, bool datafile = false);
-  void SetGraphData(int graphwidth, int graphheight,
-                    std::vector<Dimension> dims);
+  void SetGraphData(int ingraphwidth, int ingraphheight, Dimension dom,
+                    Dimension ran);
   void GenorateData();
-  void Display();
+  void Display(SDL_Renderer *renderer);
+  void SetColorMap(std::vector<std::vector<int>> map, bool range = false);
   void Delete();
 
 private:
+  void SubGen(int index, std::vector<std::pair<std::string, double>> variable);
+  std::pair<int, int> ConvertToPix(std::pair<double, double> pos);
+  void LoadColor(std::pair<double, double> point, SDL_Renderer *renderer);
   int graphwidth, graphheight;
-  std::vector<Dimension> dimensions;
+  Dimension domain, range;
+  std::vector<std::pair<double, double>> points;
+  std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>>
+      colormap;
+  duco::equation::Equation ploteq;
 
   //   void Init(std::string eq);
   //   void GenPlot(double min, double max, double step);

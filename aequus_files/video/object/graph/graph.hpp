@@ -71,13 +71,13 @@ private:
   bool dispaxis = false, dispgrid = false, displabel = false, disptitle = false;
   std::string graphtitle = "";
   std::map<std::string, std::vector<int>> colormap;
-  std::vector<Dimension> dimensions;
-  GraphCoordinate coordinatization = CARTESIAN;
+  Dimension domain, range;
 
   void DisplayGraph();
   void ClearGraph();
   void DisplayPlots();
   void DisplayAxis();
+  // BUG on altered range
   void DisplayGrid();
   void DisplayLabel();
   void DisplayTitle();

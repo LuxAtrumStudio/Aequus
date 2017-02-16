@@ -27,7 +27,7 @@ void aequus::InitializeAequus() {
                                         "aequus/video/object/button/",
                                         "aequus/video/object/canvas/",
                                         "aequus/video/object/graph/",
-                                        "aequus/video/object/graph/plot/",
+                                        "aequus/video/object/plot/",
                                         "aequus/video/object/image/",
                                         "aequus/video/object/spacer/",
                                         "aequus/video/object/text/",
