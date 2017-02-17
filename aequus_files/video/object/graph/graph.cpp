@@ -297,8 +297,8 @@ void aequus::video::Graph::DisplayLabel() {
   if (range.title != "") {
     font.GetSize(range.title, width, height);
     label.UpdateString(range.title);
-    label.SetPos(-(width / 3), (graphheight - height) / 2);
-    label.SetRotatePoint(0.5, 0.5);
+    label.SetPos(height / 2, (graphheight + width) / 2);
+    label.SetRotatePoint(0.0, 0.0);
     label.Rotate(-90);
     label.Display();
   }

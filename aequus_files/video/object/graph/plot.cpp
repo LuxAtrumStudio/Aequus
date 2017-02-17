@@ -26,51 +26,83 @@ void aequus::video::Plot::SetGraphData(int ingraphwidth, int ingraphheight,
   datadomain = indatadomain;
 }
 
+void aequus::video::Plot::SetResolution(int res) { resolution = res; }
+
+void aequus::video::Plot::SetStepSize(double size) { stepsize = size; }
+
+void aequus::video::Plot::SetPlotFormat(PlotType type) { displayformat = type; }
+
+void aequus::video::Plot::SetPolar(bool setting) { polar = setting; }
+
+void aequus::video::Plot::PlotBaseRange(bool setting) { rangebased = setting; }
+
+void aequus::video::Plot::SetPointFormat(PointType type) {
+  pointdisplayformat = type;
+}
+
+void aequus::video::Plot::SetPointRadius(int r) { pointradius = r; }
+
 void aequus::video::Plot::GenorateData() {
   points.clear();
-  for (double i = datadomain.first; i <= datadomain.second;
-       i += (datadomain.second - datadomain.first) /
-            ((datadomain.second - datadomain.first) * 100)) {
+  double step;
+  if (resolution > 0 && stepsize <= 0) {
+    step = (datadomain.second - datadomain.first) / (double)resolution;
+  } else if (resolution <= 0 && stepsize <= 0) {
+    step = (datadomain.second - datadomain.first) / graphwidth;
+  } else if (stepsize > 0) {
+    step = stepsize;
+  }
+  for (double i = datadomain.first;
+       i <= datadomain.second + (datadomain.second * 0.001); i += step) {
     points.push_back(std::make_pair(i, ploteq.SolveEquation(i)));
   }
 }
 
 void aequus::video::Plot::Display(SDL_Renderer *renderer, bool label,
                                   std::string fontname) {
-  std::pair<int, int> pix, nextpix, step;
+  std::pair<int, int> pix, nextpix;
   for (int i = 0; i < points.size() - 1; i++) {
     pix = ConvertToPix(points[i]);
     nextpix = ConvertToPix(points[i + 1]);
-    step.first = nextpix.first - pix.first;
-    if (step.first != 0) {
-      step.first /= abs(step.first);
-    }
-    step.second = nextpix.second - pix.second;
-    if (step.second != 0) {
-      step.second /= abs(step.second);
+    if (displayformat == COMB) {
+      if (rangebased == true) {
+        nextpix =
+            ConvertToPix(std::make_pair(datadomain.first, points[i].second));
+      } else if (rangebased == false) {
+        nextpix = ConvertToPix(std::make_pair(points[i].first, range.min));
+      }
     }
     double dist = sqrt(pow(nextpix.first - pix.first, 2) +
                        pow(nextpix.second - pix.second, 2));
-    while ((pix.first != nextpix.first || pix.second != nextpix.second) &&
-           displayformat == LINE && dist <= graphwidth) {
-      if (pix.first < graphwidth && pix.first >= domain.pixelstart &&
-          pix.second < graphheight - range.pixelstart &&
-          pix.second >= range.pixelend) {
-        LoadColor(points[i], renderer);
-        SDL_RenderDrawPoint(renderer, pix.first, pix.second);
-      }
-      if (pix.first != nextpix.first) {
-        pix.first += step.first;
-      }
-      if (pix.second != nextpix.second) {
-        pix.second += step.second;
-      }
+    LoadColor(points[i], renderer);
+    if ((displayformat == LINE || displayformat == CONSTANT ||
+         displayformat == COMB) &&
+        dist <= graphwidth &&
+        (pix.first < graphwidth && pix.first >= domain.pixelstart &&
+         pix.second < graphheight - range.pixelstart &&
+         pix.second >= range.pixelend)) {
+      SDL_RenderDrawLine(renderer, pix.first, pix.second, nextpix.first,
+                         nextpix.second);
     }
-    if (pix.first < graphwidth && pix.first >= domain.pixelstart &&
+    if (pointdisplayformat == DOT && pix.first < graphwidth - domain.pixelend &&
+        pix.first >= domain.pixelstart &&
         pix.second < graphheight - range.pixelstart &&
         pix.second >= range.pixelend) {
-      LoadColor(points[i], renderer);
       SDL_RenderDrawPoint(renderer, pix.first, pix.second);
+    } else if (pointdisplayformat == CIRCLE) {
+      for (double theta = 0; theta < 2 * 6.283; theta += 0.1) {
+        if (pix.first + (int)(pointradius * cos(theta)) <
+                graphwidth - domain.pixelend &&
+            pix.first + (int)(pointradius * cos(theta)) >= domain.pixelstart &&
+            pix.second + (int)(pointradius * sin(theta)) <
+                graphheight - range.pixelstart &&
+            pix.second + (int)(pointradius * sin(theta)) >= range.pixelend) {
+          SDL_RenderDrawPoint(renderer,
+                              pix.first + (int)(pointradius * cos(theta)),
+                              pix.second - (int)(pointradius * sin(theta)));
+        }
+      }
+    } else if (pointdisplayformat == SQUARE) {
     }
   }
   if (label == true && fontname != "") {
