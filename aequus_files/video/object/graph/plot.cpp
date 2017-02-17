@@ -5,10 +5,12 @@
 #include "../object_headers.hpp"
 #include "plot.hpp"
 #include <duco.h>
+#include <iostream>
 #include <pessum.h>
 #include <string>
 
 void aequus::video::Plot::Init(std::string str, bool datafile) {
+  datasource = str;
   if (datafile == false) {
     ploteq = duco::equation::Equation(str);
   }
@@ -30,7 +32,8 @@ void aequus::video::Plot::GenorateData() {
   }
 }
 
-void aequus::video::Plot::Display(SDL_Renderer *renderer) {
+void aequus::video::Plot::Display(SDL_Renderer *renderer, bool label,
+                                  std::string fontname) {
   std::pair<int, int> pix, nextpix, step;
   for (int i = 0; i < points.size() - 1; i++) {
     pix = ConvertToPix(points[i]);
@@ -45,7 +48,8 @@ void aequus::video::Plot::Display(SDL_Renderer *renderer) {
     }
     while (pix.first != nextpix.first || pix.second != nextpix.second) {
       if (pix.first < graphwidth && pix.first >= 0 &&
-          pix.second < graphheight && pix.second >= 0) {
+          pix.second < graphheight - range.pixelstart &&
+          pix.second >= range.pixelend) {
         LoadColor(points[i], renderer);
         SDL_RenderDrawPoint(renderer, pix.first, pix.second);
       }
@@ -56,7 +60,28 @@ void aequus::video::Plot::Display(SDL_Renderer *renderer) {
         pix.second += step.second;
       }
     }
-    SDL_RenderDrawPoint(renderer, pix.first, pix.second);
+    if (pix.first < graphwidth && pix.first >= domain.pixelstart &&
+        pix.second < graphheight - range.pixelstart &&
+        pix.second >= range.pixelend) {
+      SDL_RenderDrawPoint(renderer, pix.first, pix.second);
+    }
+  }
+  if (label == true && fontname != "") {
+    Font font = GetFont(fontname);
+    Text text;
+    text.Init(datasource, fontname, renderer);
+    pix = ConvertToPix(points[0]);
+    LoadColor(points[0], renderer);
+    text.SetTextColor(
+        std::vector<int>{(int)(red), (int)(green), (int)(blue), (int)(alpha)});
+    if (pix.second >= range.pixelstart) {
+      int width, height;
+      font.GetSize(datasource, width, height);
+      pix.second -= height;
+    }
+    text.SetPos(pix.first, pix.second);
+    text.Display();
+    text.Delete();
   }
 }
 
@@ -89,7 +114,7 @@ void aequus::video::Plot::LoadColor(std::pair<double, double> point,
   } else if (colormap.first.size() > 0 || colormap.second.size() > 0) {
     double maxdif =
         (domain.max - domain.min) / (double)(colormap.first.size() - 1);
-    double red = 0, green = 0, blue = 0, alpha = 0;
+    red = 0, green = 0, blue = 0, alpha = 0;
     for (int i = 0; i < colormap.first.size(); i++) {
       double perc =
           (maxdif - fabs(point.first - ((maxdif * i) + domain.min))) / (maxdif);

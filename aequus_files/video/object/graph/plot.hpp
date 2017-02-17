@@ -13,7 +13,8 @@ public:
   void SetGraphData(int ingraphwidth, int ingraphheight, Dimension dom,
                     Dimension ran);
   void GenorateData();
-  void Display(SDL_Renderer *renderer);
+  void Display(SDL_Renderer *renderer, bool label = false,
+               std::string fontname = "");
   void SetColorMap(std::vector<std::vector<int>> map, bool range = false);
   void Delete();
 
@@ -22,30 +23,13 @@ private:
   std::pair<int, int> ConvertToPix(std::pair<double, double> pos);
   void LoadColor(std::pair<double, double> point, SDL_Renderer *renderer);
   int graphwidth, graphheight;
+  double red, blue, green, alpha;
   Dimension domain, range;
   std::vector<std::pair<double, double>> points;
   std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>>
       colormap;
   duco::equation::Equation ploteq;
-
-  //   void Init(std::string eq);
-  //   void GenPlot(double min, double max, double step);
-  //   void SetColor(std::vector<int> color);
-  //   void SetColorMap(std::vector<std::vector<int>> incolormap, bool range);
-  //   void Display(SDL_Renderer *renderer, int graphwidth, int graphheight,
-  //                double domainmin, double domainmax, double rangemin,
-  //                double rangemax, int domainstartpix, int rangestartpix,
-  //                double domaintopix, double rangetopix);
-  //   void LoadColor(double x, double y, SDL_Renderer *renderer,
-  //                  std::vector<double> data);
-  //   std::vector<std::pair<double, double>> GetPoints();
-  //   virtual void Delete();
-  //
-  // private:
-  //   std::vector<std::pair<double, double>> vals;
-  //   std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>>
-  //       colormap;
-  //   duco::equation::Equation ploteq;
+  std::string datasource;
 };
 }
 }

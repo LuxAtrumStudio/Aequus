@@ -39,6 +39,8 @@ void aequus::video::Graph::SetDrawLabel(bool setting) { displabel = setting; }
 
 void aequus::video::Graph::SetDrawTitle(bool setting) { disptitle = setting; }
 
+void aequus::video::Graph::SetDrawEquation(bool setting) { dispeqs = setting; }
+
 void aequus::video::Graph::ToggleDrawAxis() { dispaxis = !dispaxis; }
 
 void aequus::video::Graph::ToggleDrawGrid() { dispgrid = !dispgrid; }
@@ -46,6 +48,8 @@ void aequus::video::Graph::ToggleDrawGrid() { dispgrid = !dispgrid; }
 void aequus::video::Graph::ToggleDrawLabel() { displabel = !displabel; }
 
 void aequus::video::Graph::ToggleDrawTitle() { disptitle = !disptitle; }
+
+void aequus::video::Graph::ToggleDrawEquation() { dispeqs = !dispeqs; }
 
 void aequus::video::Graph::SetColor(std::string name, std::vector<int> color) {
   colormap[name] = color;
@@ -71,10 +75,10 @@ void aequus::video::Graph::SetColor(std::string name, double red, double green,
 
 void aequus::video::Graph::SetGrid(int dim, int major, int minor) {
   if (dim == 0) {
-    domain.majormarks = major;
+    domain.majormarks = major - 1;
     domain.minormarks = minor;
   } else if (dim == 1) {
-    range.majormarks = major;
+    range.majormarks = major - 1;
     range.minormarks = minor;
   }
 }
@@ -121,13 +125,15 @@ void aequus::video::Graph::AddPlot(Plot newplot) {
   plots.push_back(newplot);
   plots[index].SetGraphData(graphwidth, graphheight, domain, range);
   plots[index].GenorateData();
-  plots[index].Display(texturerenderer);
+  plots[index].Display(texturerenderer, dispeqs, fontname);
   UpdateTexture();
 }
 
 void aequus::video::Graph::Update() {
   CalculatePix();
   for (int i = 0; i < plots.size(); i++) {
+    plots[i].SetGraphData(graphwidth, graphheight, domain, range);
+    plots[i].GenorateData();
   }
   DisplayGraph();
 }
@@ -148,6 +154,7 @@ void aequus::video::Graph::DisplayGraph() {
   if (disptitle == true) {
     DisplayTitle();
   }
+  DisplayPlots();
   UpdateTexture();
 }
 
@@ -158,7 +165,7 @@ void aequus::video::Graph::ClearGraph() {
 
 void aequus::video::Graph::DisplayPlots() {
   for (int i = 0; i < plots.size(); i++) {
-    plots[i].Display(texturerenderer);
+    plots[i].Display(texturerenderer, dispeqs, fontname);
   }
 }
 
@@ -176,7 +183,8 @@ void aequus::video::Graph::DisplayAxis() {
   SDL_RenderDrawLine(texturerenderer, point.first, point.second, endpoint.first,
                      endpoint.second);
   double step = (domain.max - domain.min) / (double)(domain.majormarks + 1);
-  for (double j = domain.min; j <= domain.max; j += step) {
+  for (double j = domain.min; j <= domain.max + (domain.max * 0.00001);
+       j += step) {
     int width, height;
     std::string str = ShortenDouble(j);
     if (str != "") {
@@ -184,7 +192,11 @@ void aequus::video::Graph::DisplayAxis() {
       font.GetSize(str, width, height);
       endpos[0] = j;
       endpoint = ConvertToPix(endpos);
-      endpoint.first -= width;
+      if (j < domain.max && j != domain.min) {
+        endpoint.first -= (width / 2);
+      } else if (j >= domain.max) {
+        endpoint.first -= width;
+      }
       label.SetPos(endpoint.first, endpoint.second);
       label.Display();
     }
@@ -196,16 +208,24 @@ void aequus::video::Graph::DisplayAxis() {
   SDL_RenderDrawLine(texturerenderer, point.first, point.second, endpoint.first,
                      endpoint.second);
   step = (range.max - range.min) / (double)(range.majormarks + 1);
-  for (double j = range.min; j <= range.max; j += step) {
+  for (double j = range.min; j <= range.max + (range.max * 0.00001);
+       j += step) {
     int width, height;
     std::string str = ShortenDouble(j);
-    label.UpdateString(str);
-    font.GetSize(str, width, height);
-    endpos[1] = j;
-    endpoint = ConvertToPix(endpos);
-    endpoint.first -= width;
-    label.SetPos(endpoint.first, endpoint.second);
-    label.Display();
+    if (str != "") {
+      label.UpdateString(str);
+      font.GetSize(str, width, height);
+      endpos[1] = j;
+      endpoint = ConvertToPix(endpos);
+      endpoint.first -= width;
+      if (j < range.max && j != range.min) {
+        endpoint.second -= (height / 2);
+      } else if (j == range.min) {
+        endpoint.second -= height;
+      }
+      label.SetPos(endpoint.first, endpoint.second);
+      label.Display();
+    }
   }
 
   label.Delete();
@@ -218,8 +238,10 @@ void aequus::video::Graph::DisplayGrid() {
   double minorstep = majorstep / (double)(domain.minormarks + 1);
   std::vector<double> startpos = {domain.min, range.min},
                       endpos = {domain.min, range.max};
-  for (double j = domain.min; j <= domain.max; j += minorstep) {
-    if (remainder(j, majorstep) == 0) {
+  for (double j = domain.min; j <= domain.max + (domain.max * 0.00001);
+       j += minorstep) {
+    if (remainder(j, majorstep) >= -majorstep * 0.00001 &&
+        remainder(j, majorstep) <= majorstep * 0.00001) {
       LoadColor("MAJORGRID");
     } else {
       LoadColor("MINORGRID");
@@ -231,13 +253,14 @@ void aequus::video::Graph::DisplayGrid() {
     SDL_RenderDrawLine(texturerenderer, start.first, start.second, end.first,
                        end.second);
   }
-  pessum::logging::Log();
   majorstep = (range.max - range.min) / (double)(range.majormarks + 1);
   minorstep = majorstep / (double)(range.minormarks + 1);
   startpos = {domain.min, range.min};
   endpos = {domain.max, range.min};
-  for (double j = range.min; j <= range.max; j += minorstep) {
-    if (remainder(j, majorstep) == 0) {
+  for (double j = range.min; j <= range.max + (range.max * 0.00001);
+       j += minorstep) {
+    if (remainder(j, majorstep) >= -majorstep * 0.00001 &&
+        remainder(j, majorstep) <= majorstep * 0.00001) {
       LoadColor("MAJORGRID");
     } else {
       LoadColor("MINORGRID");
@@ -260,18 +283,21 @@ void aequus::video::Graph::DisplayLabel() {
     loadedfont = fontname;
   }
   Font font = GetFont(loadedfont);
-  label.Init("", loadedfont, texturerenderer);
   int width = 0, height = 0;
-  font.GetSize(domain.title, width, height);
-  label.UpdateString(domain.title);
-  label.SetPos((graphwidth - width) / 2, graphheight - height);
-  label.Display();
-  font.GetSize(range.title, width, height);
-  label.UpdateString(range.title);
-  label.SetPos((-2.0 / 3.0) * height, (graphheight - width) / 2);
-  label.SetRotatePoint(0.5, 0.5);
-  label.Rotate(-90);
-  label.Display();
+  if (domain.title != "") {
+    font.GetSize(domain.title, width, height);
+    label.Init(domain.title, loadedfont, texturerenderer);
+    label.SetPos((graphwidth - width) / 2, graphheight - height);
+    label.Display();
+  }
+  if (range.title != "") {
+    font.GetSize(range.title, width, height);
+    label.UpdateString(range.title);
+    label.SetPos(-(width / 3), (graphheight - height) / 2);
+    label.SetRotatePoint(0.5, 0.5);
+    label.Rotate(-90);
+    label.Display();
+  }
   label.Delete();
 }
 
@@ -319,7 +345,7 @@ void aequus::video::Graph::CalculatePix() {
     }
     font = GetFont(loadedfont);
     font.GetSize("A", null, textheight);
-    domain.pixelstart += textheight;
+    domain.pixelstart += textheight * 2;
     range.pixelstart += textheight;
   }
   if (disptitle == true) {

@@ -34,10 +34,12 @@ public:
   void SetDrawGrid(bool setting);
   void SetDrawLabel(bool setting);
   void SetDrawTitle(bool setting);
+  void SetDrawEquation(bool setting);
   void ToggleDrawAxis();
   void ToggleDrawGrid();
   void ToggleDrawLabel();
   void ToggleDrawTitle();
+  void ToggleDrawEquation();
 
   void SetColor(std::string name, std::vector<int> color);
   void SetColor(std::string name, std::vector<double> color);
@@ -68,7 +70,8 @@ private:
   std::string fontname = "", titlefont = "", labelfont = "";
   SDL_Renderer *texturerenderer = NULL;
 
-  bool dispaxis = false, dispgrid = false, displabel = false, disptitle = false;
+  bool dispaxis = false, dispgrid = false, displabel = false, disptitle = false,
+       dispeqs = false;
   std::string graphtitle = "";
   std::map<std::string, std::vector<int>> colormap;
   Dimension domain, range;

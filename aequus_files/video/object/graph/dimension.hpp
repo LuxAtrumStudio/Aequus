@@ -4,7 +4,7 @@
 namespace aequus {
 namespace video {
 struct Dimension {
-  std::string title = "LABEL";
+  std::string title = "";
   int majormarks = 0, minormarks = 0;
   double min = -10, max = 10;
   int pixelstart = 0, pixelend = 0;
