@@ -6,7 +6,7 @@ void release() { aequus::video::DeleteWindows(); }
 
 int main(int argc, char *argv[]) {
   aequus::InitializeAequus();
-  aequus::video::NewWindow("Aequus", 500, 500);
+  aequus::video::NewWindow("Aequus", 900, 900);
   aequus::video::LoadFont("resources/Roboto");
   aequus::video::LoadFont("resources/Roboto", "Title");
   aequus::video::LoadFont("resources/Roboto", "Label");
@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
   aequus::video::fontmap["Label"].SetPoint(15);
   SDL_Renderer *ren = aequus::video::windows[0].windowrenderer.GetRenderer();
   aequus::video::Graph gra;
-  gra.Init(500, 500, ren);
+  gra.Init(900, 900, ren);
   gra.SetFont("Roboto");
   gra.SetTitleFont("Title");
   gra.SetLabelFont("Label");
@@ -24,29 +24,24 @@ int main(int argc, char *argv[]) {
   gra.SetGraphTitle("Trigonometric Function Graph");
   gra.SetAxisTitle(0, "Theta");
   gra.SetAxisTitle(1, "Amplitude");
-  gra.SetDrawAxis(true);
-  gra.SetDrawGrid(true);
-  gra.SetDrawTitle(true);
-  gra.SetDrawLabel(true);
-  gra.SetDrawEquation(true);
-  gra.SetRange(0, 0, 6.2830);
-  gra.SetRange(1, -1, 1);
+  // gra.SetDrawAxis(true);
+  // gra.SetDrawGrid(true);
+  // gra.SetDrawTitle(true);
+  // gra.SetDrawLabel(true);
+  // gra.SetDrawEquation(true);
+  gra.SetRange(0, -10, 10);
+  gra.SetRange(1, -10, 10);
+  gra.SetRange(-1, 0, 100);
+  // gra.SetRange(-1, 0, 6.28);
   gra.Update();
 
   aequus::video::Plot plo, plot, plot2;
 
-  plo.Init("SIN x");
-  plo.SetColorMap({{255, 0, 0, 255}, {0, 255, 0, 255}, {0, 0, 255, 255}}, true);
-  plot.Init("COS x");
-  plot.SetColorMap({{255, 0, 0, 255}, {0, 255, 0, 255}, {0, 0, 255, 255}},
-                   true);
-  plot2.Init("TAN x");
-  plot2.SetColorMap({{255, 0, 0, 255}, {0, 255, 0, 255}, {0, 0, 255, 255}},
-                    true);
-
+  plo.Init("2 MUL COS (x(2/9))");
+  // plo.Init("x");
+  plo.SetColorMap({{255, 100, 255, 255}}, false);
+  // plo.SetColorMap({{255, 0, 0, 255}, {0, 0, 255, 255}}, false);
   gra.AddPlot(plo);
-  gra.AddPlot(plot);
-  gra.AddPlot(plot2);
 
   aequus::video::win->AddObject(&gra);
   while (aequus::video::AllClose() == false) {

@@ -10,7 +10,6 @@ namespace aequus {
 namespace video {
 
 // [ ]Linear Plots
-// [ ]Smooth Plots
 // [ ]Constant Plots
 // [ ]Bar Plots
 // [ ]Histograms
@@ -21,7 +20,6 @@ namespace video {
 // [ ]Area Plots
 // [ ]Scatter Plots
 // [ ]Polar Coords
-enum GraphCoordinate { CARTESIAN, POLAR, CYLINDRICAL, SPHERICAL, CUSTOM };
 class Graph : public Object {
 public:
   std::vector<Plot> plots;
@@ -75,12 +73,12 @@ private:
   std::string graphtitle = "";
   std::map<std::string, std::vector<int>> colormap;
   Dimension domain, range;
+  std::pair<double, double> datadomain;
 
   void DisplayGraph();
   void ClearGraph();
   void DisplayPlots();
   void DisplayAxis();
-  // BUG on altered range
   void DisplayGrid();
   void DisplayLabel();
   void DisplayTitle();

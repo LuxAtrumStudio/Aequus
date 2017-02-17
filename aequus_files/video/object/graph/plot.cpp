@@ -17,17 +17,20 @@ void aequus::video::Plot::Init(std::string str, bool datafile) {
 }
 
 void aequus::video::Plot::SetGraphData(int ingraphwidth, int ingraphheight,
-                                       Dimension dom, Dimension ran) {
+                                       Dimension dom, Dimension ran,
+                                       std::pair<double, double> indatadomain) {
   graphwidth = ingraphwidth;
   graphheight = ingraphheight;
   domain = dom;
   range = ran;
+  datadomain = indatadomain;
 }
 
 void aequus::video::Plot::GenorateData() {
   points.clear();
-  for (double i = domain.min; i <= domain.max;
-       i += (domain.max - domain.min) / (double)graphwidth) {
+  for (double i = datadomain.first; i <= datadomain.second;
+       i += (datadomain.second - datadomain.first) /
+            ((datadomain.second - datadomain.first) * 100)) {
     points.push_back(std::make_pair(i, ploteq.SolveEquation(i)));
   }
 }
@@ -36,8 +39,17 @@ void aequus::video::Plot::Display(SDL_Renderer *renderer, bool label,
                                   std::string fontname) {
   std::pair<int, int> pix, nextpix, step;
   for (int i = 0; i < points.size() - 1; i++) {
-    pix = ConvertToPix(points[i]);
-    nextpix = ConvertToPix(points[i + 1]);
+    std::pair<double, double> currentpoint = points[i],
+                              nextpoint = points[i + 1];
+    if (polar == true) {
+      currentpoint = std::make_pair(points[i].second * cos(points[i].first),
+                                    points[i].second * sin(points[i].first));
+      nextpoint =
+          std::make_pair(points[i + 1].second * cos(points[i + 1].first),
+                         points[i + 1].second * sin(points[i + 1].first));
+    }
+    pix = ConvertToPix(currentpoint);
+    nextpix = ConvertToPix(nextpoint);
     step.first = nextpix.first - pix.first;
     if (step.first != 0) {
       step.first /= abs(step.first);
@@ -74,10 +86,13 @@ void aequus::video::Plot::Display(SDL_Renderer *renderer, bool label,
     LoadColor(points[0], renderer);
     text.SetTextColor(
         std::vector<int>{(int)(red), (int)(green), (int)(blue), (int)(alpha)});
+    int width, height;
+    font.GetSize(datasource, width, height);
     if (pix.second >= range.pixelstart) {
-      int width, height;
-      font.GetSize(datasource, width, height);
       pix.second -= height;
+    }
+    if (pix.first > graphwidth - width) {
+      pix.first = graphwidth - width;
     }
     text.SetPos(pix.first, pix.second);
     text.Display();
@@ -112,12 +127,13 @@ void aequus::video::Plot::LoadColor(std::pair<double, double> point,
     SDL_SetRenderDrawColor(renderer, colormap.first[0][0], colormap.first[0][1],
                            colormap.first[0][2], colormap.first[0][3]);
   } else if (colormap.first.size() > 0 || colormap.second.size() > 0) {
-    double maxdif =
-        (domain.max - domain.min) / (double)(colormap.first.size() - 1);
+    double maxdif = (datadomain.second - datadomain.first) /
+                    (double)(colormap.first.size() - 1);
     red = 0, green = 0, blue = 0, alpha = 0;
     for (int i = 0; i < colormap.first.size(); i++) {
       double perc =
-          (maxdif - fabs(point.first - ((maxdif * i) + domain.min))) / (maxdif);
+          (maxdif - fabs(point.first - ((maxdif * i) + datadomain.first))) /
+          (maxdif);
       if (perc > 0) {
         red += (perc * colormap.first[i][0]);
         green += (perc * colormap.first[i][1]);

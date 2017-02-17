@@ -7,24 +7,33 @@
 #include <vector>
 namespace aequus {
 namespace video {
+enum PlotType { LINE, CONSTANT, BAR, ARROW, AREA, SCATTER };
 class Plot {
 public:
   void Init(std::string str, bool datafile = false);
+
   void SetGraphData(int ingraphwidth, int ingraphheight, Dimension dom,
-                    Dimension ran);
+                    Dimension ran, std::pair<double, double> indatadomain);
   void GenorateData();
+
   void Display(SDL_Renderer *renderer, bool label = false,
                std::string fontname = "");
+
   void SetColorMap(std::vector<std::vector<int>> map, bool range = false);
+
   void Delete();
 
 private:
   void SubGen(int index, std::vector<std::pair<std::string, double>> variable);
   std::pair<int, int> ConvertToPix(std::pair<double, double> pos);
   void LoadColor(std::pair<double, double> point, SDL_Renderer *renderer);
+
+  bool polar = true;
+  PlotType displayformat;
   int graphwidth, graphheight;
   double red, blue, green, alpha;
   Dimension domain, range;
+  std::pair<double, double> datadomain;
   std::vector<std::pair<double, double>> points;
   std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>>
       colormap;
