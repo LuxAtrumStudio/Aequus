@@ -39,17 +39,8 @@ void aequus::video::Plot::Display(SDL_Renderer *renderer, bool label,
                                   std::string fontname) {
   std::pair<int, int> pix, nextpix, step;
   for (int i = 0; i < points.size() - 1; i++) {
-    std::pair<double, double> currentpoint = points[i],
-                              nextpoint = points[i + 1];
-    if (polar == true) {
-      currentpoint = std::make_pair(points[i].second * cos(points[i].first),
-                                    points[i].second * sin(points[i].first));
-      nextpoint =
-          std::make_pair(points[i + 1].second * cos(points[i + 1].first),
-                         points[i + 1].second * sin(points[i + 1].first));
-    }
-    pix = ConvertToPix(currentpoint);
-    nextpix = ConvertToPix(nextpoint);
+    pix = ConvertToPix(points[i]);
+    nextpix = ConvertToPix(points[i + 1]);
     step.first = nextpix.first - pix.first;
     if (step.first != 0) {
       step.first /= abs(step.first);
@@ -58,8 +49,11 @@ void aequus::video::Plot::Display(SDL_Renderer *renderer, bool label,
     if (step.second != 0) {
       step.second /= abs(step.second);
     }
-    while (pix.first != nextpix.first || pix.second != nextpix.second) {
-      if (pix.first < graphwidth && pix.first >= 0 &&
+    double dist = sqrt(pow(nextpix.first - pix.first, 2) +
+                       pow(nextpix.second - pix.second, 2));
+    while ((pix.first != nextpix.first || pix.second != nextpix.second) &&
+           displayformat == LINE && dist <= graphwidth) {
+      if (pix.first < graphwidth && pix.first >= domain.pixelstart &&
           pix.second < graphheight - range.pixelstart &&
           pix.second >= range.pixelend) {
         LoadColor(points[i], renderer);
@@ -75,6 +69,7 @@ void aequus::video::Plot::Display(SDL_Renderer *renderer, bool label,
     if (pix.first < graphwidth && pix.first >= domain.pixelstart &&
         pix.second < graphheight - range.pixelstart &&
         pix.second >= range.pixelend) {
+      LoadColor(points[i], renderer);
       SDL_RenderDrawPoint(renderer, pix.first, pix.second);
     }
   }
@@ -84,8 +79,10 @@ void aequus::video::Plot::Display(SDL_Renderer *renderer, bool label,
     text.Init(datasource, fontname, renderer);
     pix = ConvertToPix(points[0]);
     LoadColor(points[0], renderer);
-    text.SetTextColor(
-        std::vector<int>{(int)(red), (int)(green), (int)(blue), (int)(alpha)});
+    if (red != 0 && green != 0 && blue != 0 && alpha != 0) {
+      text.SetTextColor(std::vector<int>{(int)(red), (int)(green), (int)(blue),
+                                         (int)(alpha)});
+    }
     int width, height;
     font.GetSize(datasource, width, height);
     if (pix.second >= range.pixelstart) {
@@ -114,6 +111,10 @@ void aequus::video::Plot::Delete() { points.clear(); }
 std::pair<int, int>
 aequus::video::Plot::ConvertToPix(std::pair<double, double> pos) {
   std::pair<int, int> pixel(0, 0);
+  if (polar == true) {
+    pos = std::make_pair(pos.second * cos(pos.first),
+                         pos.second * sin(pos.first));
+  }
   pixel.first = (pos.first - domain.min) * domain.valtopixel;
   pixel.second = (pos.second - range.min) * range.valtopixel;
   pixel.first += domain.pixelstart;
@@ -124,8 +125,20 @@ aequus::video::Plot::ConvertToPix(std::pair<double, double> pos) {
 void aequus::video::Plot::LoadColor(std::pair<double, double> point,
                                     SDL_Renderer *renderer) {
   if (colormap.first.size() == 1 && colormap.second.size() == 0) {
+    red = colormap.first[0][0];
+    green = colormap.first[0][1];
+    blue = colormap.first[0][2];
+    alpha = colormap.first[0][3];
     SDL_SetRenderDrawColor(renderer, colormap.first[0][0], colormap.first[0][1],
                            colormap.first[0][2], colormap.first[0][3]);
+  } else if (colormap.second.size() == 1 && colormap.first.size() == 0) {
+    red = colormap.second[0][0];
+    green = colormap.second[0][1];
+    blue = colormap.second[0][2];
+    alpha = colormap.second[0][3];
+    SDL_SetRenderDrawColor(renderer, colormap.second[0][0],
+                           colormap.second[0][1], colormap.second[0][2],
+                           colormap.second[0][3]);
   } else if (colormap.first.size() > 0 || colormap.second.size() > 0) {
     double maxdif = (datadomain.second - datadomain.first) /
                     (double)(colormap.first.size() - 1);
@@ -167,6 +180,10 @@ void aequus::video::Plot::LoadColor(std::pair<double, double> point,
     SDL_SetRenderDrawColor(renderer, (int)red, (int)green, (int)blue,
                            (int)alpha);
   } else {
+    red = 255;
+    blue = 255;
+    green = 255;
+    alpha = 255;
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
   }
 }

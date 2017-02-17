@@ -29,9 +29,9 @@ private:
   void LoadColor(std::pair<double, double> point, SDL_Renderer *renderer);
 
   bool polar = true;
-  PlotType displayformat;
+  PlotType displayformat = LINE;
   int graphwidth, graphheight;
-  double red, blue, green, alpha;
+  double red = 255, blue = 255, green = 255, alpha = 255;
   Dimension domain, range;
   std::pair<double, double> datadomain;
   std::vector<std::pair<double, double>> points;

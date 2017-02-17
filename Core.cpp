@@ -29,18 +29,22 @@ int main(int argc, char *argv[]) {
   // gra.SetDrawTitle(true);
   // gra.SetDrawLabel(true);
   // gra.SetDrawEquation(true);
-  gra.SetRange(0, -10, 10);
-  gra.SetRange(1, -10, 10);
-  gra.SetRange(-1, 0, 100);
+  gra.SetRange(0, -5, 5);
+  gra.SetRange(1, -5, 5);
+  // gra.SetRange(-1, 0, 100);
+  // gra.SetRange(-1, 0, 50.264);
+  gra.SetRange(-1, 0, 25.132);
   // gra.SetRange(-1, 0, 6.28);
   gra.Update();
 
   aequus::video::Plot plo, plot, plot2;
 
-  plo.Init("2 MUL COS (x(2/9))");
-  // plo.Init("x");
-  plo.SetColorMap({{255, 100, 255, 255}}, false);
-  // plo.SetColorMap({{255, 0, 0, 255}, {0, 0, 255, 255}}, false);
+  plo.Init("1 * TAN (x(7/8))");
+  // plo.Init("10");
+  // plo.SetColorMap({{255, 100, 255, 255}}, false);
+  plo.SetColorMap(
+      {{255, 0, 0, 255}, {0, 0, 255, 255}, {0, 255, 0, 255}, {255, 0, 0, 255}},
+      false);
   gra.AddPlot(plo);
 
   aequus::video::win->AddObject(&gra);
