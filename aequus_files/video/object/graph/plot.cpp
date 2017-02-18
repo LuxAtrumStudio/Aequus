@@ -30,17 +30,17 @@ void aequus::video::Plot::SetResolution(int res) { resolution = res; }
 
 void aequus::video::Plot::SetStepSize(double size) { stepsize = size; }
 
-void aequus::video::Plot::SetPlotFormat(PlotType type) { displayformat = type; }
-
 void aequus::video::Plot::SetPolar(bool setting) { polar = setting; }
 
-void aequus::video::Plot::PlotBaseRange(bool setting) { rangebased = setting; }
+void aequus::video::Plot::SetPlotFormat(PlotType type) { displayformat = type; }
 
 void aequus::video::Plot::SetPointFormat(PointType type) {
   pointdisplayformat = type;
 }
 
 void aequus::video::Plot::SetPointRadius(int r) { pointradius = r; }
+
+void aequus::video::Plot::PlotBaseRange(bool setting) { rangebased = setting; }
 
 void aequus::video::Plot::GenorateData() {
   points.clear();
@@ -60,72 +60,18 @@ void aequus::video::Plot::GenorateData() {
 
 void aequus::video::Plot::Display(SDL_Renderer *renderer, bool label,
                                   std::string fontname) {
-  std::pair<int, int> pix, nextpix;
-  for (int i = 0; i < points.size() - 1; i++) {
-    pix = ConvertToPix(points[i]);
-    nextpix = ConvertToPix(points[i + 1]);
-    if (displayformat == COMB) {
-      if (rangebased == true) {
-        nextpix =
-            ConvertToPix(std::make_pair(datadomain.first, points[i].second));
-      } else if (rangebased == false) {
-        nextpix = ConvertToPix(std::make_pair(points[i].first, range.min));
-      }
-    }
-    double dist = sqrt(pow(nextpix.first - pix.first, 2) +
-                       pow(nextpix.second - pix.second, 2));
-    LoadColor(points[i], renderer);
-    if ((displayformat == LINE || displayformat == CONSTANT ||
-         displayformat == COMB) &&
-        dist <= graphwidth &&
-        (pix.first < graphwidth && pix.first >= domain.pixelstart &&
-         pix.second < graphheight - range.pixelstart &&
-         pix.second >= range.pixelend)) {
-      SDL_RenderDrawLine(renderer, pix.first, pix.second, nextpix.first,
-                         nextpix.second);
-    }
-    if (pointdisplayformat == DOT && pix.first < graphwidth - domain.pixelend &&
-        pix.first >= domain.pixelstart &&
-        pix.second < graphheight - range.pixelstart &&
-        pix.second >= range.pixelend) {
-      SDL_RenderDrawPoint(renderer, pix.first, pix.second);
-    } else if (pointdisplayformat == CIRCLE) {
-      for (double theta = 0; theta < 2 * 6.283; theta += 0.1) {
-        if (pix.first + (int)(pointradius * cos(theta)) <
-                graphwidth - domain.pixelend &&
-            pix.first + (int)(pointradius * cos(theta)) >= domain.pixelstart &&
-            pix.second + (int)(pointradius * sin(theta)) <
-                graphheight - range.pixelstart &&
-            pix.second + (int)(pointradius * sin(theta)) >= range.pixelend) {
-          SDL_RenderDrawPoint(renderer,
-                              pix.first + (int)(pointradius * cos(theta)),
-                              pix.second - (int)(pointradius * sin(theta)));
-        }
-      }
-    } else if (pointdisplayformat == SQUARE) {
-    }
-  }
-  if (label == true && fontname != "") {
-    Font font = GetFont(fontname);
-    Text text;
-    text.Init(datasource, fontname, renderer);
-    pix = ConvertToPix(points[0]);
-    LoadColor(points[0], renderer);
-    if (red != 0 && green != 0 && blue != 0 && alpha != 0) {
-      text.SetTextColor(std::vector<int>{(int)(red), (int)(green), (int)(blue),
-                                         (int)(alpha)});
-    }
-    int width, height;
-    font.GetSize(datasource, width, height);
-    if (pix.second >= range.pixelstart) {
-      pix.second -= height;
-    }
-    if (pix.first > graphwidth - width) {
-      pix.first = graphwidth - width;
-    }
-    text.SetPos(pix.first, pix.second);
-    text.Display();
-    text.Delete();
+  if (displayformat == SCATTER) {
+    DisplayScatter(renderer, label, fontname);
+  } else if (displayformat == LINE) {
+    DisplayLine(renderer, label, fontname);
+  } else if (displayformat == CONSTANT) {
+    DisplayConstant(renderer, label, fontname);
+  } else if (displayformat == BAR) {
+    DisplayBar(renderer, label, fontname);
+  } else if (displayformat == COMB) {
+    DisplayConstant(renderer, label, fontname);
+  } else if (displayformat == ARROW) {
+    DisplayArrow(renderer, label, fontname);
   }
 }
 
@@ -140,6 +86,143 @@ void aequus::video::Plot::SetColorMap(std::vector<std::vector<int>> map,
 
 void aequus::video::Plot::Delete() { points.clear(); }
 
+void aequus::video::Plot::DisplayPoint(std::pair<int, int> point,
+                                       SDL_Renderer *renderer) {
+  if (pointdisplayformat == DOT && point.first < graphwidth - domain.pixelend &&
+      point.first >= domain.pixelstart &&
+      point.second < graphheight - range.pixelstart &&
+      point.second >= range.pixelend) {
+    SDL_RenderDrawPoint(renderer, point.first, point.second);
+  } else if (pointdisplayformat == CIRCLE) {
+    for (double theta = 0; theta < 2 * 6.283; theta += 0.1) {
+      if (point.first + (int)(pointradius * cos(theta)) <
+              graphwidth - domain.pixelend &&
+          point.first + (int)(pointradius * cos(theta)) >= domain.pixelstart &&
+          point.second - (int)(pointradius * sin(theta)) <
+              graphheight - range.pixelstart &&
+          point.second - (int)(pointradius * sin(theta)) >= range.pixelend) {
+        SDL_RenderDrawPoint(renderer,
+                            point.first + (int)(pointradius * cos(theta)),
+                            point.second - (int)(pointradius * sin(theta)));
+      }
+    }
+  } else if (pointdisplayformat == SQUARE) {
+  }
+}
+
+void aequus::video::Plot::DisplayLabel(SDL_Renderer *renderer,
+                                       std::string fontname) {
+  Font font = GetFont(fontname);
+  Text text;
+  text.Init(datasource, fontname, renderer);
+  std::pair<int, int> pix = ConvertToPix(points[0]);
+  LoadColor(points[0], renderer);
+  if (red != 0 && green != 0 && blue != 0 && alpha != 0) {
+    text.SetTextColor(
+        std::vector<int>{(int)(red), (int)(green), (int)(blue), (int)(alpha)});
+  }
+  int width, height;
+  font.GetSize(datasource, width, height);
+  if (pix.second >= range.pixelstart) {
+    pix.second -= height;
+  }
+  if (pix.first > graphwidth - width) {
+    pix.first = graphwidth - width;
+  }
+  text.SetPos(pix.first, pix.second);
+  text.Display();
+  text.Delete();
+}
+
+void aequus::video::Plot::DisplayScatter(SDL_Renderer *renderer, bool label,
+                                         std::string fontname) {
+  std::pair<int, int> pix;
+  for (int i = 0; i < points.size(); i++) {
+    pix = ConvertToPix(points[i]);
+    LoadColor(points[i], renderer);
+    if (pix.first > domain.pixelstart &&
+        pix.first < graphwidth - domain.pixelend &&
+        pix.second < graphheight - range.pixelstart &&
+        pix.second > range.pixelend) {
+      DisplayPoint(pix, renderer);
+    }
+  }
+  if (label == true) {
+    DisplayLabel(renderer, fontname);
+  }
+}
+
+void aequus::video::Plot::DisplayLine(SDL_Renderer *renderer, bool label,
+                                      std::string fontname) {
+  double ystep = 1;
+  std::pair<int, int> pix, nextpix, step;
+  for (int i = 0; i < points.size() - 1; i++) {
+    nextpix = ConvertToPix(points[i + 1]);
+    pix = ConvertToPix(points[i]);
+    LoadColor(points[i], renderer);
+    ystep = (double)(nextpix.second - pix.second) /
+            (double)(nextpix.first - pix.first);
+    if (ystep == 0) {
+      ystep++;
+    }
+    if (nextpix.first < pix.first) {
+      step.first = -1;
+    } else if (nextpix.first > pix.first) {
+      step.first = 1;
+    } else if (nextpix.first == pix.first) {
+      step.first = 0;
+    }
+    if (nextpix.second < pix.second) {
+      step.second = -1;
+    } else if (nextpix.second > pix.second) {
+      step.second = 1;
+    } else if (nextpix.second == pix.second) {
+      step.second = 0;
+    }
+    double length = sqrt(pow(nextpix.first - pix.first, 2) +
+                         pow(nextpix.second - pix.second, 2));
+    while (pix != nextpix &&
+           length < (graphheight - range.pixelend - range.pixelstart)) {
+      if (pix.first != nextpix.first) {
+        pix.first += step.first;
+      }
+      for (int j = 0; j < fabs(ystep) && pix != nextpix; j++) {
+        if (pix.first > domain.pixelstart &&
+            pix.second < graphwidth - domain.pixelend &&
+            pix.second > range.pixelend &&
+            pix.second < graphheight - range.pixelstart) {
+          SDL_RenderDrawPoint(renderer, pix.first, pix.second);
+        }
+        if (pix.second != nextpix.second) {
+          pix.second += step.second;
+        } else {
+          break;
+        }
+      }
+    }
+    DisplayPoint(pix, renderer);
+  }
+  DisplayPoint(points[points.size() - 1], renderer);
+  if (label == true) {
+    DisplayLabel(renderer, fontname);
+  }
+}
+
+void aequus::video::Plot::DisplayConstant(SDL_Renderer *renderer, bool label,
+                                          std::string fontname) {}
+
+void aequus::video::Plot::DisplayBar(SDL_Renderer *renderer, bool label,
+                                     std::string fontname) {}
+
+void aequus::video::Plot::DisplayComb(SDL_Renderer *renderer, bool label,
+                                      std::string fontname) {}
+
+void aequus::video::Plot::DisplayArrow(SDL_Renderer *renderer, bool label,
+                                       std::string fontname) {}
+
+void aequus::video::Plot::DisplayArea(SDL_Renderer *renderer, bool label,
+                                      std::string fontname) {}
+
 std::pair<int, int>
 aequus::video::Plot::ConvertToPix(std::pair<double, double> pos) {
   std::pair<int, int> pixel(0, 0);
@@ -152,6 +235,36 @@ aequus::video::Plot::ConvertToPix(std::pair<double, double> pos) {
   pixel.first += domain.pixelstart;
   pixel.second = graphheight - (pixel.second + range.pixelstart);
   return (pixel);
+}
+
+std::pair<double, double>
+aequus::video::Plot::ConvertToVal(std::pair<int, int> pix) {
+  std::pair<double, double> pos(0.0, 0.0);
+
+  pos.first = ((double)(pix.first - domain.pixelstart) * domain.valtopixel) +
+              domain.min;
+  pos.second = ((double)(graphheight - pix.second - range.pixelstart) *
+                range.valtopixel) +
+               range.min;
+  if (polar == true) {
+    std::pair<double, double> polarcoord(0.0, 0.0);
+    if (pos.first > 0) {
+      polarcoord.first = atan(pos.second / pos.first);
+    } else if (pos.first < 0 && pos.second >= 0) {
+      polarcoord.first = atan(pos.second / pos.first) + 3.14159265359;
+    } else if (pos.first < 0 && pos.second < 0) {
+      polarcoord.first = atan(pos.second / pos.first) - 3.14159265359;
+    } else if (pos.first == 0 && pos.second > 0) {
+      polarcoord.first = 1.57079632679;
+    } else if (pos.first == 0 && pos.second < 0) {
+      polarcoord.first = -1.57079632679;
+    } else if (pos.first == 0 && pos.second == 0) {
+      polarcoord.first = 0;
+    }
+    polarcoord.second = sqrt(pow(pos.first, 2) + pow(pos.second, 2));
+    pos = polarcoord;
+  }
+  return (pos);
 }
 
 void aequus::video::Plot::LoadColor(std::pair<double, double> point,

@@ -366,7 +366,7 @@ void aequus::video::Graph::CalculatePix() {
   domain.valtopixel =
       (double)(graphwidth - domain.pixelstart - domain.pixelend) /
       (double)(domain.max - domain.min);
-  range.valtopixel = (double)(graphwidth - range.pixelstart - range.pixelend) /
+  range.valtopixel = (double)(graphheight - range.pixelstart - range.pixelend) /
                      (double)(range.max - range.min);
   if (datadomain.first == datadomain.second) {
     datadomain.first = domain.min;

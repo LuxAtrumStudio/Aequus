@@ -15,13 +15,16 @@ public:
 
   void SetGraphData(int ingraphwidth, int ingraphheight, Dimension dom,
                     Dimension ran, std::pair<double, double> indatadomain);
+
   void SetResolution(int res);
   void SetStepSize(double size);
-  void SetPlotFormat(PlotType type);
   void SetPolar(bool setting);
-  void PlotBaseRange(bool setting);
+
+  void SetPlotFormat(PlotType type);
   void SetPointFormat(PointType type);
   void SetPointRadius(int r);
+  void PlotBaseRange(bool setting);
+
   void GenorateData();
 
   void Display(SDL_Renderer *renderer, bool label = false,
@@ -32,8 +35,20 @@ public:
   void Delete();
 
 private:
-  void SubGen(int index, std::vector<std::pair<std::string, double>> variable);
+  void DisplayPoint(std::pair<int, int> point, SDL_Renderer *renderer);
+  void DisplayLabel(SDL_Renderer *renderer, std::string fontname);
+
+  void DisplayScatter(SDL_Renderer *renderer, bool label, std::string fontname);
+  void DisplayLine(SDL_Renderer *renderer, bool label, std::string fontname);
+  void DisplayConstant(SDL_Renderer *renderer, bool label,
+                       std::string fontname);
+  void DisplayBar(SDL_Renderer *renderer, bool label, std::string fontname);
+  void DisplayComb(SDL_Renderer *renderer, bool label, std::string fontname);
+  void DisplayArrow(SDL_Renderer *renderer, bool label, std::string fontname);
+  void DisplayArea(SDL_Renderer *renderer, bool label, std::string fontname);
+
   std::pair<int, int> ConvertToPix(std::pair<double, double> pos);
+  std::pair<double, double> ConvertToVal(std::pair<int, int> pix);
   void LoadColor(std::pair<double, double> point, SDL_Renderer *renderer);
 
   bool rangebased = false;
