@@ -33,8 +33,8 @@ int main(int argc, char *argv[]) {
   gra.SetRange(1, -10, 10);
   // gra.SetRange(-1, 0, 100);
   // gra.SetRange(-1, 0, 50.264);
-  gra.SetRange(-1, 0, 25.132);
-  // gra.SetRange(-1, 0, 6.28);
+  // gra.SetRange(-1, 0, 25.132);
+  gra.SetRange(-1, 0, 6.28);
   gra.Update();
 
   aequus::video::Plot plo, plot, plot2;
@@ -42,13 +42,13 @@ int main(int argc, char *argv[]) {
   plo.Init("1 * TAN (x * (7/8))");
   // plo.Init("3.15");
   // plo.Init("0-2 * x");
-  // plo.Init("10x");
+  // plo.Init("x");
   // plo.Init("1/5 * (x * x) - 10");
   // plo.Init("TAN x");
-  plo.SetResolution(10000);
-  plo.SetPolar(true);
+  plo.SetResolution(10);
+  // plo.SetPolar(true);
   // plo.PlotBaseRange(true);
-  plo.SetPlotFormat(aequus::video::LINE);
+  plo.SetPlotFormat(aequus::video::CONSTANT);
   // plo.SetPointFormat(aequus::video::CIRCLE);
   // plo.SetPointRadius(1);
   // plo.SetStepSize(1);
