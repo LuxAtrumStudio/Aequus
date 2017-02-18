@@ -7,7 +7,7 @@
 #include <vector>
 namespace aequus {
 namespace video {
-enum PlotType { LINE, CONSTANT, BAR, COMB, ARROW, AREA, SCATTER };
+enum PlotType { LINE, CONSTANT, BAR, COMB, ARROW, SCATTER };
 enum PointType { DOT, CIRCLE, SQUARE, DIAMOND, STAR };
 class Plot {
 public:
@@ -45,7 +45,6 @@ private:
   void DisplayBar(SDL_Renderer *renderer, bool label, std::string fontname);
   void DisplayComb(SDL_Renderer *renderer, bool label, std::string fontname);
   void DisplayArrow(SDL_Renderer *renderer, bool label, std::string fontname);
-  void DisplayArea(SDL_Renderer *renderer, bool label, std::string fontname);
 
   std::pair<int, int> ConvertToPix(std::pair<double, double> pos);
   std::pair<double, double> ConvertToVal(std::pair<int, int> pix);
@@ -61,7 +60,7 @@ private:
   int resolution = 0;
   double stepsize = 0;
   Dimension domain, range;
-  std::pair<double, double> datadomain;
+  std::pair<double, double> datadomain, rangedomain;
   std::vector<std::pair<double, double>> points;
   std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>>
       colormap;
