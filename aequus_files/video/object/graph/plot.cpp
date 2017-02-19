@@ -42,6 +42,8 @@ void aequus::video::Plot::SetPointRadius(int r) { pointradius = r; }
 
 void aequus::video::Plot::PlotBaseRange(bool setting) { rangebased = setting; }
 
+void aequus::video::Plot::SetBarWidth(int width) { barwidth = width; }
+
 void aequus::video::Plot::GenorateData() {
   points.clear();
   double step;
@@ -64,6 +66,10 @@ void aequus::video::Plot::GenorateData() {
       rangedomain.second = points[points.size() - 1].second;
     }
   }
+  if (polar == false) {
+    rangedomain.first = range.min;
+    rangedomain.second = range.max;
+  }
 }
 
 void aequus::video::Plot::Display(SDL_Renderer *renderer, bool label,
@@ -78,8 +84,6 @@ void aequus::video::Plot::Display(SDL_Renderer *renderer, bool label,
     DisplayBar(renderer, label, fontname);
   } else if (displayformat == COMB) {
     DisplayComb(renderer, label, fontname);
-  } else if (displayformat == ARROW) {
-    DisplayArrow(renderer, label, fontname);
   }
 }
 
@@ -692,9 +696,6 @@ void aequus::video::Plot::DisplayComb(SDL_Renderer *renderer, bool label,
     DisplayLabel(renderer, fontname);
   }
 }
-
-void aequus::video::Plot::DisplayArrow(SDL_Renderer *renderer, bool label,
-                                       std::string fontname) {}
 
 std::pair<int, int>
 aequus::video::Plot::ConvertToPix(std::pair<double, double> pos) {
