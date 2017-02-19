@@ -100,17 +100,18 @@ void aequus::video::Plot::Delete() { points.clear(); }
 
 void aequus::video::Plot::DisplayPoint(std::pair<int, int> point,
                                        SDL_Renderer *renderer) {
-  if (pointdisplayformat == DOT && point.first < graphwidth - domain.pixelend &&
+  if (pointdisplayformat == DOT &&
+      point.first <= graphwidth - domain.pixelend &&
       point.first >= domain.pixelstart &&
-      point.second < graphheight - range.pixelstart &&
+      point.second <= graphheight - range.pixelstart &&
       point.second >= range.pixelend) {
     SDL_RenderDrawPoint(renderer, point.first, point.second);
   } else if (pointdisplayformat == CIRCLE) {
-    for (double theta = 0; theta < 2 * 6.283; theta += 0.1) {
-      if (point.first + (int)(pointradius * cos(theta)) <
+    for (double theta = 0; theta < 6.283; theta += 0.1) {
+      if (point.first + (int)(pointradius * cos(theta)) <=
               graphwidth - domain.pixelend &&
           point.first + (int)(pointradius * cos(theta)) >= domain.pixelstart &&
-          point.second - (int)(pointradius * sin(theta)) <
+          point.second - (int)(pointradius * sin(theta)) <=
               graphheight - range.pixelstart &&
           point.second - (int)(pointradius * sin(theta)) >= range.pixelend) {
         SDL_RenderDrawPoint(renderer,
@@ -119,6 +120,85 @@ void aequus::video::Plot::DisplayPoint(std::pair<int, int> point,
       }
     }
   } else if (pointdisplayformat == SQUARE) {
+    for (int i = point.first - pointradius; i <= point.first + pointradius;
+         i++) {
+      if (i >= domain.pixelstart && i <= graphwidth - domain.pixelend &&
+          point.second + pointradius <= graphheight - range.pixelstart &&
+          point.second + pointradius >= range.pixelend) {
+        SDL_RenderDrawPoint(renderer, i, point.second + pointradius);
+      }
+      if (i >= domain.pixelstart && i <= graphwidth - domain.pixelend &&
+          point.second - pointradius <= graphheight - range.pixelstart &&
+          point.second - pointradius >= range.pixelend) {
+        SDL_RenderDrawPoint(renderer, i, point.second - pointradius);
+      }
+    }
+    for (int i = point.second - pointradius; i <= point.second + pointradius;
+         i++) {
+      if (point.first + pointradius >= domain.pixelstart &&
+          point.first + pointradius <= graphwidth - domain.pixelend &&
+          i <= graphheight - range.pixelstart && i >= range.pixelend) {
+        SDL_RenderDrawPoint(renderer, point.first + pointradius, i);
+      }
+      if (point.first - pointradius >= domain.pixelstart &&
+          point.first - pointradius <= graphwidth - domain.pixelend &&
+          i <= graphheight - range.pixelstart && i >= range.pixelend) {
+        SDL_RenderDrawPoint(renderer, point.first - pointradius, i);
+      }
+    }
+  } else if (pointdisplayformat == DIAMOND) {
+    for (int i = point.second - pointradius; i <= point.second + pointradius;
+         i++) {
+      int j = point.first + (pointradius - abs(i - point.second));
+      if (j >= domain.pixelstart && j <= graphwidth - domain.pixelend &&
+          i <= graphheight - range.pixelstart && i >= range.pixelend) {
+        SDL_RenderDrawPoint(renderer, j, i);
+      }
+      j = point.first - (pointradius - abs(i - point.second));
+      if (j >= domain.pixelstart && j <= graphwidth - domain.pixelend &&
+          i <= graphheight - range.pixelstart && i >= range.pixelend) {
+        SDL_RenderDrawPoint(renderer, j, i);
+      }
+    }
+  } else if (pointdisplayformat == STAR || pointdisplayformat == PLUS) {
+    for (int i = point.first - pointradius; i <= point.first + pointradius;
+         i++) {
+      if (i >= domain.pixelstart && i <= graphwidth - domain.pixelend &&
+          point.second <= graphheight - range.pixelstart &&
+          point.second >= range.pixelend) {
+        SDL_RenderDrawPoint(renderer, i, point.second);
+      }
+    }
+    for (int i = point.second - pointradius; i <= point.second + pointradius;
+         i++) {
+      if (point.first >= domain.pixelstart &&
+          point.first <= graphwidth - domain.pixelend &&
+          i <= graphheight - range.pixelstart && i >= range.pixelend) {
+        SDL_RenderDrawPoint(renderer, point.first, i);
+      }
+    }
+    if (pointdisplayformat == STAR) {
+      for (int i = point.first - (0.707106 * pointradius),
+               j = point.second - (0.707106 * pointradius);
+           i <= point.first + (0.707106 * pointradius) &&
+           j <= point.second + (0.707106 * pointradius);
+           i++, j++) {
+        if (i >= domain.pixelstart && i <= graphwidth - domain.pixelend &&
+            j <= graphheight - range.pixelstart && j >= range.pixelend) {
+          SDL_RenderDrawPoint(renderer, i, j);
+        }
+      }
+      for (int i = point.first - (0.707106 * pointradius),
+               j = point.second + (0.707106 * pointradius);
+           i <= point.first + (0.707106 * pointradius) &&
+           j <= point.second + (0.707106 * pointradius);
+           i++, j--) {
+        if (i >= domain.pixelstart && i <= graphwidth - domain.pixelend &&
+            j <= graphheight - range.pixelstart && j >= range.pixelend) {
+          SDL_RenderDrawPoint(renderer, i, j);
+        }
+      }
+    }
   }
 }
 

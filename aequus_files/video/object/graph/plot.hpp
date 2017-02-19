@@ -8,7 +8,7 @@
 namespace aequus {
 namespace video {
 enum PlotType { LINE, CONSTANT, BAR, COMB, SCATTER };
-enum PointType { DOT, CIRCLE, SQUARE, DIAMOND, STAR };
+enum PointType { DOT, CIRCLE, SQUARE, DIAMOND, STAR, PLUS };
 class Plot {
 public:
   void Init(std::string str, bool datafile = false);
