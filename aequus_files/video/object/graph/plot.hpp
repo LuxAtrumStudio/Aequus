@@ -59,6 +59,7 @@ private:
   double red = 255, blue = 255, green = 255, alpha = 255;
   int resolution = 0;
   double stepsize = 0;
+  int barwidth = 20;
   Dimension domain, range;
   std::pair<double, double> datadomain, rangedomain;
   std::vector<std::pair<double, double>> points;
