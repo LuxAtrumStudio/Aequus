@@ -226,6 +226,65 @@ void aequus::video::Plot::DisplayLabel(SDL_Renderer *renderer,
   text.Delete();
 }
 
+void aequus::video::Plot::DisplayDataLine(std::pair<double, double> start,
+                                          std::pair<double, double> end, SDL_Renderer *renderer) {
+  std::pair<int, int>pixel(-1,-1), lastpixel(-1,-1);
+  std::pair<double, double> step(0,0);
+  step.first = (domain.max - domain.min) / (double)graphwidth;
+  step.second = (range.max - range.min) / (double)graphheight;
+  while(fabs(end.first - start.first) >= step.second){
+    while(fabs(end.second - start.second) >= step.second){
+      pixel = ConvertToPix(start);
+      if(Check(pixel.first, pixel.second) == true){
+        if(lastpixel.first != -1){
+          DisplayPixelLine(pixel, lastpixel, renderer);
+        }else{
+          lastpixel = pixel;
+        }
+      }else{
+        lastpixel.first = -1;
+      }
+      start.second += step.second;
+    }
+    start.first += step.first;
+  }
+}
+
+void aequus::video::Plot::DisplayPixelLine(std::pair<int, int> start,
+                                           std::pair<int, int> end, SDL_Renderer *renderer) {
+  std::pair<int, int> direction(0,0);
+  double length = sqrt(pow(end.first - start.first, 2) +
+                       pow(end.second - start.second, 2));
+  if(start.first > end.first){
+    direction.first = -1;
+  } else if(start.first < end.first){
+    direction.first = 1;
+  }
+  if(start.second > end.second){
+    direction.second = -1;
+  } else if(start.second < end.second){
+    direction.second = 1;
+  }
+  while (start != end && length < graphheight) {
+    double slope = (end.second - start.second);
+    if(end.first - start.first != 0){
+      slope /= (double)(end.first - start.first);
+    }
+    slope = fabs(slope);
+    for(int i = 0; i < slope; i++){
+      if(Check(start.first, start.second) == true){
+        SDL_RenderDrawPoint(renderer, start.first, start.second);
+      }
+      if(start.second != end.second){
+        start.second += direction.second;
+      }
+    }
+    if(start.first != end.first){
+      start.first += direction.first;
+    }
+  }
+}
+
 void aequus::video::Plot::DisplayScatter(SDL_Renderer *renderer, bool label,
                                          std::string fontname) {
   std::pair<int, int> pix;
@@ -246,52 +305,13 @@ void aequus::video::Plot::DisplayScatter(SDL_Renderer *renderer, bool label,
 
 void aequus::video::Plot::DisplayLine(SDL_Renderer *renderer, bool label,
                                       std::string fontname) {
-  double ystep = 1;
+  // double ystep = 1;
   std::pair<int, int> pix, nextpix, step;
   for (int i = 0; i < points.size() - 1; i++) {
     nextpix = ConvertToPix(points[i + 1]);
     pix = ConvertToPix(points[i]);
     LoadColor(points[i], renderer);
-    ystep = (double)(nextpix.second - pix.second) /
-            (double)(nextpix.first - pix.first);
-    if (ystep == 0) {
-      ystep++;
-    }
-    if (nextpix.first < pix.first) {
-      step.first = -1;
-    } else if (nextpix.first > pix.first) {
-      step.first = 1;
-    } else if (nextpix.first == pix.first) {
-      step.first = 0;
-    }
-    if (nextpix.second < pix.second) {
-      step.second = -1;
-    } else if (nextpix.second > pix.second) {
-      step.second = 1;
-    } else if (nextpix.second == pix.second) {
-      step.second = 0;
-    }
-    double length = sqrt(pow(nextpix.first - pix.first, 2) +
-                         pow(nextpix.second - pix.second, 2));
-    while (pix != nextpix &&
-           length < (graphheight - range.pixelend - range.pixelstart)) {
-      if (pix.first != nextpix.first) {
-        pix.first += step.first;
-      }
-      for (int j = 0; j < fabs(ystep) && pix != nextpix; j++) {
-        if (pix.first > domain.pixelstart &&
-            pix.second < graphwidth - domain.pixelend &&
-            pix.second > range.pixelend &&
-            pix.second < graphheight - range.pixelstart) {
-          SDL_RenderDrawPoint(renderer, pix.first, pix.second);
-        }
-        if (pix.second != nextpix.second) {
-          pix.second += step.second;
-        } else {
-          break;
-        }
-      }
-    }
+    DisplayPixelLine(pix, nextpix, renderer);
     DisplayPoint(pix, renderer);
   }
   DisplayPoint(ConvertToPix(points[points.size() - 1]), renderer);
@@ -885,4 +905,19 @@ void aequus::video::Plot::LoadColor(std::pair<double, double> point,
     alpha = 255;
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
   }
+}
+
+bool aequus::video::Plot::Check(int x, int y) {
+  if (x > domain.pixelstart && x < graphwidth - domain.pixelend &&
+      y > range.pixelend && y < graphheight - range.pixelstart) {
+    return (true);
+  }
+  return (false);
+}
+
+bool aequus::video::Plot::Check(double x, double y) {
+  if (x > domain.min && x < domain.max && y > range.min && y < range.max) {
+    return (true);
+  }
+  return (false);
 }

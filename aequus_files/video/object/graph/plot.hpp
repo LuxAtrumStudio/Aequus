@@ -38,6 +38,9 @@ public:
 private:
   void DisplayPoint(std::pair<int, int> point, SDL_Renderer *renderer);
   void DisplayLabel(SDL_Renderer *renderer, std::string fontname);
+  void DisplayDataLine(std::pair<double, double> start,
+                       std::pair<double, double> end, SDL_Renderer *renderer);
+  void DisplayPixelLine(std::pair<int, int> start, std::pair<int, int> end, SDL_Renderer *renderer);
 
   void DisplayScatter(SDL_Renderer *renderer, bool label, std::string fontname);
   void DisplayLine(SDL_Renderer *renderer, bool label, std::string fontname);
@@ -49,6 +52,9 @@ private:
   std::pair<int, int> ConvertToPix(std::pair<double, double> pos);
   std::pair<double, double> ConvertToVal(std::pair<int, int> pix);
   void LoadColor(std::pair<double, double> point, SDL_Renderer *renderer);
+
+  bool Check(int x, int y);
+  bool Check(double x, double y);
 
   bool rangebased = false;
   bool polar = false;
