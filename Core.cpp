@@ -51,9 +51,9 @@ int main(int argc, char *argv[]) {
   // plo.SetBarWidth(2);
   plo.SetPolar(true);
   plo.PlotBaseRange(true);
-  plo.SetPlotFormat(aequus::video::BAR);
-  // plo.SetPointFormat(aequus::video::CIRCLE);
-  // plo.SetPointRadius(5);
+  plo.SetPlotFormat(aequus::video::SCATTER);
+  plo.SetPointFormat(aequus::video::STAR);
+  plo.SetPointRadius(5);
   // plo.SetStepSize(1);
   // plo.Init("10");
   // plo.SetColorMap({{255, 100, 255, 255}}, false);
