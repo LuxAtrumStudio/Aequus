@@ -35,29 +35,29 @@ int main(int argc, char *argv[]) {
   // gra.SetRange(-1, 0, 100);
   // gra.SetRange(-1, 0, 50.264);
   // gra.SetRange(-1, 0, 25.132);
-  // gra.SetRange(-1, 0, 6.28);
+  gra.SetRange(-1, 0, 6.28);
   gra.Update();
 
   aequus::video::Plot plo, plot, plot2;
-  plo.Init("10 * SIN x");
+  // plo.Init("10 * SIN x");
   // plo.Init("10 * COS (x * (7/8))");
   // plo.Init("3.15");
   // plo.Init("0-2 * x");
   // plo.Init("0");
-  // plo.Init("x");
+  plo.Init("x");
   // plo.Init("1/5 * (x * x) - 10");
   // plo.Init("TAN x");
-  plo.SetResolution(20);
+  plo.SetResolution(10);
   // plo.SetBarWidth(2);
-  // plo.SetPolar(true);
-  // plo.PlotBaseRange(true);
-  plo.SetPlotFormat(aequus::video::CONSTANT);
+  plo.SetPolar(true);
+  plo.PlotBaseRange(true);
+  plo.SetPlotFormat(aequus::video::BAR);
   // plo.SetPointFormat(aequus::video::CIRCLE);
   // plo.SetPointRadius(5);
   // plo.SetStepSize(1);
   // plo.Init("10");
   // plo.SetColorMap({{255, 100, 255, 255}}, false);
-  plo.SetColorMap({{255, 0, 0, 255}, {0, 255, 0, 255}, {255, 0, 0, 255}}, true);
+  plo.SetColorMap({{255, 0, 0, 255}, {0, 0, 255, 255}, {0, 255, 0, 255}}, true);
   // plo.SetColorMap({{255, 0, 0, 255}, {0, 0, 255, 255}, {0, 255, 0, 255}},
   // true);
   gra.AddPlot(plo);

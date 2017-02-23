@@ -440,124 +440,25 @@ void aequus::video::Plot::DisplayBar(SDL_Renderer *renderer, bool label,
     LoadColor(points[i], renderer);
     if (rangebased == false) {
       pos.first -= step * (barwidth / 2);
-      if (pos.first > domain.min && pos.first < domain.max &&
-          pos.second > range.min && pos.second < range.max &&
-          pos.first + (step * barwidth) > domain.min &&
-          pos.first + (step * barwidth) < domain.max) {
-        SDL_RenderDrawLine(
-            renderer, ConvertToPix(pos).first, ConvertToPix(pos).second,
-            ConvertToPix(
-                std::make_pair(pos.first + (step * barwidth), pos.second))
-                .first,
-            ConvertToPix(
-                std::make_pair(pos.first + (step * barwidth), pos.second))
-                .second);
-      }
-      lastpix = std::make_pair(-1, -1);
+      DisplayDataLine(pos,
+                      std::make_pair(pos.first + step * barwidth, pos.second),
+                      renderer);
       nextpos = std::make_pair(pos.first, rangedomain.first);
-      while (pos.second >= nextpos.second) {
-        pix = ConvertToPix(pos);
-        if (pix.first > domain.pixelstart &&
-            pix.second < graphwidth - domain.pixelend &&
-            pix.second > range.pixelend &&
-            pix.second < graphheight - range.pixelstart) {
-          if (lastpix.first != -1 && lastpix.second != -1) {
-            SDL_RenderDrawLine(renderer, lastpix.first, lastpix.second,
-                               pix.first, pix.second);
-            lastpix = pix;
-          } else {
-            SDL_RenderDrawPoint(renderer, pix.first, pix.second);
-            lastpix = pix;
-          }
-        } else {
-          lastpix = std::make_pair(-1, -1);
-        }
-        pos.second -= step;
-      }
-      lastpix = std::make_pair(-1, -1);
-      pos = points[i];
-      pos.first += step * (barwidth / 2);
+      DisplayDataLine(pos, nextpos, renderer);
+      pos.first += step * barwidth;
       nextpos = std::make_pair(pos.first, rangedomain.first);
-      while (pos.second >= nextpos.second) {
-        pix = ConvertToPix(pos);
-        if (pix.first > domain.pixelstart &&
-            pix.second < graphwidth - domain.pixelend &&
-            pix.second > range.pixelend &&
-            pix.second < graphheight - range.pixelstart) {
-          if (lastpix.first != -1 && lastpix.second != -1) {
-            SDL_RenderDrawLine(renderer, lastpix.first, lastpix.second,
-                               pix.first, pix.second);
-            lastpix = pix;
-          } else {
-            SDL_RenderDrawPoint(renderer, pix.first, pix.second);
-            lastpix = pix;
-          }
-        } else {
-          lastpix = std::make_pair(-1, -1);
-        }
-        pos.second -= step;
-      }
+      DisplayDataLine(pos, nextpos, renderer);
     } else if (rangebased == true) {
       pos.second -= step * (barwidth / 2);
-      if (pos.first > domain.min && pos.first < domain.max &&
-          pos.second > range.min && pos.second < range.max &&
-          pos.second + (step * barwidth) > range.min &&
-          pos.second + (step * barwidth) < range.max) {
-        SDL_RenderDrawLine(
-            renderer, ConvertToPix(pos).first, ConvertToPix(pos).second,
-            ConvertToPix(
-                std::make_pair(pos.first, pos.second + (step * barwidth)))
-                .first,
-            ConvertToPix(
-                std::make_pair(pos.first, pos.second + (step * barwidth)))
-                .second);
-      }
-      lastpix = std::make_pair(-1, -1);
+      DisplayDataLine(pos,
+                      std::make_pair(pos.first, pos.second + step * barwidth),
+                      renderer);
       nextpos = std::make_pair(datadomain.first, pos.second);
-      while (pos.first >= nextpos.first) {
-        pix = ConvertToPix(pos);
-        if (pix.first > domain.pixelstart &&
-            pix.second < graphwidth - domain.pixelend &&
-            pix.second > range.pixelend &&
-            pix.second < graphheight - range.pixelstart) {
-          if (lastpix.first != -1 && lastpix.second != -1) {
-            SDL_RenderDrawLine(renderer, lastpix.first, lastpix.second,
-                               pix.first, pix.second);
-            lastpix = pix;
-          } else {
-            SDL_RenderDrawPoint(renderer, pix.first, pix.second);
-            lastpix = pix;
-          }
-        } else {
-          lastpix = std::make_pair(-1, -1);
-        }
-        pos.first -= step;
-      }
-      lastpix = std::make_pair(-1, -1);
-      pos = points[i];
-      pos.second += step * (barwidth / 2);
+      DisplayDataLine(pos, nextpos, renderer);
+      pos.second += step * barwidth;
       nextpos = std::make_pair(datadomain.first, pos.second);
-      while (pos.first >= nextpos.first) {
-        pix = ConvertToPix(pos);
-        if (pix.first > domain.pixelstart &&
-            pix.second < graphwidth - domain.pixelend &&
-            pix.second > range.pixelend &&
-            pix.second < graphheight - range.pixelstart) {
-          if (lastpix.first != -1 && lastpix.second != -1) {
-            SDL_RenderDrawLine(renderer, lastpix.first, lastpix.second,
-                               pix.first, pix.second);
-            lastpix = pix;
-          } else {
-            SDL_RenderDrawPoint(renderer, pix.first, pix.second);
-            lastpix = pix;
-          }
-        } else {
-          lastpix = std::make_pair(-1, -1);
-        }
-        pos.first -= step;
-      }
+      DisplayDataLine(pos, nextpos, renderer);
     }
-    lastpix = std::make_pair(-1, -1);
     DisplayPoint(ConvertToPix(points[i]), renderer);
   }
   if (label == true) {
@@ -568,55 +469,16 @@ void aequus::video::Plot::DisplayBar(SDL_Renderer *renderer, bool label,
 void aequus::video::Plot::DisplayComb(SDL_Renderer *renderer, bool label,
                                       std::string fontname) {
   std::pair<double, double> pos, nextpos;
-  std::pair<int, int> pix, lastpix(-1, -1);
-  double step = (datadomain.second - datadomain.first) / graphwidth;
   for (int i = 0; i < points.size(); i++) {
     pos = points[i];
     LoadColor(points[i], renderer);
     if (rangebased == false) {
       nextpos = std::make_pair(pos.first, rangedomain.first);
-      while (pos.second >= nextpos.second) {
-        pix = ConvertToPix(pos);
-        if (pix.first > domain.pixelstart &&
-            pix.second < graphwidth - domain.pixelend &&
-            pix.second > range.pixelend &&
-            pix.second < graphheight - range.pixelstart) {
-          if (lastpix.first != -1 && lastpix.second != -1) {
-            SDL_RenderDrawLine(renderer, lastpix.first, lastpix.second,
-                               pix.first, pix.second);
-            lastpix = pix;
-          } else {
-            SDL_RenderDrawPoint(renderer, pix.first, pix.second);
-            lastpix = pix;
-          }
-        } else {
-          lastpix = std::make_pair(-1, -1);
-        }
-        pos.second -= step;
-      }
+      DisplayDataLine(pos, nextpos, renderer);
     } else if (rangebased == true) {
       nextpos = std::make_pair(datadomain.first, pos.second);
-      while (pos.first >= nextpos.first) {
-        pix = ConvertToPix(pos);
-        if (pix.first > domain.pixelstart &&
-            pix.second < graphwidth - domain.pixelend &&
-            pix.second > range.pixelend &&
-            pix.second < graphheight - range.pixelstart) {
-          if (lastpix.first != -1 && lastpix.second != -1) {
-            SDL_RenderDrawLine(renderer, lastpix.first, lastpix.second,
-                               pix.first, pix.second);
-            lastpix = pix;
-          } else {
-            SDL_RenderDrawPoint(renderer, pix.first, pix.second);
-            lastpix = pix;
-          }
-        } else {
-          lastpix = std::make_pair(-1, -1);
-        }
-        pos.first -= step;
-      }
+      DisplayDataLine(pos, nextpos, renderer);
     }
-    lastpix = std::make_pair(-1, -1);
     DisplayPoint(ConvertToPix(points[i]), renderer);
   }
   if (label == true) {
