@@ -239,6 +239,32 @@ void aequus::video::Plot::DisplayDataLine(std::pair<double, double> start,
   }
   step.first = (domain.max - domain.min) / (double)graphwidth;
   step.second = (range.max - range.min) / (double)graphheight;
+  if (start.first == end.first) {
+    while (start.second < end.second - step.second) {
+      pixel = ConvertToPix(start);
+      if (Check(pixel.first, pixel.second) == true) {
+        if (lastpixel.first != -1) {
+          DisplayPixelLine(pixel, lastpixel, renderer);
+        }
+        lastpixel = pixel;
+      } else {
+        lastpixel.first = -1;
+      }
+      start.second += step.second;
+    }
+    while (start.second > end.second + step.second) {
+      pixel = ConvertToPix(start);
+      if (Check(pixel.first, pixel.second) == true) {
+        if (lastpixel.first != -1) {
+          DisplayPixelLine(pixel, lastpixel, renderer);
+        }
+        lastpixel = pixel;
+      } else {
+        lastpixel.first = -1;
+      }
+      start.second -= step.second;
+    }
+  }
   while (start.first < end.first) {
     slope = (end.second - start.second);
     if (end.first != start.first &&
@@ -246,7 +272,7 @@ void aequus::video::Plot::DisplayDataLine(std::pair<double, double> start,
       slope /= (end.first - start.first);
     }
     if (start.second < end.second) {
-      for (int i = 0; i < floor(slope); i++) {
+      for (int i = 0; i < round(slope); i++) {
         pixel = ConvertToPix(start);
         if (Check(pixel.first, pixel.second) == true) {
           if (lastpixel.first != -1) {
@@ -259,7 +285,7 @@ void aequus::video::Plot::DisplayDataLine(std::pair<double, double> start,
         start.second += step.second;
       }
     } else if (start.second > end.second) {
-      for (int i = 0; i > ceil(slope); i--) {
+      for (int i = 0; i > round(slope); i--) {
         pixel = ConvertToPix(start);
         if (Check(pixel.first, pixel.second) == true) {
           SDL_RenderDrawPoint(renderer, pixel.first, pixel.second);
@@ -349,7 +375,6 @@ void aequus::video::Plot::DisplayScatter(SDL_Renderer *renderer, bool label,
 
 void aequus::video::Plot::DisplayLine(SDL_Renderer *renderer, bool label,
                                       std::string fontname) {
-  // double ystep = 1;
   std::pair<int, int> pix, nextpix, step;
   for (int i = 0; i < points.size() - 1; i++) {
     nextpix = ConvertToPix(points[i + 1]);
@@ -371,290 +396,32 @@ void aequus::video::Plot::DisplayConstant(SDL_Renderer *renderer, bool label,
     pos = points[i];
     nextpos = points[i + 1];
     LoadColor(points[i], renderer);
-    gotopos = nextpos;
+    gotopos = pos;
     if (rangebased == false) {
       if (nextpos.first > pos.first) {
-        gotopos.first -= (gotopos.first - pos.first) / 2.0;
-        // DisplayDataLine(pos, gotopos, renderer);
+        gotopos.first += (nextpos.first - pos.first) / 2.0;
       } else if (nextpos.first < pos.first) {
-        gotopos.first += (gotopos.first - pos.first) / 2.0;
+        gotopos.first -= (nextpos.first - pos.first) / 2.0;
       }
+      DisplayDataLine(pos, gotopos, renderer);
+      pos = gotopos;
+      gotopos.second = nextpos.second;
+      DisplayDataLine(pos, gotopos, renderer);
+      pos = gotopos;
+      DisplayDataLine(pos, nextpos, renderer);
+    } else if (rangebased == true) {
+      if (nextpos.second > pos.second) {
+        gotopos.second += (nextpos.second - pos.second) / 2.0;
+      } else if (nextpos.second < pos.second) {
+        gotopos.second -= (nextpos.second - pos.second) / 2.0;
+      }
+      DisplayDataLine(pos, gotopos, renderer);
+      pos = gotopos;
+      gotopos.first = nextpos.first;
+      DisplayDataLine(pos, gotopos, renderer);
+      pos = gotopos;
+      DisplayDataLine(pos, nextpos, renderer);
     }
-    DisplayDataLine(pos, nextpos, renderer);
-    // if (rangebased == false) {
-    //   if (nextpos.first > pos.first) {
-    //     // while (currentpos.first - pos.first <=
-    //     //        (nextpos.first - pos.first) / 2) {
-    //     //   currentpix = ConvertToPix(currentpos);
-    //     //   if (currentpix.first > domain.pixelstart &&
-    //     //       currentpix.second < graphwidth - domain.pixelend &&
-    //     //       currentpix.second > range.pixelend &&
-    //     //       currentpix.second < graphheight - range.pixelstart) {
-    //     //     if (lastpix.first != -1 && lastpix.second != -1) {
-    //     //       SDL_RenderDrawLine(renderer, lastpix.first,
-    //     lastpix.second,
-    //     //                          currentpix.first, currentpix.second);
-    //     //       lastpix = currentpix;
-    //     //     } else {
-    //     //       SDL_RenderDrawPoint(renderer, currentpix.first,
-    //     //                           currentpix.second);
-    //     //       lastpix = currentpix;
-    //     //     }
-    //     //   } else {
-    //     //     lastpix = std::make_pair(-1, -1);
-    //     //   }
-    //     //   currentpos.first += step;
-    //     // }
-    //   } else if (nextpos.first < pos.first) {
-    //     while (currentpos.first - pos.first >=
-    //            (nextpos.first - pos.first) / 2) {
-    //       currentpix = ConvertToPix(currentpos);
-    //       if (currentpix.first > domain.pixelstart &&
-    //           currentpix.second < graphwidth - domain.pixelend &&
-    //           currentpix.second > range.pixelend &&
-    //           currentpix.second < graphheight - range.pixelstart) {
-    //         if (lastpix.first != -1 && lastpix.second != -1) {
-    //           SDL_RenderDrawLine(renderer, lastpix.first, lastpix.second,
-    //                              currentpix.first, currentpix.second);
-    //           lastpix = currentpix;
-    //         } else {
-    //           SDL_RenderDrawPoint(renderer, currentpix.first,
-    //                               currentpix.second);
-    //           lastpix = currentpix;
-    //         }
-    //       } else {
-    //         lastpix = std::make_pair(-1, -1);
-    //       }
-    //       currentpos.first -= step;
-    //     }
-    //   }
-    //   if (nextpos.second > pos.second) {
-    //     while (currentpos.second < nextpos.second) {
-    //       currentpix = ConvertToPix(currentpos);
-    //       if (currentpix.first > domain.pixelstart &&
-    //           currentpix.second < graphwidth - domain.pixelend &&
-    //           currentpix.second > range.pixelend &&
-    //           currentpix.second < graphheight - range.pixelstart) {
-    //         if (lastpix.first != -1 && lastpix.second != -1) {
-    //           SDL_RenderDrawLine(renderer, lastpix.first, lastpix.second,
-    //                              currentpix.first, currentpix.second);
-    //           lastpix = currentpix;
-    //         } else {
-    //           SDL_RenderDrawPoint(renderer, currentpix.first,
-    //                               currentpix.second);
-    //           lastpix = currentpix;
-    //         }
-    //       } else {
-    //         lastpix = std::make_pair(-1, -1);
-    //       }
-    //       currentpos.second += step;
-    //     }
-    //   } else if (nextpos.second < pos.second) {
-    //     while (currentpos.second > nextpos.second) {
-    //       currentpix = ConvertToPix(currentpos);
-    //       if (currentpix.first > domain.pixelstart &&
-    //           currentpix.second < graphwidth - domain.pixelend &&
-    //           currentpix.second > range.pixelend &&
-    //           currentpix.second < graphheight - range.pixelstart) {
-    //         if (lastpix.first != -1 && lastpix.second != -1) {
-    //           SDL_RenderDrawLine(renderer, lastpix.first, lastpix.second,
-    //                              currentpix.first, currentpix.second);
-    //           lastpix = currentpix;
-    //         } else {
-    //           SDL_RenderDrawPoint(renderer, currentpix.first,
-    //                               currentpix.second);
-    //           lastpix = currentpix;
-    //         }
-    //       } else {
-    //         lastpix = std::make_pair(-1, -1);
-    //       }
-    //       currentpos.second -= step;
-    //     }
-    //   }
-    //   if (nextpos.first > pos.first) {
-    //     while (currentpos.first - pos.first <= (nextpos.first - pos.first))
-    //     {
-    //       currentpix = ConvertToPix(currentpos);
-    //       if (currentpix.first > domain.pixelstart &&
-    //           currentpix.second < graphwidth - domain.pixelend &&
-    //           currentpix.second > range.pixelend &&
-    //           currentpix.second < graphheight - range.pixelstart) {
-    //         if (lastpix.first != -1 && lastpix.second != -1) {
-    //           SDL_RenderDrawLine(renderer, lastpix.first, lastpix.second,
-    //                              currentpix.first, currentpix.second);
-    //           lastpix = currentpix;
-    //         } else {
-    //           SDL_RenderDrawPoint(renderer, currentpix.first,
-    //                               currentpix.second);
-    //           lastpix = currentpix;
-    //         }
-    //       } else {
-    //         lastpix = std::make_pair(-1, -1);
-    //       }
-    //       currentpos.first += step;
-    //     }
-    //   } else if (nextpos.first < pos.first) {
-    //     while (currentpos.first - pos.first >= (nextpos.first - pos.first))
-    //     {
-    //       currentpix = ConvertToPix(currentpos);
-    //       if (currentpix.first > domain.pixelstart &&
-    //           currentpix.second < graphwidth - domain.pixelend &&
-    //           currentpix.second > range.pixelend &&
-    //           currentpix.second < graphheight - range.pixelstart) {
-    //         if (lastpix.first != -1 && lastpix.second != -1) {
-    //           SDL_RenderDrawLine(renderer, lastpix.first, lastpix.second,
-    //                              currentpix.first, currentpix.second);
-    //           lastpix = currentpix;
-    //         } else {
-    //           SDL_RenderDrawPoint(renderer, currentpix.first,
-    //                               currentpix.second);
-    //           lastpix = currentpix;
-    //         }
-    //       } else {
-    //         lastpix = std::make_pair(-1, -1);
-    //       }
-    //       currentpos.first -= step;
-    //     }
-    //   }
-    // } else if (rangebased == true) {
-    //   if (nextpos.second > pos.second) {
-    //     while (currentpos.second - pos.second <
-    //            (nextpos.second - pos.second) / 2) {
-    //       currentpix = ConvertToPix(currentpos);
-    //       if (currentpix.first > domain.pixelstart &&
-    //           currentpix.second < graphwidth - domain.pixelend &&
-    //           currentpix.second > range.pixelend &&
-    //           currentpix.second < graphheight - range.pixelstart) {
-    //         if (lastpix.first != -1 && lastpix.second != -1) {
-    //           SDL_RenderDrawLine(renderer, lastpix.first, lastpix.second,
-    //                              currentpix.first, currentpix.second);
-    //           lastpix = currentpix;
-    //         } else {
-    //           SDL_RenderDrawPoint(renderer, currentpix.first,
-    //                               currentpix.second);
-    //           lastpix = currentpix;
-    //         }
-    //       } else {
-    //         lastpix = std::make_pair(-1, -1);
-    //       }
-    //       currentpos.second += step;
-    //     }
-    //   } else if (nextpos.second < pos.second) {
-    //     while (currentpos.second - pos.second >
-    //            (nextpos.second - pos.second) / 2) {
-    //       currentpix = ConvertToPix(currentpos);
-    //       if (currentpix.first > domain.pixelstart &&
-    //           currentpix.second < graphwidth - domain.pixelend &&
-    //           currentpix.second > range.pixelend &&
-    //           currentpix.second < graphheight - range.pixelstart) {
-    //         if (lastpix.first != -1 && lastpix.second != -1) {
-    //           SDL_RenderDrawLine(renderer, lastpix.first, lastpix.second,
-    //                              currentpix.first, currentpix.second);
-    //           lastpix = currentpix;
-    //         } else {
-    //           SDL_RenderDrawPoint(renderer, currentpix.first,
-    //                               currentpix.second);
-    //           lastpix = currentpix;
-    //         }
-    //       } else {
-    //         lastpix = std::make_pair(-1, -1);
-    //       }
-    //       currentpos.second -= step;
-    //     }
-    //   }
-    //   if (nextpos.first > pos.first) {
-    //     while (currentpos.first - pos.first <= (nextpos.first - pos.first))
-    //     {
-    //       currentpix = ConvertToPix(currentpos);
-    //       if (currentpix.first > domain.pixelstart &&
-    //           currentpix.second < graphwidth - domain.pixelend &&
-    //           currentpix.second > range.pixelend &&
-    //           currentpix.second < graphheight - range.pixelstart) {
-    //         if (lastpix.first != -1 && lastpix.second != -1) {
-    //           SDL_RenderDrawLine(renderer, lastpix.first, lastpix.second,
-    //                              currentpix.first, currentpix.second);
-    //           lastpix = currentpix;
-    //         } else {
-    //           SDL_RenderDrawPoint(renderer, currentpix.first,
-    //                               currentpix.second);
-    //           lastpix = currentpix;
-    //         }
-    //       } else {
-    //         lastpix = std::make_pair(-1, -1);
-    //       }
-    //       currentpos.first += step;
-    //     }
-    //   } else if (nextpos.first < pos.first) {
-    //     while (currentpos.first - pos.first >= (nextpos.first - pos.first))
-    //     {
-    //       currentpix = ConvertToPix(currentpos);
-    //       if (currentpix.first > domain.pixelstart &&
-    //           currentpix.second < graphwidth - domain.pixelend &&
-    //           currentpix.second > range.pixelend &&
-    //           currentpix.second < graphheight - range.pixelstart) {
-    //         if (lastpix.first != -1 && lastpix.second != -1) {
-    //           SDL_RenderDrawLine(renderer, lastpix.first, lastpix.second,
-    //                              currentpix.first, currentpix.second);
-    //           lastpix = currentpix;
-    //         } else {
-    //           SDL_RenderDrawPoint(renderer, currentpix.first,
-    //                               currentpix.second);
-    //           lastpix = currentpix;
-    //         }
-    //       } else {
-    //         lastpix = std::make_pair(-1, -1);
-    //       }
-    //       currentpos.first -= step;
-    //     }
-    //   }
-    // }
-    // if (nextpos.second > pos.second) {
-    //   while (currentpos.second - pos.second < (nextpos.second -
-    //   pos.second))
-    //   {
-    //     currentpix = ConvertToPix(currentpos);
-    //     if (currentpix.first > domain.pixelstart &&
-    //         currentpix.second < graphwidth - domain.pixelend &&
-    //         currentpix.second > range.pixelend &&
-    //         currentpix.second < graphheight - range.pixelstart) {
-    //       if (lastpix.first != -1 && lastpix.second != -1) {
-    //         SDL_RenderDrawLine(renderer, lastpix.first, lastpix.second,
-    //                            currentpix.first, currentpix.second);
-    //         lastpix = currentpix;
-    //       } else {
-    //         SDL_RenderDrawPoint(renderer, currentpix.first,
-    //         currentpix.second);
-    //         lastpix = currentpix;
-    //       }
-    //     } else {
-    //       lastpix = std::make_pair(-1, -1);
-    //     }
-    //     currentpos.second += step;
-    //   }
-    // } else if (nextpos.second < pos.second) {
-    //   while (currentpos.second - pos.second > (nextpos.second -
-    //   pos.second))
-    //   {
-    //     currentpix = ConvertToPix(currentpos);
-    //     if (currentpix.first > domain.pixelstart &&
-    //         currentpix.second < graphwidth - domain.pixelend &&
-    //         currentpix.second > range.pixelend &&
-    //         currentpix.second < graphheight - range.pixelstart) {
-    //       if (lastpix.first != -1 && lastpix.second != -1) {
-    //         SDL_RenderDrawLine(renderer, lastpix.first, lastpix.second,
-    //                            currentpix.first, currentpix.second);
-    //         lastpix = currentpix;
-    //       } else {
-    //         SDL_RenderDrawPoint(renderer, currentpix.first,
-    //         currentpix.second);
-    //         lastpix = currentpix;
-    //       }
-    //     } else {
-    //       lastpix = std::make_pair(-1, -1);
-    //     }
-    //     currentpos.second -= step;
-    //   }
-    // }
     DisplayPoint(ConvertToPix(points[i]), renderer);
   }
   DisplayPoint(ConvertToPix(points[points.size() - 1]), renderer);
