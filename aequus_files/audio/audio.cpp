@@ -1,60 +1,61 @@
-#include "../aequus_headers.hpp"
+#include "../log_indices.hpp"
+#include "../sdl_headers.hpp"
 #include "audio.hpp"
+#include "audio_headers.hpp"
 #include <pessum.h>
+#include <string>
 
 namespace aequus {
 namespace audio {
-int channels = 0, boundchannel = 0, boundchunk = 0;
-std::vector<Chunk> chunks;
-int logloc = 0;
+int channelcount = -1;
 }
 }
 
-void aequus::audio::InitializeAudio() {
-  logloc = pessum::logging::AddLogLocation("aequus_files/audio/audio.cpp");
-  InitalizeDevice();
-  music::InitalizeMusic();
-}
-
-void aequus::audio::InitalizeDevice() {
+void aequus::audio::InitDevice(int channels) {
   Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 4096);
-  AllocateChannels(1);
-  channels = 1;
+  InitChannels(channels);
+  pessum::logging::LogLoc(pessum::logging::SUCCESS, "Initialized audio device",
+                          logmap["AEQ_AUD"], "InitDevice");
 }
 
-void aequus::audio::TerminateDevice() { Mix_CloseAudio(); }
-
-void aequus::audio::AllocateChannels(int channelcount) {
-  Mix_AllocateChannels(channelcount);
-  channels = channelcount;
+void aequus::audio::DeleteDevice() {
+  if (channelcount != -1) {
+    Mix_CloseAudio();
+  }
+  pessum::logging::LogLoc(pessum::logging::SUCCESS, "Closed audio device",
+                          logmap["AEQ_AUD"], "DeleteDevice");
 }
 
-void aequus::audio::BindChannel(int channel) {
-  if (channel <= channels) {
-    boundchannel = channel;
+void aequus::audio::InitChannels(int count) {
+  Mix_AllocateChannels(count);
+  channelcount = count;
+}
+
+void aequus::audio::SetChannelVolume(int vol, int channel) {
+  if (CheckChannel(channel)) {
+    Mix_Volume(channel, vol);
   }
 }
 
-void aequus::audio::ChannelVolume(double percent, int channel) {
-  Mix_Volume(channel, percent * 128);
+void aequus::audio::StopChannel(int channel) {
+  if (CheckChannel(channel)) {
+    Mix_HaltChannel(channel);
+  }
 }
 
-void aequus::audio::PlayChunk(int loops, int fadein, int time, int chunk,
-                              int channel) {
-  Mix_FadeInChannelTimed(channel, chunks[chunk].GetChunk(), loops, fadein,
-                         time);
+void aequus::audio::PlayChunk(std::string file, int channel) {
+  Chunk sound;
+  if (CheckChannel(channel) && sound.Init(file)) {
+    Mix_FadeInChannelTimed(channel, sound.GetChunk(), 1, 0, -1);
+  }
 }
 
-void aequus::audio::StopChannel(int channel) { Mix_HaltChannel(channel); }
-
-void aequus::audio::PlaySound(std::string file, int channel) {
-  LoadSound(file);
-  PlayChunk();
-}
-
-void aequus::audio::LoadSound(std::string file) {
-  Chunk newchunk;
-  newchunk.Load(file);
-  chunks.push_back(newchunk);
-  boundchunk = chunks.size() - 1;
+bool aequus::audio::CheckChannel(int channel) {
+  if (channel < 1 || channel > channelcount) {
+    pessum::logging::LogLoc(pessum::logging::ERROR, "Invalid mixing channel: " +
+                                                        std::to_string(channel),
+                            logmap["AEQ_AUD"], "CheckChannel");
+    return (false);
+  }
+  return (true);
 }

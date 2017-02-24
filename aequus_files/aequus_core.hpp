@@ -1,19 +1,10 @@
-#ifndef _AEQUUS_FILES_AEQUUS_CORE_H_
-#define _AEQUUS_FILES_AEQUUS_CORE_H_
-#include <ctime>
+#ifndef AEQUUS_CORE_HPP
+#define AEQUUS_CORE_HPP
+#define DEV_MODE true
 namespace aequus {
-namespace framework {}
-namespace video {}
-namespace input {}
-namespace audio {}
-namespace fileio {}
-struct ValueGroup {
-  float x, y, z;
-  float r, g, b, a;
-  float w, h;
-};
-extern int FPS;
-extern time_t FPStimecheck;
+extern bool QuitState;
+void InitializeAequus();
+void TerminateAequus();
 void Frame();
 }
-#endif // !_AEQUUS_AEQUUS_CORE_H_
+#endif

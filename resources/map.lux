@@ -1,0 +1,5 @@
+#DATAFILE
+int indexcount 3
+vector double vals 1 0 0
+vector double vals 0 1 0
+vector double vals 0 0 1

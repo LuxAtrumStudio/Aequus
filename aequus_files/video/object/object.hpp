@@ -1,104 +1,57 @@
-#ifndef _AEQUUS_FILES_VIDEO_OBJECT_OBJECT_H_
-#define _AEQUUS_FILES_VIDEO_OBJECT_OBJECT_H_
+#ifndef VIDEO_OBJECT_OBJECT_HPP
+#define VIDEO_OBJECT_OBJECT_HPP
 #include "../../sdl_headers.hpp"
-#include "surface.hpp"
-#include "text.hpp"
-#include "texture.hpp"
+#include "../video_enums.hpp"
 #include <string>
 #include <vector>
 namespace aequus {
 namespace video {
-// Object class is used to manage everything to do with visual objects
-// Used to create an manipulates image texture or text textures
+enum RenderFlip { NOFLIP = 0, HORIZONTAL = 1, VERITCAL = 2 };
 class Object {
 public:
-  enum ObjectType { IMAGE, TEXT, BUTTON };
-  // Storage to Surface class assosiated with the object
-  Surface objsurface;
-  // Storage to Text class assosiated with the object
-  Text objtext;
-  // Storage to Texture class assosiated with the object
-  Texture objtexture;
-  ObjectType objtype = IMAGE;
-  // Sets the base initialization requiered for a new object
-  void InitalizeObj(SDL_Renderer *renderer = NULL, int counter = 0,
-                    std::string resource = "resources/");
-  // Creates a new image object, based off of the given file path
-  // Creates a new surface and links it to the texture
-  void CreateImgObj(std::string filepath = "NULL.png",
-                    SDL_Renderer *renderer = NULL);
-  // Creates a new text object, based off of the given text and other parameters
-  // Creates a new text and links it to the texture
-  void CreateTextObj(std::string text = "NULL", int point = 12, double red = 1,
-                     double green = 1, double blue = 1, double alpha = 1,
-                     Text::FontWeight weight = Text::REGULAR,
-                     bool italic = false,
-                     std::string fontdirectory = "Raleway/",
-                     SDL_Renderer *renderer = NULL);
-  // Scales the object to be a raw x by y size
-  void Scale(int x = -1, int y = -1);
-  // Scales the object relative to the percent of the total window size
-  void ScalePercent(double x = 1, double y = 1);
-  // Moves the object by adding the x and y to the current position vector for
-  // the object
-  void Translate(int x = 0, int y = 0);
-  // Sets the objects position vector to x and y
-  void SetPos(int x = 0, int y = 0);
-  // Alters the color modification for the texture
-  void SetColor(double red, double green, double blue, double alpha);
-  // Selects a specific portion of the object to copy to the renderer
-  // The final appearence is always at the correct scale, causing the clip to be
-  // streached as needed
-  void SetClipSpace(int startx, int starty, int width, int height);
-  // Rotates the object around a set point
-  void Rotate(double angle = 0, bool degree = false, int axisx = -1,
-              int axisy = -1);
-  // Renders a copy of the object to the currently set renderer
-  void DisplayObj();
-  // Creates a button that returns the button id
-  void CreateButton(std::string text = "NULL",
-                    std::string imagepath = "NULL.png", bool whitetext = false,
-                    bool clipbutton = false, bool imagebutton = false,
-                    int width = -1, int height = -1,
-                    SDL_Renderer *renderer = NULL);
-  // Updates and checks if a button has been pressed
-  bool UpdateButton(int mousex = 0, int mousey = 0, int mousestate = 0);
-  // Load default values
-  void LoadDefaults(int width = -1, int height = -1);
-  // Returns private values
-  int GetIntValue(std::string value);
-  // Terminates object
-  void TerminateObject();
+  int type = 0;
+  virtual void Dummy() {}
+  void SetRenderer(SDL_Renderer *renderer = NULL);
+  void SetColorMod(std::vector<int> colors);
+  void SetColorMod(std::vector<double> colors);
+  void SetBlendMode(BlendMode mode);
+  void Rotate(double theta);
+  void Rotate(int degree);
+  void Flip(RenderFlip renderflip);
+  void SetRotatePoint(int x, int y);
+  void SetRotatePoint(double x, double y);
+  void SetSourceRect(std::vector<int> rect);
+  void SetSourceRect(std::vector<double> rect);
+  void SetDestRect(std::vector<int> rect);
+  void SetDestRect(std::vector<double> rect);
+  void Scale(int scaledwidth, int scaledheight);
+  void Scale(double scaledwidth, double scaledheight);
+  void SetPos(int x, int y);
+  void UpdateTexture();
+  std::pair<int, int> GetSize();
+  void Display();
 
-private:
-  // Pointer to logging locaiton
-  int logloc = 0;
-  // Pointer to currently set sdl renderer
-  SDL_Renderer *objrenderer;
-  // Position, size, and point of rotation data for the object
-  int posx, posy, sizex, sizey, rotateaxisx, rotateaxisy;
-  double scalex, scaley;
-  // Clipping locaiton and size data fo the object
-  int clipx, clipy, clipsizex, clipsizey;
-  int destsizex, destsizey;
-  // The angle of rotation applied to the object
-  double rotateangle;
-  // The color modification data for the object
-  //[0] red, [1] green, [2] blue, [3] alpha
-  double colormod[4];
-  // Baseline colormod data
-  double savedcolormod[4] = {0, 0, 0, 0};
-  // Mouseover colormod data
-  double mouseovercolormod[4] = {-0.3, -0.3, -0.3, 0};
-  // MousePress colormod data
-  double mousepresscolormod[4] = {-1, -0.5, -0.15, 0};
-  // Sets weather to update button based on color mod or clipspace
-  bool buttonclip = false;
-  // Standard directory for all resources
-  // Image files are stored in "images/"
-  // Font files are stored in "fonts/"
-  std::string resourcedir = "resources/";
+  virtual void Delete();
+  SDL_Texture *sdltexture = NULL;
+  SDL_Surface *sdlsurface = NULL;
+
+protected:
+  void InitTexture(SDL_Surface *surface = NULL, SDL_Renderer *renderer = NULL);
+  void DeleteTexture();
+  int width = 0, height = 0, posx = 0, posy = 0, rotatex = 0, rotatey = 0,
+      scalewidth = 0, scaleheight = 0;
+  double angle = 0;
+  BlendMode blend = NONE;
+  RenderFlip flip = NOFLIP;
+  std::vector<int> sourcerect = {0, 0, 0, 0}, destrect = {0, 0, 0, 0},
+                   colormod = {255, 255, 255, 255};
+
+  SDL_RendererFlip sdlflip = SDL_FLIP_NONE;
+  SDL_BlendMode sdlblend = SDL_BLENDMODE_NONE;
+  SDL_Point *sdlrotate = NULL;
+  SDL_Rect *sdlsourcerect = NULL, *sdldestrect = NULL;
+  SDL_Renderer *sdlrenderer = NULL;
 };
 }
 }
-#endif // !_AEQUUS_FILES_VIDEO_OBJECT_OBJECT_H_
+#endif

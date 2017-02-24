@@ -1,469 +1,254 @@
-#include "../../aequus_headers.hpp"
+#include "../../framework/framework.hpp"
+#include "../../log_indices.hpp"
 #include "../../sdl_headers.hpp"
+#include "../video_enums.hpp"
+#include "image/image.hpp"
 #include "object.hpp"
 #include <pessum.h>
 #include <string>
-#include <vector>
 
-void aequus::video::Object::InitalizeObj(SDL_Renderer *renderer, int counter,
-                                         std::string resource) {
-  logloc = pessum::logging::AddLogLocation(
-      "aequus_files/video/object/object.cpp[" + std::to_string(counter) + "]/");
-  resourcedir = resource;
-  objrenderer = renderer;
+void aequus::video::Object::SetRenderer(SDL_Renderer *renderer) {
+  sdlrenderer = renderer;
 }
 
-void aequus::video::Object::CreateImgObj(std::string filepath,
-                                         SDL_Renderer *renderer) {
-  if (filepath != "") {
-    filepath = resourcedir + "images/" + filepath;
-    objsurface.LoadSurface(filepath);
+void aequus::video::Object::SetColorMod(std::vector<int> colors) {
+  bool updatec = false, updatea = false;
+  for (int i = 0; i < colormod.size() && i < colors.size(); i++) {
+    if (colormod[i] != colors[i]) {
+      if (i != 3) {
+        updatec = true;
+      } else {
+        updatea = true;
+      }
+      colormod[i] = colors[i];
+    }
   }
-  if (renderer != NULL) {
-    objrenderer = renderer;
+  if (updatec == true &&
+      SDL_SetTextureColorMod(sdltexture, colormod[0], colormod[1],
+                             colormod[2]) != 0) {
+    pessum::logging::LogLoc(pessum::logging::WARNING,
+                            "Failed to set texture colormod",
+                            logmap["AEQ_VID_OBJ"], "SetColorMod");
+    framework::GetSdlError(framework::SDL);
   }
-  if (objsurface.sdlsurface != NULL) {
-    objtexture.SetRenderer(objrenderer);
-    objtexture.CreateTexture(objsurface.sdlsurface);
-  }
-  posx = 0;
-  posy = 0;
-  if (objtexture.sdltexture != NULL) {
-    sizex = objsurface.sdlsurface->w;
-    sizey = objsurface.sdlsurface->h;
-    rotateaxisx = sizex / 2;
-    rotateaxisy = sizey / 2;
-    objtexture.SetRotatePoint(rotateaxisx, rotateaxisy);
-    destsizex = sizex;
-    destsizey = sizey;
-  }
-  rotateangle = 0;
-  objtype = IMAGE;
-  objsurface.Terminate();
-}
-
-void aequus::video::Object::CreateTextObj(
-    std::string text, int point, double red, double green, double blue,
-    double alpha, aequus::video::Text::FontWeight weight, bool italic,
-    std::string fontdirectory, SDL_Renderer *renderer) {
-  colormod[0] = red;
-  colormod[1] = green;
-  colormod[2] = blue;
-  colormod[3] = alpha;
-  fontdirectory = resourcedir + "fonts/" + fontdirectory;
-  objtext.CreateText(text, point, weight, italic, fontdirectory, colormod);
-  if (renderer != NULL) {
-    objrenderer = renderer;
-  }
-  objtexture.SetRenderer(objrenderer);
-  objtexture.CreateTexture(objtext.textsurface);
-  sizex = objtext.textsurface->w;
-  sizey = objtext.textsurface->h;
-  objtype = TEXT;
-}
-
-void aequus::video::Object::Scale(int x, int y) {
-  sizex = x;
-  sizey = y;
-  destsizex = x;
-  destsizey = y;
-  int rect[4] = {posx, posy, sizex, sizey};
-  objtexture.SetDestinationRect(rect);
-  if (objtype == BUTTON) {
-    UpdateButton(posx + 1, posy + 1, 0);
-    UpdateButton(posx, posy, 0);
+  if (updatea == true && SDL_SetTextureAlphaMod(sdltexture, colormod[3]) != 0) {
+    pessum::logging::LogLoc(pessum::logging::WARNING,
+                            "Failed to set texture alpha mod",
+                            logmap["AEQ_VID_OBJ"], "SetColorMod");
   }
 }
 
-void aequus::video::Object::ScalePercent(double x, double y) {
-  destsizex = x * sizex;
-  destsizey = y * sizey;
-  scalex = x;
-  scaley = y;
-  int rect[4] = {posx, posy, destsizex, destsizey};
-  objtexture.SetDestinationRect(rect);
-  if (objtype == BUTTON) {
-    UpdateButton(posx + 1, posy + 1, 0);
-    UpdateButton(posx, posy, 0);
+void aequus::video::Object::SetColorMod(std::vector<double> colors) {
+  std::vector<int> newcolors;
+  for (int i = 0; i < colors.size(); i++) {
+    newcolors.push_back(colors[i] * 255);
+  }
+  SetColorMod(newcolors);
+}
+
+void aequus::video::Object::SetBlendMode(BlendMode mode) {
+  if (mode != blend) {
+    blend = mode;
+    if (blend == NONE) {
+      sdlblend = SDL_BLENDMODE_NONE;
+    } else if (blend == BLEND) {
+      sdlblend = SDL_BLENDMODE_BLEND;
+    } else if (blend == ADD) {
+      sdlblend = SDL_BLENDMODE_ADD;
+    } else if (blend == MOD) {
+      sdlblend = SDL_BLENDMODE_MOD;
+    }
+    SDL_SetTextureBlendMode(sdltexture, sdlblend);
+    UpdateTexture();
   }
 }
 
-void aequus::video::Object::Translate(int x, int y) {
-  posx = posy + x;
-  posy = posy + y;
-  int rect[4] = {posx, posy, sizex, sizey};
-  objtexture.SetDestinationRect(rect);
-  if (objtype == BUTTON) {
-    UpdateButton(posx + 1, posy + 1, 0);
-    UpdateButton(posx, posy, 0);
+void aequus::video::Object::Rotate(double theta) {
+  angle = theta * (180.0 / 3.141592653);
+}
+
+void aequus::video::Object::Rotate(int degree) { angle = degree; }
+
+void aequus::video::Object::Flip(RenderFlip renderflip) {
+  if (flip != renderflip) {
+    flip = renderflip;
+    if (flip == NOFLIP) {
+      sdlflip = SDL_FLIP_NONE;
+    } else if (flip == HORIZONTAL) {
+      sdlflip = SDL_FLIP_HORIZONTAL;
+    } else if (flip == VERITCAL) {
+      sdlflip = SDL_FLIP_VERTICAL;
+    }
   }
+}
+
+void aequus::video::Object::SetRotatePoint(int x, int y) {
+  rotatex = x;
+  rotatey = y;
+  if (rotatex != sdlrotate->x) {
+    sdlrotate->x = rotatex;
+  }
+  if (rotatey != sdlrotate->y) {
+    sdlrotate->y = rotatey;
+  }
+}
+
+void aequus::video::Object::SetRotatePoint(double x, double y) {
+  rotatex = scalewidth * x;
+  rotatey = scaleheight * y;
+  if (rotatex != sdlrotate->x) {
+    sdlrotate->x = rotatex;
+  }
+  if (rotatey != sdlrotate->y) {
+    sdlrotate->y = rotatey;
+  }
+}
+
+void aequus::video::Object::SetSourceRect(std::vector<int> rect) {
+  sourcerect = rect;
+  if (sourcerect.size() == 4) {
+    sdlsourcerect->x = sourcerect[0];
+    sdlsourcerect->y = sourcerect[1];
+    sdlsourcerect->w = sourcerect[2];
+    sdlsourcerect->h = sourcerect[3];
+  } else {
+    sdlsourcerect = NULL;
+  }
+}
+
+void aequus::video::Object::SetSourceRect(std::vector<double> rect) {
+  std::vector<int> newrect;
+  newrect.push_back(rect[0] * width);
+  newrect.push_back(rect[1] * height);
+  newrect.push_back(rect[2] * width);
+  newrect.push_back(rect[3] * height);
+  SetSourceRect(newrect);
+}
+
+void aequus::video::Object::SetDestRect(std::vector<int> rect) {
+  destrect = rect;
+  if (destrect.size() == 4) {
+    sdldestrect->x = destrect[0];
+    sdldestrect->y = destrect[1];
+    sdldestrect->w = destrect[2];
+    sdldestrect->h = destrect[3];
+  } else {
+    sdldestrect = NULL;
+  }
+}
+
+void aequus::video::Object::SetDestRect(std::vector<double> rect) {
+  std::vector<int> newrect;
+  newrect.push_back(rect[0] * width);
+  newrect.push_back(rect[1] * height);
+  newrect.push_back(rect[2] * width);
+  newrect.push_back(rect[3] * height);
+  SetDestRect(newrect);
+}
+
+void aequus::video::Object::Scale(int scaledwidth, int scaledheight) {
+  if (scaledwidth == -1) {
+    scaledwidth = width;
+  }
+  if (scaledheight == -1) {
+    scaledheight = height;
+  }
+  scalewidth = scaledwidth;
+  scaleheight = scaledheight;
+  SetDestRect(std::vector<int>{0, 0, scaledwidth, scaledheight});
+}
+
+void aequus::video::Object::Scale(double scaledwidth, double scaledheight) {
+  Scale((int)(scaledwidth * width), (int)(scaledheight * height));
 }
 
 void aequus::video::Object::SetPos(int x, int y) {
   posx = x;
   posy = y;
-  int rect[4] = {posx, posy, sizex, sizey};
-  objtexture.SetDestinationRect(rect);
-  if (objtype == BUTTON) {
-    UpdateButton(posx + 1, posy + 1, 0);
-    UpdateButton(posx, posy, 0);
+}
+
+void aequus::video::Object::UpdateTexture() {
+  // SDL_DestroyTexture(sdltexture);
+  InitTexture();
+}
+
+std::pair<int, int> aequus::video::Object::GetSize() {
+  return (std::pair<int, int>(scalewidth, scaleheight));
+}
+
+void aequus::video::Object::Display() {
+  if (sdltexture != NULL) {
+    sdldestrect->x += posx;
+    sdldestrect->y += posy;
+    if (SDL_RenderCopyEx(sdlrenderer, sdltexture, sdlsourcerect, sdldestrect,
+                         angle, sdlrotate, sdlflip) != 0) {
+      pessum::logging::LogLoc(pessum::logging::ERROR,
+                              "Failed to copy texture to renderer",
+                              logmap["AEQ_VID_OBJ"], "Display");
+      framework::GetSdlError(framework::SDL);
+    }
+    sdldestrect->x -= posx;
+    sdldestrect->y -= posy;
   }
 }
 
-void aequus::video::Object::SetColor(double red, double green, double blue,
-                                     double alpha) {
-  colormod[0] = red;
-  colormod[1] = green;
-  colormod[2] = blue;
-  colormod[3] = alpha;
-  objtexture.SetColorMod(colormod);
-  for (int i = 0; i < 4; i++) {
-    savedcolormod[i] = colormod[i];
+void aequus::video::Object::InitTexture(SDL_Surface *surface,
+                                        SDL_Renderer *renderer) {
+  if (surface == NULL) {
+    surface = sdlsurface;
   }
-}
-
-void aequus::video::Object::SetClipSpace(int startx, int starty, int width,
-                                         int height) {
-  if (clipx != startx || clipy != starty || clipsizex != width ||
-      clipsizey != height) {
-    clipx = startx;
-    clipy = starty;
-    clipsizex = width;
-    clipsizey = height;
-    destsizex = clipsizex * scalex;
-    destsizey = clipsizey * scaley;
-    int rect[4] = {clipx, clipy, clipsizex, clipsizey};
-    int rectdest[4] = {posx, posy, destsizex, destsizey};
-    objtexture.SetSourceRect(rect);
-    objtexture.SetDestinationRect(rectdest);
+  if (renderer == NULL) {
+    renderer = sdlrenderer;
   }
-}
-
-void aequus::video::Object::Rotate(double angle, bool degree, int axisx,
-                                   int axisy) {
-  rotateangle = angle;
-  if (axisx != -1 && axisy != -1) {
-    rotateaxisx = axisx;
-    rotateaxisy = axisy;
-    objtexture.SetRotatePoint(rotateaxisx, rotateaxisy);
+  if (sdlsurface != NULL) {
+    DeleteTexture();
   }
-  objtexture.Rotate(rotateangle, degree);
-}
-
-void aequus::video::Object::DisplayObj() { objtexture.Render(); }
-
-void aequus::video::Object::CreateButton(std::string text,
-                                         std::string imagepath, bool whitetext,
-                                         bool clipbutton, bool imagebutton,
-                                         int width, int height,
-                                         SDL_Renderer *renderer) {
-  imagepath = resourcedir + "images/" + imagepath;
-  int surfaceheight = 0, textheight = 0;
-  int surfacewidth = 0, textwidth = 0;
-  scalex = 1;
-  scaley = 1;
-  int pt = 12;
-  bool sizing = true, shrink = false, grow = false;
-  objsurface.LoadSurface(imagepath);
-  if (width != -1 || height != -1) {
-    if (width == -1) {
-      width = objsurface.sdlsurface->w;
-    }
-    if (height == -1) {
-      height = objsurface.sdlsurface->h;
-    }
-    if (clipbutton == true) {
-      objsurface.ScaleSurface(width, height * 4);
-    } else if (clipbutton == false) {
-      objsurface.ScaleSurface(width, height);
-    }
-  }
-  surfacewidth = objsurface.sdlsurface->w;
-  surfaceheight = objsurface.sdlsurface->h;
-  if (clipbutton == true) {
-    surfaceheight = surfaceheight / 4;
-  }
-  if (text.size() != 0 && imagebutton == false) {
-    objtext.CreateFont();
-    if (whitetext == true) {
-      double color[4] = {1, 1, 1, 1};
-      objtext.SetColor(color);
-    }
-    while (sizing == true) {
-      objtext.SetPoint(pt);
-      objtext.FindSize(&textwidth, &textheight, text);
-      if (textwidth > surfacewidth - 10 || textheight > surfaceheight - 10) {
-        pt--;
-        shrink = true;
-        if (grow == true) {
-          sizing = false;
-        }
-      } else if (textwidth < (float)surfacewidth / 0.9 &&
-                 textheight < (float)surfaceheight / 0.9) {
-        pt++;
-        grow = true;
-        if (shrink == true) {
-          sizing = false;
-        }
-      } else {
-        sizing = false;
-      }
-      if (pt > 100) {
-        sizing = false;
-      }
-    }
-    objtext.RenderText(text);
-    SDL_Rect recttext;
-    recttext.h = surfaceheight;
-    recttext.w = surfacewidth;
-    recttext.x = 0;
-    recttext.y = 0;
-    SDL_Rect rectsurface;
-    rectsurface.h = surfaceheight;
-    rectsurface.w = surfacewidth;
-    rectsurface.x = (surfacewidth - objtext.textsurface->w) / 2;
-    rectsurface.y = (surfaceheight - objtext.textsurface->h) / 2;
-    SDL_BlitScaled(objtext.textsurface, &recttext, objsurface.sdlsurface,
-                   &rectsurface);
-    if (clipbutton == true) {
-      rectsurface.h = surfaceheight;
-      rectsurface.w = surfacewidth;
-      rectsurface.y =
-          ((surfaceheight - objtext.textsurface->h) / 2) + surfaceheight;
-      SDL_BlitScaled(objtext.textsurface, &recttext, objsurface.sdlsurface,
-                     &rectsurface);
-      rectsurface.h = surfaceheight;
-      rectsurface.w = surfacewidth;
-      rectsurface.y =
-          ((surfaceheight - objtext.textsurface->h) / 2) + (2 * surfaceheight);
-      SDL_BlitScaled(objtext.textsurface, &recttext, objsurface.sdlsurface,
-                     &rectsurface);
-      rectsurface.h = surfaceheight;
-      rectsurface.w = surfacewidth;
-      rectsurface.y =
-          ((surfaceheight - objtext.textsurface->h) / 2) + (3 * surfaceheight);
-      SDL_BlitScaled(objtext.textsurface, &recttext, objsurface.sdlsurface,
-                     &rectsurface);
-    }
-  }
-  if (imagebutton == true) {
-    Surface imagesurface;
-    text = resourcedir + "images/" + text;
-    imagesurface.LoadSurface(text);
-    SDL_Rect rectimage;
-    if (imagesurface.sdlsurface->w > surfacewidth ||
-        imagesurface.sdlsurface->h > surfaceheight) {
-      rectimage.w = imagesurface.sdlsurface->w;
-      rectimage.h = imagesurface.sdlsurface->h;
+  sdlsurface = surface;
+  sdlrenderer = renderer;
+  if (sdlsurface == NULL) {
+    pessum::logging::LogLoc(pessum::logging::ERROR, "Invalid surface",
+                            logmap["AEQ_VID_OBJ"], "CreateTexture");
+    framework::GetSdlError(framework::IMG);
+  } else if (sdlrenderer == NULL) {
+    pessum::logging::LogLoc(pessum::logging::ERROR, "Invalid renderer",
+                            logmap["AEQ_VID_OBJ"], "CreateTexture");
+  } else if (sdlsurface != NULL && sdlrenderer != NULL) {
+    sdltexture = SDL_CreateTextureFromSurface(sdlrenderer, sdlsurface);
+    if (sdltexture == NULL) {
+      pessum::logging::LogLoc(pessum::logging::ERROR,
+                              "Failed to create texture from surface",
+                              logmap["AEQ_VID_OBJ"], "CreateTexture");
+      framework::GetSdlError(framework::SDL);
     } else {
-      rectimage.w = surfacewidth;
-      rectimage.h = surfaceheight;
+      pessum::logging::LogLoc(pessum::logging::SUCCESS,
+                              "Created texture from surface",
+                              logmap["AEQ_VID_OBJ"], "CreateTexture");
+      width = sdlsurface->w;
+      height = sdlsurface->h;
+      scalewidth = width;
+      scaleheight = height;
+      sdlrotate = new SDL_Point();
+      sdlrotate->x = width / 2;
+      sdlrotate->y = height / 2;
+      sdlsourcerect = NULL;
+      sdldestrect = new SDL_Rect;
+      sdldestrect->x = 0;
+      sdldestrect->y = 0;
+      sdldestrect->w = width;
+      sdldestrect->h = height;
     }
-    rectimage.x = 0;
-    rectimage.y = 0;
-    SDL_Rect rectsurface;
-    rectsurface.h = surfaceheight;
-    rectsurface.w = surfacewidth;
-    rectsurface.x = (surfacewidth - imagesurface.sdlsurface->w) / 2;
-    rectsurface.y = (surfaceheight - imagesurface.sdlsurface->h) / 2;
-    if (rectsurface.x < 0) {
-      rectsurface.x = 0;
-    }
-    if (rectsurface.y < 0) {
-      rectsurface.y = 0;
-    }
-    SDL_BlitScaled(imagesurface.sdlsurface, &rectimage, objsurface.sdlsurface,
-                   &rectsurface);
-    if (clipbutton == true) {
-      rectsurface.h = surfaceheight;
-      rectsurface.w = surfacewidth;
-      rectsurface.y =
-          ((surfaceheight - imagesurface.sdlsurface->h) / 2) + surfaceheight;
-      if (rectsurface.y < surfaceheight) {
-        rectsurface.y = surfaceheight;
-      }
-      SDL_BlitScaled(imagesurface.sdlsurface, &rectimage, objsurface.sdlsurface,
-                     &rectsurface);
-      rectsurface.h = surfaceheight;
-      rectsurface.w = surfacewidth;
-      rectsurface.y = ((surfaceheight - imagesurface.sdlsurface->h) / 2) +
-                      (2 * surfaceheight);
-      if (rectsurface.y < surfaceheight * 2) {
-        rectsurface.y = surfaceheight * 2;
-      }
-      SDL_BlitScaled(imagesurface.sdlsurface, &rectimage, objsurface.sdlsurface,
-                     &rectsurface);
-      rectsurface.h = surfaceheight;
-      rectsurface.w = surfacewidth;
-      rectsurface.y = ((surfaceheight - imagesurface.sdlsurface->h) / 2) +
-                      (3 * surfaceheight);
-      if (rectsurface.y < surfaceheight * 3) {
-        rectsurface.y = surfaceheight * 3;
-      }
-      SDL_BlitScaled(imagesurface.sdlsurface, &rectimage, objsurface.sdlsurface,
-                     &rectsurface);
-    }
-  }
-  objtexture.SetRenderer(objrenderer);
-  objtexture.CreateTexture(objsurface.sdlsurface);
-  posx = 0;
-  posy = 0;
-  sizex = objsurface.sdlsurface->w;
-  sizey = objsurface.sdlsurface->h;
-  rotateaxisx = sizex / 2;
-  rotateaxisy = sizey / 2;
-  objtexture.SetRotatePoint(rotateaxisx, rotateaxisy);
-  rotateangle = 0;
-  objtype = BUTTON;
-  buttonclip = clipbutton;
-  destsizex = sizex;
-  destsizey = sizey;
-  if (buttonclip == true) {
-    SetClipSpace(0, 0, surfacewidth, surfaceheight);
-  }
-  for (int a = 0; a < 4; a++) {
-    savedcolormod[a] = 1;
   }
 }
 
-bool aequus::video::Object::UpdateButton(int mousex, int mousey,
-                                         int mousestate) {
-  bool clicked = false, update = false;
-  if (buttonclip == false) {
-    if (mousex < destsizex + posx && mousex > posx) {
-      if (mousey < destsizey + posy && mousey > posy) {
-        // pessum::logging::Log(pessum::logging::DATA,
-        //                     std::to_string(posx) + "-" +
-        //                         std::to_string(mousex) + "-" +
-        //                         std::to_string(destsizex + posx));
-        if (mousestate == 0) {
-          for (int a = 0; a < 4; a++) {
-            if (colormod[a] != savedcolormod[a] + mouseovercolormod[a]) {
-              update = true;
-            }
-          }
-          if (update == true) {
-            for (int a = 0; a < 4; a++) {
-              colormod[a] = savedcolormod[a] + mouseovercolormod[a];
-            }
-            objtexture.SetColorMod(colormod);
-          }
-        }
-        if (mousestate == 1) {
-          for (int a = 0; a < 4; a++) {
-            if (colormod[a] != savedcolormod[a] + mousepresscolormod[a]) {
-              update = true;
-            }
-          }
-          if (update == true) {
-            for (int a = 0; a < 4; a++) {
-              colormod[a] = savedcolormod[a] + mousepresscolormod[a];
-            }
-            objtexture.SetColorMod(colormod);
-          }
-        }
-        if (mousestate == 2) {
-          for (int a = 0; a < 4; a++) {
-            colormod[a] = savedcolormod[a] + mouseovercolormod[a];
-          }
-          objtexture.SetColorMod(colormod);
-          clicked = true;
-        }
-      } else {
-        SetColor(savedcolormod[0], savedcolormod[1], savedcolormod[2],
-                 savedcolormod[3]);
-      }
-    } else {
-      SetColor(savedcolormod[0], savedcolormod[1], savedcolormod[2],
-               savedcolormod[3]);
-    }
+void aequus::video::Object::DeleteTexture() {
+  if (sdlsurface != NULL) {
+    // SDL_FreeSurface(sdlsurface);
   }
-  if (buttonclip == true) {
-    if (mousex < destsizex + posx && mousex > posx) {
-      if (mousey < destsizey + posy && mousey > posy) {
-        if (mousestate == 0) {
-          SetClipSpace(0, sizey / 4, sizex, sizey / 4);
-        }
-        if (mousestate == 1) {
-          SetClipSpace(0, sizey / 2, sizex, sizey / 4);
-        }
-        if (mousestate == 2) {
-          SetClipSpace(0, 3 * (sizey / 4), sizex, sizey / 4);
-          clicked = true;
-        }
-      } else {
-        SetClipSpace(0, 0, sizex, sizey / 4);
-      }
-    } else {
-      SetClipSpace(0, 0, sizex, sizey / 4);
-    }
+  if (sdltexture != NULL) {
+    SDL_DestroyTexture(sdltexture);
   }
-  return (clicked);
+  sdlsurface = NULL;
+  sdltexture = NULL;
 }
 
-void aequus::video::Object::LoadDefaults(int width, int height) {
-  posx = 0;
-  posy = 0;
-  if (objtexture.sdltexture != NULL) {
-    if (width == -1) {
-      sizex = objsurface.sdlsurface->w;
-    } else if (width != -1) {
-      sizex = width;
-    }
-    if (height == -1) {
-      sizey = objsurface.sdlsurface->h;
-    } else if (height != -1) {
-      sizey = height;
-    }
-    rotateaxisx = sizex / 2;
-    rotateaxisy = sizey / 2;
-    objtexture.SetRotatePoint(rotateaxisx, rotateaxisy);
-    destsizex = sizex;
-    destsizey = sizey;
-  }
-  rotateangle = 0;
-  objtype = IMAGE;
-}
-
-int aequus::video::Object::GetIntValue(std::string value) {
-  if (value == "sizex") {
-    return (sizex);
-  }
-  if (value == "sizey") {
-    return (sizey);
-  }
-  if (value == "posx") {
-    return (posx);
-  }
-  if (value == "posy") {
-    return (posy);
-  }
-  return (0);
-}
-
-void aequus::video::Object::TerminateObject() {
-  logloc = 0;
-  posx = 0;
-  posy = 0;
-  sizex = 0;
-  sizey = 0;
-  rotateaxisx = 0;
-  rotateaxisy = 0;
-  scalex = 1;
-  scaley = 1;
-  clipx = 0;
-  clipy = 0;
-  clipsizex = 0;
-  clipsizey = 0;
-  destsizex = 0;
-  destsizey = 0;
-  rotateangle = 0;
-  buttonclip = false;
-  resourcedir = "resources/";
-  objtexture.TerminateTexture();
-  if (objtype == IMAGE) {
-    objsurface.Terminate();
-  } else if (objtype == TEXT) {
-    objtext.TerminateText();
-  }
-}
+void aequus::video::Object::Delete() {}

@@ -1,7 +1,22 @@
 CPP_FILES = $(wildcard *.cpp)
 OBJ_FILES = $(notdir $(CPP_FILES:.cpp=.o))
-COMPILER_FLAGS = -MMD -std=c++11 -w -c
-LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
-main:$(OBJ_FILES)
+
+all: $(OBJ_FILES) subsystem
+
 %.o: %.cpp %.hpp
-	$(CC) $(COMPILER_FLAGS) -o $(notdir $*).o $*.cpp $(LINKER_FLAGS)
+	$(COMPILER) $(COMPILER_FLAGS) -o $(notdir $*).o $*.cpp
+
+.PHONY : subsystem
+subsystem:
+	@setterm -fore red
+	@printf "AUDIO/"
+	@setterm -fore blue
+	@printf "CHUNK\n"
+	@setterm -fore white
+	@cd chunk && $(MAKE)
+	@setterm -fore red
+	@printf "AUDIO/"
+	@setterm -fore green
+	@printf "MUSIC\n"
+	@setterm -fore white
+	@cd music && $(MAKE)
