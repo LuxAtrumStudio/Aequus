@@ -12,28 +12,28 @@ std::map<std::string, int> logmap;
 }
 
 void aequus::InitializeAequus() {
-  pessum::InitializePessumComponents(DEV_MODE);
+  pessum::InitializePessum(DEV_MODE, true);
   duco::LoadOperMap();
-  std::vector<std::string> locations = {"aequus/",
-                                        "aequus/audio/",
-                                        "aequus/audio/chunk/",
-                                        "aequus/audio/music/",
-                                        "aequus/audio/music/song/",
-                                        "aequus/framework/",
-                                        "aequus/input/",
-                                        "aequus/video/",
-                                        "aequus/video/layout/",
-                                        "aequus/video/object/",
-                                        "aequus/video/object/button/",
-                                        "aequus/video/object/canvas/",
-                                        "aequus/video/object/graph/",
-                                        "aequus/video/object/plot/",
-                                        "aequus/video/object/image/",
-                                        "aequus/video/object/spacer/",
-                                        "aequus/video/object/text/",
-                                        "aequus/video/object/font/",
-                                        "aequus/video/renderer/",
-                                        "aequus/video/window/"};
+  std::vector<std::string> locations = {"aequus",
+                                        "aequus/audio",
+                                        "aequus/audio/chunk",
+                                        "aequus/audio/music",
+                                        "aequus/audio/music/song",
+                                        "aequus/framework",
+                                        "aequus/input",
+                                        "aequus/video",
+                                        "aequus/video/layout",
+                                        "aequus/video/object",
+                                        "aequus/video/object/button",
+                                        "aequus/video/object/canvas",
+                                        "aequus/video/object/graph",
+                                        "aequus/video/object/plot",
+                                        "aequus/video/object/image",
+                                        "aequus/video/object/spacer",
+                                        "aequus/video/object/text",
+                                        "aequus/video/object/font",
+                                        "aequus/video/renderer",
+                                        "aequus/video/window"};
   for (int i = 0; i < locations.size(); i++) {
     std::string key = "";
     int add = 3;
@@ -57,7 +57,7 @@ void aequus::InitializeAequus() {
 void aequus::TerminateAequus() {
   audio::DeleteDevice();
   framework::TerminateSdl();
-  pessum::TerminatePessumComponents();
+  pessum::TerminatePessum();
 }
 
 void aequus::Frame() {

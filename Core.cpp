@@ -20,8 +20,8 @@ int main(int argc, char *argv[]) {
   gra.SetFont("Roboto");
   gra.SetTitleFont("Title");
   gra.SetLabelFont("Label");
-  gra.SetGrid(0, 10, 0);
-  gra.SetGrid(1, 10, 0);
+  // gra.SetGrid(0, 10, 0);
+  // gra.SetGrid(1, 10, 0);
   gra.SetGraphTitle("Testing Graph");
   gra.SetAxisTitle(0, "X");
   gra.SetAxisTitle(1, "Y");
@@ -30,12 +30,13 @@ int main(int argc, char *argv[]) {
   gra.SetDrawTitle(true);
   gra.SetDrawLabel(true);
   gra.SetDrawEquation(true);
-  gra.SetRange(0, -10, 10);
-  gra.SetRange(1, -10, 10);
+  gra.SetRange(0, 0, 1000);
+  gra.SetRange(1, 0, 1000);
+  // gra.SetRange(-1, 0, 100);
   // gra.SetRange(-1, 0, 100);
   // gra.SetRange(-1, 0, 50.264);
   // gra.SetRange(-1, 0, 25.132);
-  gra.SetRange(-1, 0, 6.28);
+  // gra.SetRange(-1, 0, 6.28);
   gra.Update();
 
   aequus::video::Plot plo, plot, plot2;
@@ -47,13 +48,13 @@ int main(int argc, char *argv[]) {
   plo.Init("x");
   // plo.Init("1/5 * (x * x) - 10");
   // plo.Init("TAN x");
-  plo.SetResolution(10);
+  // plo.SetResolution(10);
   // plo.SetBarWidth(2);
-  plo.SetPolar(true);
-  plo.PlotBaseRange(true);
-  plo.SetPlotFormat(aequus::video::SCATTER);
-  plo.SetPointFormat(aequus::video::STAR);
-  plo.SetPointRadius(5);
+  // plo.SetPolar(true);
+  // plo.PlotBaseRange(true);
+  // plo.SetPlotFormat(aequus::video::BAR);
+  // plo.SetPointFormat(aequus::video::STAR);
+  // plo.SetPointRadius(5);
   // plo.SetStepSize(1);
   // plo.Init("10");
   // plo.SetColorMap({{255, 100, 255, 255}}, false);

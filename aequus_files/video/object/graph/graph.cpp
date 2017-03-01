@@ -127,7 +127,13 @@ std::vector<int> aequus::video::Graph::GetColor(std::string name) {
 void aequus::video::Graph::AddPlot(Plot newplot) {
   int index = plots.size();
   plots.push_back(newplot);
-  plots[index].SetGraphData(graphwidth, graphheight, domain, range, datadomain);
+  if (datadomain.first != datadomain.second) {
+    plots[index].SetGraphData(graphwidth, graphheight, domain, range,
+                              datadomain);
+  } else {
+    plots[index].SetGraphData(graphwidth, graphheight, domain, range,
+                              std::make_pair(domain.min, domain.max));
+  }
   plots[index].GenorateData();
   plots[index].Display(texturerenderer, dispeqs, fontname);
   UpdateTexture();
@@ -136,7 +142,12 @@ void aequus::video::Graph::AddPlot(Plot newplot) {
 void aequus::video::Graph::Update() {
   CalculatePix();
   for (int i = 0; i < plots.size(); i++) {
-    plots[i].SetGraphData(graphwidth, graphheight, domain, range, datadomain);
+    if (datadomain.first != datadomain.second) {
+      plots[i].SetGraphData(graphwidth, graphheight, domain, range, datadomain);
+    } else {
+      plots[i].SetGraphData(graphwidth, graphheight, domain, range,
+                            std::make_pair(domain.min, domain.max));
+    }
     plots[i].GenorateData();
   }
   DisplayGraph();
@@ -368,10 +379,6 @@ void aequus::video::Graph::CalculatePix() {
       (double)(domain.max - domain.min);
   range.valtopixel = (double)(graphheight - range.pixelstart - range.pixelend) /
                      (double)(range.max - range.min);
-  if (datadomain.first == datadomain.second) {
-    datadomain.first = domain.min;
-    datadomain.second = domain.max;
-  }
 }
 
 void aequus::video::Graph::LoadColor(std::string color) {
