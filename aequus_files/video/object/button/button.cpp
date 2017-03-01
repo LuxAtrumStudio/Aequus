@@ -21,8 +21,8 @@ void aequus::video::Button::Init(std::string text, std::string font,
   sdltextcolor.a = textcolor[3];
   GenorateButton(renderer);
   type = 3;
-  pessum::logging::LogLoc(pessum::logging::SUCCESS, "Loaded button texture",
-                          logmap["AEQ_VID_OBJ_BUT"], "Init");
+  pessum::logging::Log("SUCCESS", "Loaded button texture", "aeq/vid/obj/but",
+                       "Init");
 }
 
 void aequus::video::Button::UpdateFile(std::string img) { GenorateButton(); }
@@ -169,16 +169,14 @@ void aequus::video::Button::GenorateButton(SDL_Renderer *renderer) {
   textsurface = TTF_RenderText_Blended(textfont.GetFont(fontoption),
                                        buttontext.c_str(), sdltextcolor);
   if (textsurface == NULL) {
-    pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Failed to genorate surface from text",
-                            logmap["AEQ_VID_OBJ_BUT"], "GenorateText");
+    pessum::logging::Log("ERROR", "Failed to genorate surface from text",
+                         "aeq/vid/obj/but", "GenorateText");
     framework::GetSdlError(framework::TTF);
   }
   SDL_Surface *imgsurface = IMG_Load(filepath.c_str());
   if (imgsurface == NULL) {
-    pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Failed to load image file: " + filepath,
-                            logmap["AEQ_VID_OBJ_BUT"], "Init");
+    pessum::logging::Log("ERROR", "Failed to load image file: " + filepath,
+                         "aeq/vid/obj/but", "Init");
     framework::GetSdlError(framework::IMG);
   }
   int twidth = buttonwidth, theight = buttonheight;
@@ -193,9 +191,8 @@ void aequus::video::Button::GenorateButton(SDL_Renderer *renderer) {
     newsurface = SDL_CreateRGBSurface(0, twidth, theight, 32, 0, 0, 0, 0);
     SDL_SetSurfaceBlendMode(newsurface, SDL_BLENDMODE_BLEND);
     if (newsurface == NULL) {
-      pessum::logging::LogLoc(pessum::logging::ERROR,
-                              "Failed to genorate scaled surface",
-                              logmap["AEQ_VID_OBJ_BUT"], "ScaleSurface");
+      pessum::logging::Log("ERROR", "Failed to genorate scaled surface",
+                           "aeq/vid/obj/but", "ScaleSurface");
     }
     SDL_BlitScaled(imgsurface, NULL, newsurface, NULL);
     if (newsurface != NULL) {

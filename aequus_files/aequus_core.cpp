@@ -35,19 +35,7 @@ void aequus::InitializeAequus() {
                                         "aequus/video/renderer",
                                         "aequus/video/window"};
   for (int i = 0; i < locations.size(); i++) {
-    std::string key = "";
-    int add = 3;
-    for (int j = 0; j < locations[i].size(); j++) {
-      if (add > 0) {
-        key += char(int(locations[i][j]) - 32);
-        add--;
-      }
-      if (locations[i][j] == '/' && j != locations[i].size() - 1) {
-        key += '_';
-        add = 3;
-      }
-    }
-    logmap[key] = pessum::logging::AddLogLocation(locations[i]);
+    pessum::logging::AddLogLocation(locations[i]);
   }
   QuitState = false;
   framework::InitializeSdl();

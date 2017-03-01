@@ -18,14 +18,12 @@ void aequus::video::Window::Init(std::string title, int width, int height,
   sdlwindow = SDL_CreateWindow(windowname.c_str(), windowx, windowy,
                                windowwidth, windowheight, flags);
   if (sdlwindow == NULL) {
-    pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Unable to create SDL window:  " + windowname,
-                            logmap["AEQ_VID_WIN"], "Window");
+    pessum::logging::Log("ERROR", "Unable to create SDL window:  " + windowname,
+                         "aeq/vid/win", "Window");
     framework::GetSdlError(framework::SDL);
   } else {
-    pessum::logging::LogLoc(pessum::logging::SUCCESS,
-                            "Created SDL window: " + windowname,
-                            logmap["AEQ_VID_WIN"], "Window");
+    pessum::logging::Log("SUCCESS", "Created SDL window: " + windowname,
+                         "aeq/vid/win", "Window");
     SDL_GetWindowSurface(sdlwindow);
     windowrenderer.Init(sdlwindow, ACCELERATED | TARGETTEXTURE, windowname);
     sdlwindowid = SDL_GetWindowID(sdlwindow);
@@ -43,9 +41,8 @@ void aequus::video::Window::Delete() {
   }
   SDL_DestroyWindow(sdlwindow);
   windowrenderer.Delete();
-  pessum::logging::LogLoc(pessum::logging::SUCCESS,
-                          "Terminated SDL window: " + windowname,
-                          logmap["AEQ_VID_WIN"], "~Window");
+  pessum::logging::Log("SUCCESS", "Terminated SDL window: " + windowname,
+                       "aeq/vid/win", "~Window");
   windowname = "";
   windowwidth = 0;
   windowheight = 0;

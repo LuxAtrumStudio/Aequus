@@ -18,9 +18,9 @@ void aequus::audio::music::SetVolume(int vol) { Mix_VolumeMusic(vol); }
 
 void aequus::audio::music::PlayMusic(Song song, int loops) {
   if (Mix_PlayMusic(song.GetMixSong(), loops) == -1) {
-    pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Failed to playsong: \"" + song.GetFile() + "\"",
-                            logmap["AEQ_AUD_MUS"], "PlayMusic");
+    pessum::logging::Log("ERROR",
+                         "Failed to playsong: \"" + song.GetFile() + "\"",
+                         "aeq/aud/mus", "PlayMusic");
     framework::GetSdlError(framework::MIX);
   }
 }
@@ -30,9 +30,9 @@ void aequus::audio::music::StopMusic() { Mix_HaltMusic(); }
 void aequus::audio::music::FadeIn(Song song, int fadein, double position,
                                   int loops) {
   if (Mix_FadeInMusicPos(song.GetMixSong(), loops, fadein, position) == -1) {
-    pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Failed to playsong: \"" + song.GetFile() + "\"",
-                            logmap["AEQ_AUD_MUS"], "FadeIn");
+    pessum::logging::Log("ERROR",
+                         "Failed to playsong: \"" + song.GetFile() + "\"",
+                         "aeq/aud/mus", "FadeIn");
     framework::GetSdlError(framework::MIX);
   }
 }

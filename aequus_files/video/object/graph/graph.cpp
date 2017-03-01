@@ -16,8 +16,7 @@ void aequus::video::Graph::Init(int width, int height, SDL_Renderer *renderer) {
   texturerenderer = SDL_CreateSoftwareRenderer(sdlsurface);
   SDL_SetRenderDrawBlendMode(texturerenderer, SDL_BLENDMODE_BLEND);
   InitTexture(sdlsurface, renderer);
-  pessum::logging::LogLoc(pessum::logging::SUCCESS, "Created graph",
-                          logmap["AEQ_VID_OBJ_GRA"], "Init");
+  pessum::logging::Log("SUCCESS", "Created graph", "aeq/vid/obj/gra", "Init");
   graphwidth = width;
   graphheight = height;
   colormap["AXIS"] = {255, 255, 255, 255};
