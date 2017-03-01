@@ -7,7 +7,7 @@ void release() { aequus::video::DeleteWindows(); }
 
 int main(int argc, char *argv[]) {
   aequus::InitializeAequus();
-  aequus::video::NewWindow("Aequus", 900, 900);
+  aequus::video::NewWindow("Aequus", 500, 500);
   aequus::video::LoadFont("resources/Roboto");
   aequus::video::LoadFont("resources/Roboto", "Title");
   aequus::video::LoadFont("resources/Roboto", "Label");
@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
   aequus::video::fontmap["Label"].SetPoint(15);
   SDL_Renderer *ren = aequus::video::windows[0].windowrenderer.GetRenderer();
   aequus::video::Graph gra;
-  gra.Init(900, 900, ren);
+  gra.Init(500, 500, ren);
   gra.SetFont("Roboto");
   gra.SetTitleFont("Title");
   gra.SetLabelFont("Label");
@@ -33,25 +33,25 @@ int main(int argc, char *argv[]) {
   gra.SetRange(0, -10, 10);
   gra.SetRange(1, -10, 10);
   // gra.SetRange(-1, 0, 100);
-  // gra.SetRange(-1, 0, 50.264);
+   gra.SetRange(-1, 0, 50.264);
   // gra.SetRange(-1, 0, 25.132);
-  gra.SetRange(-1, 0, 6.28);
+  //gra.SetRange(-1, 0, 6.28);
   gra.Update();
 
   aequus::video::Plot plo, plot, plot2;
   // plo.Init("10 * SIN x");
-  // plo.Init("10 * COS (x * (7/8))");
+   plo.Init("10 * COS (x * (7/8))");
   // plo.Init("3.15");
   // plo.Init("0-2 * x");
   // plo.Init("0");
-  plo.Init("x");
+  //plo.Init("x");
   // plo.Init("1/5 * (x * x) - 10");
   // plo.Init("TAN x");
-  plo.SetResolution(10);
+  plo.SetResolution(1000);
   // plo.SetBarWidth(2);
   plo.SetPolar(true);
   plo.PlotBaseRange(true);
-  plo.SetPlotFormat(aequus::video::SCATTER);
+  plo.SetPlotFormat(aequus::video::LINE);
   plo.SetPointFormat(aequus::video::STAR);
   plo.SetPointRadius(5);
   // plo.SetStepSize(1);

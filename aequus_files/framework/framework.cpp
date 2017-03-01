@@ -10,48 +10,48 @@ bool aequus::framework::InitializeSdl() {
   srand(time(NULL));
   // Initializes SDL componenets
   if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-    pessum::logging::LogLoc(pessum::logging::ERROR, "Failed to initialize SDL",
-                            logmap["AEQ_FRA"], "InitializeSdl");
+    pessum::logging::Log("e", "Failed to initialize SDL",
+                            "aeq/fra", "InitializeSdl");
     GetSdlError(SDL);
     goodinit = false;
   } else {
-    pessum::logging::LogLoc(pessum::logging::SUCCESS, "Initialized SDL",
-                            logmap["AEQ_FRA"], "InitializeSdl");
+    pessum::logging::Log("s", "Initialized SDL",
+                            "aeq/fra", "InitializeSdl");
   }
   // Initializes SDL IMG library
   int imgflags = IMG_INIT_PNG;
   if (!IMG_Init(imgflags) || imgflags == 0) {
-    pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Failed to initialize SDL IMG", logmap["AEQ_FRA"],
+    pessum::logging::Log("e",
+                            "Failed to initialize SDL IMG", "aeq/fra",
                             "InitializeSdl");
     GetSdlError(IMG);
     goodinit = false;
   } else {
-    pessum::logging::LogLoc(pessum::logging::SUCCESS, "Initialized SDL IMG",
-                            logmap["AEQ_FRA"], "InitializeSdl");
+    pessum::logging::Log("s", "Initialized SDL IMG",
+                            "aeq/fra", "InitializeSdl");
   }
   // Initializes SDL TTF library
   if (TTF_Init() == -1) {
-    pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Failed to initialize SDL TTG", logmap["AEQ_FRA"],
+    pessum::logging::Log("e",
+                            "Failed to initialize SDL TTG", "aeq/fra",
                             "InitializeSdl");
     GetSdlError(TTF);
     goodinit = false;
   } else {
-    pessum::logging::LogLoc(pessum::logging::SUCCESS, "Initialized SDL TTG",
-                            logmap["AEQ_FRA"], "InitializeSdl");
+    pessum::logging::Log("s", "Initialized SDL TTG",
+                            "aeq/fra", "InitializeSdl");
   }
   // Initializes SDL Mixer library
   if (Mix_Init(MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_MP3 | MIX_INIT_OGG) ==
       0) {
-    pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Failed to initialize SDL Mixer", logmap["AEQ_FRA"],
+    pessum::logging::Log("e",
+                            "Failed to initialize SDL Mixer", "aeq/fra",
                             "InitializeSdl");
     GetSdlError(MIX);
     goodinit = false;
   } else {
-    pessum::logging::LogLoc(pessum::logging::SUCCESS, "Initialized SDL Mixer",
-                            logmap["AEQ_FRA"], "InitializeSdl");
+    pessum::logging::Log("s", "Initialized SDL Mixer",
+                            "aeq/fra", "InitializeSdl");
   }
   // Checks if the compiled version of SDL matches the runtime version of SDL
   SDL_version compiled, linked;
@@ -59,29 +59,29 @@ bool aequus::framework::InitializeSdl() {
   SDL_GetVersion(&linked);
   if (compiled.major == linked.major && compiled.minor == linked.minor &&
       compiled.patch == linked.patch) {
-    pessum::logging::LogLoc(pessum::logging::SUCCESS,
-                            "SDL versions are the same", logmap["AEQ_FRA"],
+    pessum::logging::Log("s",
+                            "SDL versions are the same", "aeq/fra",
                             "InitializeSdl");
-    pessum::logging::LogLoc(pessum::logging::DATA,
+    pessum::logging::Log("d",
                             "SDL versions: " + std::to_string(compiled.major) +
                                 "." + std::to_string(compiled.minor) + "." +
                                 std::to_string(compiled.patch),
-                            logmap["AEQ_FRA"], "InitializeSdl");
+                            "aeq/fra", "InitializeSdl");
   } else {
-    pessum::logging::LogLoc(pessum::logging::WARNING,
-                            "SDL versions do not match", logmap["AEQ_FRA"],
+    pessum::logging::Log("w",
+                            "SDL versions do not match", "aeq/fra",
                             "InitializeSdl");
-    pessum::logging::LogLoc(pessum::logging::DATA,
+    pessum::logging::Log("d",
                             "Compiled version: " +
                                 std::to_string(compiled.major) + "." +
                                 std::to_string(compiled.minor) + "." +
                                 std::to_string(compiled.patch),
-                            logmap["AEQ_FRA"], "InitializeSdl");
-    pessum::logging::LogLoc(pessum::logging::DATA,
+                            "aeq/fra", "InitializeSdl");
+    pessum::logging::Log("d",
                             "Linked version: " + std::to_string(linked.major) +
                                 "." + std::to_string(linked.minor) + "." +
                                 std::to_string(linked.patch),
-                            logmap["AEQ_FRA"], "InitializeSdl");
+                            "aeq/fra", "InitializeSdl");
   }
   return (goodinit);
 }
@@ -91,8 +91,8 @@ void aequus::framework::TerminateSdl() {
   TTF_Quit();
   IMG_Quit();
   SDL_Quit();
-  pessum::logging::LogLoc(pessum::logging::SUCCESS,
-                          "Terminated all SDL systems", logmap["AEQ_FRA"],
+  pessum::logging::Log("s",
+                          "Terminated all SDL systems", "aeq/fra",
                           "TerminateSdl");
 }
 
@@ -111,6 +111,6 @@ std::string aequus::framework::GetSdlError(Module mod) {
   if (*error) {
     errorstring = error;
   }
-  pessum::logging::Log(pessum::logging::ERROR, errorstring, "SDL");
+  pessum::logging::Log("e", errorstring, "SDL");
   return (errorstring);
 }
