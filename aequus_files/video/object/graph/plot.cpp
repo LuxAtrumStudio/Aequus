@@ -299,7 +299,7 @@ void aequus::video::Plot::DisplayPixelLine(std::pair<int, int> start,
       slope /= (double)(end.first - start.first);
     }
     slope = fabs(slope);
-    for (int i = 0; i < slope; i++) {
+    for (int i = 0; i <= slope; i++) {
       if (Check(start.first, start.second) == true) {
         SDL_RenderDrawPoint(renderer, start.first, start.second);
       }

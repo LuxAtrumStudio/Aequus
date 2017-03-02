@@ -12,42 +12,34 @@ std::map<std::string, int> logmap;
 }
 
 void aequus::InitializeAequus() {
+<<<<<<< HEAD
   pessum::InitializePessum(DEV_MODE);
+=======
+  pessum::InitializePessum(DEV_MODE, true);
+>>>>>>> c58e86abbe86a423729a57e650a7c3afbf4fb516
   duco::LoadOperMap();
-  std::vector<std::string> locations = {"aequus/",
-                                        "aequus/audio/",
-                                        "aequus/audio/chunk/",
-                                        "aequus/audio/music/",
-                                        "aequus/audio/music/song/",
-                                        "aequus/framework/",
-                                        "aequus/input/",
-                                        "aequus/video/",
-                                        "aequus/video/layout/",
-                                        "aequus/video/object/",
-                                        "aequus/video/object/button/",
-                                        "aequus/video/object/canvas/",
-                                        "aequus/video/object/graph/",
-                                        "aequus/video/object/plot/",
-                                        "aequus/video/object/image/",
-                                        "aequus/video/object/spacer/",
-                                        "aequus/video/object/text/",
-                                        "aequus/video/object/font/",
-                                        "aequus/video/renderer/",
-                                        "aequus/video/window/"};
+  std::vector<std::string> locations = {"aequus",
+                                        "aequus/audio",
+                                        "aequus/audio/chunk",
+                                        "aequus/audio/music",
+                                        "aequus/audio/music/song",
+                                        "aequus/framework",
+                                        "aequus/input",
+                                        "aequus/video",
+                                        "aequus/video/layout",
+                                        "aequus/video/object",
+                                        "aequus/video/object/button",
+                                        "aequus/video/object/canvas",
+                                        "aequus/video/object/graph",
+                                        "aequus/video/object/plot",
+                                        "aequus/video/object/image",
+                                        "aequus/video/object/spacer",
+                                        "aequus/video/object/text",
+                                        "aequus/video/object/font",
+                                        "aequus/video/renderer",
+                                        "aequus/video/window"};
   for (int i = 0; i < locations.size(); i++) {
-    std::string key = "";
-    int add = 3;
-    for (int j = 0; j < locations[i].size(); j++) {
-      if (add > 0) {
-        key += char(int(locations[i][j]) - 32);
-        add--;
-      }
-      if (locations[i][j] == '/' && j != locations[i].size() - 1) {
-        key += '_';
-        add = 3;
-      }
-    }
-    logmap[key] = pessum::logging::AddLogLocation(locations[i]);
+    pessum::logging::AddLogLocation(locations[i]);
   }
   QuitState = false;
   framework::InitializeSdl();

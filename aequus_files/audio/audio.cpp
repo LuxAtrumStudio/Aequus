@@ -14,16 +14,16 @@ int channelcount = -1;
 void aequus::audio::InitDevice(int channels) {
   Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 4096);
   InitChannels(channels);
-  pessum::logging::LogLoc(pessum::logging::SUCCESS, "Initialized audio device",
-                          logmap["AEQ_AUD"], "InitDevice");
+  pessum::logging::Log("SUCCESS", "Initialized audio device", "aeq/aud",
+                       "InitDevice");
 }
 
 void aequus::audio::DeleteDevice() {
   if (channelcount != -1) {
     Mix_CloseAudio();
   }
-  pessum::logging::LogLoc(pessum::logging::SUCCESS, "Closed audio device",
-                          logmap["AEQ_AUD"], "DeleteDevice");
+  pessum::logging::Log("SUCCESS", "Closed audio device", "aeq/aud",
+                       "DeleteDevice");
 }
 
 void aequus::audio::InitChannels(int count) {
@@ -52,9 +52,9 @@ void aequus::audio::PlayChunk(std::string file, int channel) {
 
 bool aequus::audio::CheckChannel(int channel) {
   if (channel < 1 || channel > channelcount) {
-    pessum::logging::LogLoc(pessum::logging::ERROR, "Invalid mixing channel: " +
-                                                        std::to_string(channel),
-                            logmap["AEQ_AUD"], "CheckChannel");
+    pessum::logging::Log("ERROR",
+                         "Invalid mixing channel: " + std::to_string(channel),
+                         "aeq/aud", "CheckChannel");
     return (false);
   }
   return (true);

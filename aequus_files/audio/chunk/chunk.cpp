@@ -9,15 +9,13 @@ bool aequus::audio::Chunk::Init(std::string file) {
   filedir = file;
   mixchunk = Mix_LoadWAV(file.c_str());
   if (mixchunk == NULL) {
-    pessum::logging::LogLoc(pessum::logging::ERROR,
-                            "Failed to load chunk \"" + file + "\"",
-                            logmap["AEQ_AUD_CHU"], "Init");
+    pessum::logging::Log("ERROR", "Failed to load chunk \"" + file + "\"",
+                         "aeq/aud/chu", "Init");
     framework::GetSdlError(framework::MIX);
     return (false);
   }
-  pessum::logging::LogLoc(pessum::logging::SUCCESS,
-                          "Loaded chunk \"" + file + "\"",
-                          logmap["AEQ_AUD_CHU"], "Init");
+  pessum::logging::Log("SUCCESS", "Loaded chunk \"" + file + "\"",
+                       "aeq/aud/chu", "Init");
   return (true);
 }
 

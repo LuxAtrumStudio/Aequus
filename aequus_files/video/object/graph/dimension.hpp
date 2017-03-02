@@ -9,6 +9,8 @@ struct Dimension {
   double min = -10, max = 10;
   int pixelstart = 0, pixelend = 0;
   double valtopixel = 0;
+  bool Log = false;
+  double logbase = 10;
 };
 }
 }

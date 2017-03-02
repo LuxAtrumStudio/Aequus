@@ -10,13 +10,11 @@
 void aequus::video::Layout::Init(LayoutFormat format) {
   layoutformat = format;
   if (layoutformat == HORIZONTALLAYOUT) {
-    pessum::logging::LogLoc(pessum::logging::SUCCESS,
-                            "Created new horizontal layout",
-                            logmap["AEQ_VID_LAY"], "Init");
+    pessum::logging::Log("SUCCESS", "Created new horizontal layout",
+                         "aeq/vid/lay", "Init");
   } else if (layoutformat == VERTICALLAYOUT) {
-    pessum::logging::LogLoc(pessum::logging::SUCCESS,
-                            "Created new vertical layout",
-                            logmap["AEQ_VID_LAY"], "Init");
+    pessum::logging::Log("SUCCESS", "Created new vertical layout",
+                         "aeq/vid/lay", "Init");
   }
 }
 

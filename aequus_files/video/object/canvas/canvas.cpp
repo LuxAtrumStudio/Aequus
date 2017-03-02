@@ -14,8 +14,7 @@ void aequus::video::Canvas::Init(int width, int height,
   texturerenderer = SDL_CreateSoftwareRenderer(sdlsurface);
   SDL_SetRenderDrawBlendMode(texturerenderer, SDL_BLENDMODE_BLEND);
   InitTexture(sdlsurface, renderer);
-  pessum::logging::LogLoc(pessum::logging::SUCCESS, "Created canvas",
-                          logmap["AEQ_VID_OBJ_CAN"], "Init");
+  pessum::logging::Log("SUCCESS", "Created canvas", "aeq/vid/obj/can", "Init");
   Clear();
 }
 
@@ -217,14 +216,14 @@ void aequus::video::Canvas::DrawShape(int shapeindex) {
   SDL_Point *sdlpoints = &points[0];
   if (shapes[shapeindex].line == false) {
     if (SDL_RenderDrawPoints(texturerenderer, sdlpoints, points.size()) != 0) {
-      pessum::logging::LogLoc(pessum::logging::ERROR, "Failed to draw shape",
-                              logmap["AEQ_VID_OBJ_CAN"], "DrawShape");
+      pessum::logging::Log("ERROR", "Failed to draw shape", "aeq/vid/obj/can",
+                           "DrawShape");
       framework::GetSdlError(framework::SDL);
     }
   } else if (shapes[shapeindex].line == true) {
     if (SDL_RenderDrawLines(texturerenderer, sdlpoints, points.size()) != 0) {
-      pessum::logging::LogLoc(pessum::logging::ERROR, "Failed to draw shape",
-                              logmap["AEQ_VID_OBJ_CAN"], "DrawShape");
+      pessum::logging::Log("ERROR", "Failed to draw shape", "aeq/vid/obj/can",
+                           "DrawShape");
       framework::GetSdlError(framework::SDL);
     }
   }
