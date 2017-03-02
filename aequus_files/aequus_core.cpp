@@ -12,11 +12,7 @@ std::map<std::string, int> logmap;
 }
 
 void aequus::InitializeAequus() {
-<<<<<<< HEAD
-  pessum::InitializePessum(DEV_MODE);
-=======
   pessum::InitializePessum(DEV_MODE, true);
->>>>>>> c58e86abbe86a423729a57e650a7c3afbf4fb516
   duco::LoadOperMap();
   std::vector<std::string> locations = {"aequus",
                                         "aequus/audio",
