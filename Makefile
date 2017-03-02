@@ -8,7 +8,7 @@ OBJ_FILES += $(wildcard */*/*/*.o)
 OBJ_FILES += $(wildcard */*/*/*/*.o)
 OBJ_FILES += $(wildcard */*/*/*/*/*.o)
 OBJ_FILES += $(wildcard */*/*/*/*/*/*.o)
-LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lduco -lpessum 
+LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lduco -lpessum
 PROGRAM_NAME = aequus
 
 all: $(TOP_DIR) subsystem $(PROGRAM_NAME)
@@ -52,7 +52,7 @@ tar: clean
 
 .PHONY : lib
 lib: all
-	ar rcs lib$(PROGRAM_NAME).a $(TOTAL_OBJ_FILES)
+	ar rcs lib$(PROGRAM_NAME).a $(OBJ_FILES)
 	sudo cp lib$(PROGRAM_NAME).a /usr/local/lib/ -u
 	sudo cp aequus.h /usr/local/include/
 	sudo find . -name '*.hpp' -exec cp --parents \{\} /usr/local/include/ \;

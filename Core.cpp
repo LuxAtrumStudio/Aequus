@@ -1,13 +1,12 @@
-
 #include "aequus.h"
 #include <iostream>
-#include <pessum.h>
+#include <pessum_files/pessum_headers.hpp>
 
 // void release() { aequus::video::DeleteWindows(); }
 
 int main(int argc, char *argv[]) {
   aequus::InitializeAequus();
-  // aequus::video::NewWindow("Aequus", 900, 900);
+  aequus::video::NewWindow("Aequus", 900, 900);
   // aequus::video::LoadFont("resources/Roboto");
   // aequus::video::LoadFont("resources/Roboto", "Title");
   // aequus::video::LoadFont("resources/Roboto", "Label");
@@ -65,9 +64,9 @@ int main(int argc, char *argv[]) {
   // gra.AddPlot(plo);
   //
   // aequus::video::win->AddObject(&gra);
-  // while (aequus::video::AllClose() == false) {
-  //   aequus::Frame();
-  // }
+  while (aequus::video::AllClose() == false) {
+    aequus::Frame();
+  }
   aequus::TerminateAequus();
   return (1);
 }
