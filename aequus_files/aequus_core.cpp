@@ -1,70 +1,81 @@
-#include "aequus_core.hpp"
-#include "aequus_headers.hpp"
-#include "log_indices.hpp"
-#include <duco.h>
-#include <map>
 #include <pessum.h>
+#include "aequus_core.hpp"
+#include "sdl_headers.hpp"
 
-#include <iostream>
-namespace aequus {
-bool QuitState = false;
-std::map<std::string, int> logmap;
+void aequus::InitAequus() { InitSdl(); }
+
+void aequus::TermAequus() {
+  srand(time(NULL));
+  TermSdl();
+  pessum::SaveLog("out.log");
 }
 
-void aequus::InitializeAequus() {
-  pessum::InitializePessumComponents(DEV_MODE);
-  duco::LoadOperMap();
-  std::vector<std::string> locations = {"aequus/",
-                                        "aequus/audio/",
-                                        "aequus/audio/chunk/",
-                                        "aequus/audio/music/",
-                                        "aequus/audio/music/song/",
-                                        "aequus/framework/",
-                                        "aequus/input/",
-                                        "aequus/video/",
-                                        "aequus/video/layout/",
-                                        "aequus/video/object/",
-                                        "aequus/video/object/button/",
-                                        "aequus/video/object/canvas/",
-                                        "aequus/video/object/graph/",
-                                        "aequus/video/object/plot/",
-                                        "aequus/video/object/image/",
-                                        "aequus/video/object/spacer/",
-                                        "aequus/video/object/text/",
-                                        "aequus/video/object/font/",
-                                        "aequus/video/renderer/",
-                                        "aequus/video/window/"};
-  for (int i = 0; i < locations.size(); i++) {
-    std::string key = "";
-    int add = 3;
-    for (int j = 0; j < locations[i].size(); j++) {
-      if (add > 0) {
-        key += char(int(locations[i][j]) - 32);
-        add--;
-      }
-      if (locations[i][j] == '/' && j != locations[i].size() - 1) {
-        key += '_';
-        add = 3;
-      }
-    }
-    logmap[key] = pessum::logging::AddLogLocation(locations[i]);
+void aequus::Frame() {}
+
+bool aequus::InitSdl() {
+  bool good_init = true;
+  if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+    pessum::Log(pessum::ERROR, "Failed to initialize SDL", "aequus/InitSdl");
+    SdlError(SDL);
+    good_init = false;
   }
-  QuitState = false;
-  framework::InitializeSdl();
-  audio::InitDevice(16);
-}
-
-void aequus::TerminateAequus() {
-  audio::DeleteDevice();
-  framework::TerminateSdl();
-  pessum::TerminatePessumComponents();
-}
-
-void aequus::Frame() {
-  input::PollEvents();
-  if (QuitState == true) {
-    video::DeleteWindows();
+  int img_flags = IMG_INIT_PNG;
+  if (!IMG_Init(img_flags) || img_flags == 0) {
+    pessum::Log(pessum::ERROR, "Failed to initialize SDL-IMG",
+                "aequus/InitSdl");
+    SdlError(IMG);
+    good_init = false;
   }
-  video::HandleEvents();
-  video::UpdateAll();
+  if (TTF_Init() == -1) {
+    pessum::Log(pessum::ERROR, "Failed to initialize SDL-TTF",
+                "aequus/InitSdl");
+    SdlError(TTF);
+    good_init = false;
+  }
+  if (Mix_Init(MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_MP3 | MIX_INIT_OGG) ==
+      0) {
+    pessum::Log(pessum::ERROR, "Failed to initialize SDL-Mixer",
+                "aequus/InitSdl");
+    SdlError(MIX);
+    good_init = false;
+  }
+  SDL_version compiled, linked;
+  SDL_VERSION(&compiled);
+  SDL_GetVersion(&linked);
+  if (compiled.major == linked.major && compiled.minor == linked.minor &&
+      compiled.patch == linked.patch) {
+    pessum::Log(pessum::INFO, "SDL versions: %i.%i.%i", "aequus/InitSdl",
+                compiled.major, compiled.minor, compiled.patch);
+  } else {
+    pessum::Log(pessum::ERROR, "SDL versions do not match", "aequus/InitSdl");
+    pessum::Log(pessum::INFO, "Compiled version: %i.%i.%i", "aequus/InitSdl",
+                compiled.major, compiled.minor, compiled.patch);
+    pessum::Log(pessum::INFO, "Linked version: %i.%i.%i", "aequus/InitSdl",
+                linked.major, linked.minor, linked.patch);
+    good_init = false;
+  }
+  return (good_init);
+}
+
+void aequus::TermSdl() {
+  Mix_Quit();
+  TTF_Quit();
+  IMG_Quit();
+  SDL_Quit();
+}
+
+void aequus::SdlError(int type) {
+  std::string err_str = "";
+  if (type == SDL) {
+    err_str = SDL_GetError();
+  } else if (type == IMG) {
+    err_str = IMG_GetError();
+  } else if (type == TTF) {
+    err_str = TTF_GetError();
+  } else if (type == MIX) {
+    err_str = Mix_GetError();
+  }
+  if (err_str != "") {
+    pessum::Log(pessum::ERROR, err_str, "SDL");
+  }
 }

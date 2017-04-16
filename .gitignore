@@ -2,4 +2,4 @@
 *.d
 *.log
 aequus
-aequus_files_old/
+*/.*/*

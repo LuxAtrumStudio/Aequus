@@ -4,23 +4,12 @@ OBJ_FILES = $(notdir $(CPP_FILES:.cpp=.o))
 all: $(OBJ_FILES) subsystem
 
 %.o: %.cpp %.hpp
-	$(COMPILER) $(COMPILER_FLAGS) -o $(notdir $*).o $*.cpp
+	@printf "Compiling $*.cpp...\n"
+	@$(COMPILER) $(FLAGS) -o $(notdir $*).o $*.cpp
 
 .PHONY : subsystem
 subsystem:
-	@setterm -fore blue
-	@printf "FRAMEWORK\n"
-	@setterm -fore white
-	@cd framework && $(MAKE)
-	@setterm -fore green
-	@printf "INPUT\n"
-	@setterm -fore white
-	@cd input && $(MAKE)
-	@setterm -fore cyan
-	@printf "VIDEO\n"
-	@setterm -fore white
-	@cd video && $(MAKE)
-	@setterm -fore red
-	@printf "AUDIO\n"
-	@setterm -fore white
-	@cd audio && $(MAKE)
+	# @setterm -fore 5; printf "=====Classes=====\n"; setterm -fore 7
+	# @cd classes && $(MAKE)
+	# @cd equation && $(MAKE)
+	# @cd vector && $(MAKE)
