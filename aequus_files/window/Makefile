@@ -9,4 +9,3 @@ all: $(OBJ_FILES) subsystem
 
 .PHONY : subsystem
 subsystem:
-	@cd window && $(MAKE)
