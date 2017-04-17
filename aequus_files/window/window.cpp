@@ -13,7 +13,6 @@ void aequus::Window::CreateWindow(std::string name, int width, int height,
                   "aequus/Window/CreateWindow");
       SdlError(SDL);
     } else {
-      SDL_GetWindowSurface(sdl_window);
       if (sdl_renderer == NULL) {
         sdl_renderer =
             SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_ACCELERATED |
@@ -74,3 +73,7 @@ void aequus::Window::Clear() {
                 "aequus/Window/Clear");
   }
 }
+
+SDL_Window* aequus::Window::SdlWindow() { return (sdl_window); }
+
+SDL_Renderer* aequus::Window::SdlRenderer() { return (sdl_renderer); }

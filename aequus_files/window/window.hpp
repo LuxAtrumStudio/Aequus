@@ -11,6 +11,8 @@ namespace aequus {
     void DeleteWindow();
     void Display();
     void Clear();
+    SDL_Window* SdlWindow();
+    SDL_Renderer* SdlRenderer();
 
    private:
     int sdl_window_id = 0;
