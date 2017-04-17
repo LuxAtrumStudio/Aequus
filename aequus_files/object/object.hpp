@@ -6,12 +6,15 @@ namespace aequus {
   class Object {
    public:
     Object();
+    Object(int type);
+    Object(int type, SDL_Renderer* renderer);
+    Object(int type, std::string str, SDL_Renderer* renderer);
     ~Object();
     int Type();
     void Display();
+    std::shared_ptr<ObjectBase> ptr = NULL;
 
    private:
-    std::shared_ptr<ObjectBase> ptr = NULL;
   };
 }
 #endif

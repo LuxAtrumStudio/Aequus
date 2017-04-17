@@ -13,3 +13,5 @@ void aequus::Layout::Display() {
     sub_objects[i].Display();
   }
 }
+
+void aequus::Layout::AddSubObject(Object obj) { sub_objects.push_back(obj); }

@@ -14,6 +14,7 @@ namespace aequus {
     Layout();
     ~Layout();
     void Display();
+    void AddSubObject(Object obj);
     int Type();
 
    private:

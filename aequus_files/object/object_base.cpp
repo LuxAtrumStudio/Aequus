@@ -39,8 +39,8 @@ void aequus::ObjectBase::CreateSdlTexture() {
                 "aequus/ObjectBase/CreateSdlTexture");
   } else {
     if (sdl_texture != NULL) {
-      SDL_DestroyTexture(sdl_texture);
-      sdl_texture = NULL;
+      // SDL_DestroyTexture(sdl_texture);
+      // sdl_texture = NULL;
     }
     sdl_texture = SDL_CreateTextureFromSurface(sdl_renderer, sdl_surface);
     if (sdl_texture == NULL) {
