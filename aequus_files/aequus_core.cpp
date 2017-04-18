@@ -1,6 +1,13 @@
 #include <pessum.h>
 #include "aequus_core.hpp"
+#include "input/input.hpp"
 #include "sdl_headers.hpp"
+#include "window/window_container.hpp"
+
+namespace aequus {
+  WindowContainer aequus_windows;
+  bool aequus_quit = false;
+}
 
 void aequus::InitAequus() { InitSdl(); }
 
@@ -10,7 +17,17 @@ void aequus::TermAequus() {
   pessum::SaveLog("out.log");
 }
 
-void aequus::Frame() {}
+void aequus::Frame() {
+  PollEvents();
+  aequus_windows.Display();
+  if (GetEvent(SDL_QUIT).type == 256) {
+    aequus_quit = true;
+    aequus_windows.Clear();
+  }
+  if (aequus_windows.Size() == 0) {
+    aequus_quit = true;
+  }
+}
 
 bool aequus::InitSdl() {
   bool good_init = true;

@@ -9,6 +9,8 @@ all: $(OBJ_FILES) subsystem
 
 .PHONY : subsystem
 subsystem:
+	@setterm -fore green; printf "Input\n"; setterm -fore white
+	@cd input && $(MAKE)
 	@setterm -fore magenta; printf "Object\n"; setterm -fore white
 	@cd object && $(MAKE)
 	@setterm -fore blue; printf "Window\n"; setterm -fore white

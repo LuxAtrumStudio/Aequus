@@ -1,8 +1,10 @@
 #ifndef AEQUUS_CORE_HPP
 #define AEQUUS_CORE_HPP
-#define DEV_MODE true
+#include "window/window_container.hpp"
 namespace aequus {
   enum TYPE { SDL, IMG, TTF, MIX };
+  extern WindowContainer aequus_windows;
+  extern bool aequus_quit;
   void InitAequus();
   void TermAequus();
   void Frame();

@@ -12,10 +12,13 @@ namespace aequus {
   class Layout : public ObjectBase {
    public:
     Layout();
+    Layout(int type);
     ~Layout();
+    void SetFormat(int type);
     void Display();
     void AddSubObject(Object obj);
     int Type();
+    int GetFormat();
 
    private:
     int format = AEQ_OBJ_LAY_FREE;
