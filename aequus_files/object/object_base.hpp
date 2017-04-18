@@ -11,8 +11,11 @@ namespace aequus {
     virtual int Type();
     virtual void Display();
     void Scale(double x, double y);
+    void Scale(double x);
     void Scale(int x, int y);
-
+    void Scale(int x, bool height = false);
+    void Translate(int x, int y);
+    void Rotate(double angle);
    protected:
     void CreateSdlTexture();
 
