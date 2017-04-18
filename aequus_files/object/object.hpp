@@ -9,6 +9,7 @@ namespace aequus {
     Object(int type);
     Object(int type, SDL_Renderer* renderer);
     Object(int type, std::string str, SDL_Renderer* renderer);
+    Object(const Object& obj);
     ~Object();
     int Type();
     void Display();

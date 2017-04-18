@@ -39,7 +39,7 @@ aequus::Image::Image(std::string path, SDL_Renderer* renderer) {
   }
 }
 
-aequus::Image::~Image() { file_path = ""; }
+aequus::Image::~Image() {}
 
 void aequus::Image::SetFile(std::string path) {
   file_path = path;

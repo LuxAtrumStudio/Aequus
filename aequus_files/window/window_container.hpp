@@ -5,8 +5,8 @@
 namespace aequus {
   class WindowContainer {
    public:
-    Window Find(std::string name);
-    Window Find(int index);
+    Window* Find(std::string name);
+    Window* Find(int index);
     void Display();
     void Clear();
     void Push(Window win);

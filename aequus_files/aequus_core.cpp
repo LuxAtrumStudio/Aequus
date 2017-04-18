@@ -9,7 +9,13 @@ namespace aequus {
   bool aequus_quit = false;
 }
 
-void aequus::InitAequus() { InitSdl(); }
+void aequus::InitAequus() {
+  InitSdl();
+  int major = 0, minor = 0, patch = 0;
+  GetVersion(major, minor, patch);
+  pessum::Log(pessum::INFO, "Aequus version: %i.%i.%i", "aequus/InitAequus",
+              major, minor, patch);
+}
 
 void aequus::TermAequus() {
   srand(time(NULL));
@@ -79,6 +85,12 @@ void aequus::TermSdl() {
   TTF_Quit();
   IMG_Quit();
   SDL_Quit();
+}
+
+void aequus::GetVersion(int& major, int& minor, int& patch) {
+  major = AEQUUS_MAJOR;
+  minor = AEQUUS_MINOR;
+  patch = AEQUUS_PATCH;
 }
 
 void aequus::SdlError(int type) {

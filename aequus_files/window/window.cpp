@@ -119,7 +119,7 @@ void aequus::Window::Clear() {
 }
 
 void aequus::Window::AddObject(Object obj) {
-  window_base_layout.AddSubObject(obj);
+  window_base_layout.AddObject(obj);
 }
 
 SDL_Window* aequus::Window::SdlWindow() { return (sdl_window); }

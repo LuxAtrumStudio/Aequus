@@ -1,22 +1,23 @@
+#include <pessum.h>
 #include <vector>
 #include "window.hpp"
 #include "window_container.hpp"
 
-aequus::Window aequus::WindowContainer::Find(std::string name) {
-  Window win;
+aequus::Window* aequus::WindowContainer::Find(std::string name) {
+  Window* win = NULL;
   bool found = false;
   for (int i = 0; i < windows.size() && found == false; i++) {
     if (windows[i].window_name == name) {
-      win = windows[i];
+      win = &windows[i];
     }
   }
   return (win);
 }
 
-aequus::Window aequus::WindowContainer::Find(int index) {
-  Window win;
+aequus::Window* aequus::WindowContainer::Find(int index) {
+  Window* win = NULL;
   if (index > 0 && index < windows.size()) {
-    win = windows[index];
+    win = &windows[index];
   }
   return (win);
 }

@@ -1,4 +1,4 @@
-#include <stdarg.h>
+#include <pessum.h>
 #include "object.hpp"
 #include "object_base.hpp"
 #include "object_headers.hpp"
@@ -28,6 +28,8 @@ aequus::Object::Object(int type, std::string str, SDL_Renderer* renderer) {
     ptr = std::make_shared<Image>(Image(str, renderer));
   }
 }
+
+aequus::Object::Object(const Object& obj) { ptr = obj.ptr; }
 
 aequus::Object::~Object() { ptr = NULL; }
 

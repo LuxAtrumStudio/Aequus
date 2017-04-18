@@ -6,9 +6,12 @@ namespace aequus {
   class ObjectBase {
    public:
     ObjectBase();
+    ObjectBase(const ObjectBase& obj);
     ~ObjectBase();
     virtual int Type();
     virtual void Display();
+    void Scale(double x, double y);
+    void Scale(int x, int y);
 
    protected:
     void CreateSdlTexture();

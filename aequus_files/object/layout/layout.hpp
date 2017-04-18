@@ -16,9 +16,10 @@ namespace aequus {
     ~Layout();
     void SetFormat(int type);
     void Display();
-    void AddSubObject(Object obj);
+    void AddObject(Object obj);
     int Type();
     int GetFormat();
+    int Size();
 
    private:
     int format = AEQ_OBJ_LAY_FREE;

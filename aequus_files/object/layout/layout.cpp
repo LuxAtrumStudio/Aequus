@@ -1,3 +1,4 @@
+#include <pessum.h>
 #include "../object.hpp"
 #include "../object_base.hpp"
 #include "layout.hpp"
@@ -18,6 +19,8 @@ void aequus::Layout::Display() {
   }
 }
 
-void aequus::Layout::AddSubObject(Object obj) { sub_objects.push_back(obj); }
+void aequus::Layout::AddObject(Object obj) { sub_objects.push_back(obj); }
 
 int aequus::Layout::GetFormat() { return (format); }
+
+int aequus::Layout::Size() { return (sub_objects.size()); }

@@ -17,7 +17,11 @@ void Handle(std::pair<int, std::string> entry) {
 int main(int argc, char const* argv[]) {
   pessum::SetLogHandle(Handle);
   aequus::InitAequus();
-  aequus::aequus_windows.Push(aequus::Window("Test 2", 200, 200));
+  aequus::aequus_windows.Push(aequus::Window("Aequus", 500, 500));
+  aequus::Object obj(aequus::AEQ_OBJ_IMAGE, "resources/proj-test.png",
+                     aequus::aequus_windows.Find("Aequus")->SdlRenderer());
+  obj.ptr->Scale(500, 500);
+  aequus::aequus_windows.Find("Aequus")->window_base_layout.AddObject(obj);
   while (aequus::aequus_quit == false) {
     aequus::Frame();
   }

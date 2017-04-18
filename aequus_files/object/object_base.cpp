@@ -5,14 +5,27 @@
 
 aequus::ObjectBase::ObjectBase() {}
 
+aequus::ObjectBase::ObjectBase(const ObjectBase& obj) {
+  sdl_texture = obj.sdl_texture;
+  sdl_surface = obj.sdl_surface;
+  sdl_renderer = obj.sdl_renderer;
+  sdl_base_size = obj.sdl_base_size;
+  sdl_source_rect = obj.sdl_source_rect;
+  sdl_dest_rect = obj.sdl_dest_rect;
+  sdl_rotate_point = obj.sdl_rotate_point;
+  rotate_angle = obj.rotate_angle;
+  sdl_renderer_flip = obj.sdl_renderer_flip;
+  sdl_blend_mode = obj.sdl_blend_mode;
+}
+
 aequus::ObjectBase::~ObjectBase() {
   if (sdl_texture != NULL) {
-    SDL_DestroyTexture(sdl_texture);
-    sdl_texture = NULL;
+    // SDL_DestroyTexture(sdl_texture);
+    // sdl_texture = NULL;
   }
   if (sdl_surface != NULL) {
-    SDL_FreeSurface(sdl_surface);
-    sdl_surface = NULL;
+    // SDL_FreeSurface(sdl_surface);
+    // sdl_surface = NULL;
   }
 }
 
@@ -30,6 +43,14 @@ void aequus::ObjectBase::Display() {
   }
 }
 
+void aequus::ObjectBase::Scale(double x, double y) {
+  sdl_dest_rect = Make_Rect(0, 0, sdl_base_size->w * x, sdl_base_size->h * y);
+}
+
+void aequus::ObjectBase::Scale(int x, int y) {
+  sdl_dest_rect = Make_Rect(0, 0, x, y);
+}
+
 void aequus::ObjectBase::CreateSdlTexture() {
   if (sdl_surface == NULL) {
     pessum::Log(pessum::WARNING, "No SDL surface created",
@@ -39,8 +60,8 @@ void aequus::ObjectBase::CreateSdlTexture() {
                 "aequus/ObjectBase/CreateSdlTexture");
   } else {
     if (sdl_texture != NULL) {
-      // SDL_DestroyTexture(sdl_texture);
-      // sdl_texture = NULL;
+      SDL_DestroyTexture(sdl_texture);
+      sdl_texture = NULL;
     }
     sdl_texture = SDL_CreateTextureFromSurface(sdl_renderer, sdl_surface);
     if (sdl_texture == NULL) {
