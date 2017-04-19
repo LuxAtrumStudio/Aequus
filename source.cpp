@@ -20,32 +20,47 @@ int main(int argc, char const* argv[]) {
   aequus::aequus_windows.Push(aequus::Window("Aequus", 500, 500));
   aequus::Object obj(aequus::AEQ_OBJ_IMAGE, "resources/proj-test.png",
                      aequus::aequus_windows.Find("Aequus")->SdlRenderer());
-  //obj.ptr->Scale(0.5);
-  //obj.ptr->Scale(int(500), true);
+  // obj.ptr->Scale(0.5);
+  // obj.ptr->Scale(int(500), true);
   aequus::aequus_windows.Find("Aequus")->window_base_layout.AddObject(obj);
-  double sc = 0.0;
+  // double sc = 0.0;
   double angle = 0;
-  bool grow = true;
+  // double pos = 0;
+  // bool grow = true;
+  // bool down = true;
   obj.ptr->Scale(0.25);
-  obj.ptr->Rotate(30);
+  obj.ptr->SetRotatePoint(50, 100);
+  // obj.ptr->Rotate(30);
   while (aequus::aequus_quit == false) {
-    //obj.ptr->Rotate(angle);
-    angle += 0.1;
-    if(angle >= 365){
+    obj.ptr->Rotate(angle);
+    angle += 0.01;
+    if (angle >= 360) {
       angle = 0;
     }
-    //obj.ptr->Scale(sc);
-    if(grow == true){
-      sc += 0.01;
-      if(sc >= 1){
-        grow = false;
-      }
-    }else if(grow == false){
-      sc -= 0.01;
-      if(sc <= 0.0){
-        grow = true;
-      }
-    }
+    // obj.ptr->Scale(sc);
+    // if (grow == true) {
+    //   sc += 0.0001;
+    //   if (sc >= 1) {
+    //     grow = false;
+    //   }
+    // } else if (grow == false) {
+    //   sc -= 0.0001;
+    //   if (sc <= 0.0) {
+    //     grow = true;
+    //   }
+    // }
+    // obj.ptr->Translate(pos, pos);
+    // if (down == true) {
+    //   pos += 0.01;
+    //   if (pos >= 500) {
+    //     down = false;
+    //   }
+    // } else if (down == false) {
+    //   pos -= 0.01;
+    //   if (pos <= 0) {
+    //     down = true;
+    //   }
+    // }
     aequus::Frame();
   }
   aequus::TermAequus();

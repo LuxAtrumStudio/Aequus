@@ -44,7 +44,10 @@ void aequus::ObjectBase::Display() {
 }
 
 void aequus::ObjectBase::Scale(double x, double y) {
-  sdl_dest_rect = Make_Rect(sdl_dest_rect->x, sdl_dest_rect->y, sdl_base_size->w * x, sdl_base_size->h * y);
+  sdl_dest_rect = Make_Rect(sdl_dest_rect->x, sdl_dest_rect->y,
+                            sdl_base_size->w * x, sdl_base_size->h * y);
+  sdl_rotate_point = Make_Point(sdl_dest_rect->x + (sdl_dest_rect->w / 2),
+                                sdl_dest_rect->y + (sdl_dest_rect->h / 2));
 }
 
 void aequus::ObjectBase::Scale(double x) {
@@ -56,22 +59,50 @@ void aequus::ObjectBase::Scale(double x) {
 
 void aequus::ObjectBase::Scale(int x, int y) {
   sdl_dest_rect = Make_Rect(sdl_dest_rect->x, sdl_dest_rect->y, x, y);
+  sdl_rotate_point = Make_Point(sdl_dest_rect->x + (sdl_dest_rect->w / 2),
+                                sdl_dest_rect->y + (sdl_dest_rect->h / 2));
 }
 
-void aequus::ObjectBase::Scale(int x, bool height){
-  if(height == false){
-    sdl_dest_rect = Make_Rect(sdl_dest_rect->x, sdl_dest_rect->y,x,x * ((double)sdl_base_size->h / (double)sdl_base_size->w));
-  } else if(height == true){
-    sdl_dest_rect = Make_Rect(sdl_dest_rect->x,sdl_dest_rect->y,x*((double)sdl_base_size->w / (double)sdl_base_size->h), x);
+void aequus::ObjectBase::Scale(int x, bool height) {
+  if (height == false) {
+    sdl_dest_rect =
+        Make_Rect(sdl_dest_rect->x, sdl_dest_rect->y, x,
+                  x * ((double)sdl_base_size->h / (double)sdl_base_size->w));
+  } else if (height == true) {
+    sdl_dest_rect =
+        Make_Rect(sdl_dest_rect->x, sdl_dest_rect->y,
+                  x * ((double)sdl_base_size->w / (double)sdl_base_size->h), x);
+  }
+  sdl_rotate_point = Make_Point(sdl_dest_rect->x + (sdl_dest_rect->w / 2),
+                                sdl_dest_rect->y + (sdl_dest_rect->h / 2));
+}
+
+void aequus::ObjectBase::Translate(int x, int y) {
+  if (x != sdl_dest_rect->x && y != sdl_dest_rect->y) {
+    sdl_dest_rect = Make_Rect(x, y, sdl_dest_rect->w, sdl_dest_rect->h);
+    sdl_rotate_point = Make_Point(sdl_dest_rect->x + (sdl_dest_rect->w / 2),
+                                  sdl_dest_rect->y + (sdl_dest_rect->h / 2));
   }
 }
 
-void aequus::ObjectBase::Translate(int x, int y){
-  sdl_dest_rect = Make_Rect(x, y, sdl_dest_rect->w, sdl_dest_rect->h);
+void aequus::ObjectBase::Rotate(double angle) { rotate_angle = angle; }
+
+void aequus::ObjectBase::SetRotatePoint(int x, int y) {
+  sdl_rotate_point = Make_Point(sdl_dest_rect->x + x, sdl_dest_rect->y + y);
 }
 
-void aequus::ObjectBase::Rotate(double angle){
-  rotate_angle = angle;
+void aequus::ObjectBase::SetRotatePoint(double x, double y) {
+  sdl_rotate_point = Make_Point(sdl_dest_rect->x + (sdl_dest_rect->w * x),
+                                sdl_dest_rect->y + (sdl_dest_rect->h * y));
+}
+
+void aequus::ObjectBase::SetRotatePoint(int x) {
+  sdl_rotate_point = Make_Point(sdl_dest_rect->x + x, sdl_dest_rect->y + x);
+}
+
+void aequus::ObjectBase::SetRotatePoint(double x) {
+  sdl_rotate_point = Make_Point(sdl_dest_rect->x + (sdl_dest_rect->w * x),
+                                sdl_dest_rect->y + (sdl_dest_rect->h * x));
 }
 
 void aequus::ObjectBase::CreateSdlTexture() {

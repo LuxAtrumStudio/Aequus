@@ -16,6 +16,11 @@ namespace aequus {
     void Scale(int x, bool height = false);
     void Translate(int x, int y);
     void Rotate(double angle);
+    void SetRotatePoint(int x, int y);
+    void SetRotatePoint(double x, double y);
+    void SetRotatePoint(int x);
+    void SetRotatePoint(double x);
+
    protected:
     void CreateSdlTexture();
 

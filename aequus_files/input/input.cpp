@@ -1,3 +1,4 @@
+#include <pessum.h>
 #include <vector>
 #include "../sdl_headers.hpp"
 #include "input.hpp"
@@ -16,6 +17,7 @@ void aequus::PollEvents() {
 
 SDL_Event aequus::GetEvent(int type) {
   SDL_Event event;
+  event.type = -1;
   bool found = false;
   if (type == -1 && sdl_events.size() > 0) {
     event = sdl_events.back();

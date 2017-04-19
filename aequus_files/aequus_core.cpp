@@ -29,8 +29,7 @@ void aequus::Frame() {
   if (GetEvent(SDL_QUIT).type == 256) {
     aequus_quit = true;
     aequus_windows.Clear();
-  }
-  if (aequus_windows.Size() == 0) {
+  } else if (aequus_windows.Size() == 0) {
     aequus_quit = true;
   }
 }
