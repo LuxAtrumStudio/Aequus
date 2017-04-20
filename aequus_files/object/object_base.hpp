@@ -1,5 +1,6 @@
 #ifndef AEQUUS_OBJECT_BASE_HPP
 #define AEQUUS_OBJECT_BASE_HPP
+#include <utility>
 #include "../sdl_headers.hpp"
 namespace aequus {
   enum ObjectType { AEQ_OBJ_NONE, AEQ_OBJ_LAYOUT, AEQ_OBJ_IMAGE };
@@ -10,6 +11,7 @@ namespace aequus {
     ~ObjectBase();
     virtual int Type();
     virtual void Display();
+
     void Scale(double x, double y);
     void Scale(double x);
     void Scale(int x, int y);
@@ -21,8 +23,20 @@ namespace aequus {
     void SetRotatePoint(int x);
     void SetRotatePoint(double x);
 
+    void SetSourcePos(int x, int y);
+    void SetSourcePos(double x, double y);
+    void SetSourceSize(int w, int h);
+    void SetSourceSize(double w, double h);
+
+    void SetDestRect(int x, int y, int w, int h);
+    void SetDestRect(double x, double y, double w, double h);
+    void SetSourceRect(int x, int y, int w, int h);
+    void SetSourceRect(double x, double y, double w, double h);
+
    protected:
     void CreateSdlTexture();
+
+    std::pair<double, double> relative_rotate_point = std::make_pair(0.5, 0.5);
 
     SDL_Texture* sdl_texture = NULL;
     SDL_Surface* sdl_surface = NULL;

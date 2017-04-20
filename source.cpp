@@ -23,32 +23,34 @@ int main(int argc, char const* argv[]) {
   // obj.ptr->Scale(0.5);
   // obj.ptr->Scale(int(500), true);
   aequus::aequus_windows.Find("Aequus")->window_base_layout.AddObject(obj);
-  // double sc = 0.0;
+  double sc = 0.1;
   double angle = 0;
   // double pos = 0;
-  // bool grow = true;
+  bool grow = true;
   // bool down = true;
   obj.ptr->Scale(0.25);
-  obj.ptr->SetRotatePoint(50, 100);
+  obj.ptr->SetSourceRect(0.25, 0.25, 0.5, 0.5);
+  // obj.ptr->SetSourceSize(0.5, 0.5);
+  // obj.ptr->SetRotatePoint(0, 0);
   // obj.ptr->Rotate(30);
   while (aequus::aequus_quit == false) {
     obj.ptr->Rotate(angle);
-    angle += 0.01;
+    angle += 0.1;
     if (angle >= 360) {
       angle = 0;
     }
-    // obj.ptr->Scale(sc);
-    // if (grow == true) {
-    //   sc += 0.0001;
-    //   if (sc >= 1) {
-    //     grow = false;
-    //   }
-    // } else if (grow == false) {
-    //   sc -= 0.0001;
-    //   if (sc <= 0.0) {
-    //     grow = true;
-    //   }
-    // }
+    obj.ptr->Scale(sc);
+    if (grow == true) {
+      sc += 0.0001;
+      if (sc >= 0.5) {
+        grow = false;
+      }
+    } else if (grow == false) {
+      sc -= 0.0001;
+      if (sc <= 0.1) {
+        grow = true;
+      }
+    }
     // obj.ptr->Translate(pos, pos);
     // if (down == true) {
     //   pos += 0.01;
