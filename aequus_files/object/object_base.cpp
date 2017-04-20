@@ -141,6 +141,50 @@ void aequus::ObjectBase::SetSourceRect(double x, double y, double w, double h) {
                               sdl_base_size->w * w, sdl_base_size->h * h);
 }
 
+void aequus::ObjectBase::SetBlendMode(SDL_BlendMode blend_mode) {
+  sdl_blend_mode = blend_mode;
+  if (sdl_texture != NULL) {
+    SDL_SetTextureBlendMode(sdl_texture, sdl_blend_mode);
+  }
+}
+
+void aequus::ObjectBase::SetRendererFlip(SDL_RendererFlip renderer_flip) {
+  sdl_renderer_flip = renderer_flip;
+}
+
+void aequus::ObjectBase::SetColorMod(int red, int blue, int green, int alpha) {
+  color_mod = Make_Color(red, blue, green, alpha);
+  if (sdl_texture != NULL) {
+    if (SDL_SetTextureColorMod(sdl_texture, color_mod.red, color_mod.green,
+                               color_mod.blue) != 0) {
+      pessum::Log(pessum::ERROR, "Failed to set texture color mod",
+                  "aequus/ObjectBase/SetColorMod");
+      SdlError(SDL);
+    }
+    if (SDL_SetTextureAlphaMod(sdl_texture, color_mod.alpha) != 0) {
+      pessum::Log(pessum::ERROR, "Failed to set texture alpha mod",
+                  "aequus/ObjectBase/SetColorMod");
+    }
+  }
+}
+
+void aequus::ObjectBase::SetColorMod(double red, double blue, double green,
+                                     double alpha) {
+  color_mod = Make_Color(red, blue, green, alpha);
+  if (sdl_texture != NULL) {
+    if (SDL_SetTextureColorMod(sdl_texture, color_mod.red, color_mod.green,
+                               color_mod.blue) != 0) {
+      pessum::Log(pessum::ERROR, "Failed to set texture color mod",
+                  "aequus/ObjectBase/SetColorMod");
+      SdlError(SDL);
+    }
+    if (SDL_SetTextureAlphaMod(sdl_texture, color_mod.alpha) != 0) {
+      pessum::Log(pessum::ERROR, "Failed to set texture alpha mod",
+                  "aequus/ObjectBase/SetColorMod");
+    }
+  }
+}
+
 void aequus::ObjectBase::CreateSdlTexture() {
   if (sdl_surface == NULL) {
     pessum::Log(pessum::WARNING, "No SDL surface created",
@@ -163,6 +207,7 @@ void aequus::ObjectBase::CreateSdlTexture() {
       sdl_dest_rect = Make_Rect(0, 0, sdl_surface->w, sdl_surface->h);
       sdl_source_rect = Make_Rect(0, 0, sdl_surface->w, sdl_surface->h);
       sdl_rotate_point = Make_Point(sdl_surface->w / 2, sdl_surface->h / 2);
+      SDL_SetTextureBlendMode(sdl_texture, sdl_blend_mode);
     }
   }
 }
