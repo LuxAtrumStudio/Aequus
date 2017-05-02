@@ -27,6 +27,7 @@ namespace aequus {
 
    private:
     int sdl_window_id = 0;
+    std::pair<int, int> window_size;
     SDL_Window* sdl_window = NULL;
     SDL_Renderer* sdl_renderer = NULL;
   };

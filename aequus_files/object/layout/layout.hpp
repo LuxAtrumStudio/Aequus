@@ -14,7 +14,9 @@ namespace aequus {
   class Layout : public ObjectBase {
    public:
     Layout();
+    Layout(int w, int h);
     Layout(int type);
+    Layout(int type, int w, int h);
     ~Layout();
     void SetFormat(int type);
     void Display();
@@ -24,8 +26,10 @@ namespace aequus {
     int Size();
 
    private:
+    void ReformatObjects();
     int format = AEQ_OBJ_LAY_FREE;
     std::vector<Object> sub_objects;
+    SDL_Rect layout_size;
   };
 }
 #endif

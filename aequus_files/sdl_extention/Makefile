@@ -9,7 +9,3 @@ all: $(OBJ_FILES) subsystem
 
 .PHONY : subsystem
 subsystem:
-	@setterm -fore cyan; printf "$(shell pwd)/image:\n"; setterm -fore white
-	@cd image && $(MAKE)
-	@setterm -fore cyan; printf "$(shell pwd)/layout:\n"; setterm -fore white
-	@cd layout && $(MAKE)

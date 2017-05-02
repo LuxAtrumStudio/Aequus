@@ -32,6 +32,8 @@ aequus::Window::Window(std::string name, int width, int height, int x, int y,
                     "aequus/Window/CreateWindow");
       }
       sdl_window_id = SDL_GetWindowID(sdl_window);
+      window_size = std::make_pair(width, height);
+      window_base_layout = Layout(AEQ_OBJ_LAY_FREE, width, height);
     }
   } else {
     pessum::Log(pessum::WARNING, "SDL window already created",
@@ -44,6 +46,7 @@ aequus::Window::Window(const Window& copy_win) {
   window_base_layout = copy_win.window_base_layout;
   sdl_window = copy_win.sdl_window;
   sdl_renderer = copy_win.sdl_renderer;
+  window_size = copy_win.window_size;
 }
 
 void aequus::Window::CreateWindow(std::string name, int width, int height,
@@ -70,6 +73,8 @@ void aequus::Window::CreateWindow(std::string name, int width, int height,
                     "aequus/Window/CreateWindow");
       }
       sdl_window_id = SDL_GetWindowID(sdl_window);
+      window_size = std::make_pair(width, height);
+      window_base_layout = Layout(AEQ_OBJ_LAY_FREE, width, height);
     }
   } else {
     pessum::Log(pessum::WARNING, "SDL window already created",
