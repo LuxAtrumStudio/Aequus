@@ -7,7 +7,9 @@ namespace aequus {
   enum LayoutFormat {
     AEQ_OBJ_LAY_FREE,
     AEQ_OBJ_LAY_HORIZONTAL,
-    AEQ_OBJ_LAY_VERTICAL
+    AEQ_OBJ_LAY_HORIZONTAL_FORCE,
+    AEQ_OBJ_LAY_VERTICAL,
+    AEQ_OBJ_LAY_VERTICAL_FORCE
   };
   class Layout : public ObjectBase {
    public:

@@ -22,7 +22,10 @@ int main(int argc, char const* argv[]) {
                      aequus::aequus_windows.Find("Aequus")->SdlRenderer());
   aequus::aequus_windows.Find("Aequus")->window_base_layout.AddObject(obj);
   obj.ptr->Scale(0.25);
+  int angle = 0;
   while (aequus::aequus_quit == false) {
+    obj.ptr->Rotate(angle);
+    angle += 1;
     aequus::Frame();
   }
   aequus::TermAequus();

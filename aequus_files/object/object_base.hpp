@@ -40,6 +40,8 @@ namespace aequus {
     void SetColorMod(int red, int blue, int green, int alpha = 255);
     void SetColorMod(double red, double blue, double green, double alpha = 1);
 
+    SDL_Rect* GetSize();
+
    protected:
     void CreateSdlTexture();
 

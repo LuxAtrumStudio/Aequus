@@ -185,6 +185,10 @@ void aequus::ObjectBase::SetColorMod(double red, double blue, double green,
   }
 }
 
+SDL_Rect* aequus::ObjectBase::GetSize(){
+  return(sdl_dest_rect);
+}
+
 void aequus::ObjectBase::CreateSdlTexture() {
   if (sdl_surface == NULL) {
     pessum::Log(pessum::WARNING, "No SDL surface created",
