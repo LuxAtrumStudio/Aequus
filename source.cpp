@@ -22,10 +22,13 @@ int main(int argc, char const* argv[]) {
                      aequus::aequus_windows.Find("Aequus")->SdlRenderer());
   aequus::Object obj_2(aequus::AEQ_OBJ_IMAGE, "resources/test.png",
                        aequus::aequus_windows.Find("Aequus")->SdlRenderer());
+  aequus::Object obj_3(aequus::AEQ_OBJ_IMAGE, "resources/proj-test.png",
+                       aequus::aequus_windows.Find("Aequus")->SdlRenderer());
   aequus::aequus_windows.Find("Aequus")->window_base_layout.AddObject(obj);
   aequus::aequus_windows.Find("Aequus")->window_base_layout.AddObject(obj_2);
+  aequus::aequus_windows.Find("Aequus")->window_base_layout.AddObject(obj_3);
   aequus::aequus_windows.Find("Aequus")->window_base_layout.SetFormat(
-      aequus::AEQ_OBJ_LAY_VERTICAL_FORCE);
+      aequus::AEQ_OBJ_LAY_HORIZONTAL_FORCE);
   while (aequus::aequus_quit == false) {
     aequus::Frame();
   }
