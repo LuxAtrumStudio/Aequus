@@ -74,7 +74,7 @@ void aequus::ObjectBase::Scale(int x, bool height) {
 }
 
 void aequus::ObjectBase::Translate(int x, int y) {
-  if (x != sdl_dest_rect->x && y != sdl_dest_rect->y) {
+  if (x != sdl_dest_rect->x || y != sdl_dest_rect->y) {
     sdl_dest_rect = Make_Rect(x, y, sdl_dest_rect->w, sdl_dest_rect->h);
   }
 }

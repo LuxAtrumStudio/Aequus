@@ -1,30 +1,27 @@
+#include "layout.hpp"
 #include <pessum.h>
+#include "../../sdl_extention/rect.hpp"
 #include "../object.hpp"
 #include "../object_base.hpp"
-#include "layout.hpp"
-#include "../../sdl_extention/rect.hpp"
 
+aequus::Layout::Layout() { sdl_dest_rect = Make_Rect(0, 0, 0, 0); }
 
-aequus::Layout::Layout() {
+aequus::Layout::Layout(int w, int h) { sdl_dest_rect = Make_Rect(0, 0, w, h); }
+
+aequus::Layout::Layout(int type) {
+  format = type;
   sdl_dest_rect = Make_Rect(0, 0, 0, 0);
 }
 
-aequus::Layout::Layout(int w, int h){
-  sdl_dest_rect = Make_Rect(0, 0, w, h);
-}
-
-aequus::Layout::Layout(int type) { format = type;
-  sdl_dest_rect = Make_Rect(0, 0, 0, 0);
-}
-
-aequus::Layout::Layout(int type, int w, int h){
+aequus::Layout::Layout(int type, int w, int h) {
   format = type;
   sdl_dest_rect = Make_Rect(0, 0, w, h);
 }
 
 aequus::Layout::~Layout() {}
 
-void aequus::Layout::SetFormat(int type) { format = type; 
+void aequus::Layout::SetFormat(int type) {
+  format = type;
   ReformatObjects();
 }
 
@@ -38,7 +35,7 @@ void aequus::Layout::Display() {
 
 void aequus::Layout::AddObject(Object obj) {
   sub_objects.push_back(obj);
-  //ReformatObjects();
+  // ReformatObjects();
 }
 
 int aequus::Layout::GetFormat() { return (format); }
@@ -76,22 +73,21 @@ void aequus::Layout::ReformatObjects() {
       sub_objects[i].ptr->Translate(current_x, current_y);
       current_y += sub_objects[i].ptr->GetSize()->h + spacing;
     }
-  }else if(format == AEQ_OBJ_LAY_HORIZONTAL){
-  
-  }else if(format == AEQ_OBJ_LAY_HORIZONTAL_FORCE){ 
+  } else if (format == AEQ_OBJ_LAY_HORIZONTAL) {
+  } else if (format == AEQ_OBJ_LAY_HORIZONTAL_FORCE) {
     int total_width = 0;
     for (int i = 0; i < sub_objects.size(); i++) {
       if (sub_objects[i].ptr->GetSize()->h > sdl_dest_rect->h) {
-        //sub_objects[i].ptr->Scale(sdl_dest_rect->h, true);
+        // sub_objects[i].ptr->Scale(sdl_dest_rect->h, true);
       }
       total_width += sub_objects[i].ptr->GetSize()->w;
     }
     double scale_factor = 0.0;
     if (total_width > sdl_dest_rect->w) {
       pessum::Log(pessum::DATA, "%i", "", total_width);
-      
+
       scale_factor = (double)(total_width) / (double)(sdl_dest_rect->w);
-      //scale_factor = (double)(total_width - sdl_dest_rect->w) /
+      // scale_factor = (double)(total_width - sdl_dest_rect->w) /
       //               (double)(sdl_dest_rect->w);
       pessum::Log(pessum::DATA, "%f", "", scale_factor);
       scale_factor = 1.0 / scale_factor;
@@ -108,6 +104,7 @@ void aequus::Layout::ReformatObjects() {
     int current_x = sdl_dest_rect->x + spacing, current_y = sdl_dest_rect->y;
     for (int i = 0; i < sub_objects.size(); i++) {
       current_y = (sdl_dest_rect->h - sub_objects[i].ptr->GetSize()->h) / 2;
+      pessum::Log(pessum::TRACE, "x:%i,y:%i", "", current_x, current_y);
       sub_objects[i].ptr->Translate(current_x, current_y);
       current_x += sub_objects[i].ptr->GetSize()->w + spacing;
     }

@@ -9,7 +9,7 @@ OBJ_FILES := $(shell find -name '*.o')
 LINK = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lpessum
 NAME = aequus
 
-all: $(TOP_DIR) subsystem $(NAME)
+all: setwhite $(TOP_DIR) subsystem $(NAME)
 	@setterm -fore green
 	@printf "==========>>>>>>>>>>Compiled $(NAME)<<<<<<<<<<==========\n"
 	@setterm -fore white
@@ -24,9 +24,12 @@ $(NAME): $(TOP_DIR) $(OBJ_FILES)
 	@printf "Compiling $*.cpp...\n"
 	@$(COMPILER) $(FLAGS) -o $(notdir $*).o $*.cpp
 
+.PHONY : setwhite
+	@setterm -fore white
+
 .PHONY : subsystem
 subsystem:
-	@setterm -fore blue; printf "$(shell pwd)/aequus_files:\n"; setterm -fore white
+	@setterm -fore red; printf "$(shell pwd)/aequus_files:\n"; setterm -fore white
 	@cd aequus_files && $(MAKE)
 
 .PHONY : clean
