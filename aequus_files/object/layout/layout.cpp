@@ -70,6 +70,11 @@ void aequus::Layout::ReformatObjects() {
     for (int i = 0; i < sub_objects.size(); i++) {
       current_x = (sdl_dest_rect->w - sub_objects[i]->GetSize()->w) / 2;
       sub_objects[i]->Translate(current_x, current_y);
+      if(sub_objects[i]->Type() == AEQ_OBJ_LAYOUT){
+        std::shared_ptr<Layout> layout_object= std::dynamic_pointer_cast<Layout>(sub_objects[i]); 
+        layout_object->ReformatObjects();
+        sub_objects[i] = layout_object;
+      }
       current_y += sub_objects[i]->GetSize()->h + spacing;
     }
   } else if (format == AEQ_OBJ_LAY_HORIZONTAL) {
@@ -86,11 +91,7 @@ void aequus::Layout::ReformatObjects() {
       pessum::Log(pessum::DATA, "%i", "", total_width);
 
       scale_factor = (double)(total_width) / (double)(sdl_dest_rect->w);
-      // scale_factor = (double)(total_width - sdl_dest_rect->w) /
-      //               (double)(sdl_dest_rect->w);
-      pessum::Log(pessum::DATA, "%f", "", scale_factor);
       scale_factor = 1.0 / scale_factor;
-      pessum::Log(pessum::DATA, "%f", "", scale_factor);
     } else {
       scale_factor = 1;
     }

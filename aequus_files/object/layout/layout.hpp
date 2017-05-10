@@ -24,9 +24,8 @@ namespace aequus {
     int Type();
     int GetFormat();
     int Size();
-
-   private:
     void ReformatObjects();
+   private:
     int format = AEQ_OBJ_LAY_FREE;
     std::vector<std::shared_ptr<ObjectBase>> sub_objects;
     SDL_Rect layout_size;
