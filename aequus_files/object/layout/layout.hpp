@@ -1,8 +1,8 @@
 #ifndef AEQUUS_OBJECT_LAYOUT_HPP
 #define AEQUUS_OBJECT_LAYOUT_HPP
+#include <memory>
 #include <vector>
 #include "../object.hpp"
-#include "../object_base.hpp"
 namespace aequus {
   enum LayoutFormat {
     AEQ_OBJ_LAY_FREE,
@@ -20,7 +20,7 @@ namespace aequus {
     ~Layout();
     void SetFormat(int type);
     void Display();
-    void AddObject(Object obj);
+    void AddObject(std::shared_ptr<ObjectBase> obj);
     int Type();
     int GetFormat();
     int Size();
@@ -28,7 +28,7 @@ namespace aequus {
    private:
     void ReformatObjects();
     int format = AEQ_OBJ_LAY_FREE;
-    std::vector<Object> sub_objects;
+    std::vector<std::shared_ptr<ObjectBase>> sub_objects;
     SDL_Rect layout_size;
   };
 }

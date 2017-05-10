@@ -33,7 +33,8 @@ aequus::Window::Window(std::string name, int width, int height, int x, int y,
       }
       sdl_window_id = SDL_GetWindowID(sdl_window);
       window_size = std::make_pair(width, height);
-      window_base_layout = Layout(AEQ_OBJ_LAY_FREE, width, height);
+      window_base_layout =
+          std::make_shared<Layout>(Layout(AEQ_OBJ_LAY_FREE, width, height));
     }
   } else {
     pessum::Log(pessum::WARNING, "SDL window already created",
@@ -47,6 +48,14 @@ aequus::Window::Window(const Window& copy_win) {
   sdl_window = copy_win.sdl_window;
   sdl_renderer = copy_win.sdl_renderer;
   window_size = copy_win.window_size;
+}
+
+aequus::Window::Window(const std::shared_ptr<Window>& copy_win) {
+  window_name = copy_win->window_name;
+  window_base_layout = copy_win->window_base_layout;
+  sdl_window = copy_win->sdl_window;
+  sdl_renderer = copy_win->sdl_renderer;
+  window_size = copy_win->window_size;
 }
 
 void aequus::Window::CreateWindow(std::string name, int width, int height,
@@ -74,7 +83,8 @@ void aequus::Window::CreateWindow(std::string name, int width, int height,
       }
       sdl_window_id = SDL_GetWindowID(sdl_window);
       window_size = std::make_pair(width, height);
-      window_base_layout = Layout(AEQ_OBJ_LAY_FREE, width, height);
+      window_base_layout =
+          std::make_shared<Layout>(Layout(AEQ_OBJ_LAY_FREE, width, height));
     }
   } else {
     pessum::Log(pessum::WARNING, "SDL window already created",
@@ -101,7 +111,7 @@ void aequus::Window::DeleteWindow() {
 
 void aequus::Window::Display() {
   Clear();
-  window_base_layout.Display();
+  window_base_layout->Display();
   if (sdl_renderer != NULL) {
     SDL_RenderPresent(sdl_renderer);
   } else {
@@ -123,8 +133,8 @@ void aequus::Window::Clear() {
   }
 }
 
-void aequus::Window::AddObject(Object obj) {
-  window_base_layout.AddObject(obj);
+void aequus::Window::AddObject(std::shared_ptr<ObjectBase> obj) {
+  window_base_layout->AddObject(obj);
 }
 
 SDL_Window* aequus::Window::SdlWindow() { return (sdl_window); }

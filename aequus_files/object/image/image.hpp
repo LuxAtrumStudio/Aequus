@@ -2,7 +2,7 @@
 #define AEQUUS_OBJECT_IMAGE_HPP
 #include <string>
 #include "../../sdl_headers.hpp"
-#include "../object_base.hpp"
+#include "../object.hpp"
 namespace aequus {
   class Image : public ObjectBase {
    public:

@@ -1,7 +1,7 @@
 #include <pessum.h>
 #include <string>
 #include "../../aequus_core.hpp"
-#include "../object_base.hpp"
+#include "../object.hpp"
 #include "image.hpp"
 
 aequus::Image::Image() {}

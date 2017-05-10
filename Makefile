@@ -29,7 +29,7 @@ $(NAME): $(TOP_DIR) $(OBJ_FILES)
 
 .PHONY : subsystem
 subsystem:
-	@setterm -fore red; printf "$(shell pwd)/aequus_files:\n"; setterm -fore white
+	@setterm -fore cyan; printf "$(shell pwd)/aequus_files:\n"; setterm -fore white
 	@cd aequus_files && $(MAKE)
 
 .PHONY : clean

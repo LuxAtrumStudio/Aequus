@@ -1,8 +1,7 @@
-#include "layout.hpp"
 #include <pessum.h>
 #include "../../sdl_extention/rect.hpp"
 #include "../object.hpp"
-#include "../object_base.hpp"
+#include "layout.hpp"
 
 aequus::Layout::Layout() { sdl_dest_rect = Make_Rect(0, 0, 0, 0); }
 
@@ -29,13 +28,13 @@ int aequus::Layout::Type() { return (AEQ_OBJ_LAYOUT); }
 
 void aequus::Layout::Display() {
   for (int i = 0; i < sub_objects.size(); i++) {
-    sub_objects[i].Display();
+    sub_objects[i]->Display();
   }
 }
 
-void aequus::Layout::AddObject(Object obj) {
+void aequus::Layout::AddObject(std::shared_ptr<ObjectBase> obj) {
   sub_objects.push_back(obj);
-  // ReformatObjects();
+  ReformatObjects();
 }
 
 int aequus::Layout::GetFormat() { return (format); }
@@ -48,10 +47,10 @@ void aequus::Layout::ReformatObjects() {
   } else if (format == AEQ_OBJ_LAY_VERTICAL_FORCE) {
     int total_height = 0;
     for (int i = 0; i < sub_objects.size(); i++) {
-      if (sub_objects[i].ptr->GetSize()->w > sdl_dest_rect->w) {
-        sub_objects[i].ptr->Scale(sdl_dest_rect->w, false);
+      if (sub_objects[i]->GetSize()->w > sdl_dest_rect->w) {
+        sub_objects[i]->Scale(sdl_dest_rect->w, false);
       }
-      total_height += sub_objects[i].ptr->GetSize()->h;
+      total_height += sub_objects[i]->GetSize()->h;
     }
     double scale_factor = 0.0;
     if (total_height > sdl_dest_rect->h) {
@@ -63,24 +62,24 @@ void aequus::Layout::ReformatObjects() {
     }
     total_height = 0;
     for (int i = 0; i < sub_objects.size() && scale_factor != 1; i++) {
-      sub_objects[i].ptr->Scale(scale_factor);
-      total_height += sub_objects[i].ptr->GetSize()->h;
+      sub_objects[i]->Scale(scale_factor);
+      total_height += sub_objects[i]->GetSize()->h;
     }
     int spacing = (sdl_dest_rect->h - total_height) / (sub_objects.size() + 1);
     int current_x = sdl_dest_rect->x, current_y = sdl_dest_rect->y + spacing;
     for (int i = 0; i < sub_objects.size(); i++) {
-      current_x = (sdl_dest_rect->w - sub_objects[i].ptr->GetSize()->w) / 2;
-      sub_objects[i].ptr->Translate(current_x, current_y);
-      current_y += sub_objects[i].ptr->GetSize()->h + spacing;
+      current_x = (sdl_dest_rect->w - sub_objects[i]->GetSize()->w) / 2;
+      sub_objects[i]->Translate(current_x, current_y);
+      current_y += sub_objects[i]->GetSize()->h + spacing;
     }
   } else if (format == AEQ_OBJ_LAY_HORIZONTAL) {
   } else if (format == AEQ_OBJ_LAY_HORIZONTAL_FORCE) {
     int total_width = 0;
     for (int i = 0; i < sub_objects.size(); i++) {
-      if (sub_objects[i].ptr->GetSize()->h > sdl_dest_rect->h) {
-        // sub_objects[i].ptr->Scale(sdl_dest_rect->h, true);
+      if (sub_objects[i]->GetSize()->h > sdl_dest_rect->h) {
+        sub_objects[i]->Scale(sdl_dest_rect->h, true);
       }
-      total_width += sub_objects[i].ptr->GetSize()->w;
+      total_width += sub_objects[i]->GetSize()->w;
     }
     double scale_factor = 0.0;
     if (total_width > sdl_dest_rect->w) {
@@ -97,16 +96,16 @@ void aequus::Layout::ReformatObjects() {
     }
     total_width = 0;
     for (int i = 0; i < sub_objects.size() && scale_factor != 1; i++) {
-      sub_objects[i].ptr->Scale(scale_factor);
-      total_width += sub_objects[i].ptr->GetSize()->w;
+      sub_objects[i]->Scale(scale_factor);
+      total_width += sub_objects[i]->GetSize()->w;
     }
     int spacing = (sdl_dest_rect->w - total_width) / (sub_objects.size() + 1);
     int current_x = sdl_dest_rect->x + spacing, current_y = sdl_dest_rect->y;
     for (int i = 0; i < sub_objects.size(); i++) {
-      current_y = (sdl_dest_rect->h - sub_objects[i].ptr->GetSize()->h) / 2;
+      current_y = (sdl_dest_rect->h - sub_objects[i]->GetSize()->h) / 2;
       pessum::Log(pessum::TRACE, "x:%i,y:%i", "", current_x, current_y);
-      sub_objects[i].ptr->Translate(current_x, current_y);
-      current_x += sub_objects[i].ptr->GetSize()->w + spacing;
+      sub_objects[i]->Translate(current_x, current_y);
+      current_x += sub_objects[i]->GetSize()->w + spacing;
     }
   }
 }
