@@ -64,7 +64,7 @@ void aequus::ObjectBase::Scale(double x, double y) {
 
 void aequus::ObjectBase::Scale(double x) {
   sdl_dest_rect = Make_Rect(sdl_dest_rect->x, sdl_dest_rect->y,
-                            sdl_base_size->w * x, sdl_base_size->h * x);
+                            sdl_dest_rect->w * x, sdl_dest_rect->h * x);
   SetRotatePoint(relative_rotate_point.first, relative_rotate_point.second);
 }
 

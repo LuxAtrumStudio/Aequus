@@ -12,7 +12,7 @@ NAME = aequus
 all: setwhite $(TOP_DIR) subsystem $(NAME)
 	@setterm -fore green
 	@printf "==========>>>>>>>>>>Compiled $(NAME)<<<<<<<<<<==========\n"
-	@setterm -fore white
+	@setterm -default
 
 $(NAME): $(TOP_DIR) $(OBJ_FILES)
 	@setterm -fore red

@@ -10,11 +10,11 @@ namespace aequus {
 }
 
 void aequus::InitAequus() {
-  InitSdl();
   int major = 0, minor = 0, patch = 0;
   GetVersion(major, minor, patch);
   pessum::Log(pessum::INFO, "Aequus version: %i.%i.%i", "aequus/InitAequus",
               major, minor, patch);
+  InitSdl();
 }
 
 void aequus::TermAequus() {

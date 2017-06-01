@@ -2,7 +2,7 @@
 #define AEQUUS_CORE_HPP
 #define AEQUUS_MAJOR 0
 #define AEQUUS_MINOR 0
-#define AEQUUS_PATCH 5
+#define AEQUUS_PATCH 17
 #include "window/window_container.hpp"
 namespace aequus {
   enum TYPE { SDL, IMG, TTF, MIX };
