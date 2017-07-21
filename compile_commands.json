@@ -1,0 +1,41 @@
+[
+    {
+        "arguments": [
+            "c++", 
+            "-c", 
+            "-std=c++11", 
+            "-w", 
+            "-o", 
+            "/home/arden/Programming/libraries/aequus/build/source/./main.o", 
+            "main.cpp"
+        ], 
+        "directory": "/home/arden/Programming/libraries/aequus/source", 
+        "file": "main.cpp"
+    }, 
+    {
+        "arguments": [
+            "c++", 
+            "-c", 
+            "-std=c++11", 
+            "-w", 
+            "-o", 
+            "/home/arden/Programming/libraries/aequus/build/source/./error/error.o", 
+            "error/error.cpp"
+        ], 
+        "directory": "/home/arden/Programming/libraries/aequus/source", 
+        "file": "error/error.cpp"
+    }, 
+    {
+        "arguments": [
+            "c++", 
+            "-c", 
+            "-std=c++11", 
+            "-w", 
+            "-o", 
+            "/home/arden/Programming/libraries/aequus/build/source/./aequus_core.o", 
+            "aequus_core.cpp"
+        ], 
+        "directory": "/home/arden/Programming/libraries/aequus/source", 
+        "file": "aequus_core.cpp"
+    }
+]

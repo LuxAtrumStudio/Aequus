@@ -2,6 +2,8 @@
 
 #include <pessum/pessum.hpp>
 
+#include "aequus.hpp"
+
 void PessumLogHandle(std::pair<int, std::string> entry) {
   if (entry.first == pessum::ERROR) {
     system("setterm -fore red");
@@ -24,6 +26,7 @@ void PessumLogHandle(std::pair<int, std::string> entry) {
 
 int main(int argc, char* argv[]) {
   pessum::SetLogHandle(PessumLogHandle);
+  aequus::InitAequus();
   pessum::SaveLog("out.log");
   return 0;
 }
