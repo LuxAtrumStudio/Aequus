@@ -1,6 +1,6 @@
 *.o
 *.d
 *.log
-*.swp
+build/*
 aequus
-*/.*/*
+aequus-test
