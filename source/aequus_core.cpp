@@ -2,7 +2,9 @@
 
 #include <pessum/pessum.hpp>
 
+#include "error/error.hpp"
 #include "sdl_headers.hpp"
+
 bool aequus::InitAequus() {
   pessum::Log(pessum::INFO, "Aequus Version: %i.%i.%i", "aequus::InitAequus",
               AEQUUS_VERSION_MAJOR, AEQUUS_VERSION_MINOR, AEQUUS_VERSION_PATCH);
@@ -28,7 +30,7 @@ bool aequus::InitAequus() {
 bool aequus::InitSdl() {
   if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
     pessum::Log(pessum::ERROR, "Failed to initialize SDL", "aequus::InitSdl");
-    // error::LogSDLError();
+    error::LogSdlError();
     return false;
   }
   return true;
@@ -39,7 +41,7 @@ bool aequus::InitImage() {
   if (IMG_Init(img_flags) == false || img_flags == 0) {
     pessum::Log(pessum::ERROR, "Failed to initialize SDL Image",
                 "aequus::InitImage");
-    // error::LogImgError();
+    error::LogImgError();
     return false;
   }
   return true;
@@ -49,6 +51,7 @@ bool aequus::InitTtf() {
   if (TTF_Init() == -1) {
     pessum::Log(pessum::ERROR, "Failed to initialize SDL TTF",
                 "aequus::InitTtf");
+    error::LogTtfError();
     return false;
   }
   return true;
@@ -59,6 +62,7 @@ bool aequus::InitMix() {
       0) {
     pessum::Log(pessum::ERROR, "Failed to initialize SDL Mixer",
                 "aequus::InitMix");
+    error::LogMixError();
     return false;
   }
   return true;

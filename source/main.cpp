@@ -27,6 +27,9 @@ void PessumLogHandle(std::pair<int, std::string> entry) {
 int main(int argc, char* argv[]) {
   pessum::SetLogHandle(PessumLogHandle);
   aequus::InitAequus();
+  aequus::Rectangle rect;
+  rect.SetAttr("top_left", 5);
+  aequus::TermAequus();
   pessum::SaveLog("out.log");
   return 0;
 }
