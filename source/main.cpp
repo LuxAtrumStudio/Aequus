@@ -29,10 +29,11 @@ int main(int argc, char* argv[]) {
   aequus::InitAequus();
   aequus::window::Window win;
   win.SetRect({0, 0, 500, 500});
-  win.SetClearColor({0, 255, 255, 255});
   win.CreateWin();
-  for (int i = 0; i < 10000; i++) {
+  while (win.ShouldClose() == false) {
     win.Show();
+    aequus::input::PollEvents();
+    aequus::input::HandleEvent(win);
   }
   win.DeleteWin();
   aequus::TermAequus();

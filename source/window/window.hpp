@@ -20,19 +20,29 @@ namespace aequus {
       void SetRect(Rect rect);
       void SetClearColor(Color color);
 
+      Uint32 GetId();
+
+      bool ShouldClose();
+      void SetShouldClose(bool setting);
+
       void Show();
 
       void Clear();
 
+      void HandleEvent(Uint32 type, SDL_Event event);
+
      private:
       void GenerateWindow();
       void DestroyWindow();
+
+      void HandleWindowEvent(SDL_WindowEvent event);
 
       std::string name_ = "Aequus";
       Rect rect_ = {0, 0, 0, 0};
       Color clear_color_ = {0, 0, 0, 255};
 
       Uint32 flags_ = 0;
+      bool should_close_ = false;
 
       std::shared_ptr<SDL_Window*> sdl_window_ = NULL;
       std::shared_ptr<SDL_Renderer*> sdl_renderer_ = NULL;

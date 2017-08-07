@@ -2,7 +2,7 @@ SHELL = /bin/bash
 
 DIR = source
 
-define Line = 
+define Line =
 $(shell printf '%0.1s' "$(2)"{1..$(1)})
 endef
 
@@ -23,42 +23,42 @@ define Compile
 mkdir -p $(@D)
 if [[ $(2) == Linking ]]; then \
   $(call Print,$(2) $(@F),$(WIDTH)); \
-else \
+  else \
   $(call PrintCpp,$(2) $(@F),$(WIDTH)); \
-fi
+  fi
 $(1) 2> $@.log; \
   RESULT=$$?; \
   if [ $$RESULT -ne 0 ]; then \
-    $(cross); \
+  $(cross); \
   else \
-    $(check); \
+  $(check); \
   fi; \
   cat $@.log; \
   rm -f $@.log
 endef
 
 define check =
-  printf "%b\n" "$(OK_COLOR)\xE2\x9C\x94 $(NO_COLOR)"
+printf "%b\n" "$(OK_COLOR)\xE2\x9C\x94 $(NO_COLOR)"
 endef
 
 define cross =
-  printf "%b\n" "$(ERR_COLOR)\xE2\x9D\x8C $(NO_COLOR)"
+printf "%b\n" "$(ERR_COLOR)\xE2\x9D\x8C $(NO_COLOR)"
 endef
 
 SRC_FILES = $(shell find -name "*.cpp")
 OBJ_FILES = $(SRC_FILES:%.cpp=$(BASE_PATH)/$(BUILD_DIR)/$(DIR)/%.o)
-EXE = $(BASE_PATH)/$(NAME)
+	EXE = $(BASE_PATH)/$(NAME)
 
 all: $(OBJ_FILES) $(EXE)
 
 -include $(OBJ_FILES:.o=.d)
 
 $(BASE_PATH)/$(BUILD_DIR)/$(DIR)/%.o: %.cpp
-	$(call Compile,$(COMPILER) $(CPPFLAGS) $< -o $@,Compiling)
+	$(call Compile,$(COMPILER) $(CPPFLAGS) ${LINK} $< -o $@,Compiling)
 
 
 $(EXE): $(OBJ_FILES)
-	$(call Compile,$(COMPILER) $(OBJ_FILES) $(LINK) -o $(EXE),Linking) 
+	$(call Compile,$(COMPILER) $(OBJ_FILES) $(LINK) -o $(EXE),Linking)
 
 .PHONY : clean
 clean:

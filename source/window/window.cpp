@@ -4,13 +4,21 @@
 
 #include <pessum/pessum.hpp>
 
+#include "../aequus_core.hpp"
 #include "../error/error.hpp"
 #include "../sdl_headers.hpp"
 #include "../types.hpp"
 
 aequus::window::Window::Window() {}
 
-aequus::window::Window::Window(const Window& copy) {}
+aequus::window::Window::Window(const Window& copy)
+    : name_(copy.name_),
+      rect_(copy.rect_),
+      clear_color_(copy.clear_color_),
+      flags_(copy.flags_),
+      should_close_(copy.should_close_),
+      sdl_window_(copy.sdl_window_),
+      sdl_renderer_(copy.sdl_renderer_) {}
 
 aequus::window::Window::~Window() {}
 
@@ -24,11 +32,25 @@ void aequus::window::Window::SetClearColor(Color color) {
   clear_color_ = color;
 }
 
+Uint32 aequus::window::Window::GetId() {
+  if (sdl_window_ != NULL) {
+    return SDL_GetWindowID(*sdl_window_);
+  } else {
+    return 0;
+  }
+}
+
 void aequus::window::Window::Show() {
   Clear();
   if (sdl_renderer_ != NULL) {
     SDL_RenderPresent(*sdl_renderer_);
   }
+}
+
+bool aequus::window::Window::ShouldClose() { return should_close_; }
+
+void aequus::window::Window::SetShouldClose(bool setting) {
+  should_close_ = setting;
 }
 
 void aequus::window::Window::Clear() {
@@ -40,6 +62,15 @@ void aequus::window::Window::Clear() {
                   "aequus::window::Window::Clear");
       error::LogSdlError();
     }
+  }
+}
+
+void aequus::window::Window::HandleEvent(Uint32 type, SDL_Event event) {
+  if (type == SDL_WINDOWEVENT) {
+    HandleWindowEvent(event.window);
+  }
+  if (aequus_quit_ == true) {
+    should_close_ = true;
   }
 }
 
@@ -72,5 +103,12 @@ void aequus::window::Window::DestroyWindow() {
   if (sdl_window_ != NULL && sdl_window_.use_count() == 1) {
     SDL_DestroyWindow(*sdl_window_);
     sdl_window_ = NULL;
+  }
+  should_close_ = false;
+}
+
+void aequus::window::Window::HandleWindowEvent(SDL_WindowEvent event) {
+  if (event.type == SDL_WINDOWEVENT_CLOSE) {
+    should_close_ = true;
   }
 }

@@ -3,9 +3,10 @@
 
 #define AEQUUS_VERSION_MAJOR 0
 #define AEQUUS_VERSION_MINOR 2
-#define AEQUUS_VERSION_PATCH 1
+#define AEQUUS_VERSION_PATCH 4
 
 namespace aequus {
+  extern bool aequus_quit_;
   bool InitAequus();
   bool InitSdl();
   bool InitImage();

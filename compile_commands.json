@@ -19,11 +19,11 @@
             "-std=c++14", 
             "-w", 
             "-o", 
-            "/home/arden/Programming/libraries/aequus/build/source/./error/error.o", 
-            "error/error.cpp"
+            "/home/arden/Programming/libraries/aequus/build/source/./input/input.o", 
+            "input/input.cpp"
         ], 
         "directory": "/home/arden/Programming/libraries/aequus/source", 
-        "file": "error/error.cpp"
+        "file": "input/input.cpp"
     }, 
     {
         "arguments": [
@@ -37,6 +37,19 @@
         ], 
         "directory": "/home/arden/Programming/libraries/aequus/source", 
         "file": "main.cpp"
+    }, 
+    {
+        "arguments": [
+            "c++", 
+            "-c", 
+            "-std=c++14", 
+            "-w", 
+            "-o", 
+            "/home/arden/Programming/libraries/aequus/build/source/./error/error.o", 
+            "error/error.cpp"
+        ], 
+        "directory": "/home/arden/Programming/libraries/aequus/source", 
+        "file": "error/error.cpp"
     }, 
     {
         "arguments": [

@@ -5,6 +5,10 @@
 #include "error/error.hpp"
 #include "sdl_headers.hpp"
 
+namespace aequus {
+  bool aequus_quit_ = false;
+}  // namespace aequus
+
 bool aequus::InitAequus() {
   pessum::Log(pessum::INFO, "Aequus Version: %i.%i.%i", "aequus::InitAequus",
               AEQUUS_VERSION_MAJOR, AEQUUS_VERSION_MINOR, AEQUUS_VERSION_PATCH);
