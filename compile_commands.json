@@ -19,19 +19,6 @@
             "-std=c++14", 
             "-w", 
             "-o", 
-            "/home/arden/Programming/libraries/aequus/build/source/./struct/rectangle/rectangle.o", 
-            "struct/rectangle/rectangle.cpp"
-        ], 
-        "directory": "/home/arden/Programming/libraries/aequus/source", 
-        "file": "struct/rectangle/rectangle.cpp"
-    }, 
-    {
-        "arguments": [
-            "c++", 
-            "-c", 
-            "-std=c++14", 
-            "-w", 
-            "-o", 
             "/home/arden/Programming/libraries/aequus/build/source/./error/error.o", 
             "error/error.cpp"
         ], 
@@ -45,11 +32,11 @@
             "-std=c++14", 
             "-w", 
             "-o", 
-            "/home/arden/Programming/libraries/aequus/build/source/./struct/point/point.o", 
-            "struct/point/point.cpp"
+            "/home/arden/Programming/libraries/aequus/build/source/./main.o", 
+            "main.cpp"
         ], 
         "directory": "/home/arden/Programming/libraries/aequus/source", 
-        "file": "struct/point/point.cpp"
+        "file": "main.cpp"
     }, 
     {
         "arguments": [
@@ -58,10 +45,10 @@
             "-std=c++14", 
             "-w", 
             "-o", 
-            "/home/arden/Programming/libraries/aequus/build/source/./main.o", 
-            "main.cpp"
+            "/home/arden/Programming/libraries/aequus/build/source/./window/window.o", 
+            "window/window.cpp"
         ], 
         "directory": "/home/arden/Programming/libraries/aequus/source", 
-        "file": "main.cpp"
+        "file": "window/window.cpp"
     }
 ]
