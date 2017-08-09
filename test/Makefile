@@ -1,78 +1,51 @@
 SHELL = /bin/bash
 
-DIR = test
+DIR = $(TEST_DIR)
+SUB_NAME = "Test"
 
-GTEST = -I/usr/local/include/gtest -lgtest -lgtest_main -lpthread
+SOURCE_LIB = $(BASE_PATH)/$(BUILD_DIR)/lib$(NAME).a
 
-define Line = 
-$(shell printf '%0.1s' "$(2)"{1..$(1)})
+GTEST_INCLUDE = -I$(BASE_PATH)/$(EXTERNAL_DIR)/googletest/googletest/include
+GTEST_LIB = $(BASE_PATH)/$(BUILD_DIR)/libgtest.a $(BASE_PATH)/$(BUILD_DIR)/libgtest_main.a -lpthread
+
+EXE_FILES = $(shell find -name "*.cpp")
+
+EXE_OBJ = $(EXE_FILES:%.cpp=$(BASE_PATH)/$(BUILD_DIR)/$(DIR)/%.o)
+
+EXE_DEP = $(EXE_OBJ:.o=.d)
+
+EXE = $(BASE_PATH)/unit-test
+
+define print
+printf "%b%s%b\n" "$(2)" "$(1)" "$(NO_COLOR)"
 endef
 
-define Print
-var="$(1)"; \
-    width="$(2)";\
-    printf '%s%*.*s' "$$var" 0 $$(($$width - $${#var} - 1)) "$(call Line,$(2),.)"
-endef
+all: $(EXE)
 
-define PrintCpp
-var="$(1)"; \
-    var=$${var%.*}.cpp; \
-    width="$(2)";\
-    printf '%s%*.*s' "$$var" 0 $$(($$width - $${#var} - 1)) "$(call Line,$(2),.)"
-endef
-
-define Compile
-mkdir -p $(@D)
-if [[ $(2) == Linking ]]; then \
-  $(call Print,$(2) $(@F),$(WIDTH)); \
-else \
-  $(call PrintCpp,$(2) $(@F),$(WIDTH)); \
-fi
-$(1) 2> $@.log; \
-  RESULT=$$?; \
-  if [ $$RESULT -ne 0 ]; then \
-    $(cross); \
-  else \
-    $(check); \
-  fi; \
-  cat $@.log; \
-  rm -f $@.log
-endef
-
-define check =
-  printf "%b\n" "$(OK_COLOR)\xE2\x9C\x94 $(NO_COLOR)"
-endef
-
-define cross =
-  printf "%b\n" "$(ERR_COLOR)\xE2\x9D\x8C $(NO_COLOR)"
-endef
-
-TEST_FILES = $(shell find -name "*.cpp")
-SOURCE_OBJ = $(filter-out $(BASE_PATH)/$(BUILD_DIR)/$(SOURCE_DIR)/main.o, $(shell find $(BASE_PATH)/$(BUILD_DIR)/$(SOURCE_DIR)/*.o))
-OBJ_FILES = $(TEST_FILES:%.cpp=$(BASE_PATH)/$(BUILD_DIR)/$(DIR)/%.o)
-
-EXE = $(BASE_PATH)/$(NAME)-test
-
-all: $(OBJ_FILES) $(EXE)
-
--include $(OBJ_FILES:.o=.d)
-
-$(BASE_PATH)/$(BUILD_DIR)/$(DIR)/%.o: %.cpp
-	$(call Compile,$(COMPILER) -I../$(SOURCE_DIR) $(CPPFLAGS) $< -o $@,Compiling)
-
-$(EXE): $(OBJ_FILES)
-	$(call Compile,$(COMPILER)  -I../$(SOURCE_DIR) $(OBJ_FILES) $(SOURCE_OBJ) $(LINK) -o $(EXE) $(GTEST) ,Linking) 
+.PHONY : exe
+exe: $(EXE)
 
 .PHONY : clean
 clean:
-	$(call Print,Cleaning $(DIR)/*.o,$(WIDTH))
-	find $(BASE_PATH)/$(BUILD_DIR)/$(DIR) -name "*.o" -type f -delete
-	$(call check)
-	$(call Print,Cleaning $(DIR)/*.d,$(WIDTH))
-	find $(BASE_PATH)/$(BUILD_DIR)/$(DIR) -name "*.d" -type f -delete
-	$(call check)
-	$(call Print,Cleaning $(DIR)/$(NAME)-test,$(WIDTH))
-	rm -f $(EXE)
-	$(call check)
+	$(call print,Removing $(DIR),$(CLEAN_COLOR))
+	if [ -d "$(BASE_PATH)/$(BUILD_DIR)/$(DIR)" ]; then rm $(BASE_PATH)/$(BUILD_DIR)/$(DIR) -r; fi
+	$(call print,Removing $(shell basename $(EXE)),$(CLEAN_COLOR))
+	if [ -e "$(EXE)" ]; then rm $(EXE); fi
 
-#include $(shell find -name "*d")
+
+-include $(EXE_OBJ:.o=.d)
+
+$(BASE_PATH)/$(BUILD_DIR)/$(DIR)/%.o: %.cpp
+	mkdir -p $(@D)
+	$(call print,Building $@,$(COMPILE_COLOR))
+	$(COMPILER) $(COMMON_INCLUDE) $(GTEST_INCLUDE) $(CXXFLAGS) $(GCOV_FLAGS) $< -o $@
+
+$(EXE): exe_start $(LIB) $(EXE_OBJ)
+	$(call print,Linking $(shell basename $(EXE)),$(LINK_COLOR))
+	$(COMPILER) $(EXE_OBJ) $(GTEST_LIB) $(SOURCE_LIB) $(LINK) $(GCOV_LINK) -o $(EXE)
+
+.PHONY : exe_start
+exe_start:
+	$(call print,$(SUB_NAME) Executable,$(TARGET_COLOR))
+
+

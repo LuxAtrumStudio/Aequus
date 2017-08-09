@@ -1,205 +1,133 @@
 SHELL = /bin/bash
 
-export SOURCE_DIR = source
-export TEST_DIR = 
-export BUILD_DIR = build
+export NAME=aequus
+export LINK= -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lpessum
+export INCLUDE=
+export TYPE=lib
 
-export COMPILER = clang++
-export CPPFLAGS = -MMD -std=c++14 -w -c
-export LINK = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lpessum
-export NAME = aequus
-export TYPE = lib
+export SOURCE_DIR=source
+export TEST_DIR=test
+export EXTERNAL_DIR=external
+export BUILD_DIR=build
+export INCLUDE_DIR=include
 
-export LIB_PATH = /usr/local/
-export EXE_PATH = ~/bin/
-
-export RED = \033[0;31m
-export GREEN = \033[0;32m
-export YELLOW = \033[0;33m
-export BLUE = \033[0;34m
-export MAGENTA = \033[0;35m
-export CYAN = \033[0;36m
-export WHITE = \033[0;37m
-export NO_COLOR = \033[m
-
-export BUILD_COLOR = $(BLUE)
-export ERR_COLOR = $(RED)
-export OK_COLOR = $(GREEN)
-export CLEAN_COLOR = $(YELLOW)
-export INSTALL_COLOR = $(MAGENTA)
-
-export WIDTH=$(shell printf $$(($(call FindLongestFile, $(SOURCE_DIR)) + 14)))
 export BASE_PATH=$(shell pwd)
+
+export COMPILER=g++
+export CXXFLAGS= -MMD -std=c++11 -w -c
+
+export INSTALL_PATH=/usr/local
+
+export GCOV_LINK = -lgcov --coverage
+export GCOV_FLAG = -fprofile-arcs -ftest-coverage
+
+export COMMON_INCLUDE=-I$(BASE_PATH)/$(INCLUDE_DIR) $(INCLUDE)
+
+export SECTION_COLOR=\033[1;97m
+export TARGET_COLOR=\033[0;34m
+export LINK_COLOR=\033[0;35m
+export CLEAN_COLOR=\033[0;33m
+export COMPILE_COLOR=\033[0;32m
+export INSTALL_COLOR=\033[0;36m
+export ERROR_COLOR=\033[1;31m
+export NO_COLOR=\033[m
 
 ifndef .VERBOSE
   .SILENT:
 endif
 
-define FindLongestFile
-$(shell \
-  max=0; \
-  for file in `find $(1) -type f -exec basename {} \;`; do \
-    len=$${#file}; \
-    if [ $$len -gt $$max ]; then \
-      max=$$len; \
-    fi; \
-  done; \
-  echo $$max
-)
+define print_section
+str="$(1)";\
+    line_length=$${#str};\
+    printf "%b%s\n" "$(SECTION_COLOR)" "$$str";\
+    while [ $$line_length -gt 0 ]; do\
+      printf "=";\
+      let line_length=line_length-1;\
+    done;\
+    printf "%b\n" "$(NO_COLOR)"
 endef
 
-define Line = 
-$(shell printf '%0.1s' "$(2)"{1..$(1)})
+define print
+printf "%b%s%b\n" "$(2)" "$(1)" "$(NO_COLOR)"
 endef
 
-define Print
-var="$(1)"; \
-    width="$(2)";\
-    printf '%s%*.*s' "$$var" 0 $$(($$width - $${#var} - 1)) "$(call Line,$(2),.)"
+define help
+printf "%b%*s%b: %s\n" "$(TARGET_COLOR)" 14 "$(1)" "$(NO_COLOR)" "$(2)"
 endef
 
-define check =
-  printf "%b\n" "$(OK_COLOR)\xE2\x9C\x94 $(NO_COLOR)"
-endef
-
-define cross =
-  printf "%b\n" "$(ERR_COLOR)\xE2\x9D\x8C $(NO_COLOR)"
-endef
-
-all: start source-make test-make 
-	printf "%b%s%b\n" "$(WHITE)" "$(call Line,$(WIDTH),=)" "$(NO_COLOR)"
-	printf "%b\n" "$(WHITE)Compleated Compiling $(NAME)$(NO_COLOR)"
+.PHONY : all
+all: external source test 
 
 .PHONY : clean
-clean: start-clean source-clean test-clean
-	#if [[ -e compile_commands.json ]]; then rm compile_commands.json; fi
-	#if [[ -e $(BUILD_DIR)/lib$(NAME).a ]]; then rm $(BUILD_DIR)/lib$(NAME).a; fi
-	printf "%b%s%b\n" "$(CLEAN_COLOR)" "$(call Line,$(WIDTH),=)" "$(NO_COLOR)"
-	printf "%b\n" "$(CLEAN_COLOR)Compleated Cleaning$(NO_COLOR)"
-
-.PHONY : purge
-purge: uninstall clean
-
-.PHONY : new
-new: clean all
-
-.PHONY : docs
-docs: docs-html docs-latex
-
-.PHONY : docs-html
-docs-html:
-	cd docs && $(MAKE) html
-
-.PHONY : docs-latex
-docs-latex:
-	cd docs && $(MAKE) latexpdf
+clean: clean-external clean-source clean-test
 
 .PHONY : install
-ifeq ($(TYPE),lib)
-install: all
-	$(eval SOURCE_HEADERS = $(shell cd $(SOURCE_DIR) && find . -name '*.hpp' -or -name '*.h'))
-	$(eval LIB_OBJ = $(filter-out $(BASE_PATH)/$(BUILD_DIR)/$(SOURCE_DIR)/main.o, $(shell find $(BASE_PATH)/$(BUILD_DIR)/$(SOURCE_DIR)/*.o)))
-	@if [[ $$UID != 0 ]]; then \
-	  printf "%b\n" "$(ERR_COLOR)Must run with root permissions$(NO_COLOR)"; \
-	else \
-	  printf "%b\n" "$(INSTALL_COLOR)Installing $(NAME) lib$(NO_COLOR)"; \
-	  printf "%b%s%b\n" "$(INSTALL_COLOR)" "$(call Line,$(WIDTH),=)" "$(NO_COLOR)"; \
-	  $(call Print,Compiling library,$(WIDTH)); \
-	  sudo ar rcs $(BUILD_DIR)/lib$(NAME).a $(LIB_OBJ); \
-	  if [[ -e $(BUILD_DIR)/lib$(NAME).a ]]; then \
-	    $(call check); \
-	    $(call Print,Copying library,$(WIDTH)); \
-	    sudo cp $(BUILD_DIR)/lib$(NAME).a $(LIB_PATH)/lib/ -u; \
-	    $(call check); \
-	    $(call Print,Copying headers,$(WIDTH)); \
-	    if [[ ! -d $(LIB_PATH)/include/$(NAME) ]]; then sudo mkdir $(LIB_PATH)/include/$(NAME); fi;\
-	    cd $(SOURCE_DIR) && sudo cp $(SOURCE_HEADERS) $(LIB_PATH)/include/$(NAME)/ -r -u ; \
-	    $(call check); \
-	  else \
-	    $(call cross); \
-	  fi;\
-	  printf "%b%s%b\n" "$(INSTALL_COLOR)" "$(call Line,$(WIDTH),=)" "$(NO_COLOR)"; \
-	  printf "%b\n" "$(INSTALL_COLOR)Installed $(NAME) lib$(NO_COLOR)"; \
-	fi 
-
-else
-install:all
-	printf "%b\n" "$(INSTALL_COLOR)Installing $(NAME)$(NO_COLOR)"
-	printf "%b%s%b\n" "$(INSTALL_COLOR)" "$(call Line,$(WIDTH),=)" "$(NO_COLOR)"
-	$(call Print,Copying $(NAME),$(WIDTH))
-	cp $(NAME) $(EXE_PATH) -u
-	$(call check)
-	printf "%b%s%b\n" "$(INSTALL_COLOR)" "$(call Line,$(WIDTH),=)" "$(NO_COLOR)"; \
-	printf "%b\n" "$(INSTALL_COLOR)Installed $(NAME)$$(NO_COLOR)"; \
-
-endif
+install: source root-access install-source
+	if [ $(TYPE) == "lib" ] && ! [ -d "$(INSTALL_PATH)/include/$(NAME)" ]; then \
+	  $(call print,Installing include directory,$(INSTALL_COLOR));\
+	  sudo mkdir $(INSTALL_PATH)/include/ -p;\
+	  sudo cp $(INCLUDE_DIR)/ $(INSTALL_PATH)/include/$(NAME)/ -r;\
+	fi
 
 .PHONY : uninstall
-ifeq ($(TYPE),lib)
-uninstall:
-	@if [[ $$UID != 0 ]]; then \
-	  printf "%b\n" "$(ERR_COLOR)Must run with root permissions$(NO_COLOR)"; \
-	else \
-	  printf "%b\n" "$(INSTALL_COLOR)Uninstalling $(NAME) lib$(NO_COLOR)"; \
-	  printf "%b%s%b\n" "$(INSTALL_COLOR)" "$(call Line,$(WIDTH),=)" "$(NO_COLOR)"; \
-	  if [[ -e $(LIB_PATH)/lib/lib$(NAME).a ]]; then \
-	    $(call Print,Deleting library,$(WIDTH)); \
-	    sudo rm $(LIB_PATH)/lib/lib$(NAME).a; \
-	    $(call check); \
-	  fi; \
-	  if [[ -d $(LIB_PATH)/include/$(NAME) ]]; then \
-	    $(call Print,Deleting header files,$(WIDTH)); \
-	    sudo rm $(LIB_PATH)/include/$(NAME)/ -r; \
-	    $(call check); \
-	  fi; \
-	  printf "%b%s%b\n" "$(INSTALL_COLOR)" "$(call Line,$(WIDTH),=)" "$(NO_COLOR)"; \
-	  printf "%b\n" "$(INSTALL_COLOR)Uninstalled $(NAME) lib$(NO_COLOR)"; \
-	fi 
-
-
-else
-uninstall:
-	printf "%b\n" "$(INSTALL_COLOR)Uninstalling $(NAME)$(NO_COLOR)"
-	printf "%b%s%b\n" "$(INSTALL_COLOR)" "$(call Line,$(WIDTH),=)" "$(NO_COLOR)"
-	$(call Print,Deleting ~/bin/$(NAME),$(WIDTH))
-	rm $(NAME) $(EXE_PATH) -u
-	$(call check)
-	printf "%b%s%b\n" "$(INSTALL_COLOR)" "$(call Line,$(WIDTH),=)" "$(NO_COLOR)"; \
-	printf "%b\n" "$(INSTALL_COLOR)Uninstalled $(NAME)$$(NO_COLOR)"; \
-
-endif
-
-.PHONY : start
-start:
-	printf "%b\n" "$(WHITE)Compiling $(NAME)$(NO_COLOR)"
-	printf "%b%s%b\n" "$(WHITE)" "$(call Line,$(WIDTH),=)" "$(NO_COLOR)"
-
-.PHONY : start-clean
-start-clean:
-	printf "%b\n" "$(CLEAN_COLOR)Cleaning $(NAME)$(NO_COLOR)"
-	printf "%b%s%b\n" "$(CLEAN_COLOR)" "$(call Line,$(WIDTH),=)" "$(NO_COLOR)"
-
-.PHONY : source-make
-source-make:
-	printf "%b\n" "$(BUILD_COLOR)SOURCE$(NO_COLOR)"
-	cd $(SOURCE_DIR) && $(MAKE)
-
-.PHONY : source-clean
-source-clean:
-	printf "%b\n" "$(CLEAN_COLOR)SOURCE$(NO_COLOR)"
-	cd $(SOURCE_DIR) && $(MAKE) clean
-
-.PHONY : test-make
-test-make:
-	if [[ -z "$(TEST_DIR)" ]] && [[ -d "$(TEST_DIR)" ]]; then \
-	  printf "%b\n" "$(BUILD_COLOR)TEST$(NO_COLOR)"; \
-	  cd $(TEST_DIR) && $(MAKE); \
+uninstall: root-access uninstall-source
+	if [ $(TYPE) == "lib" ] && [ -d "$(INSTALL_PATH)/include/$(NAME)" ]; then \
+	  $(call print,Uninstalling include directory,$(INSTALL_COLOR));\
+	  sudo rm $(INSTALL_PATH)/include/$(NAME) -rf;\
 	fi
 
-.PHONY : test-clean
-test-clean:
-	if [[ -z "$(TEST_DIR)" ]] && [[ -d "$(TEST_DIR)" ]]; then \
-	  printf "%b\n" "$(CLEAN_COLOR)TEST$(NO_COLOR)"; \
-	  cd $(TEST_DIR) && $(MAKE) clean; \
+.PHONY : help
+help:
+	$(call print_section,Makefile Help)
+	printf "List of all acceptable make targets\n\n"
+	$(call help,all,Builds external, source, and test files and projects)
+	$(call help,clean,Clean files created from external, source, and test)
+	$(call help,help,Display this help page)
+	$(call help,external,Builds external files and projects)
+	$(call help,clean-external,Cleans files created from external)
+	$(call help,source,Builds source files and projects)
+	$(call help,clean-source,Cleans files created from source)
+	$(call help,test,Builds test files and projects)
+	$(call help,clean-test,Cleans files created from test)
+
+.PHONY : root-access
+root-access:
+	if [[ $$UID != 0 ]]; then \
+	  $(call print,Target requiers root access,$(ERROR_COLOR)); \
+	  exit 1; \
 	fi
 
+.PHONY : external 
+external:	
+	$(call print_section,External Dependencies)
+	if [ -d "$(EXTERNAL_DIR)" ]; then cd "$(EXTERNAL_DIR)" && $(MAKE); fi
+.PHONY : clean-external 
+clean-external:	
+	$(call print_section,External Dependencies)
+	if [ -d "$(EXTERNAL_DIR)" ]; then cd "$(EXTERNAL_DIR)" && $(MAKE) clean; fi
+
+.PHONY : source
+source:
+	$(call print_section,Source Files)
+	if [ -d "$(SOURCE_DIR)" ]; then cd "$(SOURCE_DIR)" && $(MAKE); fi
+.PHONY : clean-source
+clean-source:
+	$(call print_section,Source Files)
+	if [ -d "$(SOURCE_DIR)" ]; then cd "$(SOURCE_DIR)" && $(MAKE) clean; fi
+.PHONY : install-source
+install-source:
+	$(call print_section,Source Files)
+	if [ -d "$(SOURCE_DIR)" ]; then cd "$(SOURCE_DIR)" && $(MAKE) install; fi
+.PHONY: uninstall-source
+uninstall-source:
+	$(call print_section,Source Files)
+	if [ -d "$(SOURCE_DIR)" ]; then cd "$(SOURCE_DIR)" && $(MAKE) uninstall; fi
+
+.PHONY : test
+test:
+	$(call print_section,Unit Tests)
+	if [ -d "$(TEST_DIR)" ]; then cd "$(TEST_DIR)" && $(MAKE); fi
+.PHONY : clean-test
+clean-test:
+	$(call print_section,Unit Tests)
+	if [ -d "$(TEST_DIR)" ]; then cd "$(TEST_DIR)" && $(MAKE) clean; fi

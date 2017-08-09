@@ -1,10 +1,10 @@
-#include "error.hpp"
+#include "error/error.hpp"
 
 #include <string>
 
 #include <pessum/pessum.hpp>
 
-#include "../sdl_headers.hpp"
+#include "sdl_headers.hpp"
 
 void aequus::error::LogSdlError() {
   pessum::Log(pessum::ERROR, "%s", "SDL", SDL_GetError());

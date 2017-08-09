@@ -1,18 +1,18 @@
-#include "window.hpp"
+#include "window/window.hpp"
 
 #include <memory>
 
 #include <pessum/pessum.hpp>
 
-#include "../aequus_core.hpp"
-#include "../error/error.hpp"
-#include "../sdl_headers.hpp"
-#include "../types.hpp"
+#include "aequus_core.hpp"
+#include "error/error.hpp"
+#include "sdl_headers.hpp"
+#include "types.hpp"
 
 aequus::window::Window::Window() {}
 
 aequus::window::Window::Window(const Window& copy)
-    : name_(copy.name_),
+    : title_(copy.title_),
       rect_(copy.rect_),
       clear_color_(copy.clear_color_),
       flags_(copy.flags_),
@@ -26,10 +26,57 @@ void aequus::window::Window::CreateWin() { GenerateWindow(); }
 
 void aequus::window::Window::DeleteWin() { DestroyWindow(); }
 
-void aequus::window::Window::SetRect(Rect rect) { rect_ = rect; }
+void aequus::window::Window::SetRect(Rect rect) {
+  rect_ = rect;
+  ChangePosition();
+  ChangeSize();
+}
 
 void aequus::window::Window::SetClearColor(Color color) {
   clear_color_ = color;
+}
+
+void aequus::window::Window::SetFlags(Uint32 flags) { flags_ = flags; }
+
+void aequus::window::Window::AddFlags(Uint32 flags) { flags_ = flags_ | flags; }
+
+void aequus::window::Window::SetTitle(std::string title) {
+  title_ = title;
+  ChangeTitle();
+}
+
+std::string aequus::window::Window::GetTitle() { return title_; }
+
+aequus::Point aequus::window::Window::GetPosition() {
+  return {rect_.x, rect_.y};
+}
+
+aequus::Point aequus::window::Window::GetSize() { return {rect_.w, rect_.h}; }
+
+aequus::Rect aequus::window::Window::GetRect() { return rect_; }
+
+void aequus::window::Window::SetPosition(Point point) {
+  rect_.x = point.x;
+  rect_.y = point.y;
+  ChangePosition();
+}
+
+void aequus::window::Window::Translate(Point point) {
+  rect_.x += point.x;
+  rect_.y += point.y;
+  ChangePosition();
+}
+
+void aequus::window::Window::SetSize(Point point) {
+  rect_.w = point.x;
+  rect_.h = point.y;
+  ChangeSize();
+}
+
+void aequus::window::Window::Scale(Point point) {
+  rect_.w += point.x;
+  rect_.h += point.y;
+  ChangeSize();
 }
 
 Uint32 aequus::window::Window::GetId() {
@@ -77,7 +124,7 @@ void aequus::window::Window::HandleEvent(Uint32 type, SDL_Event event) {
 void aequus::window::Window::GenerateWindow() {
   if (sdl_window_ == NULL) {
     sdl_window_ = std::make_shared<SDL_Window*>(SDL_CreateWindow(
-        name_.c_str(), rect_.x, rect_.y, rect_.w, rect_.h, flags_));
+        title_.c_str(), rect_.x, rect_.y, rect_.w, rect_.h, flags_));
     if (sdl_window_ == NULL) {
       pessum::Log(pessum::ERROR, "Failed to create SDL window",
                   "aequus::window::Window::GenerateWindow");
@@ -105,6 +152,24 @@ void aequus::window::Window::DestroyWindow() {
     sdl_window_ = NULL;
   }
   should_close_ = false;
+}
+
+void aequus::window::Window::ChangeTitle() {
+  if (sdl_window_ != NULL) {
+    SDL_SetWindowTitle(*sdl_window_, title_.c_str());
+  }
+}
+
+void aequus::window::Window::ChangeSize() {
+  if (sdl_window_ != NULL) {
+    SDL_SetWindowSize(*sdl_window_, rect_.w, rect_.h);
+  }
+}
+
+void aequus::window::Window::ChangePosition() {
+  if (sdl_window_ != NULL) {
+    SDL_SetWindowPosition(*sdl_window_, rect_.x, rect_.y);
+  }
 }
 
 void aequus::window::Window::HandleWindowEvent(SDL_WindowEvent event) {

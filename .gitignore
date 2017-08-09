@@ -4,4 +4,4 @@
 *.swp
 build/*
 aequus
-aequus-test
+unit-test

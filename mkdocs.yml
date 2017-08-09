@@ -1,0 +1,35 @@
+site_name: Pessum
+theme: 'material'
+extra:
+  logo: 'pessum.svg'
+  feature:
+    tabs: true
+  palette:
+    primary: 'purple'
+    accent: 'indigo'
+extra_javascript:
+  - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
+google_analytics:
+  - 'UA-104338919-1'
+  - 'auto'
+markdown_extensions:
+  - admonition
+  - codehilite(guess_lang=false)
+  - toc(permalink=true)
+  - meta
+  - pymdownx.betterem(smart_enable=all)
+  - pymdownx.superfences
+  - pymdownx.tasklist
+  - pymdownx.tilde
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.arithmatex
+repo_name: 'Pessum'
+repo_url: 'https://github.com/LuxAtrumStudio/Pessum'
+pages:
+  - Home: 'index.md'
+  - Tutorial:
+    - 'Home': 'tutorial/index.md'
+  - Reference:
+    - 'Home': 'reference/index.md'
+    - 'Logging': 'reference/log.md'

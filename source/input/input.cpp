@@ -1,13 +1,13 @@
-#include "input.hpp"
+#include "input/input.hpp"
 
 #include <tuple>
 #include <vector>
 
 #include <pessum/pessum.hpp>
 
-#include "../aequus_core.hpp"
-#include "../sdl_headers.hpp"
-#include "../window/window.hpp"
+#include "aequus_core.hpp"
+#include "sdl_headers.hpp"
+#include "window/window.hpp"
 
 namespace aequus {
   namespace input {
