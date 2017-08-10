@@ -3,36 +3,7 @@
         "arguments": [
             "c++", 
             "-c", 
-            "-std=c++11", 
-            "-w", 
-            "-fprofile-arcs", 
-            "-ftest-coverage", 
-            "-o", 
-            "/home/arden/Programming/libraries/aequus/build/source/./window/window.o", 
-            "window/window.cpp"
-        ], 
-        "directory": "/home/arden/Programming/libraries/aequus/source", 
-        "file": "window/window.cpp"
-    }, 
-    {
-        "arguments": [
-            "c++", 
-            "-c", 
-            "-std=c++11", 
-            "-w", 
-            "-fprofile-arcs", 
-            "-ftest-coverage", 
-            "-o", 
-            "/home/arden/Programming/libraries/aequus/build/source/./aequus_core.o", 
-            "aequus_core.cpp"
-        ], 
-        "directory": "/home/arden/Programming/libraries/aequus/source", 
-        "file": "aequus_core.cpp"
-    }, 
-    {
-        "arguments": [
-            "c++", 
-            "-c", 
+            "-I/home/arden/Programming/libraries/aequus/include", 
             "-std=c++11", 
             "-w", 
             "-fprofile-arcs", 
@@ -48,21 +19,53 @@
         "arguments": [
             "c++", 
             "-c", 
-            "-std=c++11", 
-            "-w", 
-            "-fprofile-arcs", 
-            "-ftest-coverage", 
+            "-isystem", 
+            "/home/arden/Programming/libraries/aequus/external/googletest/googletest/include", 
+            "-I/home/arden/Programming/libraries/aequus/external/googletest/googletest", 
+            "-pthread", 
             "-o", 
-            "/home/arden/Programming/libraries/aequus/build/source/./main.o", 
-            "main.cpp"
+            "/home/arden/Programming/libraries/aequus/build/gtest/gtests_main.o", 
+            "googletest/googletest/src/gtest_main.cc"
         ], 
-        "directory": "/home/arden/Programming/libraries/aequus/source", 
-        "file": "main.cpp"
+        "directory": "/home/arden/Programming/libraries/aequus/external", 
+        "file": "googletest/googletest/src/gtest_main.cc"
     }, 
     {
         "arguments": [
             "c++", 
             "-c", 
+            "-I/home/arden/Programming/libraries/aequus/include", 
+            "-std=c++11", 
+            "-w", 
+            "-fprofile-arcs", 
+            "-ftest-coverage", 
+            "-o", 
+            "/home/arden/Programming/libraries/aequus/build/source/./aequus_core.o", 
+            "aequus_core.cpp"
+        ], 
+        "directory": "/home/arden/Programming/libraries/aequus/source", 
+        "file": "aequus_core.cpp"
+    }, 
+    {
+        "arguments": [
+            "c++", 
+            "-c", 
+            "-isystem", 
+            "/home/arden/Programming/libraries/aequus/external/googletest/googletest/include", 
+            "-I/home/arden/Programming/libraries/aequus/external/googletest/googletest", 
+            "-pthread", 
+            "-o", 
+            "/home/arden/Programming/libraries/aequus/build/gtest/gtest-all.o", 
+            "googletest/googletest/src/gtest-all.cc"
+        ], 
+        "directory": "/home/arden/Programming/libraries/aequus/external", 
+        "file": "googletest/googletest/src/gtest-all.cc"
+    }, 
+    {
+        "arguments": [
+            "c++", 
+            "-c", 
+            "-I/home/arden/Programming/libraries/aequus/include", 
             "-std=c++11", 
             "-w", 
             "-fprofile-arcs", 
@@ -78,30 +81,32 @@
         "arguments": [
             "c++", 
             "-c", 
-            "-isystem", 
-            "external/googletest/googletest/include", 
-            "-Iexternal/googletest/googletest", 
-            "-pthread", 
+            "-I/home/arden/Programming/libraries/aequus/include", 
+            "-std=c++11", 
+            "-w", 
+            "-fprofile-arcs", 
+            "-ftest-coverage", 
             "-o", 
-            "build/gtest/gtest-all.o", 
-            "external/googletest/googletest/src/gtest-all.cc"
+            "/home/arden/Programming/libraries/aequus/build/source/./window/window.o", 
+            "window/window.cpp"
         ], 
-        "directory": "/home/arden/Programming/libraries/aequus", 
-        "file": "external/googletest/googletest/src/gtest-all.cc"
+        "directory": "/home/arden/Programming/libraries/aequus/source", 
+        "file": "window/window.cpp"
     }, 
     {
         "arguments": [
             "c++", 
             "-c", 
-            "-isystem", 
-            "external/googletest/googletest/include", 
-            "-Iexternal/googletest/googletest", 
-            "-pthread", 
+            "-I/home/arden/Programming/libraries/aequus/include", 
+            "-std=c++11", 
+            "-w", 
+            "-fprofile-arcs", 
+            "-ftest-coverage", 
             "-o", 
-            "build/gtest/gtest_main.o", 
-            "external/googletest/googletest/src/gtest_main.cc"
+            "/home/arden/Programming/libraries/aequus/build/source/./main.o", 
+            "main.cpp"
         ], 
-        "directory": "/home/arden/Programming/libraries/aequus", 
-        "file": "external/googletest/googletest/src/gtest_main.cc"
+        "directory": "/home/arden/Programming/libraries/aequus/source", 
+        "file": "main.cpp"
     }
 ]

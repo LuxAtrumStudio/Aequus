@@ -1,16 +1,16 @@
-site_name: Pessum
+site_name: Aequus
 theme: 'material'
 extra:
-  logo: 'pessum.svg'
+  logo: 'img/Aequus.svg'
   feature:
     tabs: true
   palette:
-    primary: 'purple'
-    accent: 'indigo'
+    primary: 'blue'
+    accent: 'green'
 extra_javascript:
   - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
 google_analytics:
-  - 'UA-104338919-1'
+  - 'UA-104338919-2'
   - 'auto'
 markdown_extensions:
   - admonition
@@ -24,12 +24,11 @@ markdown_extensions:
   - pymdownx.caret
   - pymdownx.mark
   - pymdownx.arithmatex
-repo_name: 'Pessum'
-repo_url: 'https://github.com/LuxAtrumStudio/Pessum'
+repo_name: 'Aequus'
+repo_url: 'https://github.com/LuxAtrumStudio/Aequus'
 pages:
   - Home: 'index.md'
-  - Tutorial:
-    - 'Home': 'tutorial/index.md'
-  - Reference:
-    - 'Home': 'reference/index.md'
-    - 'Logging': 'reference/log.md'
+  # - Tutorial:
+    # - 'Home': 'tutorial/index.md'
+  # - Reference:
+    # - 'Home': 'reference/index.md'
