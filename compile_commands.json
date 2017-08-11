@@ -9,11 +9,11 @@
             "-fprofile-arcs", 
             "-ftest-coverage", 
             "-o", 
-            "/home/arden/Programming/libraries/aequus/build/source/./error/error.o", 
-            "error/error.cpp"
+            "/home/arden/Programming/libraries/aequus/build/source/./input/input.o", 
+            "input/input.cpp"
         ], 
         "directory": "/home/arden/Programming/libraries/aequus/source", 
-        "file": "error/error.cpp"
+        "file": "input/input.cpp"
     }, 
     {
         "arguments": [
@@ -71,11 +71,11 @@
             "-fprofile-arcs", 
             "-ftest-coverage", 
             "-o", 
-            "/home/arden/Programming/libraries/aequus/build/source/./input/input.o", 
-            "input/input.cpp"
+            "/home/arden/Programming/libraries/aequus/build/source/./object/object.o", 
+            "object/object.cpp"
         ], 
         "directory": "/home/arden/Programming/libraries/aequus/source", 
-        "file": "input/input.cpp"
+        "file": "object/object.cpp"
     }, 
     {
         "arguments": [
@@ -92,6 +92,22 @@
         ], 
         "directory": "/home/arden/Programming/libraries/aequus/source", 
         "file": "window/window.cpp"
+    }, 
+    {
+        "arguments": [
+            "c++", 
+            "-c", 
+            "-I/home/arden/Programming/libraries/aequus/include", 
+            "-std=c++11", 
+            "-w", 
+            "-fprofile-arcs", 
+            "-ftest-coverage", 
+            "-o", 
+            "/home/arden/Programming/libraries/aequus/build/source/./error/error.o", 
+            "error/error.cpp"
+        ], 
+        "directory": "/home/arden/Programming/libraries/aequus/source", 
+        "file": "error/error.cpp"
     }, 
     {
         "arguments": [

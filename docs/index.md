@@ -1,3 +1,7 @@
+!!! warning
+    This project is still in its early version and is under constant
+    development. Expect the documentation to change frequently.
+
 ![Logo](img/Aequus\ Title.svg)
 
 ---
@@ -20,6 +24,3 @@ ttf font rendering, image loading, and rendering. It can also support audio
 output and input through the SDL2 Mixer library. And many other features that
 are demonstrated in the documentation.
 
-!!! Warning
-    This project is still in its early version of development, and is under
-    constant development. Changes will occur frequently.

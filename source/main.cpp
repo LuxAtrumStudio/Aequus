@@ -27,10 +27,13 @@ void PessumLogHandle(std::pair<int, std::string> entry) {
 int main(int argc, char* argv[]) {
   pessum::SetLogHandle(PessumLogHandle);
   aequus::InitAequus();
+  aequus::Color color;
+  color = {0.5, 0.5, 1.0};
   aequus::window::Window win;
   win.SetRect({0, 0, 500, 500});
   win.SetFlags(aequus::window::RESIZABLE);
   win.CreateWin();
+  win.SetClearColor(color);
   while (win.ShouldClose() == false) {
     win.Show();
     aequus::input::PollEvents();

@@ -9,6 +9,8 @@ extra:
     accent: 'green'
 extra_javascript:
   - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
+extra_css:
+  - 'css/extra.css'
 google_analytics:
   - 'UA-104338919-2'
   - 'auto'
@@ -27,8 +29,8 @@ markdown_extensions:
 repo_name: 'Aequus'
 repo_url: 'https://github.com/LuxAtrumStudio/Aequus'
 pages:
-  - Home: 'index.md'
-  # - Tutorial:
-    # - 'Home': 'tutorial/index.md'
-  # - Reference:
-    # - 'Home': 'reference/index.md'
+  - 'Home': 'index.md'
+  - 'Reference':
+    - 'Home': 'reference/index.md'
+    - 'Error': 'reference/error.md'
+    - 'Window': 'reference/window.md'

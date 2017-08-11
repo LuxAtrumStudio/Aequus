@@ -6,7 +6,7 @@ export INCLUDE=
 export TYPE=lib
 
 export SOURCE_DIR=source
-export TEST_DIR=test
+export TEST_DIR=
 export EXTERNAL_DIR=external
 export BUILD_DIR=build
 export INCLUDE_DIR=include
