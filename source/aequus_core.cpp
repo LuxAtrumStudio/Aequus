@@ -3,6 +3,7 @@
 #include <pessum/pessum.hpp>
 
 #include "error/error.hpp"
+#include "log/log.hpp"
 #include "sdl_headers.hpp"
 
 namespace aequus {
@@ -10,8 +11,8 @@ namespace aequus {
 }  // namespace aequus
 
 bool aequus::InitAequus() {
-  pessum::Log(pessum::INFO, "Aequus Version: %i.%i.%i", "aequus::InitAequus",
-              AEQUUS_VERSION_MAJOR, AEQUUS_VERSION_MINOR, AEQUUS_VERSION_PATCH);
+  // log::Log(log::INFO, 110, "Aequus Version: %i.%i.%i", "aequus::InitAequus",
+  // AEQUUS_VERSION_MAJOR, AEQUUS_VERSION_MINOR, AEQUUS_VERSION_PATCH);
   if (InitSdl() == false) {
     return false;
   }
@@ -26,8 +27,9 @@ bool aequus::InitAequus() {
   }
   int major = 0, minor = 0, patch = 0;
   SdlVersion(major, minor, patch);
-  pessum::Log(pessum::INFO, "SDL Version: %i.%i.%i", "aequus::InitAequus",
-              major, minor, patch);
+  // log::Log(log::INFO, 111, "SDL Version: %i.%i.%i", "aequus::InitAequus",
+  // major,
+  // minor, patch);
   return true;
 }
 
@@ -104,4 +106,10 @@ void aequus::SdlVersion(int& major, int& minor, int& patch) {
   major = linked.major;
   minor = linked.minor;
   patch = linked.patch;
+}
+
+void aequus::GetVersion(int& major, int& minor, int& patch) {
+  major = AEQUUS_VERSION_MAJOR;
+  minor = AEQUUS_VERSION_MINOR;
+  patch = AEQUUS_VERSION_PATCH;
 }

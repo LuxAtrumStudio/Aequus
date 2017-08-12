@@ -2,6 +2,8 @@
 
 #include <pessum/pessum.hpp>
 
+#include "log/log.hpp"
+
 #include "aequus.hpp"
 
 void PessumLogHandle(std::pair<int, std::string> entry) {
@@ -24,8 +26,11 @@ void PessumLogHandle(std::pair<int, std::string> entry) {
   system("setterm -default");
 }
 
+void SetHandle(std::string entry) { std::cout << entry << "\n"; }
+
 int main(int argc, char* argv[]) {
   pessum::SetLogHandle(PessumLogHandle);
+  // aequus::log::SetLogHandle(SetHandle);
   aequus::InitAequus();
   aequus::Color color;
   color = {0.5, 0.5, 1.0};
@@ -34,6 +39,8 @@ int main(int argc, char* argv[]) {
   win.SetFlags(aequus::window::RESIZABLE);
   win.CreateWin();
   win.SetClearColor(color);
+  // std::cout << aequus::log::GetLogString(aequus::log::GetLog()) << "\n";
+
   while (win.ShouldClose() == false) {
     win.Show();
     aequus::input::PollEvents();
