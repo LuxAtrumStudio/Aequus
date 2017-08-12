@@ -17,10 +17,10 @@ namespace aequus {
 void aequus::input::ParseEvent(SDL_Event event) {
   std::tuple<Uint32, Uint32, SDL_Event> entry =
       std::make_tuple(0, event.type, event);
-  if (event.type == SDL_DROPFILE || event.type == SDL_DROPTEXT ||
-      event.type == SDL_DROPBEGIN || event.type == SDL_DROPCOMPLETE) {
-    std::get<0>(entry) = event.drop.windowID;
-  } else if (event.type == SDL_KEYUP || event.type == SDL_KEYDOWN) {
+  // if (event.type == SDL_DROPFILE || event.type == SDL_DROPTEXT ||
+  // event.type == SDL_DROPBEGIN || event.type == SDL_DROPCOMPLETE) {
+  // std::get<0>(entry) = event.drop.windowID;
+  if (event.type == SDL_KEYUP || event.type == SDL_KEYDOWN) {
     std::get<0>(entry) = event.key.windowID;
   } else if (event.type == SDL_MOUSEMOTION) {
     std::get<0>(entry) = event.motion.windowID;
