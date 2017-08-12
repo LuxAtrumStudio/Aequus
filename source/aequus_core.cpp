@@ -1,7 +1,5 @@
 #include "aequus_core.hpp"
 
-#include <pessum/pessum.hpp>
-
 #include "error/error.hpp"
 #include "log/log.hpp"
 #include "sdl_headers.hpp"

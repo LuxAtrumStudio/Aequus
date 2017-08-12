@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 
 export NAME=aequus
-export LINK= -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lpessum
+export LINK= -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 export INCLUDE=
 export TYPE=lib
 
