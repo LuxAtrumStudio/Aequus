@@ -1,0 +1,154 @@
+{
+    "docs": [
+        {
+            "location": "/", 
+            "text": "Warning\n\n\nThis project is still in its early version and is under constant\ndevelopment. Expect the documentation to change frequently.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIntroduction\n\n\nAequus is a library wrapping the SDL2 library. Aequus provides window handling,\nand 2D rendering through the use of CPU rendering. Aequus provides support for\nttf font rendering, image loading, and rendering. It can also support audio\noutput and input through the SDL2 Mixer library. And many other features that\nare demonstrated in the documentation.\n\n\nInstallation\n\n\nPrerequisites\n\n\nThe prerequisite libraries are:\n\n\n\n\nlibsdl2-dev\n\n\nlibsdl2-image-dev\n\n\nlibsdl2-ttf-dev\n\n\nlibsdl2-mixer-dev\n\n\n\n\nAll of these libraries can be installed with the command:\n\n\nsudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev \\\nlibsdl2-mixer-dev\n\n\n\n\nDownloading\n\n\nThe Aequus library can be downloaded from several different sources.\n\n\nSource\n\n\nThe source files can be cloned from Github with\n\n\ngit clone https://github.com/LuxAtrumStudio/Aequus.git", 
+            "title": "Home"
+        }, 
+        {
+            "location": "/#introduction", 
+            "text": "Aequus is a library wrapping the SDL2 library. Aequus provides window handling,\nand 2D rendering through the use of CPU rendering. Aequus provides support for\nttf font rendering, image loading, and rendering. It can also support audio\noutput and input through the SDL2 Mixer library. And many other features that\nare demonstrated in the documentation.", 
+            "title": "Introduction"
+        }, 
+        {
+            "location": "/#installation", 
+            "text": "", 
+            "title": "Installation"
+        }, 
+        {
+            "location": "/#prerequisites", 
+            "text": "The prerequisite libraries are:   libsdl2-dev  libsdl2-image-dev  libsdl2-ttf-dev  libsdl2-mixer-dev   All of these libraries can be installed with the command:  sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev \\\nlibsdl2-mixer-dev", 
+            "title": "Prerequisites"
+        }, 
+        {
+            "location": "/#downloading", 
+            "text": "The Aequus library can be downloaded from several different sources.", 
+            "title": "Downloading"
+        }, 
+        {
+            "location": "/#source", 
+            "text": "The source files can be cloned from Github with  git clone https://github.com/LuxAtrumStudio/Aequus.git", 
+            "title": "Source"
+        }, 
+        {
+            "location": "/reference/", 
+            "text": "Warning\n\n\nThis project is still in its early version and is under constant\ndevelopment. Expect the documentation to change frequently.\n\n\n\n\nAPI Reference\n\n\nSummary\n\n\n\n\n\n\n\n\nNamespaces\n\n\n\n\n\n\n\n\n\n\n\n\n aequus:: \n\n\n\n\n\n\n\n\n aequus::error:: \n\n\n\n\n\n\n\n\n aequus::input:: \n\n\n\n\n\n\n\n\n aequus::window:: \n\n\n\n\n\n\n\n\n aequus::object:: \n\n\n\n\n\n\n\n\n\n\nNamespaces\n\n\naequus::\n\n\naequus::error::\n\n\n\n\nFunctions\n\n\n\n\naequus::input::\n\n\naequus::window::\n\n\n\n\nEnumerator\n\n\nclass\n\n\n\n\naequus::object::", 
+            "title": "Home"
+        }, 
+        {
+            "location": "/reference/#api-reference", 
+            "text": "", 
+            "title": "API Reference"
+        }, 
+        {
+            "location": "/reference/#summary", 
+            "text": "Namespaces        aequus::       aequus::error::       aequus::input::       aequus::window::       aequus::object::", 
+            "title": "Summary"
+        }, 
+        {
+            "location": "/reference/#namespaces", 
+            "text": "", 
+            "title": "Namespaces"
+        }, 
+        {
+            "location": "/reference/#aequus", 
+            "text": "", 
+            "title": "aequus::"
+        }, 
+        {
+            "location": "/reference/#aequuserror", 
+            "text": "Functions", 
+            "title": "aequus::error::"
+        }, 
+        {
+            "location": "/reference/#aequusinput", 
+            "text": "", 
+            "title": "aequus::input::"
+        }, 
+        {
+            "location": "/reference/#aequuswindow", 
+            "text": "Enumerator  class", 
+            "title": "aequus::window::"
+        }, 
+        {
+            "location": "/reference/#aequusobject", 
+            "text": "", 
+            "title": "aequus::object::"
+        }, 
+        {
+            "location": "/reference/error/", 
+            "text": "Warning\n\n\nThis project is still in its early version and is under constant\ndevelopment. Expect the documentation to change frequently.\n\n\n\n\naequus::error::\n\n\nThe error namespace is used to define and handle SDL error that may arise\ndurring the program run time. It provides functions that will retreave the\nerror, and automaticaly enter it into the log, or if desired the developer can\nrequest the error string directly, and utilize it as desired.\n\n\nSummary\n\n\n\n\nFunctions\n\n\n\n\n\n\n\n\n\n\nFunction\n\n\n\n\n\n\n\n\n\n\nvoid\n\n\nLogSdlError()\n Logs the latest SDL error to Pessum\n\n\n\n\n\n\nvoid\n\n\nLogImgError()\n Logs the latest SDL_image error to Pessum\n\n\n\n\n\n\nvoid\n\n\nLogTtfError()\n Logs the latest SDL_ttf error to Pessum\n\n\n\n\n\n\nvoid\n\n\nLogMixError()\n Logs the latest SDL_mixer error to Pessum\n\n\n\n\n\n\nstd::string\n\n\nGetSdlError()\n Gets the latest SDL error\n\n\n\n\n\n\nstd::string\n\n\nGetImgError()\n Gets the latest SDL_image error\n\n\n\n\n\n\nstd::string\n\n\nGetTtfError()\n Gets the latest SDL_ttf error\n\n\n\n\n\n\nstd::string\n\n\nGetMixError()\n Gets the latest SDL_mixer error\n\n\n\n\n\n\n\n\nFunctions\n\n\n\n\nLogSdlError\n\n\nLogs the latest SDL error to Pessum.\n\n\nvoid\n \naequus\n::\nerror\n::\nLogSdlError\n();\n\n\n\nThis function retraves the latest SDL error, and logs that into the Pessum\nerror handeling of the project, with a type of \npessum::ERROR\n.\n\n\nLogImgError\n\n\nLogs the latest SDL_image error to Pessum.\n\n\nvoid\n \naequus\n::\nerror\n::\nLogImgError\n();\n\n\n\n\n\nThis function retreaves the latest SDL_image error, and logs that into the\nPessum error handeling of the project, with a type of \npessum::ERROR\n.\n\n\nLogTtfError\n\n\nLogs the latest SDL_ttf error to Pessum\n\n\nvoid\n \naequus\n::\nerror\n::\nLogTtfError\n();\n\n\n\n\n\nThis function retreves the latest SDL_ttf error, and logs that into the Pessum\nerror handeling of the project, with a type of \npessum::ERROR\n.\n\n\nLogMixError\n\n\nLogs the latest SDL_mix error to Pessum\n\n\nvoid\n \naequus\n::\nerror\n::\nLogMixError\n();\n\n\n\n\n\nThis function retreves the latest SDL_mixer error, and logs that into the\nPessum error handleing of the project, with a type of \npessum::ERROR\n.\n\n\nGetSdlError\n\n\nGet that latest SDL error\n\n\nstd\n::\nstring\n \naequus\n::\nerror\n::\nGetSdlError\n();\n\n\n\n\n\nThis function retreves the latest SDL error, and returns the string\nrepresentation.\n\n\nReturns:\n \nstd::string\n representing the SDL error.\n\n\nGetImgError\n\n\nGet that latest SDL_image error\n\n\nstd\n::\nstring\n \naequus\n::\nerror\n::\nGetImgError\n();\n\n\n\n\n\nThis function retreves the latest SDL_image error, and returns the string\nrepresentation.\n\n\nReturns:\n \nstd::string\n representing the SDL_image error.\n\n\nGetTtfError\n\n\nGet that latest SDL_ttf error\n\n\nstd\n::\nstring\n \naequus\n::\nerror\n::\nGetTtfError\n();\n\n\n\n\n\nThis function retreves the latest SDL_ttf error, and returns the string\nrepresentation.\n\n\nReturns:\n \nstd::string\n representing the SDL_ttf error.\n\n\nGetMixError\n\n\nGet that latest SDL_mixer error\n\n\nstd\n::\nstring\n \naequus\n::\nerror\n::\nGetMixError\n();\n\n\n\n\n\nThis function retreves the latest SDL_mixer error, and returns the string\nrepresentation.\n\n\nReturns:\n \nstd::string\n representing the SDL_mixer error.", 
+            "title": "Error"
+        }, 
+        {
+            "location": "/reference/error/#aequuserror", 
+            "text": "The error namespace is used to define and handle SDL error that may arise\ndurring the program run time. It provides functions that will retreave the\nerror, and automaticaly enter it into the log, or if desired the developer can\nrequest the error string directly, and utilize it as desired.", 
+            "title": "aequus::error::"
+        }, 
+        {
+            "location": "/reference/error/#summary", 
+            "text": "", 
+            "title": "Summary"
+        }, 
+        {
+            "location": "/reference/error/#functions", 
+            "text": "Function      void  LogSdlError()  Logs the latest SDL error to Pessum    void  LogImgError()  Logs the latest SDL_image error to Pessum    void  LogTtfError()  Logs the latest SDL_ttf error to Pessum    void  LogMixError()  Logs the latest SDL_mixer error to Pessum    std::string  GetSdlError()  Gets the latest SDL error    std::string  GetImgError()  Gets the latest SDL_image error    std::string  GetTtfError()  Gets the latest SDL_ttf error    std::string  GetMixError()  Gets the latest SDL_mixer error", 
+            "title": "Functions"
+        }, 
+        {
+            "location": "/reference/error/#functions_1", 
+            "text": "", 
+            "title": "Functions"
+        }, 
+        {
+            "location": "/reference/error/#logsdlerror", 
+            "text": "Logs the latest SDL error to Pessum.  void   aequus :: error :: LogSdlError ();  \nThis function retraves the latest SDL error, and logs that into the Pessum\nerror handeling of the project, with a type of  pessum::ERROR .", 
+            "title": "LogSdlError"
+        }, 
+        {
+            "location": "/reference/error/#logimgerror", 
+            "text": "Logs the latest SDL_image error to Pessum.  void   aequus :: error :: LogImgError ();   This function retreaves the latest SDL_image error, and logs that into the\nPessum error handeling of the project, with a type of  pessum::ERROR .", 
+            "title": "LogImgError"
+        }, 
+        {
+            "location": "/reference/error/#logttferror", 
+            "text": "Logs the latest SDL_ttf error to Pessum  void   aequus :: error :: LogTtfError ();   This function retreves the latest SDL_ttf error, and logs that into the Pessum\nerror handeling of the project, with a type of  pessum::ERROR .", 
+            "title": "LogTtfError"
+        }, 
+        {
+            "location": "/reference/error/#logmixerror", 
+            "text": "Logs the latest SDL_mix error to Pessum  void   aequus :: error :: LogMixError ();   This function retreves the latest SDL_mixer error, and logs that into the\nPessum error handleing of the project, with a type of  pessum::ERROR .", 
+            "title": "LogMixError"
+        }, 
+        {
+            "location": "/reference/error/#getsdlerror", 
+            "text": "Get that latest SDL error  std :: string   aequus :: error :: GetSdlError ();   This function retreves the latest SDL error, and returns the string\nrepresentation.  Returns:   std::string  representing the SDL error.", 
+            "title": "GetSdlError"
+        }, 
+        {
+            "location": "/reference/error/#getimgerror", 
+            "text": "Get that latest SDL_image error  std :: string   aequus :: error :: GetImgError ();   This function retreves the latest SDL_image error, and returns the string\nrepresentation.  Returns:   std::string  representing the SDL_image error.", 
+            "title": "GetImgError"
+        }, 
+        {
+            "location": "/reference/error/#getttferror", 
+            "text": "Get that latest SDL_ttf error  std :: string   aequus :: error :: GetTtfError ();   This function retreves the latest SDL_ttf error, and returns the string\nrepresentation.  Returns:   std::string  representing the SDL_ttf error.", 
+            "title": "GetTtfError"
+        }, 
+        {
+            "location": "/reference/error/#getmixerror", 
+            "text": "Get that latest SDL_mixer error  std :: string   aequus :: error :: GetMixError ();   This function retreves the latest SDL_mixer error, and returns the string\nrepresentation.  Returns:   std::string  representing the SDL_mixer error.", 
+            "title": "GetMixError"
+        }, 
+        {
+            "location": "/reference/window/", 
+            "text": "Window Class\n\n\nThe window class is used as a core component of the Aequus library. Everything\nthat is displayed must be displayed through a window.", 
+            "title": "Window"
+        }, 
+        {
+            "location": "/reference/window/#window-class", 
+            "text": "The window class is used as a core component of the Aequus library. Everything\nthat is displayed must be displayed through a window.", 
+            "title": "Window Class"
+        }
+    ]
+}
