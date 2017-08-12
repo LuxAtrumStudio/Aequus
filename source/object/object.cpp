@@ -1,8 +1,7 @@
 #include "object/object.hpp"
 
-#include <pessum/pessum.hpp>
-
 #include "error/error.hpp"
+#include "log/log.hpp"
 #include "sdl_headers.hpp"
 #include "types.hpp"
 
@@ -17,8 +16,8 @@ void aequus::object::Object::Display() {
     if (SDL_RenderCopyEx(*sdl_renderer_, *sdl_texture_, &dest_rect_,
                          &dest_rect_, rotate_angle_, &rotate_point_,
                          sdl_render_flip_) != 0) {
-      pessum::Log(pessum::ERROR, "Failed to copy texture to renderer",
-                  "aequus::object::Object::Display");
+      log::Log(log::ERROR, "Failed to copy texture to renderer",
+               "aequus::object::Object::Display");
       error::LogSdlError();
     }
   }
@@ -131,8 +130,8 @@ void aequus::object::Object::SetBlendMode(unsigned int blend_mode) {
     }
     if (sdl_texture_ != NULL &&
         SDL_SetTextureBlendMode(*sdl_texture_, sdl_blend_mode) != 0) {
-      pessum::Log(pessum::ERROR, "Failed to set texture blend mode",
-                  "aequus::object::Object::SetBlendMode");
+      log::Log(log::ERROR, "Failed to set texture blend mode",
+               "aequus::object::Object::SetBlendMode");
       error::LogSdlError();
     }
   }
@@ -157,11 +156,11 @@ aequus::Rect aequus::object::Object::GetSourceRect() { return source_rect_; }
 
 void aequus::object::Object::CreateTexture() {
   if (sdl_surface_ == NULL) {
-    pessum::Log(pessum::ERROR, "No SDL surface defined",
-                "aequus::object::Object::CreateTexture");
+    log::Log(log::ERROR, "No SDL surface defined",
+             "aequus::object::Object::CreateTexture");
   } else if (sdl_renderer_ == NULL) {
-    pessum::Log(pessum::ERROR, "No SDL renderer defined",
-                "aequus::object::Object::CreateTexture");
+    log::Log(log::ERROR, "No SDL renderer defined",
+             "aequus::object::Object::CreateTexture");
   } else {
     if (sdl_texture_ != NULL) {
       DestroyTexture();
@@ -169,8 +168,8 @@ void aequus::object::Object::CreateTexture() {
     sdl_texture_ = std::make_shared<SDL_Texture*>(
         SDL_CreateTextureFromSurface(*sdl_renderer_, *sdl_surface_));
     if (sdl_texture_ == NULL) {
-      pessum::Log(pessum::ERROR, "Failed to create texture from surface",
-                  "aequus::object::Object::CreateTexture");
+      log::Log(log::ERROR, "Failed to create texture from surface",
+               "aequus::object::Object::CreateTexture");
       error::LogSdlError();
     } else {
       source_rect_ = {0, 0, (*sdl_surface_)->w, (*sdl_surface_)->h};

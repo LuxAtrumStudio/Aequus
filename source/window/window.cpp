@@ -2,10 +2,9 @@
 
 #include <memory>
 
-#include <pessum/pessum.hpp>
-
 #include "aequus_core.hpp"
 #include "error/error.hpp"
+#include "log/log.hpp"
 #include "sdl_headers.hpp"
 #include "types.hpp"
 
@@ -105,8 +104,8 @@ void aequus::window::Window::Clear() {
     SDL_SetRenderDrawColor(*sdl_renderer_, clear_color_.r, clear_color_.g,
                            clear_color_.b, clear_color_.a);
     if (SDL_RenderClear(*sdl_renderer_) != 0) {
-      pessum::Log(pessum::ERROR, "Failed to clear SDL renderer",
-                  "aequus::window::Window::Clear");
+      log::Log(log::ERROR, "Failed to clear SDL renderer",
+               "aequus::window::Window::Clear");
       error::LogSdlError();
     }
   }
@@ -126,16 +125,16 @@ void aequus::window::Window::GenerateWindow() {
     sdl_window_ = std::make_shared<SDL_Window*>(SDL_CreateWindow(
         title_.c_str(), rect_.x, rect_.y, rect_.w, rect_.h, flags_));
     if (sdl_window_ == NULL) {
-      pessum::Log(pessum::ERROR, "Failed to create SDL window",
-                  "aequus::window::Window::GenerateWindow");
+      log::Log(log::ERROR, "Failed to create SDL window",
+               "aequus::window::Window::GenerateWindow");
       error::LogSdlError();
     } else {
       sdl_renderer_ = std::make_shared<SDL_Renderer*>(SDL_CreateRenderer(
           *sdl_window_, -1,
           SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE));
       if (sdl_renderer_ == NULL) {
-        pessum::Log(pessum::ERROR, "Failed to create SDL renderer",
-                    "aequus::window::Window::GenerateWindow");
+        log::Log(log::ERROR, "Failed to create SDL renderer",
+                 "aequus::window::Window::GenerateWindow");
         error::LogSdlError();
       }
     }

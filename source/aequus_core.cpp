@@ -11,8 +11,8 @@ namespace aequus {
 }  // namespace aequus
 
 bool aequus::InitAequus() {
-  // log::Log(log::INFO, 110, "Aequus Version: %i.%i.%i", "aequus::InitAequus",
-  // AEQUUS_VERSION_MAJOR, AEQUUS_VERSION_MINOR, AEQUUS_VERSION_PATCH);
+  log::Log(log::INFO, "Aequus Version: %i.%i.%i", "aequus::InitAequus",
+           AEQUUS_VERSION_MAJOR, AEQUUS_VERSION_MINOR, AEQUUS_VERSION_PATCH);
   if (InitSdl() == false) {
     return false;
   }
@@ -27,15 +27,14 @@ bool aequus::InitAequus() {
   }
   int major = 0, minor = 0, patch = 0;
   SdlVersion(major, minor, patch);
-  // log::Log(log::INFO, 111, "SDL Version: %i.%i.%i", "aequus::InitAequus",
-  // major,
-  // minor, patch);
+  log::Log(log::INFO, "SDL Version: %i.%i.%i", "aequus::InitAequus", major,
+           minor, patch);
   return true;
 }
 
 bool aequus::InitSdl() {
   if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-    pessum::Log(pessum::ERROR, "Failed to initialize SDL", "aequus::InitSdl");
+    log::Log(log::ERROR, "Failed to initialize SDL", "aequus::InitSdl");
     error::LogSdlError();
     return false;
   }
@@ -45,8 +44,7 @@ bool aequus::InitSdl() {
 bool aequus::InitImage() {
   int img_flags = IMG_INIT_PNG;
   if (IMG_Init(img_flags) == false || img_flags == 0) {
-    pessum::Log(pessum::ERROR, "Failed to initialize SDL Image",
-                "aequus::InitImage");
+    log::Log(log::ERROR, "Failed to initialize SDL Image", "aequus::InitImage");
     error::LogImgError();
     return false;
   }
@@ -55,8 +53,7 @@ bool aequus::InitImage() {
 
 bool aequus::InitTtf() {
   if (TTF_Init() == -1) {
-    pessum::Log(pessum::ERROR, "Failed to initialize SDL TTF",
-                "aequus::InitTtf");
+    log::Log(log::ERROR, "Failed to initialize SDL TTF", "aequus::InitTtf");
     error::LogTtfError();
     return false;
   }
@@ -66,8 +63,7 @@ bool aequus::InitTtf() {
 bool aequus::InitMix() {
   if (Mix_Init(MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_MP3 | MIX_INIT_OGG) ==
       0) {
-    pessum::Log(pessum::ERROR, "Failed to initialize SDL Mixer",
-                "aequus::InitMix");
+    log::Log(log::ERROR, "Failed to initialize SDL Mixer", "aequus::InitMix");
     error::LogMixError();
     return false;
   }
@@ -96,12 +92,11 @@ void aequus::SdlVersion(int& major, int& minor, int& patch) {
   if (compiled.major == linked.major && compiled.minor == linked.minor &&
       compiled.patch == linked.patch) {
   } else {
-    pessum::Log(pessum::ERROR, "SDL versions do not match",
-                "aequus::SdlVersion");
-    pessum::Log(pessum::INFO, "Compiled Version: %i.%i.%i", "SDL",
-                compiled.major, compiled.minor, compiled.patch);
-    pessum::Log(pessum::INFO, "Linked VersionL: %i.%i.%i", "SDL", linked.major,
-                linked.minor, linked.patch);
+    log::Log(log::ERROR, "SDL versions do not match", "aequus::SdlVersion");
+    log::Log(log::INFO, "Compiled Version: %i.%i.%i", "SDL", compiled.major,
+             compiled.minor, compiled.patch);
+    log::Log(log::INFO, "Linked VersionL: %i.%i.%i", "SDL", linked.major,
+             linked.minor, linked.patch);
   }
   major = linked.major;
   minor = linked.minor;

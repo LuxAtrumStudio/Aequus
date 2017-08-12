@@ -3,9 +3,8 @@
 #include <tuple>
 #include <vector>
 
-#include <pessum/pessum.hpp>
-
 #include "aequus_core.hpp"
+#include "log/log.hpp"
 #include "sdl_headers.hpp"
 #include "window/window.hpp"
 
@@ -42,7 +41,7 @@ void aequus::input::ParseEvent(SDL_Event event) {
     aequus_quit_ = true;
   }
   sdl_events_.push_back(entry);
-  // pessum::Log(pessum::DATA, "WindowID: %i Type: %i",
+  // log::Log(log::DATA, "WindowID: %i Type: %i",
   // "aequus::input::ParseEvent", std::get<0>(entry),
   // std::get<1>(entry));
 }
