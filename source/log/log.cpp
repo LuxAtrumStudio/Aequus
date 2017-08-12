@@ -11,14 +11,15 @@
 
 namespace aequus {
   namespace log {
-    std::array<int, 2> options = {{0, 0}};
-    std::vector<std::pair<int, std::string>> global_logs;
-    void (*log_handle_full)(std::pair<int, std::string>) = NULL;
+    std::array<unsigned int, 2> options = {{0, 0}};
+    std::vector<std::pair<unsigned int, std::string>> global_logs;
+    void (*log_handle_full)(std::pair<unsigned int, std::string>) = NULL;
     void (*log_handle)(std::string) = NULL;
   }
 }
 
-void aequus::log::Log(int type, std::string msg, std::string func, ...) {
+void aequus::log::Log(unsigned int type, std::string msg, std::string func,
+                      ...) {
   std::string str;
   va_list args, buff_args;
   va_start(args, func);
@@ -54,7 +55,7 @@ int aequus::log::GetLogSize() { return global_logs.size(); }
 
 void aequus::log::ClearLogs() { global_logs.clear(); }
 
-std::string aequus::log::GetLog(int type) {
+std::string aequus::log::GetLog(unsigned int type) {
   std::string entry;
   if (type == NONE && global_logs.size() > 0) {
     entry = global_logs[global_logs.size() - 1].second;
@@ -67,8 +68,8 @@ std::string aequus::log::GetLog(int type) {
   return entry;
 }
 
-std::pair<int, std::string> aequus::log::FGetLog(int type) {
-  std::pair<int, std::string> entry;
+std::pair<unsigned int, std::string> aequus::log::FGetLog(unsigned int type) {
+  std::pair<unsigned int, std::string> entry;
   bool search = true;
   if (type == NONE && global_logs.size() > 0) {
     entry = global_logs[global_logs.size() - 1];
@@ -91,8 +92,8 @@ std::string aequus::log::IGetLog(int index) {
   return entry;
 }
 
-std::pair<int, std::string> aequus::log::IFGetLog(int index) {
-  std::pair<int, std::string> entry;
+std::pair<unsigned int, std::string> aequus::log::IFGetLog(int index) {
+  std::pair<unsigned int, std::string> entry;
   if (index >= 0 && (size_t)index < global_logs.size()) {
     entry = global_logs[index];
   }
@@ -108,9 +109,9 @@ std::vector<std::string> aequus::log::VGetLog(int start, int end) {
   return entries;
 }
 
-std::vector<std::pair<int, std::string>> aequus::log::VFGetLog(int start,
-                                                               int end) {
-  std::vector<std::pair<int, std::string>> entries;
+std::vector<std::pair<unsigned int, std::string>> aequus::log::VFGetLog(
+    int start, int end) {
+  std::vector<std::pair<unsigned int, std::string>> entries;
   for (int i = start; i <= end && i >= 0 && (size_t)i < global_logs.size();
        i++) {
     entries.push_back(global_logs[i]);
@@ -118,7 +119,8 @@ std::vector<std::pair<int, std::string>> aequus::log::VFGetLog(int start,
   return entries;
 }
 
-void aequus::log::SetLogHandle(void (*handle)(std::pair<int, std::string>)) {
+void aequus::log::SetLogHandle(
+    void (*handle)(std::pair<unsigned int, std::string>)) {
   log_handle_full = handle;
 }
 
@@ -126,7 +128,7 @@ void aequus::log::SetLogHandle(void (*handle)(std::string)) {
   log_handle = handle;
 }
 
-void aequus::log::SetLogOption(int option, int setting) {
+void aequus::log::SetLogOption(unsigned int option, int setting) {
   if (option == TIME_STAMP) {
     options[0] = setting;
   } else if (option == DATE_STAMP) {
@@ -134,7 +136,7 @@ void aequus::log::SetLogOption(int option, int setting) {
   }
 }
 
-std::string aequus::log::GetTypeStr(int type) {
+std::string aequus::log::GetTypeStr(unsigned int type) {
   std::string str;
   if (type == ERROR) {
     str = "ERROR";

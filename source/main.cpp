@@ -2,7 +2,7 @@
 
 #include "aequus.hpp"
 
-void PessumLogHandle(std::pair<int, std::string> entry) {
+void PessumLogHandle(std::pair<unsigned int, std::string> entry) {
   if (entry.first == aequus::log::ERROR) {
     system("setterm -fore red");
   } else if (entry.first == aequus::log::WARNING) {

@@ -3,7 +3,7 @@
 
 #define AEQUUS_VERSION_MAJOR 0
 #define AEQUUS_VERSION_MINOR 2
-#define AEQUUS_VERSION_PATCH 7
+#define AEQUUS_VERSION_PATCH 9
 
 namespace aequus {
   extern bool aequus_quit_;

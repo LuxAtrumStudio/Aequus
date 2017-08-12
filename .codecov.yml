@@ -1,3 +1,4 @@
 codecov:
+  branch: development
   ci:
     - "!circleci.com"

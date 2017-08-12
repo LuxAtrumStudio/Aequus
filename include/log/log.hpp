@@ -16,8 +16,8 @@ namespace aequus {
     enum LogType { ERROR, WARNING, TRACE, DEBUG, SUCCESS, INFO, DATA, NONE };
 
     // Saves formatted string, log types, and function to global_logs.
-    void Log(int type = TRACE, std::string msg = "", std::string func = "",
-             ...);
+    void Log(unsigned int type = TRACE, std::string msg = "",
+             std::string func = "", ...);
 
     // Gets the length of global_logs.
     int GetLogSize();
@@ -25,32 +25,33 @@ namespace aequus {
     void ClearLogs();
 
     // Gets last log entry of matching type.
-    std::string GetLog(int type);
+    std::string GetLog(unsigned int type);
     // Gets last log entry of matching type with type data.
-    std::pair<int, std::string> FGetLog(int type);
+    std::pair<unsigned int, std::string> FGetLog(unsigned int type);
     // Gets log entry of specified index.
     std::string IGetLog(int index);
     // Gets log entry of specified index with type data.
-    std::pair<int, std::string> IFGetLog(int index);
+    std::pair<unsigned int, std::string> IFGetLog(int index);
     // Get set of log entries between start and end indices.
     std::vector<std::string> VGetLog(int start, int end);
     // Get set of log entries between start and end indices with type data.
-    std::vector<std::pair<int, std::string>> VFGetLog(int start, int end);
+    std::vector<std::pair<unsigned int, std::string>> VFGetLog(int start,
+                                                               int end);
 
     // Sets a handle to be called whenever a log entry is created, that takes
     // the
     // type data aswell as log string.
-    void SetLogHandle(void (*handle)(std::pair<int, std::string>));
+    void SetLogHandle(void (*handle)(std::pair<unsigned int, std::string>));
     // Sets a handle to be called whenever a log entry is created, that only
     // takes
     // the log string.
     void SetLogHandle(void (*handle)(std::string));
 
     // Sets options from LogOptions, that are used by Log.
-    void SetLogOption(int option, int setting);
+    void SetLogOption(unsigned int option, int setting);
 
     // Returns a string representing the name of the LogType passed to it.
-    std::string GetTypeStr(int type);
+    std::string GetTypeStr(unsigned int type);
     // Saves the log entries from global_logs to given file.
     void SaveLog(std::string file);
   }  // namespace log
