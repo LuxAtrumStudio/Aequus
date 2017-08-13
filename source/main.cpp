@@ -35,8 +35,10 @@ int main(int argc, char* argv[]) {
   win.SetFlags(aequus::window::RESIZABLE);
   win.CreateWin();
   win.SetClearColor(color);
+  aequus::image::Image img("resources/test.png", win());
   while (win.ShouldClose() == false) {
     win.Show();
+    img.Display();
     aequus::input::PollEvents();
     aequus::input::HandleEvent(win);
   }

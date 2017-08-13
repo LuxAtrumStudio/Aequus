@@ -67,6 +67,8 @@ namespace aequus {
 
       void HandleEvent(Uint32 type, SDL_Event event);
 
+      std::shared_ptr<SDL_Renderer*> operator()();
+
      private:
       void GenerateWindow();
       void DestroyWindow();

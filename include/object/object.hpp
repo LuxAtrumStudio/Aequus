@@ -21,6 +21,7 @@ namespace aequus {
      public:
       Object();
       Object(const Object& copy);
+      Object(std::shared_ptr<SDL_Renderer*> renderer);
       ~Object();
 
       virtual void Display();

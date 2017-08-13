@@ -111,6 +111,10 @@ void aequus::window::Window::Clear() {
   }
 }
 
+std::shared_ptr<SDL_Renderer*> aequus::window::Window::operator()() {
+  return sdl_renderer_;
+}
+
 void aequus::window::Window::HandleEvent(Uint32 type, SDL_Event event) {
   if (type == SDL_WINDOWEVENT) {
     HandleWindowEvent(event.window);

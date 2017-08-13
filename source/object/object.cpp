@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "object/object.hpp"
 
 #include "error/error.hpp"
@@ -8,6 +10,9 @@
 aequus::object::Object::Object() {}
 
 aequus::object::Object::Object(const Object& copy) {}
+
+aequus::object::Object::Object(std::shared_ptr<SDL_Renderer*> renderer)
+    : sdl_renderer_(renderer) {}
 
 aequus::object::Object::~Object() {}
 
@@ -155,10 +160,10 @@ aequus::Rect aequus::object::Object::GetRect() { return dest_rect_; }
 aequus::Rect aequus::object::Object::GetSourceRect() { return source_rect_; }
 
 void aequus::object::Object::CreateTexture() {
-  if (sdl_surface_ == NULL) {
+  if (*sdl_surface_ == NULL) {
     log::Log(log::ERROR, "No SDL surface defined",
              "aequus::object::Object::CreateTexture");
-  } else if (sdl_renderer_ == NULL) {
+  } else if (*sdl_renderer_ == NULL) {
     log::Log(log::ERROR, "No SDL renderer defined",
              "aequus::object::Object::CreateTexture");
   } else {
@@ -167,7 +172,7 @@ void aequus::object::Object::CreateTexture() {
     }
     sdl_texture_ = std::make_shared<SDL_Texture*>(
         SDL_CreateTextureFromSurface(*sdl_renderer_, *sdl_surface_));
-    if (sdl_texture_ == NULL) {
+    if (*sdl_texture_ == NULL) {
       log::Log(log::ERROR, "Failed to create texture from surface",
                "aequus::object::Object::CreateTexture");
       error::LogSdlError();

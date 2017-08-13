@@ -1,4 +1,4 @@
-#include "aequus_core.hpp"
+#include "aequus.hpp"
 
 #include "gtest/gtest.h"
 
