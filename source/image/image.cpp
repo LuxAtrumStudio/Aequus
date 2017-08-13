@@ -20,7 +20,7 @@ aequus::image::Image::Image(std::string path) : image_path_(path) {
   sdl_surface_ = std::make_shared<SDL_Surface*>(IMG_Load(image_path_.c_str()));
   if (*sdl_surface_ == NULL) {
     log::Log(log::ERROR, "Failed to load image from file \"%s\"",
-             "aequus::image::Image::Image", image_path_);
+             "aequus::image::Image::Image", image_path_.c_str());
     error::LogImgError();
   }
 }
