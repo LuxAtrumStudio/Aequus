@@ -7,7 +7,6 @@
 ---
 
 [![Github Tag](https://img.shields.io/github/tag/LuxAtrumStudio/Aequus.svg)](https://github.com/LuxAtrumStudio/Aequus)
-[![Github Release](https://img.shields.io/github/downloads/LuxAtrumStudio/aequus/latest/total.svg)](https://github.com/LuxAtrumStudio/Aequus)
 [![Github Pages](https://img.shields.io/badge/Documentation-gh--pages-blue.svg)](https://luxatrumstudio.github.io/Aequus/)
 
 [![Build Status](https://img.shields.io/travis/LuxAtrumStudio/Aequus.svg)](https://travis-ci.org/LuxAtrumStudio/Aequus)
