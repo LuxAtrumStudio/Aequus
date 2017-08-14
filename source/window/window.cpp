@@ -87,10 +87,10 @@ Uint32 aequus::window::Window::GetId() {
 }
 
 void aequus::window::Window::Show() {
-  Clear();
   if (sdl_renderer_ != NULL) {
     SDL_RenderPresent(*sdl_renderer_);
   }
+  Clear();
 }
 
 bool aequus::window::Window::ShouldClose() { return should_close_; }

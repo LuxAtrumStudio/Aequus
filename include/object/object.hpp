@@ -61,6 +61,7 @@ namespace aequus {
 
       void Rotate(double angle);
       void SetRotation(double angle);
+      void SetRotatePoint(Point rotate_point);
 
       void SetBlendMode(unsigned int blend_mode);
 

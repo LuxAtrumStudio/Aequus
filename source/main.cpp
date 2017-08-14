@@ -36,9 +36,13 @@ int main(int argc, char* argv[]) {
   win.CreateWin();
   win.SetClearColor(color);
   aequus::image::Image img("resources/test.png", win());
+  img.SetColorMod({1.0, 0.0, 1.0});
+  img.SetSize(500, 500);
+  img.SetRotatePoint({250, 250});
   while (win.ShouldClose() == false) {
-    win.Show();
     img.Display();
+    img.Rotate(0.01);
+    win.Show();
     aequus::input::PollEvents();
     aequus::input::HandleEvent(win);
   }

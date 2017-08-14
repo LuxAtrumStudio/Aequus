@@ -18,7 +18,7 @@ aequus::object::Object::~Object() {}
 
 void aequus::object::Object::Display() {
   if (sdl_texture_ != NULL) {
-    if (SDL_RenderCopyEx(*sdl_renderer_, *sdl_texture_, &dest_rect_,
+    if (SDL_RenderCopyEx(*sdl_renderer_, *sdl_texture_, &source_rect_,
                          &dest_rect_, rotate_angle_, &rotate_point_,
                          sdl_render_flip_) != 0) {
       log::Log(log::ERROR, "Failed to copy texture to renderer",
@@ -120,6 +120,10 @@ void aequus::object::Object::SetRotation(double angle) {
   rotate_angle_ = angle;
 }
 
+void aequus::object::Object::SetRotatePoint(Point rotate_point) {
+  rotate_point_ = rotate_point;
+}
+
 void aequus::object::Object::SetBlendMode(unsigned int blend_mode) {
   if (blend_mode_ != blend_mode) {
     blend_mode_ = blend_mode;
@@ -159,6 +163,23 @@ aequus::Rect aequus::object::Object::GetRect() { return dest_rect_; }
 
 aequus::Rect aequus::object::Object::GetSourceRect() { return source_rect_; }
 
+void aequus::object::Object::SetColorMod(Color color_mod) {
+  color_mod_ = color_mod;
+  if (sdl_texture_ != NULL) {
+    if (SDL_SetTextureColorMod(*sdl_texture_, color_mod_.r, color_mod_.g,
+                               color_mod_.b) != 0) {
+      log::Log(log::ERROR, "Failed to set texture color mod",
+               "aequus::object::Object::SetColorMod");
+      error::LogSdlError();
+    }
+    if (SDL_SetTextureAlphaMod(*sdl_texture_, color_mod_.a) != 0) {
+      log::Log(log::ERROR, "Failed to set texture alpha mod",
+               "aequus::object::Object::SetColorMod");
+      error::LogSdlError();
+    }
+  }
+}
+
 void aequus::object::Object::CreateTexture() {
   if (*sdl_surface_ == NULL) {
     log::Log(log::ERROR, "No SDL surface defined",
@@ -169,6 +190,7 @@ void aequus::object::Object::CreateTexture() {
   } else {
     if (sdl_texture_ != NULL) {
       DestroyTexture();
+      sdl_texture_ = NULL;
     }
     sdl_texture_ = std::make_shared<SDL_Texture*>(
         SDL_CreateTextureFromSurface(*sdl_renderer_, *sdl_surface_));
