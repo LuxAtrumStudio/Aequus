@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "object/object.hpp"
+#include "entity/entity.hpp"
 
 #include "error/error.hpp"
 #include "log/log.hpp"

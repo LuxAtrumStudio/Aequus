@@ -13,7 +13,18 @@ namespace aequus {
     // Used to define the type/importance of the log entry.
     enum LogOptions { TIME_STAMP, DATE_STAMP };
     // Used to specify a logging option to set using SetLogOption.
-    enum LogType { ERROR, WARNING, TRACE, DEBUG, SUCCESS, INFO, DATA, NONE };
+    enum LogType {
+      FATAL,
+      ERROR,
+      WARNING,
+      TRACE,
+      DEBUG,
+      SUCCESS,
+      INFO,
+      DATA,
+      VERSION,
+      NONE
+    };
 
     // Saves formatted string, log types, and function to global_logs.
     void Log(unsigned int type = TRACE, std::string msg = "",
@@ -23,6 +34,9 @@ namespace aequus {
     int GetLogSize();
     // Clears all entries from global_logs
     void ClearLogs();
+
+    // Gets all log entries
+    std::vector<std::string> GetLogs();
 
     // Gets last log entry of matching type.
     std::string GetLog(unsigned int type);

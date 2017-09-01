@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 
-#include "../object/object.hpp"
+#include "../entity/entity.hpp"
 #include "../sdl_headers.hpp"
 
 namespace aequus {

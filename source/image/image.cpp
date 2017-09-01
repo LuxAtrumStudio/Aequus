@@ -3,9 +3,9 @@
 #include <memory>
 #include <string>
 
+#include "entity/entity.hpp"
 #include "error/error.hpp"
 #include "log/log.hpp"
-#include "object/object.hpp"
 #include "sdl_headers.hpp"
 
 aequus::image::Image::Image() : image_path_(std::string()) {}

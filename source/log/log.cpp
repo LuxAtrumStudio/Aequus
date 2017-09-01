@@ -25,19 +25,21 @@ void aequus::log::Log(unsigned int type, std::string msg, std::string func,
   va_start(args, func);
   va_start(buff_args, func);
   ssize_t buff_size = vsnprintf(NULL, 0, msg.c_str(), buff_args);
-  char* formated_string = new char[buff_size];
-  vsprintf(formated_string, msg.c_str(), args);
+  char* aequusted_string = new char[buff_size];
+  vsprintf(aequusted_string, msg.c_str(), args);
   va_end(buff_args);
   va_end(args);
-  str = std::string(formated_string);
+  str = '[' + std::string(aequusted_string) + ']';
   if (options[0] == true || options[1] == true) {
     time_t current = time(NULL);
-    std::string time_stamp = ctime(&current);
+    struct tm* time_info = localtime(&current);
+    char buffer[80];
+    strftime(buffer, 80, "%D %T", time_info);
+    std::string time_stamp(buffer);
     if (options[0] == false) {
-      time_stamp.erase(time_stamp.begin() + 10, time_stamp.begin() + 18);
+      time_stamp.erase(time_stamp.end() - 9, time_stamp.end());
     } else if (options[1] == false) {
-      time_stamp.erase(time_stamp.begin(), time_stamp.begin() + 11);
-      time_stamp.erase(time_stamp.end() - 6, time_stamp.end());
+      time_stamp.erase(time_stamp.begin(), time_stamp.begin() + 9);
     }
     str = "[" + time_stamp + "]" + str;
   }
@@ -54,6 +56,14 @@ void aequus::log::Log(unsigned int type, std::string msg, std::string func,
 int aequus::log::GetLogSize() { return global_logs.size(); }
 
 void aequus::log::ClearLogs() { global_logs.clear(); }
+
+std::vector<std::string> aequus::log::GetLogs() {
+  std::vector<std::string> entries;
+  for (size_t i = 0; i < global_logs.size(); i++) {
+    entries.push_back(global_logs[i].second);
+  }
+  return entries;
+}
 
 std::string aequus::log::GetLog(unsigned int type) {
   std::string entry;
@@ -138,7 +148,9 @@ void aequus::log::SetLogOption(unsigned int option, int setting) {
 
 std::string aequus::log::GetTypeStr(unsigned int type) {
   std::string str;
-  if (type == ERROR) {
+  if (type == FATAL) {
+    str = "FATAL";
+  } else if (type == ERROR) {
     str = "ERROR";
   } else if (type == WARNING) {
     str = "WARNING";
@@ -152,6 +164,8 @@ std::string aequus::log::GetTypeStr(unsigned int type) {
     str = "INFO";
   } else if (type == DATA) {
     str = "DATA";
+  } else if (type == VERSION) {
+    str = "VERSION";
   }
   return str;
 }
