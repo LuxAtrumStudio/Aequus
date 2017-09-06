@@ -17,7 +17,7 @@ aequus::object::Object::Object(std::shared_ptr<SDL_Renderer*> renderer)
 aequus::object::Object::~Object() {}
 
 void aequus::object::Object::Display() {
-  if (sdl_texture_ != NULL) {
+  if (texture_.IsValid()) {
     if (SDL_RenderCopyEx(*sdl_renderer_, *sdl_texture_, &source_rect_,
                          &dest_rect_, rotate_angle_, &rotate_point_,
                          sdl_render_flip_) != 0) {
@@ -180,36 +180,36 @@ void aequus::object::Object::SetColorMod(Color color_mod) {
   }
 }
 
-void aequus::object::Object::CreateTexture() {
-  if (*sdl_surface_ == NULL) {
-    log::Log(log::ERROR, "No SDL surface defined",
-             "aequus::object::Object::CreateTexture");
-  } else if (*sdl_renderer_ == NULL) {
-    log::Log(log::ERROR, "No SDL renderer defined",
-             "aequus::object::Object::CreateTexture");
-  } else {
-    if (sdl_texture_ != NULL) {
-      DestroyTexture();
-      sdl_texture_ = NULL;
-    }
-    sdl_texture_ = std::make_shared<SDL_Texture*>(
-        SDL_CreateTextureFromSurface(*sdl_renderer_, *sdl_surface_));
-    if (*sdl_texture_ == NULL) {
-      log::Log(log::ERROR, "Failed to create texture from surface",
-               "aequus::object::Object::CreateTexture");
-      error::LogSdlError();
-    } else {
-      source_rect_ = {0, 0, (*sdl_surface_)->w, (*sdl_surface_)->h};
-      dest_rect_ = source_rect_;
-      rotate_point_ = {(*sdl_surface_)->w / 2, (*sdl_surface_)->h / 2};
-      SetBlendMode(blend_mode_);
-    }
-  }
-}
+// void aequus::object::Object::CreateTexture() {
+// if (*sdl_surface_ == NULL) {
+// log::Log(log::ERROR, "No SDL surface defined",
+// "aequus::object::Object::CreateTexture");
+// } else if (*sdl_renderer_ == NULL) {
+// log::Log(log::ERROR, "No SDL renderer defined",
+// "aequus::object::Object::CreateTexture");
+// } else {
+// if (sdl_texture_ != NULL) {
+// DestroyTexture();
+// sdl_texture_ = NULL;
+// }
+// sdl_texture_ = std::make_shared<SDL_Texture*>(
+// SDL_CreateTextureFromSurface(*sdl_renderer_, *sdl_surface_));
+// if (*sdl_texture_ == NULL) {
+// log::Log(log::ERROR, "Failed to create texture from surface",
+// "aequus::object::Object::CreateTexture");
+// error::LogSdlError();
+// } else {
+// source_rect_ = {0, 0, (*sdl_surface_)->w, (*sdl_surface_)->h};
+// dest_rect_ = source_rect_;
+// rotate_point_ = {(*sdl_surface_)->w / 2, (*sdl_surface_)->h / 2};
+// SetBlendMode(blend_mode_);
+// }
+// }
+// }
 
-void aequus::object::Object::DestroyTexture() {
-  if (sdl_texture_.use_count() == 1) {
-    SDL_DestroyTexture(*sdl_texture_);
-  }
-  sdl_texture_ = NULL;
-}
+// void aequus::object::Object::DestroyTexture() {
+// if (sdl_texture_.use_count() == 1) {
+// SDL_DestroyTexture(*sdl_texture_);
+// }
+// sdl_texture_ = NULL;
+// }
