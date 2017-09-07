@@ -1,5 +1,6 @@
 #include "entity/texture.hpp"
 
+#include "entity/surface.hpp"
 #include "error/error.hpp"
 #include "log/log.hpp"
 #include "sdl_headers.hpp"
@@ -7,18 +8,20 @@
 
 aequus::entity::Texture::Texture() {}
 
+aequus::entity::Texture::Texture(Surface* surface_) : surface(surface_) {
+  GenerateTexture();
+}
+
 aequus::entity::Texture::Texture(const Texture& copy)
-    : blend_mode_(copy.blend_mode_),
+    : surface(copy.surface),
+      blend_mode_(copy.blend_mode_),
       color_mod_(copy.color_mod_),
-      sdl_surface_(copy.sdl_surface_),
       sdl_texture_(copy.sdl_texture_) {}
 
-aequus::entity::Texture::~Texture() {
-  if (sdl_surface_.use_count() == 1) {
-    SDL_FreeSurface(*sdl_surface_);
-  }
-  sdl_surface_ = NULL;
-  DestroyTexture();
+aequus::entity::Texture::~Texture() { DestroyTexture(); }
+
+void aequus::entity::Texture::SetSurface(Surface* surface_) {
+  surface = surface_;
 }
 
 void aequus::entity::Texture::CreateTexture() { GenerateTexture(); }
@@ -83,18 +86,17 @@ SDL_Texture* aequus::entity::Texture::SdlTexture() {
 }
 
 void aequus::entity::Texture::GenerateTexture() {
-  sdl_surface_ = std::make_shared<SDL_Surface*>(IMG_Load("resources/test.png"));
-  if (sdl_surface_ == NULL || *sdl_surface_ == NULL) {
+  if (surface->IsValid() == true) {
     log::Log(log::ERROR, "SDL surface not defined",
              "aequus::entity::Texture::GenerateTexture");
   } else {
-    SDL_Renderer* renderer = SDL_CreateSoftwareRenderer(*sdl_surface_);
+    SDL_Renderer* renderer = SDL_CreateSoftwareRenderer(surface->SdlSurface());
     if (renderer == NULL) {
       log::Log(log::ERROR, "Failed to create renderer from surface",
                "aequus::entity::Texture::GenerateTexture");
     } else {
       sdl_texture_ = std::make_shared<SDL_Texture*>(
-          SDL_CreateTextureFromSurface(renderer, *sdl_surface_));
+          SDL_CreateTextureFromSurface(renderer, surface->SdlSurface()));
       if (*sdl_texture_ == NULL) {
         log::Log(log::ERROR, "Failed to create texture form surface",
                  "aequus::entity::Texture::GenerateTexture");

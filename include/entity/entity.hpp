@@ -57,21 +57,12 @@ namespace aequus {
       void SetRotation(double angle);
       void SetRotatePoint(Point rotate_point);
 
-      // TODO (06-09-17, Arden): Move to texture class.
-      void SetBlendMode(unsigned int blend_mode);
-
       void SetRenderFlip(unsigned int render_flip);
 
       Rect GetRect();
       Rect GetSourceRect();
 
-      // TODO (06-09-17, Arden): Move to texture class.
-      void SetColorMod(Color color_mod);
-
      protected:
-      // void CreateTexture();
-      // void DestroyTexture();
-
       double rotate_angle_ = 0.0;
       Point rotate_point_;
       Rect source_rect_, dest_rect_;
@@ -80,8 +71,6 @@ namespace aequus {
 
       SDL_RendererFlip sdl_render_flip_;
 
-      // std::shared_ptr<SDL_Texture*> sdl_texture_ = NULL;
-      // std::shared_ptr<SDL_Surface*> sdl_surface_ = NULL;
       Texture texture_;
       std::shared_ptr<SDL_Renderer*> sdl_renderer_ = NULL;
 

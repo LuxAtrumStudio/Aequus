@@ -5,6 +5,7 @@
 
 #include "../sdl_headers.hpp"
 #include "../types.hpp"
+#include "surface.hpp"
 
 namespace aequus {
   namespace entity {
@@ -19,7 +20,10 @@ namespace aequus {
      public:
       Texture();
       Texture(const Texture& copy);
+      Texture(Surface* surface_);
       ~Texture();
+
+      void SetSurface(Surface* surface_);
 
       void CreateTexture();
       void DeleteTexture();
@@ -31,6 +35,8 @@ namespace aequus {
 
       SDL_Texture* SdlTexture();
 
+      Surface* surface = NULL;
+
      private:
       void GenerateTexture();
       void DestroyTexture();
@@ -38,7 +44,6 @@ namespace aequus {
       unsigned int blend_mode_;
       Color color_mod_;
 
-      std::shared_ptr<SDL_Surface*> sdl_surface_ = NULL;
       std::shared_ptr<SDL_Texture*> sdl_texture_ = NULL;
     };
   }  // namespace entity
