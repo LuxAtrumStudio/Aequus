@@ -4,19 +4,44 @@
 #include <memory>
 
 #include "../sdl_headers.hpp"
+#include "../types.hpp"
 
 namespace aequus {
-  class Texture {
-   public:
-    Texture();
-    Texture(const Texture& copy);
-    ~Texture();
+  namespace entity {
+    enum BlendMode {
+      BLENDMODE_NONE,
+      BLENDMODE_BLEND,
+      BLENDMODE_ADD,
+      BLENDMODE_MOD
+    };
 
-    bool IsValid();
+    class Texture {
+     public:
+      Texture();
+      Texture(const Texture& copy);
+      ~Texture();
 
-   private:
-    std::shared_ptr<SDL_Texture*> sdl_texture_ = NULL;
-  };
+      void CreateTexture();
+      void DeleteTexture();
+
+      void SetBlendMode(unsigned int blend_mode);
+      void SetColorMod(Color color_mod);
+
+      bool IsValid();
+
+      SDL_Texture* SdlTexture();
+
+     private:
+      void GenerateTexture();
+      void DestroyTexture();
+
+      unsigned int blend_mode_;
+      Color color_mod_;
+
+      std::shared_ptr<SDL_Surface*> sdl_surface_ = NULL;
+      std::shared_ptr<SDL_Texture*> sdl_texture_ = NULL;
+    };
+  }  // namespace entity
 }  // namespace aequus
 
 #endif /* ifndef AEQUUS_ENTITY_TEXTURE_HPP */

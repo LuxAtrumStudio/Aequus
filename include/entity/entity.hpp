@@ -8,14 +8,7 @@
 #include "texture.hpp"
 
 namespace aequus {
-  namespace object {
-    enum BlendMode {
-      BLENDMODE_NONE,
-      BLENDMODE_BLEND,
-      BLENDMODE_ADD,
-      BLENDMODE_MOD
-    };
-
+  namespace entity {
     enum RenderFlip { FLIP_NONE, FLIP_HORIZONTAL, FLIP_VERTICAL };
 
     class Object {
@@ -94,7 +87,7 @@ namespace aequus {
 
      private:
     };
-  }  // namespace object
+  }  // namespace entity
 }  // namespace aequus
 
 #endif /* ifndef AEQUUS_OBJECT_OBJECT_HPP */

@@ -7,146 +7,124 @@
 #include "sdl_headers.hpp"
 #include "types.hpp"
 
-aequus::object::Object::Object() {}
+aequus::entity::Object::Object() {}
 
-aequus::object::Object::Object(const Object& copy) {}
+aequus::entity::Object::Object(const Object& copy) {}
 
-aequus::object::Object::Object(std::shared_ptr<SDL_Renderer*> renderer)
+aequus::entity::Object::Object(std::shared_ptr<SDL_Renderer*> renderer)
     : sdl_renderer_(renderer) {}
 
-aequus::object::Object::~Object() {}
+aequus::entity::Object::~Object() {}
 
-void aequus::object::Object::Display() {
+void aequus::entity::Object::Display() {
   if (texture_.IsValid()) {
-    if (SDL_RenderCopyEx(*sdl_renderer_, *sdl_texture_, &source_rect_,
+    if (SDL_RenderCopyEx(*sdl_renderer_, texture_.SdlTexture(), &source_rect_,
                          &dest_rect_, rotate_angle_, &rotate_point_,
                          sdl_render_flip_) != 0) {
       log::Log(log::ERROR, "Failed to copy texture to renderer",
-               "aequus::object::Object::Display");
+               "aequus::entity::Object::Display");
       error::LogSdlError();
     }
   }
 }
 
-void aequus::object::Object::Scale(double w, double h) {
+void aequus::entity::Object::Scale(double w, double h) {
   dest_rect_.w *= w;
   dest_rect_.h *= h;
 }
 
-void aequus::object::Object::ScaleWidth(double w) { dest_rect_.w *= w; }
+void aequus::entity::Object::ScaleWidth(double w) { dest_rect_.w *= w; }
 
-void aequus::object::Object::ScaleHeight(double h) { dest_rect_.h *= h; }
+void aequus::entity::Object::ScaleHeight(double h) { dest_rect_.h *= h; }
 
-void aequus::object::Object::SetSize(int w, int h) {
+void aequus::entity::Object::SetSize(int w, int h) {
   dest_rect_.w = w;
   dest_rect_.h = h;
 }
 
-void aequus::object::Object::SetWidth(int w) { dest_rect_.w = w; }
+void aequus::entity::Object::SetWidth(int w) { dest_rect_.w = w; }
 
-void aequus::object::Object::SetHeight(int h) { dest_rect_.h = h; }
+void aequus::entity::Object::SetHeight(int h) { dest_rect_.h = h; }
 
-void aequus::object::Object::Translate(int x, int y) {
+void aequus::entity::Object::Translate(int x, int y) {
   dest_rect_.x += x;
   dest_rect_.y += y;
 }
 
-void aequus::object::Object::TranslateX(int x) { dest_rect_.x += x; }
+void aequus::entity::Object::TranslateX(int x) { dest_rect_.x += x; }
 
-void aequus::object::Object::TranslateY(int y) { dest_rect_.y += y; }
+void aequus::entity::Object::TranslateY(int y) { dest_rect_.y += y; }
 
-void aequus::object::Object::SetPosition(int x, int y) {
+void aequus::entity::Object::SetPosition(int x, int y) {
   dest_rect_.x = x;
   dest_rect_.y = y;
 }
 
-void aequus::object::Object::SetPosX(int x) { dest_rect_.x = x; }
+void aequus::entity::Object::SetPosX(int x) { dest_rect_.x = x; }
 
-void aequus::object::Object::SetPosY(int y) { dest_rect_.y = y; }
+void aequus::entity::Object::SetPosY(int y) { dest_rect_.y = y; }
 
-void aequus::object::Object::ScaleSource(double w, double h) {
+void aequus::entity::Object::ScaleSource(double w, double h) {
   source_rect_.w *= w;
   source_rect_.h *= h;
 }
 
-void aequus::object::Object::ScaleSourceWidth(double w) { source_rect_.w *= w; }
+void aequus::entity::Object::ScaleSourceWidth(double w) { source_rect_.w *= w; }
 
-void aequus::object::Object::ScaleSourceHeight(double h) {
+void aequus::entity::Object::ScaleSourceHeight(double h) {
   source_rect_.h *= h;
 }
 
-void aequus::object::Object::SetSourceSize(int w, int h) {
+void aequus::entity::Object::SetSourceSize(int w, int h) {
   source_rect_.w = w;
   source_rect_.h = h;
 }
 
-void aequus::object::Object::SetSourceWidth(int w) { source_rect_.w = w; }
+void aequus::entity::Object::SetSourceWidth(int w) { source_rect_.w = w; }
 
-void aequus::object::Object::SetSourceHeight(int h) { source_rect_.h = h; }
+void aequus::entity::Object::SetSourceHeight(int h) { source_rect_.h = h; }
 
-void aequus::object::Object::TranslateSource(int x, int y) {
+void aequus::entity::Object::TranslateSource(int x, int y) {
   source_rect_.x += x;
   source_rect_.y += y;
 }
 
-void aequus::object::Object::TranslateSourceX(int x) { source_rect_.x += x; }
+void aequus::entity::Object::TranslateSourceX(int x) { source_rect_.x += x; }
 
-void aequus::object::Object::TranslateSourceY(int y) { source_rect_.y += y; }
+void aequus::entity::Object::TranslateSourceY(int y) { source_rect_.y += y; }
 
-void aequus::object::Object::SetSourcePosition(int x, int y) {
+void aequus::entity::Object::SetSourcePosition(int x, int y) {
   source_rect_.x = x;
   source_rect_.y = y;
 }
 
-void aequus::object::Object::SetSourcePosX(int x) { source_rect_.x = x; }
+void aequus::entity::Object::SetSourcePosX(int x) { source_rect_.x = x; }
 
-void aequus::object::Object::SetSourcePosY(int y) { source_rect_.y = y; }
+void aequus::entity::Object::SetSourcePosY(int y) { source_rect_.y = y; }
 
-void aequus::object::Object::SetRect(Rect rect) { dest_rect_ = rect; }
+void aequus::entity::Object::SetRect(Rect rect) { dest_rect_ = rect; }
 
-void aequus::object::Object::SetRect(int x, int y, int w, int h) {
+void aequus::entity::Object::SetRect(int x, int y, int w, int h) {
   dest_rect_ = {x, y, w, h};
 }
 
-void aequus::object::Object::SetSourceRect(Rect rect) { source_rect_ = rect; }
+void aequus::entity::Object::SetSourceRect(Rect rect) { source_rect_ = rect; }
 
-void aequus::object::Object::SetSourceRect(int x, int y, int w, int h) {
+void aequus::entity::Object::SetSourceRect(int x, int y, int w, int h) {
   source_rect_ = {x, y, w, h};
 }
 
-void aequus::object::Object::Rotate(double angle) { rotate_angle_ += angle; }
+void aequus::entity::Object::Rotate(double angle) { rotate_angle_ += angle; }
 
-void aequus::object::Object::SetRotation(double angle) {
+void aequus::entity::Object::SetRotation(double angle) {
   rotate_angle_ = angle;
 }
 
-void aequus::object::Object::SetRotatePoint(Point rotate_point) {
+void aequus::entity::Object::SetRotatePoint(Point rotate_point) {
   rotate_point_ = rotate_point;
 }
 
-void aequus::object::Object::SetBlendMode(unsigned int blend_mode) {
-  if (blend_mode_ != blend_mode) {
-    blend_mode_ = blend_mode;
-    SDL_BlendMode sdl_blend_mode;
-    if (blend_mode_ == BLENDMODE_NONE) {
-      sdl_blend_mode = SDL_BLENDMODE_NONE;
-    } else if (blend_mode_ == BLENDMODE_BLEND) {
-      sdl_blend_mode = SDL_BLENDMODE_BLEND;
-    } else if (blend_mode_ == BLENDMODE_ADD) {
-      sdl_blend_mode = SDL_BLENDMODE_ADD;
-    } else if (blend_mode_ == BLENDMODE_MOD) {
-      sdl_blend_mode = SDL_BLENDMODE_MOD;
-    }
-    if (sdl_texture_ != NULL &&
-        SDL_SetTextureBlendMode(*sdl_texture_, sdl_blend_mode) != 0) {
-      log::Log(log::ERROR, "Failed to set texture blend mode",
-               "aequus::object::Object::SetBlendMode");
-      error::LogSdlError();
-    }
-  }
-}
-
-void aequus::object::Object::SetRenderFlip(unsigned int render_flip) {
+void aequus::entity::Object::SetRenderFlip(unsigned int render_flip) {
   if (render_flip_ != render_flip) {
     render_flip_ = render_flip;
     if (render_flip_ == FLIP_NONE) {
@@ -159,34 +137,17 @@ void aequus::object::Object::SetRenderFlip(unsigned int render_flip) {
   }
 }
 
-aequus::Rect aequus::object::Object::GetRect() { return dest_rect_; }
+aequus::Rect aequus::entity::Object::GetRect() { return dest_rect_; }
 
-aequus::Rect aequus::object::Object::GetSourceRect() { return source_rect_; }
+aequus::Rect aequus::entity::Object::GetSourceRect() { return source_rect_; }
 
-void aequus::object::Object::SetColorMod(Color color_mod) {
-  color_mod_ = color_mod;
-  if (sdl_texture_ != NULL) {
-    if (SDL_SetTextureColorMod(*sdl_texture_, color_mod_.r, color_mod_.g,
-                               color_mod_.b) != 0) {
-      log::Log(log::ERROR, "Failed to set texture color mod",
-               "aequus::object::Object::SetColorMod");
-      error::LogSdlError();
-    }
-    if (SDL_SetTextureAlphaMod(*sdl_texture_, color_mod_.a) != 0) {
-      log::Log(log::ERROR, "Failed to set texture alpha mod",
-               "aequus::object::Object::SetColorMod");
-      error::LogSdlError();
-    }
-  }
-}
-
-// void aequus::object::Object::CreateTexture() {
+// void aequus::entity::Object::CreateTexture() {
 // if (*sdl_surface_ == NULL) {
 // log::Log(log::ERROR, "No SDL surface defined",
-// "aequus::object::Object::CreateTexture");
+// "aequus::entity::Object::CreateTexture");
 // } else if (*sdl_renderer_ == NULL) {
 // log::Log(log::ERROR, "No SDL renderer defined",
-// "aequus::object::Object::CreateTexture");
+// "aequus::entity::Object::CreateTexture");
 // } else {
 // if (sdl_texture_ != NULL) {
 // DestroyTexture();
@@ -196,7 +157,7 @@ void aequus::object::Object::SetColorMod(Color color_mod) {
 // SDL_CreateTextureFromSurface(*sdl_renderer_, *sdl_surface_));
 // if (*sdl_texture_ == NULL) {
 // log::Log(log::ERROR, "Failed to create texture from surface",
-// "aequus::object::Object::CreateTexture");
+// "aequus::entity::Object::CreateTexture");
 // error::LogSdlError();
 // } else {
 // source_rect_ = {0, 0, (*sdl_surface_)->w, (*sdl_surface_)->h};
@@ -207,7 +168,7 @@ void aequus::object::Object::SetColorMod(Color color_mod) {
 // }
 // }
 
-// void aequus::object::Object::DestroyTexture() {
+// void aequus::entity::Object::DestroyTexture() {
 // if (sdl_texture_.use_count() == 1) {
 // SDL_DestroyTexture(*sdl_texture_);
 // }

@@ -28,20 +28,20 @@ int main(int argc, char* argv[]) {
   aequus::log::SetLogHandle(PessumLogHandle);
   aequus::log::SetLogHandle(SetHandle);
   aequus::InitAequus();
-  aequus::Color color;
-  color = {0.5, 0.5, 1.0};
+
   aequus::window::Window win;
   win.SetRect({0, 0, 500, 500});
   win.SetFlags(aequus::window::RESIZABLE);
   win.CreateWin();
-  win.SetClearColor(color);
-  aequus::image::Image img("resources/test.png", win());
-  img.SetColorMod({1.0, 0.0, 1.0});
-  img.SetSize(500, 500);
-  img.SetRotatePoint({250, 250});
+  win.SetClearColor({1.0, 1.0, 1.0});
+
+  aequus::entity::Texture tex;
+  tex.CreateTexture();
+  tex.DeleteTexture();
+
   while (win.ShouldClose() == false) {
-    img.Display();
-    img.Rotate(0.01);
+    // img.Display();
+    // img.Rotate(0.01);
     win.Show();
     aequus::input::PollEvents();
     aequus::input::HandleEvent(win);

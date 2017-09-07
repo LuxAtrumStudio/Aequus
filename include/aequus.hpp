@@ -1,7 +1,6 @@
 #include "aequus_core.hpp"
 #include "entity/entity.hpp"
-#include "geometry/geometry.hpp"
-#include "image/image.hpp"
+#include "entity/texture.hpp"
 #include "input/input.hpp"
 #include "log/log.hpp"
 #include "window/window.hpp"
