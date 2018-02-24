@@ -35,7 +35,9 @@ int main(int argc, char* argv[]) {
   win.CreateWin();
   win.SetClearColor({1.0, 1.0, 1.0});
 
-  aequus::entity::Surface* img = new aequus::Image("resources/test.png");
+  // aequus::entity::Surface* img = new aequus::Image("resources/test.png");
+  aequus::entity::Surface img;
+  img.LoadImage("resources/test.png");
 
   aequus::entity::Texture tex;
   tex.SetSurface(img);

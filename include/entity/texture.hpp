@@ -20,10 +20,10 @@ namespace aequus {
      public:
       Texture();
       Texture(const Texture& copy);
-      Texture(Surface* surface_);
+      Texture(Surface surface_);
       ~Texture();
 
-      void SetSurface(Surface* surface_);
+      void SetSurface(Surface surface_);
 
       void CreateTexture();
       void DeleteTexture();
@@ -35,7 +35,7 @@ namespace aequus {
 
       SDL_Texture* SdlTexture();
 
-      Surface* surface = NULL;
+      Surface surface;
 
      private:
       void GenerateTexture();

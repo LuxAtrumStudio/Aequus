@@ -17,6 +17,10 @@ aequus::entity::Surface::~Surface() {
   sdl_surface_ = NULL;
 }
 
+bool aequus::entity::Surface::LoadImage(const char* file) {
+  sdl_surface_ = std::make_shared<SDL_Surface*>(IMG_Load(file));
+}
+
 bool aequus::entity::Surface::IsValid() {
   return (sdl_surface_ != NULL && *sdl_surface_ != NULL);
 }

@@ -8,7 +8,7 @@
 
 aequus::entity::Texture::Texture() {}
 
-aequus::entity::Texture::Texture(Surface* surface_) : surface(surface_) {
+aequus::entity::Texture::Texture(Surface surface_) : surface(surface_) {
   GenerateTexture();
 }
 
@@ -20,7 +20,7 @@ aequus::entity::Texture::Texture(const Texture& copy)
 
 aequus::entity::Texture::~Texture() { DestroyTexture(); }
 
-void aequus::entity::Texture::SetSurface(Surface* surface_) {
+void aequus::entity::Texture::SetSurface(Surface surface_) {
   surface = surface_;
 }
 
@@ -86,17 +86,17 @@ SDL_Texture* aequus::entity::Texture::SdlTexture() {
 }
 
 void aequus::entity::Texture::GenerateTexture() {
-  if (surface->IsValid() == true) {
+  if (surface.IsValid() == true) {
     log::Log(log::ERROR, "SDL surface not defined",
              "aequus::entity::Texture::GenerateTexture");
   } else {
-    SDL_Renderer* renderer = SDL_CreateSoftwareRenderer(surface->SdlSurface());
+    SDL_Renderer* renderer = SDL_CreateSoftwareRenderer(surface.SdlSurface());
     if (renderer == NULL) {
       log::Log(log::ERROR, "Failed to create renderer from surface",
                "aequus::entity::Texture::GenerateTexture");
     } else {
       sdl_texture_ = std::make_shared<SDL_Texture*>(
-          SDL_CreateTextureFromSurface(renderer, surface->SdlSurface()));
+          SDL_CreateTextureFromSurface(renderer, surface.SdlSurface()));
       if (*sdl_texture_ == NULL) {
         log::Log(log::ERROR, "Failed to create texture form surface",
                  "aequus::entity::Texture::GenerateTexture");

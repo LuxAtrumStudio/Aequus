@@ -12,6 +12,8 @@ namespace aequus {
       Surface(const Surface& copy);
       ~Surface();
 
+      bool LoadImage(const char* file);
+
       bool IsValid();
 
       SDL_Surface* SdlSurface();
